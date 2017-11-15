@@ -1,4 +1,0 @@
-# Eagle Sensors Project 
-
-## Muretto
-
