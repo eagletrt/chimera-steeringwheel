@@ -70,8 +70,40 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
     // State machine for parsing the CAN Msg and giving
     // back the correct signal
     switch (mid) {
+        case GET_APPS_BSE_STATUS:
+            qDebug() << "APPS State: ";
+            qDebug() << "APPS: " << QString::number(msg.at(0));
+            qDebug() << "err APPS: " << QString::number(msg.at(1));
+            qDebug() << "BSE State: ";
+            qDebug() << "BSE: " << QString::number(msg.at(2));
+            qDebug() << "err BSE: " << QString::number(msg.at(3));
+
+            carStatus->setAPPSBSEStatus(msg.at(0),
+                                    msg.at(1),
+                                    msg.at(2),
+                                    msg.at(3));
+            break;
+
+        case GET_STEER_STATUS:
+            qDebug() << "STEER State: ";
+            qDebug() << "STEER: " << QString::number(msg.at(0));
+            qDebug() << "err: " << QString::number(msg.at(1));
+
+            carStatus->setSTEERStatus(msg.at(0),
+                                    msg.at(1));
+            break;
+
         case GET_ERRORS_STATUS:
-            qDebug() << "Mapprima andava!";
+            qDebug() << "Errors State:";
+            qDebug() << "err_apps: " << QString::number(msg.at(0)); 
+            qDebug() << "err_bse: " << QString::number(msg.at(1)); 
+            qDebug() << "err_steer: " << QString::number(msg.at(2)); 
+            qDebug() << "err_wheel_right: " << QString::number(msg.at(3)); 
+            qDebug() << "err_wheel_left: " << QString::number(msg.at(4)); 
+            qDebug() << "err_imu_front: " << QString::number(msg.at(5)); 
+            qDebug() << "err_imu_central: " << QString::number(msg.at(6));
+            qDebug() << "err_imu_rear: " << QString::number(msg.at(7)); 
+
             carStatus->setERRStatus(msg.at(0),
                                     msg.at(1),
                                     msg.at(2),
@@ -99,7 +131,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                                     msg.at(5));
             break;
 
-        case HV_STATE_ID:
+        case GET_HV_STATE_ID:
 
             qDebug() << "Messaggio: " << msg;
 

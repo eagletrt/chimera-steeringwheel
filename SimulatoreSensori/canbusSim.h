@@ -1,25 +1,28 @@
-#ifndef CANBUS_H 
-#define CANBUS_H
+#ifndef CANBUSSIM_H
+#define CANBUSSIM_H
 
 #include <QSerialPort>
 #include <QTimer>
 #include <QByteArray>
 #include <QHash>
-#include "carstatus.h"
+#include "carstatusSim.h"
+#include <vector>
 
 // CarStatus Constants
 #define CAR_STATUS_IDLE 0
 #define CAR_STATUS_GO   1
 #define CAR_STATUS_STOP 2
 
-// ID in lettura
+// ID requests to control boxes
 #define GET_CAN_STATUS      0xDA
-#define HV_STATE_ID         0xDB
+#define GET_HV_STATE_ID     0xDB
 #define GET_ERRORS_STATUS   0xDD
 #define EXEC_MODE_ID        0xDF
+#define GET_APPS_BSE_STATUS 0xDE
+#define GET_STEER_STATUS    0xE1
 #define BMS_STATUS_ID       0x7EB
 
-// ID in Scrittura 
+// ID requests from volante
 // Ask again to check the CAN communication of peripherals
 #define CHECK_CAN_COM           0xEA
 #define ASK_HV_STATE_ID         0xEB
@@ -28,17 +31,18 @@
 #define ASK_BATTERY_STATUS      0xEE
 #define CHANGE_EXEC_MODE_ID     0xEF
 
-class Canbus : public QObject
+class CanbusSim : public QObject
 {
     Q_OBJECT
 
     public:
-        Canbus(CarStatus* carStatus, const QString serial_port);
-        ~Canbus();
+        CanbusSim(CarStatusSim* carStatus, const QString serial_port);
+        ~CanbusSim();
 
         QSerialPort serial;
 
         void sendCanMessage(int, QString);
+        void MySendSerialMessage(int, std::vector<int>);
 
         int invLeftState;
         int invRightState;
@@ -52,15 +56,13 @@ class Canbus : public QObject
         int goStatus;
         int driveModeEnabled;
 
-        CarStatus* carStatus;
+        CarStatusSim* carStatus;
 
     private:
         QTimer timer;
         qint64 canID;
         QByteArray canMSG;
         QString canMessage;
-
-        void parseCANMessage(int mid, QByteArray msg);
 
 
         int idIsArrived;
@@ -70,12 +72,11 @@ class Canbus : public QObject
         void presetChanged(int presetID); 
 
     public slots:
-        void parseSerial();
         void toggleCar();
         void askHVUpdate(int);
         void checkCANCommunication(bool);
         void checkSensorsError();
 };
 
-#endif // CANBUS_H
+#endif // CANBUSSIM_H
 

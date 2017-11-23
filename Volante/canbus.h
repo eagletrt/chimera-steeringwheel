@@ -14,9 +14,11 @@
 
 // ID in lettura
 #define GET_CAN_STATUS      0xDA
-#define HV_STATE_ID         0xDB
+#define GET_HV_STATE_ID     0xDB
 #define GET_ERRORS_STATUS   0xDD
 #define EXEC_MODE_ID        0xDF
+#define GET_APPS_BSE_STATUS 0xDE
+#define GET_STEER_STATUS    0xE1
 #define BMS_STATUS_ID       0x7EB
 
 // ID in Scrittura 

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui serialport
+QT       += core gui serialport qml quick
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,13 +26,22 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         sensorswindow.cpp \
-    canbus.cpp \
-    carstatus.cpp
+        canbusSim.cpp \
+        carstatusSim.cpp \
+        ../Volante/canbus.cpp \
+        ../Volante/carstatus.cpp \
+        buttons_x86Sim.cpp \
+        keypresseventfilterSim.cpp
+
 
 HEADERS += \
         sensorswindow.h \
-    canbus.h \
-    carstatus.h
+        canbusSim.h \
+        carstatusSim.h \
+        ../Volante/canbus.h \
+        ../Volante/carstatus.h \
+        buttons_x86Sim.h \
+        keypresseventfilterSim.h
 
 FORMS += \
         sensorswindow.ui

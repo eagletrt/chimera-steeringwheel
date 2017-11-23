@@ -1,6 +1,6 @@
-#include "carstatus.h"
+#include "carstatusSim.h"
 
-CarStatus::CarStatus() {
+CarStatusSim::CarStatusSim() {
     qDebug() << "Car Status Init";
 
     m_invRight = 2;
@@ -32,11 +32,11 @@ CarStatus::CarStatus() {
     m_preset = 1;
 }
 
-CarStatus::~CarStatus() {
+CarStatusSim::~CarStatusSim() {
     qDebug() << "Car Status Destroy";
 }
 
-void CarStatus::changePreset(int presetID) {
+void CarStatusSim::changePreset(int presetID) {
     /* Step for changing preset:
      * (this needs to be done, now it sends the presetChanged signal directly from hardware)
      * (Handle the case when you are in menu mode and you change preset)
@@ -55,16 +55,16 @@ void CarStatus::changePreset(int presetID) {
     emit presetChanged();
 }
 
-int CarStatus::preset() const {
+int CarStatusSim::preset() const {
     return m_preset;
 }
 
-int CarStatus::velocity() const {
+int CarStatusSim::velocity() const {
     qDebug() << "Asked velocity";
     return m_velocity;
 }
 
-QString CarStatus::CANStatus() const {
+QString CarStatusSim::CANStatus() const {
     qDebug() << "Asked CanStatus";
     return QString("%1%2%3%4%5%6").arg(QString::number(m_invr), 
                                        QString::number(m_invl), 
@@ -74,14 +74,14 @@ QString CarStatus::CANStatus() const {
                                        QString::number(m_hv));
 }
 
-QString CarStatus::HVStatus() const {
+QString CarStatusSim::HVStatus() const {
     qDebug() << "Asked HVStatus";
     return QString("%1%2%3").arg(QString::number(m_preCharge),
                                  QString::number(m_invRight), 
                                  QString::number(m_invLeft));
 }
 
-QString CarStatus::ERRStatus() const {
+QString CarStatusSim::ERRStatus() const {
     qDebug() << "Asked ERRStatus";
     return QString("%1%2%3%4%5%6%7%8")
         .arg(QString::number(m_err_apps), 
@@ -94,12 +94,44 @@ QString CarStatus::ERRStatus() const {
              QString::number(m_err_imu_rear));
 }
 
-QString CarStatus::CTRLEnabled() const {
+QString CarStatusSim::APPSBSEStatus() const {
+    qDebug() << "Asked APPSBSEStatus";
+    return QString("%1%2%3%4")
+        .arg(QString::number(m_apps),
+             QString::number(m_num_err_apps),
+             QString::number(m_bse),
+             QString::number(m_num_err_bse));
+}
+
+QString CarStatusSim::STEERStatus() const {
+    qDebug() << "Asked STEERStatus";
+    return QString("%1%2")
+        .arg(QString::number(m_steer),
+             QString::number(m_num_err_steer));
+}
+
+QString CarStatusSim::CTRLEnabled() const {
     qDebug() << "Asked CTRLEnabled";
     return QString::number(m_ctrlIsOn);
 }
 
-void CarStatus::setERRStatus(int err_apps,
+void CarStatusSim::setSTEERStatus(int steer,
+                                 int num_err_steer){
+    m_steer = steer;
+    m_num_err_steer = num_err_steer;
+}
+
+void CarStatusSim::setAPPSBSEStatus(int apps,
+                                 int num_err_apps,
+                                 int bse,
+                                 int num_err_bse){
+    m_apps = apps;
+    m_num_err_apps = num_err_apps;
+    m_bse = bse;
+    m_num_err_bse = num_err_bse;
+}
+
+void CarStatusSim::setERRStatus(int err_apps,
                              int err_bse,
                              int err_steer,
                              int err_wheel_right,
@@ -120,7 +152,7 @@ void CarStatus::setERRStatus(int err_apps,
         emit ERRStatusChanged(); 
 }
 
-void CarStatus::setCANStatus(int invr, 
+void CarStatusSim::setCANStatus(int invr,
                              int invl, 
                              int front, 
                              int rear, 
@@ -136,7 +168,7 @@ void CarStatus::setCANStatus(int invr,
     emit CANStatusChanged();
 }
 
-void CarStatus::setHVStatus(int preCharge,
+void CarStatusSim::setHVStatus(int preCharge,
                             int invRight, 
                             int invLeft) {
     m_invRight = invRight;
@@ -146,15 +178,15 @@ void CarStatus::setHVStatus(int preCharge,
     emit HVStatusChanged();
 }
 
-int CarStatus::getCtrlIsEnabled() {
+int CarStatusSim::getCtrlIsEnabled() {
     return m_ctrlIsEnabled;
 }
 
-int CarStatus::getCtrlIsOn() {
+int CarStatusSim::getCtrlIsOn() {
     return m_ctrlIsOn;
 }
 
-void CarStatus::setCarStatus(int ctrlIsEnabled, 
+void CarStatusSim::setCarStatus(int ctrlIsEnabled,
                              int ctrlIsOn,
                              int driveModeEnabled,
                              int velocity,
@@ -180,11 +212,11 @@ void CarStatus::setCarStatus(int ctrlIsEnabled,
     emit carStatusChanged(m_car_status);
 }
 
-int CarStatus::getCurrentStatus() {
+int CarStatusSim::getCurrentStatus() {
     return m_car_status;
 }
 
-int CarStatus::stopCar() {
+int CarStatusSim::stopCar() {
     qDebug() << "Yuuu! Stoppo la car!";
     m_car_status = CAR_STATUS_STOP;
 
@@ -193,7 +225,7 @@ int CarStatus::stopCar() {
     return m_car_status;
 }
 
-int CarStatus::toggleCarStatus() {
+int CarStatusSim::toggleCarStatus() {
     if (m_car_status == CAR_STATUS_IDLE) {
         qDebug() << "CAR_STATUS_IDLE -> CAR_STATUS_GO";
         // Change the status of the car
@@ -213,17 +245,17 @@ int CarStatus::toggleCarStatus() {
     return m_car_status;
 }
 
-void CarStatus::setStateOfCharge(int stateofcharge) {
+void CarStatusSim::setStateOfCharge(int stateofcharge) {
     m_stateofcharge = stateofcharge;
     emit socChanged(stateofcharge);
 }
 
-void CarStatus::setTemperature(int temperature) {
+void CarStatusSim::setTemperature(int temperature) {
     m_temperature = temperature;
     emit tempChanged(temperature);
 }
 
-int CarStatus::toggleCtrl() {
+int CarStatusSim::toggleCtrl() {
     // If the car is in run mode, toggle CTRL
     //if (m_car_status == CAR_STATUS_GO) {
     if (m_car_status == CAR_STATUS_GO) {

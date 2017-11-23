@@ -1,5 +1,5 @@
-#ifndef CARSTATUS_H 
-#define CARSTATUS_H
+#ifndef CARSTATUSSIM_H
+#define CARSTATUSSIM_H
 
 #define CAR_STATUS_IDLE 0
 #define CAR_STATUS_GO   1
@@ -7,7 +7,7 @@
 
 #include <QDebug>
 
-class CarStatus : public QObject
+class CarStatusSim : public QObject
 {
     Q_OBJECT
 
@@ -16,15 +16,17 @@ class CarStatus : public QObject
     Q_PROPERTY(QString ERRStatus READ ERRStatus NOTIFY ERRStatusChanged)
     Q_PROPERTY(QString CTRLEnabled READ CTRLEnabled NOTIFY CTRLEnabledChanged)
     Q_PROPERTY(int velocity READ velocity NOTIFY velocityChanged)
-    Q_PROPERTY(int preset READ preset NOTIFY presetChanged);
+    Q_PROPERTY(int preset READ preset NOTIFY presetChanged)
 
     public:
-        CarStatus();
-        ~CarStatus();
+        CarStatusSim();
+        ~CarStatusSim();
 
         QString CANStatus() const;
         QString HVStatus() const;
         QString ERRStatus() const;
+        QString APPSBSEStatus() const;
+        QString STEERStatus() const;
         QString CTRLEnabled() const;
 
         int velocity() const;
@@ -34,6 +36,8 @@ class CarStatus : public QObject
         void setCarStatus(int, int, int, int, int, int);
         void setCANStatus(int, int, int, int, int, int);
         void setERRStatus(int, int, int, int, int, int, int, int);
+        void setAPPSBSEStatus(int, int, int, int);
+        void setSTEERStatus(int, int);
 
         int getCtrlIsEnabled();
         int getCtrlIsOn();
@@ -81,6 +85,13 @@ class CarStatus : public QObject
         int m_err_imu_central = 2;
         int m_err_imu_rear = 2;
 
+        int m_apps;
+        int m_num_err_apps;
+        int m_bse;
+        int m_num_err_bse;
+        int m_steer;
+        int m_num_err_steer;
+
     signals:
         void tempChanged(int temperature);
         void socChanged(int soc);
@@ -97,6 +108,6 @@ class CarStatus : public QObject
         void presetChanged();
 };
 
-#endif // CARSTATUS_H
+#endif // CARSTATUSSIM_H
 
 

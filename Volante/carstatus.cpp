@@ -94,9 +94,41 @@ QString CarStatus::ERRStatus() const {
              QString::number(m_err_imu_rear));
 }
 
+QString CarStatus::APPSBSEStatus() const {
+    qDebug() << "Asked APPSBSEStatus";
+    return QString("%1%2%3%4")
+        .arg(QString::number(m_apps),
+             QString::number(m_num_err_apps),
+             QString::number(m_bse),
+             QString::number(m_num_err_bse));
+}
+
+QString CarStatus::STEERStatus() const {
+    qDebug() << "Asked STEERStatus";
+    return QString("%1%2")
+        .arg(QString::number(m_steer),
+             QString::number(m_num_err_steer));
+}
+
 QString CarStatus::CTRLEnabled() const {
     qDebug() << "Asked CTRLEnabled";
     return QString::number(m_ctrlIsOn);
+}
+
+void CarStatus::setSTEERStatus(int steer,
+                                 int num_err_steer){
+    m_steer = steer;
+    m_num_err_steer = num_err_steer;
+}
+
+void CarStatus::setAPPSBSEStatus(int apps,
+                                 int num_err_apps,
+                                 int bse,
+                                 int num_err_bse){
+    m_apps = apps;
+    m_num_err_apps = num_err_apps;
+    m_bse = bse;
+    m_num_err_bse = num_err_bse;
 }
 
 void CarStatus::setERRStatus(int err_apps,
