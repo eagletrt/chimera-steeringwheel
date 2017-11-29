@@ -74,11 +74,13 @@ private slots:
 
 private:
     Ui::SensorsWindow *ui;
-    void ChangeSensorStatus(QPushButton*);
+    void ToggleButtonStatusRedGeen(QPushButton*);
+    void ToggleButtonStatusRedGray(QPushButton*);
     void SetInteger(int*,int);
     void ToggleErrorBit(int*, int);
     void ToggleSensor(int*);
-    void ToggleColor(QPushButton*);
+    void ToggleColorRedGreen(QPushButton*);
+    void ToggleColorRedGray(QPushButton*);
 
 };
 

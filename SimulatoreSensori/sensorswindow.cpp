@@ -92,75 +92,75 @@ void SensorsWindow::on_sbVolanteManettino_valueChanged(int arg1)
 //INVERTER TAB
 void SensorsWindow::on_btnInvSx_clicked()
 {
-    ChangeSensorStatus(ui->btnInvSx);
+    ToggleButtonStatusRedGeen(ui->btnInvSx);
 }
 void SensorsWindow::on_btnInvDx_clicked()
 {
-    ChangeSensorStatus(ui->btnInvDx);
+    ToggleButtonStatusRedGeen(ui->btnInvDx);
 }
 void SensorsWindow::on_btnPreCh_clicked()
 {
-    ChangeSensorStatus(ui->btnPreCh);
+    ToggleButtonStatusRedGeen(ui->btnPreCh);
 }
 
 //ERRORS TAB
 void SensorsWindow::on_btnApps_clicked()
 {
-    ChangeSensorStatus(ui->btnApps);
+    ToggleButtonStatusRedGeen(ui->btnApps);
 }
 void SensorsWindow::on_btnBSE_clicked()
 {
-    ChangeSensorStatus(ui->btnBSE);
+    ToggleButtonStatusRedGeen(ui->btnBSE);
 }
 void SensorsWindow::on_btnSteer_clicked()
 {
-    ChangeSensorStatus(ui->btnSteer);
+    ToggleButtonStatusRedGeen(ui->btnSteer);
 }
 void SensorsWindow::on_btnWheelLeft_clicked()
 {
-    ChangeSensorStatus(ui->btnWheelLeft);
+    ToggleButtonStatusRedGeen(ui->btnWheelLeft);
 }
 void SensorsWindow::on_btnWheelRight_clicked()
 {
-    ChangeSensorStatus(ui->btnWheelRight);
+    ToggleButtonStatusRedGeen(ui->btnWheelRight);
 }
 void SensorsWindow::on_btnIMUFront_clicked()
 {
-    ChangeSensorStatus(ui->btnIMUFront);
+    ToggleButtonStatusRedGeen(ui->btnIMUFront);
 }
 void SensorsWindow::on_btnIMUCenter_clicked()
 {
-    ChangeSensorStatus(ui->btnIMUCenter);
+    ToggleButtonStatusRedGeen(ui->btnIMUCenter);
 }
 void SensorsWindow::on_btnIMURear_clicked()
 {
-    ChangeSensorStatus(ui->btnIMURear);
+    ToggleButtonStatusRedGeen(ui->btnIMURear);
 }
 
 //STATUS TAB
 void SensorsWindow::on_btnInvRight_clicked()
 {
-    ChangeSensorStatus(ui->btnInvRight);
+    ToggleButtonStatusRedGeen(ui->btnInvRight);
 }
 void SensorsWindow::on_btnInvLeft_clicked()
 {
-    ChangeSensorStatus(ui->btnInvLeft);
+    ToggleButtonStatusRedGeen(ui->btnInvLeft);
 }
 void SensorsWindow::on_btnUPyFront_clicked()
 {
-    ChangeSensorStatus(ui->btnUPyFront);
+    ToggleButtonStatusRedGeen(ui->btnUPyFront);
 }
 void SensorsWindow::on_btnUPyRear_clicked()
 {
-    ChangeSensorStatus(ui->btnUPyRear);
+    ToggleButtonStatusRedGeen(ui->btnUPyRear);
 }
 void SensorsWindow::on_btnBMSHV_clicked()
 {
-    ChangeSensorStatus(ui->btnBMSHV);
+    ToggleButtonStatusRedGeen(ui->btnBMSHV);
 }
 void SensorsWindow::on_btnBMSLV_clicked()
 {
-    ChangeSensorStatus(ui->btnBMSLV);
+    ToggleButtonStatusRedGeen(ui->btnBMSLV);
 }
 
 //SENSORS TAB
@@ -170,23 +170,23 @@ void SensorsWindow::on_sliderApps_valueChanged(int value)
 }
 void SensorsWindow::on_btnErrApps1_clicked()
 {
-    ChangeSensorStatus(ui->btnErrApps1);
+    ToggleButtonStatusRedGray(ui->btnErrApps1);
 }
 void SensorsWindow::on_btnErrApps2_clicked()
 {
-    ChangeSensorStatus(ui->btnErrApps2);
+    ToggleButtonStatusRedGray(ui->btnErrApps2);
 }
 void SensorsWindow::on_btnErrApps3_clicked()
 {
-    ChangeSensorStatus(ui->btnErrApps3);
+    ToggleButtonStatusRedGray(ui->btnErrApps3);
 }
 void SensorsWindow::on_btnErrApps4_clicked()
 {
-    ChangeSensorStatus(ui->btnErrApps4);
+    ToggleButtonStatusRedGray(ui->btnErrApps4);
 }
 void SensorsWindow::on_btnErrApps5_clicked()
 {
-    ChangeSensorStatus(ui->btnErrApps5);
+    ToggleButtonStatusRedGray(ui->btnErrApps5);
 }
 
 void SensorsWindow::on_sliderBse_valueChanged(int value)
@@ -195,19 +195,19 @@ void SensorsWindow::on_sliderBse_valueChanged(int value)
 }
 void SensorsWindow::on_btnErrBse1_clicked()
 {
-    ChangeSensorStatus(ui->btnErrBse1);
+    ToggleButtonStatusRedGray(ui->btnErrBse1);
 }
 void SensorsWindow::on_btnErrBse2_clicked()
 {
-    ChangeSensorStatus(ui->btnErrBse2);
+    ToggleButtonStatusRedGray(ui->btnErrBse2);
 }
 void SensorsWindow::on_btnErrBse3_clicked()
 {
-    ChangeSensorStatus(ui->btnErrBse3);
+    ToggleButtonStatusRedGray(ui->btnErrBse3);
 }
 void SensorsWindow::on_btnErrBse4_clicked()
 {
-    ChangeSensorStatus(ui->btnErrBse4);
+    ToggleButtonStatusRedGray(ui->btnErrBse4);
 }
 
 void SensorsWindow::on_sliderSteer_valueChanged(int value)
@@ -216,13 +216,13 @@ void SensorsWindow::on_sliderSteer_valueChanged(int value)
 }
 void SensorsWindow::on_btnErrSteer1_clicked()
 {
-    ChangeSensorStatus(ui->btnErrSteer1);
+    ToggleButtonStatusRedGray(ui->btnErrSteer1);
 }
 
 //FUNCTIONS
 
 //the button pressed is passed to this function, an action is taken accordingly to the tab in which it is in
-void SensorsWindow::ChangeSensorStatus(QPushButton *btn)
+void SensorsWindow::ToggleButtonStatusRedGeen(QPushButton *btn)
 {
     QString btnName = btn->objectName();
 
@@ -266,6 +266,13 @@ void SensorsWindow::ChangeSensorStatus(QPushButton *btn)
     else if(btnName.compare("btnBMSLV") == 0)
         ToggleSensor(&statusSensors[5]);
 
+    ToggleColorRedGreen(btn);
+}
+
+void SensorsWindow::ToggleButtonStatusRedGray(QPushButton *btn)
+{
+    QString btnName = btn->objectName();
+
     //SENSORS TAB
     if(btnName.compare("btnErrApps1") == 0)
         ToggleErrorBit(&statusAPPSeBSE[1], 0);
@@ -288,10 +295,7 @@ void SensorsWindow::ChangeSensorStatus(QPushButton *btn)
     else if(btnName.compare("btnErrSteer1") == 0)
         ToggleErrorBit(&statusSTEER[1], 0);
 
-    //BATTERY TAB
-    //TODO
-
-    ToggleColor(btn);
+    ToggleColorRedGray(btn);
 }
 
 //value of sliders il set
@@ -309,7 +313,7 @@ void SensorsWindow::SetInteger(int* sensor, int value)
 //toggle single bit inside integer to indicate error in index position
 void SensorsWindow::ToggleErrorBit(int* errorInt, int index)
 {
-    *errorInt |= 1UL << index;
+    *errorInt ^= 1UL << index;
     carStatusSim->setSTEERStatus(statusSTEER[0], statusSTEER[1]);
     carStatusSim->setAPPSBSEStatus(statusAPPSeBSE[0], statusAPPSeBSE[1], statusAPPSeBSE[2], statusAPPSeBSE[3]);
     carStatusSim->setHVStatus(hvSensors[0], hvSensors[1], hvSensors[2]);
@@ -329,13 +333,23 @@ void SensorsWindow::ToggleSensor(int* sensor)
 }
 
 //the color of the button in the interface is toggled between red and green
-void SensorsWindow::ToggleColor(QPushButton *btn)
+void SensorsWindow::ToggleColorRedGreen(QPushButton *btn)
 {
     QString currColor = btn->palette().background().color().name();
     if(currColor.compare("#008000") == 0) //green = #008000
         btn->setStyleSheet("background-color:red;");
     else
         btn->setStyleSheet("background-color:green;");
+}
+
+//the color of the button in the interface is toggled between red and green
+void SensorsWindow::ToggleColorRedGray(QPushButton *btn)
+{
+    QString currColor = btn->palette().background().color().name();
+    if(currColor.compare("#d5d5d5") == 0) //gray = #d5d5d5
+        btn->setStyleSheet("background-color:red;");
+    else
+        btn->setStyleSheet("background-color: #d5d5d5;");
 }
 
 //get and respond to a steering wheel request

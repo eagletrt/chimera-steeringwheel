@@ -59,23 +59,20 @@ class CanbusSim : public QObject
         CarStatusSim* carStatus;
 
     private:
-        QTimer timer;
+        QTimer *timer;
         qint64 canID;
         QByteArray canMSG;
         QString canMessage;
 
-
         int idIsArrived;
 
     signals:
-        void controlStateChanged(int ctrlState, int warn, int err); 
-        void presetChanged(int presetID); 
+        void controlStateChanged(int ctrlState, int warn, int err);
+        void presetChanged(int presetID);
 
     public slots:
         void toggleCar();
-        void askHVUpdate(int);
         void checkCANCommunication(bool);
-        void checkSensorsError();
 };
 
 #endif // CANBUSSIM_H

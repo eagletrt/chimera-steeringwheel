@@ -11,23 +11,12 @@ class CarStatusSim : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString CANStatus READ CANStatus NOTIFY CANStatusChanged)
-    Q_PROPERTY(QString HVStatus READ HVStatus NOTIFY HVStatusChanged)
-    Q_PROPERTY(QString ERRStatus READ ERRStatus NOTIFY ERRStatusChanged)
-    Q_PROPERTY(QString CTRLEnabled READ CTRLEnabled NOTIFY CTRLEnabledChanged)
     Q_PROPERTY(int velocity READ velocity NOTIFY velocityChanged)
     Q_PROPERTY(int preset READ preset NOTIFY presetChanged)
 
     public:
         CarStatusSim();
         ~CarStatusSim();
-
-        QString CANStatus() const;
-        QString HVStatus() const;
-        QString ERRStatus() const;
-        QString APPSBSEStatus() const;
-        QString STEERStatus() const;
-        QString CTRLEnabled() const;
 
         int velocity() const;
         int preset() const;
@@ -100,10 +89,7 @@ class CarStatusSim : public QObject
 
         void toggleCar();
 
-        void HVStatusChanged();
-        void CANStatusChanged();
-        void ERRStatusChanged(); 
-        void CTRLEnabledChanged(); 
+        void CTRLEnabledChanged();
         void velocityChanged();
         void presetChanged();
 };

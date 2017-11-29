@@ -51,6 +51,24 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString serial_port) {
     velocity = -1;
 
     idIsArrived = 0;
+
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(LoopSensorsUpdate()));
+}
+
+void Canbus::startSensorsUpdate() {
+    qDebug() << "startSensorsUpdate";
+    timer->start(30);
+}
+
+void Canbus::stopSensorsUpdate() {
+    qDebug() << "stopSensorsUpdate";
+    timer->stop();
+}
+
+//sends Sensors Status every 30ms
+void Canbus::LoopSensorsUpdate(){
+    sendCanMessage(ASK_SENSORS_VALUE_ID, "");
 }
 
 void Canbus::checkSensorsError() {
@@ -71,13 +89,6 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
     // back the correct signal
     switch (mid) {
         case GET_APPS_BSE_STATUS:
-            qDebug() << "APPS State: ";
-            qDebug() << "APPS: " << QString::number(msg.at(0));
-            qDebug() << "err APPS: " << QString::number(msg.at(1));
-            qDebug() << "BSE State: ";
-            qDebug() << "BSE: " << QString::number(msg.at(2));
-            qDebug() << "err BSE: " << QString::number(msg.at(3));
-
             carStatus->setAPPSBSEStatus(msg.at(0),
                                     msg.at(1),
                                     msg.at(2),
@@ -85,16 +96,12 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             break;
 
         case GET_STEER_STATUS:
-            qDebug() << "STEER State: ";
-            qDebug() << "STEER: " << QString::number(msg.at(0));
-            qDebug() << "err: " << QString::number(msg.at(1));
-
             carStatus->setSTEERStatus(msg.at(0),
                                     msg.at(1));
             break;
 
         case GET_ERRORS_STATUS:
-            qDebug() << "Errors State:";
+            qDebug() << "Errors State: ";
             qDebug() << "err_apps: " << QString::number(msg.at(0)); 
             qDebug() << "err_bse: " << QString::number(msg.at(1)); 
             qDebug() << "err_steer: " << QString::number(msg.at(2)); 

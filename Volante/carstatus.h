@@ -15,6 +15,9 @@ class CarStatus : public QObject
     Q_PROPERTY(QString HVStatus READ HVStatus NOTIFY HVStatusChanged)
     Q_PROPERTY(QString ERRStatus READ ERRStatus NOTIFY ERRStatusChanged)
     Q_PROPERTY(QString CTRLEnabled READ CTRLEnabled NOTIFY CTRLEnabledChanged)
+    Q_PROPERTY(QList<int> APPSStatus READ APPSStatus NOTIFY APPSStatusChanged)
+    Q_PROPERTY(QList<int> BSEStatus READ BSEStatus NOTIFY BSEStatusChanged)
+    Q_PROPERTY(QList<int> STEERStatus READ STEERStatus NOTIFY STEERStatusChanged)
     Q_PROPERTY(int velocity READ velocity NOTIFY velocityChanged)
     Q_PROPERTY(int preset READ preset NOTIFY presetChanged)
 
@@ -25,8 +28,9 @@ class CarStatus : public QObject
         QString CANStatus() const;
         QString HVStatus() const;
         QString ERRStatus() const;
-        QString APPSBSEStatus() const;
-        QString STEERStatus() const;
+        QList<int> APPSStatus() const;
+        QList<int> BSEStatus() const;
+        QList<int> STEERStatus() const;
         QString CTRLEnabled() const;
 
         int velocity() const;
@@ -53,6 +57,7 @@ class CarStatus : public QObject
         void changePreset(int presetID);
 
     private:
+        static int getBit(unsigned char seq, int index);
         int m_invRight;
         int m_invLeft;
         int m_preCharge;
@@ -69,21 +74,21 @@ class CarStatus : public QObject
         int m_velocity;
         int m_preset;
 
-        int m_invr = -1;
-        int m_invl = -1;
-        int m_front = -1;
-        int m_rear = -1;
-        int m_lv = -1;
-        int m_hv = -1;
+        int m_invr;
+        int m_invl;
+        int m_front;
+        int m_rear;
+        int m_lv;
+        int m_hv;
 
-        int m_err_apps = 2;
-        int m_err_bse = 2;
-        int m_err_steer = 2;
-        int m_err_wheel_right = 2;
-        int m_err_wheel_left = 2;
-        int m_err_imu_front = 2;
-        int m_err_imu_central = 2;
-        int m_err_imu_rear = 2;
+        int m_err_apps;
+        int m_err_bse;
+        int m_err_steer;
+        int m_err_wheel_right;
+        int m_err_wheel_left;
+        int m_err_imu_front;
+        int m_err_imu_central;
+        int m_err_imu_rear;
 
         int m_apps;
         int m_num_err_apps;
@@ -102,7 +107,10 @@ class CarStatus : public QObject
 
         void HVStatusChanged();
         void CANStatusChanged();
-        void ERRStatusChanged(); 
+        void ERRStatusChanged();
+        void APPSStatusChanged();
+        void BSEStatusChanged();
+        void STEERStatusChanged();
         void CTRLEnabledChanged(); 
         void velocityChanged();
         void presetChanged();

@@ -50,11 +50,6 @@ CanbusSim::CanbusSim(CarStatusSim* m_carStatus, const QString serial_port) {
     idIsArrived = 0;
 }
 
-void CanbusSim::checkSensorsError() {
-    qDebug() << "CheckSensorsError";
-    sendCanMessage(CHECK_SENSOR_ERROR_ID, "");
-}
-
 void CanbusSim::checkCANCommunication(bool isOk = false) {
     if (isOk) {
         sendCanMessage(CHECK_CAN_COM, QString::number(1));
@@ -94,11 +89,6 @@ void CanbusSim::sendCanMessage(int id, QString message) {
     canMessage = QString("%1:%2\n").arg(QString::number(id), message); 
     serial.write(canMessage.toStdString().c_str(), canMessage.size());
 }
-
-void CanbusSim::askHVUpdate(int target) {
-    sendCanMessage(ASK_HV_STATE_ID, QString::number(target));
-}
-
 
 void CanbusSim::MySendSerialMessage(int id, std::vector<int> values)
 {

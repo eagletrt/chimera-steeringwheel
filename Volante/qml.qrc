@@ -19,11 +19,11 @@
         <file>CANStatusLED.qml</file>
         <file>HVStatusLED.qml</file>
         <file>Button.qml</file>
-
         <file>TabStatus.qml</file>
         <file>TabInverter.qml</file>
         <file>TabSensors.qml</file>
         <file>TabBattery.qml</file>
-	<file>TabErrors.qml</file>
+        <file>TabErrors.qml</file>
+        <file>LED.qml</file>
     </qresource>
 </RCC>

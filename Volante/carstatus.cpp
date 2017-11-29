@@ -21,6 +21,15 @@ CarStatus::CarStatus() {
     // 1. OK
     // 2. NOT RECEIVED
 
+    m_err_apps = 2;
+    m_err_bse = 2;
+    m_err_steer = 2;
+    m_err_wheel_right = 2;
+    m_err_wheel_left = 2;
+    m_err_imu_front = 2;
+    m_err_imu_central = 2;
+    m_err_imu_rear = 2;
+
     m_invr = 2;
     m_invl = 2;
     m_front = 2;
@@ -30,6 +39,13 @@ CarStatus::CarStatus() {
 
     m_velocity = 0;
     m_preset = 1;
+
+    m_apps = 0;
+    m_num_err_apps = 0;
+    m_bse = 0;
+    m_num_err_bse = 0;
+    m_steer = 50;
+    m_num_err_steer = 0;
 }
 
 CarStatus::~CarStatus() {
@@ -94,20 +110,33 @@ QString CarStatus::ERRStatus() const {
              QString::number(m_err_imu_rear));
 }
 
-QString CarStatus::APPSBSEStatus() const {
-    qDebug() << "Asked APPSBSEStatus";
-    return QString("%1%2%3%4")
-        .arg(QString::number(m_apps),
-             QString::number(m_num_err_apps),
-             QString::number(m_bse),
-             QString::number(m_num_err_bse));
+QList<int> CarStatus::APPSStatus() const {
+    QList<int> appsStatusArr;
+    appsStatusArr.append((int) m_apps);
+    for (int var = 0; var < 5; ++var) {
+       appsStatusArr.append(CarStatus::getBit(m_num_err_apps,var));
+    }
+    return appsStatusArr;
 }
 
-QString CarStatus::STEERStatus() const {
-    qDebug() << "Asked STEERStatus";
-    return QString("%1%2")
-        .arg(QString::number(m_steer),
-             QString::number(m_num_err_steer));
+int CarStatus::getBit(unsigned char seq, int index){
+    return (int)(seq >> index) & 1U;
+}
+
+QList<int> CarStatus::BSEStatus() const {
+    QList<int> bseStatusArr;
+    bseStatusArr.append((int) m_bse);
+    for (int var = 0; var < 4; ++var) {
+       bseStatusArr.append(CarStatus::getBit(m_num_err_bse,var));
+    }
+    return bseStatusArr;
+}
+
+QList<int> CarStatus::STEERStatus() const {
+    QList<int> steerStatusArr;
+    steerStatusArr.append((int) m_steer);
+    steerStatusArr.append(CarStatus::getBit(m_num_err_steer,0));
+    return steerStatusArr;
 }
 
 QString CarStatus::CTRLEnabled() const {
@@ -119,6 +148,8 @@ void CarStatus::setSTEERStatus(int steer,
                                  int num_err_steer){
     m_steer = steer;
     m_num_err_steer = num_err_steer;
+
+    emit STEERStatusChanged();
 }
 
 void CarStatus::setAPPSBSEStatus(int apps,
@@ -129,6 +160,9 @@ void CarStatus::setAPPSBSEStatus(int apps,
     m_num_err_apps = num_err_apps;
     m_bse = bse;
     m_num_err_bse = num_err_bse;
+
+    emit APPSStatusChanged();
+    emit BSEStatusChanged();
 }
 
 void CarStatus::setERRStatus(int err_apps,
@@ -140,16 +174,16 @@ void CarStatus::setERRStatus(int err_apps,
                              int err_imu_central,
                              int err_imu_rear) {
 
-        m_err_apps = err_apps; 
-        m_err_bse = err_bse;
-        m_err_steer = err_steer;
-        m_err_wheel_right = err_wheel_left;
-        m_err_wheel_left = err_wheel_right; 
-        m_err_imu_front = err_imu_front; 
-        m_err_imu_central = err_imu_central;
-        m_err_imu_rear = err_imu_rear; 
+    m_err_apps = err_apps;
+    m_err_bse = err_bse;
+    m_err_steer = err_steer;
+    m_err_wheel_right = err_wheel_left;
+    m_err_wheel_left = err_wheel_right;
+    m_err_imu_front = err_imu_front;
+    m_err_imu_central = err_imu_central;
+    m_err_imu_rear = err_imu_rear;
 
-        emit ERRStatusChanged(); 
+    emit ERRStatusChanged();
 }
 
 void CarStatus::setCANStatus(int invr, 

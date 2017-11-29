@@ -55,7 +55,7 @@ class Canbus : public QObject
         CarStatus* carStatus;
 
     private:
-        QTimer timer;
+        QTimer *timer;
         qint64 canID;
         QByteArray canMSG;
         QString canMessage;
@@ -70,11 +70,14 @@ class Canbus : public QObject
         void presetChanged(int presetID); 
 
     public slots:
+        void LoopSensorsUpdate();
         void parseSerial();
         void toggleCar();
         void askHVUpdate(int);
         void checkCANCommunication(bool);
         void checkSensorsError();
+        void startSensorsUpdate();
+        void stopSensorsUpdate();
 };
 
 #endif // CANBUS_H

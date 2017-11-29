@@ -64,57 +64,6 @@ int CarStatusSim::velocity() const {
     return m_velocity;
 }
 
-QString CarStatusSim::CANStatus() const {
-    qDebug() << "Asked CanStatus";
-    return QString("%1%2%3%4%5%6").arg(QString::number(m_invr), 
-                                       QString::number(m_invl), 
-                                       QString::number(m_front),
-                                       QString::number(m_rear), 
-                                       QString::number(m_lv), 
-                                       QString::number(m_hv));
-}
-
-QString CarStatusSim::HVStatus() const {
-    qDebug() << "Asked HVStatus";
-    return QString("%1%2%3").arg(QString::number(m_preCharge),
-                                 QString::number(m_invRight), 
-                                 QString::number(m_invLeft));
-}
-
-QString CarStatusSim::ERRStatus() const {
-    qDebug() << "Asked ERRStatus";
-    return QString("%1%2%3%4%5%6%7%8")
-        .arg(QString::number(m_err_apps), 
-             QString::number(m_err_bse), 
-             QString::number(m_err_steer),
-             QString::number(m_err_wheel_left),
-             QString::number(m_err_wheel_right),
-             QString::number(m_err_imu_front),
-             QString::number(m_err_imu_central),
-             QString::number(m_err_imu_rear));
-}
-
-QString CarStatusSim::APPSBSEStatus() const {
-    qDebug() << "Asked APPSBSEStatus";
-    return QString("%1%2%3%4")
-        .arg(QString::number(m_apps),
-             QString::number(m_num_err_apps),
-             QString::number(m_bse),
-             QString::number(m_num_err_bse));
-}
-
-QString CarStatusSim::STEERStatus() const {
-    qDebug() << "Asked STEERStatus";
-    return QString("%1%2")
-        .arg(QString::number(m_steer),
-             QString::number(m_num_err_steer));
-}
-
-QString CarStatusSim::CTRLEnabled() const {
-    qDebug() << "Asked CTRLEnabled";
-    return QString::number(m_ctrlIsOn);
-}
-
 void CarStatusSim::setSTEERStatus(int steer,
                                  int num_err_steer){
     m_steer = steer;
@@ -140,16 +89,14 @@ void CarStatusSim::setERRStatus(int err_apps,
                              int err_imu_central,
                              int err_imu_rear) {
 
-        m_err_apps = err_apps; 
-        m_err_bse = err_bse;
-        m_err_steer = err_steer;
-        m_err_wheel_right = err_wheel_left;
-        m_err_wheel_left = err_wheel_right; 
-        m_err_imu_front = err_imu_front; 
-        m_err_imu_central = err_imu_central;
-        m_err_imu_rear = err_imu_rear; 
-
-        emit ERRStatusChanged(); 
+    m_err_apps = err_apps;
+    m_err_bse = err_bse;
+    m_err_steer = err_steer;
+    m_err_wheel_right = err_wheel_left;
+    m_err_wheel_left = err_wheel_right;
+    m_err_imu_front = err_imu_front;
+    m_err_imu_central = err_imu_central;
+    m_err_imu_rear = err_imu_rear;
 }
 
 void CarStatusSim::setCANStatus(int invr,
@@ -164,8 +111,6 @@ void CarStatusSim::setCANStatus(int invr,
     m_rear = rear;
     m_lv = lv;
     m_hv = hv;
-
-    emit CANStatusChanged();
 }
 
 void CarStatusSim::setHVStatus(int preCharge,
@@ -174,8 +119,6 @@ void CarStatusSim::setHVStatus(int preCharge,
     m_invRight = invRight;
     m_invLeft = invLeft;
     m_preCharge = preCharge;
-
-    emit HVStatusChanged();
 }
 
 int CarStatusSim::getCtrlIsEnabled() {

@@ -28,7 +28,7 @@ Rectangle {
     }
 
     onCanHvStatusChanged: {
-        console.log("hvStatusUpdate");
+        console.log("hvStatusChanged");
         console.log("PreCharge: " + canHvStatus[0]);
         console.log("Right: " + canHvStatus[1]);
         console.log("Left: " + canHvStatus[2]);

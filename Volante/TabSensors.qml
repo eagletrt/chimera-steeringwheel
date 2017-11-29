@@ -6,12 +6,52 @@ Rectangle {
     color: "#000000"
     anchors.fill: parent
 
+    property var appsStatus: CarStatus.APPSStatus
+    property var bseStatus: CarStatus.BSEStatus
+    property var steerStatus: CarStatus.STEERStatus
+    property var ledStates: ['DEFAULT', 'NO'];
+
     function connect() {
         console.log("Tab connessa - Sensors");
+        mainwindow.btnClicked.connect(btnClickedHandler);
+
+        //start 30ms refreshLoop
+        CAN.startSensorsUpdate();
     }
 
     function disconnect() {
         console.log("Tab disconnessa - Sensors");
+        mainwindow.btnClicked.disconnect(btnClickedHandler);
+
+        //stop 30ms refreshLoop
+        CAN.stopSensorsUpdate();
+    }
+
+    onAppsStatusChanged:{
+//        console.log("APPS Changed:");
+//        console.log(appsStatus);
+    }
+
+    onBseStatusChanged:{
+//        console.log("BSE Changed:");
+//        console.log(bseStatus);
+    }
+
+    onSteerStatusChanged:{
+//        console.log("STEER Changed:");
+//        console.log(steerStatus);
+    }
+
+    function bit_test(num, bit){
+        return ((num>>bit) % 2 != 0)
+    }
+
+    function btnClickedHandler(btnID) {
+        //If the car is starded stop requesting data for this tab
+        if (btnID == 1) {
+            console.log("Pressed 'A' refreshLoop stopped");
+            CAN.stopSensorsUpdate();
+        }
     }
 
     GridLayout {
@@ -60,36 +100,12 @@ Rectangle {
 
                 Rectangle {
                     id: acceleratore
-                    width: 0
+                    width: (appsStatus[0] / 100) * (apps.width-2)
                     height: parent.height-2
                     anchors.left: parent.left
                     anchors.leftMargin: 1
                     anchors.verticalCenter: parent.verticalCenter
                     color: "green"
-
-                    Component.onCompleted: {
-                        forceActiveFocus()
-                    }
-
-                    Keys.onPressed: {
-                        if (event.key == Qt.Key_Z){
-                            acceleratore.width = apps.width-2
-                        }
-                    }
-
-                    Keys.onReleased: {
-                        if (event.key == Qt.Key_Z){
-                            acceleratore.width = 0
-                        }
-                    }
-
-                    Behavior on width {
-                        NumberAnimation{
-                            duration: 500
-                            easing.type: Easing.Linear
-                            easing.amplitude: 1000
-                        }
-                    }
                 }
             }
         }
@@ -106,44 +122,39 @@ Rectangle {
                 anchors.centerIn: parent
                 spacing: 15
 
-                Rectangle {
+                LED  {
                     id: errorApps1
                     width: errorsApps.width/8
                     height: errorApps1.width
-                    color: "lightgray"
-                    radius: errorApps1.width/2
+                    state: ledStates[appsStatus[1]]
                 }
 
-                Rectangle {
+                LED {
                     id: errorApps2
                     width: errorApps1.width
                     height: errorApps2.width
-                    color: "lightgray"
-                    radius: errorApps2.width/2
+                    state: ledStates[appsStatus[2]]
                 }
 
-                Rectangle {
+                LED {
                     id: errorApps3
                     width: errorApps1.width
                     height: errorApps3.width
-                    color: "lightgray"
-                    radius: errorApps3.width/2
+                    state: ledStates[appsStatus[3]]
                 }
 
-                Rectangle {
+                LED {
                     id: errorApps4
                     width: errorApps1.width
                     height: errorApps4.width
-                    color: "lightgray"
-                    radius: errorApps4.width/2
+                    state: ledStates[appsStatus[4]]
                 }
 
-                Rectangle {
+                LED {
                     id: errorApps5
                     width: errorApps1.width
                     height: errorApps5.width
-                    color: "lightgray"
-                    radius: errorApps5.width/2
+                    state: ledStates[appsStatus[5]]
                 }
             }
         }
@@ -185,36 +196,12 @@ Rectangle {
 
                 Rectangle {
                     id: freno
-                    width: 0
+                    width: (bseStatus[0] / 100) * (bse.width-2)
                     height: parent.height-2
                     anchors.left: parent.left
                     anchors.leftMargin: 1
                     anchors.verticalCenter: parent.verticalCenter
                     color: "red"
-
-                    Component.onCompleted: {
-                        forceActiveFocus()
-                    }
-
-                    Keys.onPressed: {
-                        if (event.key == Qt.Key_X){
-                            freno.width = bse.width-2
-                        }
-                    }
-
-                    Keys.onReleased: {
-                        if (event.key == Qt.Key_X){
-                            freno.width = 0
-                        }
-                    }
-
-                    Behavior on width {
-                        NumberAnimation{
-                            duration: 250
-                            easing.type: Easing.Linear
-                            easing.amplitude: 1000
-                        }
-                    }
                 }
             }
         }
@@ -231,38 +218,35 @@ Rectangle {
                 anchors.centerIn: parent
                 spacing: 15
 
-                Rectangle {
+                LED {
                     id: errorBse1
                     width: errorsBse.width/8
                     height: errorBse1.width
-                    color: "lightgray"
-                    radius: errorBse1.width/2
+                    state: ledStates[bseStatus[1]]
                 }
 
-                Rectangle {
+                LED {
                     id: errorBse2
                     width: errorBse1.width
                     height: errorBse2.width
-                    color: "lightgray"
-                    radius: errorBse2.width/2
+                    state: ledStates[bseStatus[2]]
                 }
 
-                Rectangle {
+                LED {
                     id: errorBse3
                     width: errorBse1.width
                     height: errorBse3.width
-                    color: "lightgray"
-                    radius: errorBse3.width/2
+                    state: ledStates[bseStatus[3]]
                 }
 
-                Rectangle {
+                LED {
                     id: errorBse4
                     width: errorBse1.width
                     height: errorBse4.width
-                    color: "lightgray"
-                    radius: errorBse4.width/2
+                    state: ledStates[bseStatus[4]]
                 }
 
+                //placeholder that centers the buttons
                 Rectangle {
                     id: errorBse5
                     width: errorBse1.width
@@ -317,36 +301,12 @@ Rectangle {
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
                     color: "blue"
-
-                    Component.onCompleted: {
-                        forceActiveFocus()
-                    }
-
-                    Keys.onPressed: {
-                        if (event.key == Qt.Key_D){
-                            sterzoDx.width = steerDx.width-1
-                        }
-                    }
-
-                    Keys.onReleased: {
-                        if (event.key == Qt.Key_D){
-                            sterzoDx.width = 0
-                        }
-                    }
-
-                    Behavior on width {
-                        NumberAnimation{
-                            duration: 250
-                            easing.type: Easing.Linear
-                            easing.amplitude: 1000
-                        }
-                    }
                 }
             }
 
             Rectangle {
                 id: steerSx
-                width: parent.width/2
+                width: (steerStatus[0] / 100) * (parent.width)//parent.width/2
                 height: parent.height/3
                 border.width: 1
                 border.color: "white"
@@ -361,30 +321,6 @@ Rectangle {
                     anchors.leftMargin: 1
                     anchors.verticalCenter: parent.verticalCenter
                     color: "steelblue"
-
-                    Component.onCompleted: {
-                        forceActiveFocus()
-                    }
-
-                    Keys.onPressed: {
-                        if (event.key == Qt.Key_A){
-                            sterzoSx.width = steerSx.width-2
-                        }
-                    }
-
-                    Keys.onReleased: {
-                        if (event.key == Qt.Key_A){
-                            sterzoSx.width = 0
-                        }
-                    }
-
-                    Behavior on width {
-                        NumberAnimation{
-                            duration: 250
-                            easing.type: Easing.Linear
-                            easing.amplitude: 1000
-                        }
-                    }
                 }
             }
         }
@@ -401,14 +337,14 @@ Rectangle {
                 anchors.centerIn: parent
                 spacing: 15
 
-                Rectangle {
+                LED {
                     id: errorSteer1
                     width: errorsSteer.width/8
                     height: errorSteer1.width
-                    color: "lightgray"
-                    radius: errorSteer1.width/2
+                    state: ledStates[steerStatus[1]]
                 }
 
+                //placeholders that center the button
                 Rectangle {
                     id: errorSteer2
                     width: errorSteer1.width
