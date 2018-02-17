@@ -19,6 +19,8 @@
         <file>CANStatusLED.qml</file>
         <file>HVStatusLED.qml</file>
         <file>Button.qml</file>
+        <file>SensorStatus.qml</file>
+        <file>ChoiceButton.qml</file>
 
         <file>TabStatus.qml</file>
         <file>TabInverter.qml</file>

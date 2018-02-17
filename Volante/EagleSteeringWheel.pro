@@ -5,7 +5,7 @@
 TEMPLATE = app
 TARGET = EagleSteeringWheel 
 INCLUDEPATH += . \
-               lib/
+               lib/ \
               
                
 

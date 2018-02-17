@@ -1,3 +1,5 @@
+#!/bin/bash
+
 QMAKE="/home/$USER/Qt/5.7/gcc_64/bin/qmake"
 QT_PROJECT="SimulatoreSensori.pro"
 BUILD_DIR_SIM=../../SimulatoreSensori/build/

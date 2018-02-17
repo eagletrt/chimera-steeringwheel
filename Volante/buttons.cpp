@@ -1,10 +1,18 @@
 #include "buttons.h"
 #include <QDebug>
 
+/*
+ * OLD CONFIGURATION - Raspi Zero W *
 #define BTN_TOP_LEFT        12 
 #define BTN_BOTTOM_LEFT     14
 #define BTN_BOTTOM_RIGHT    20
 #define BTN_TOP_RIGHT       22
+*/
+
+#define BTN_TOP_LEFT        14 
+#define BTN_BOTTOM_LEFT     13    
+#define BTN_BOTTOM_RIGHT    12
+#define BTN_TOP_RIGHT       26
 
 #define MAP_0               11
 #define MAP_1               8
@@ -109,6 +117,8 @@ void Buttons::readGPIOState()
                     break;
             }
 
+            /*
+
             int map = -1;
 
             // Change Maps
@@ -151,6 +161,7 @@ void Buttons::readGPIOState()
 
                 switchIsWrong = false;
             }
+        */
         } 
 
         previusPinState[i] = pinState.at(i);

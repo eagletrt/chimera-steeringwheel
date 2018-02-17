@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Canbus_t {
-    QByteArrayData data[13];
-    char stringdata0[144];
+    QByteArrayData data[16];
+    char stringdata0[219];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -37,17 +37,22 @@ QT_MOC_LITERAL(4, 38, 4), // "warn"
 QT_MOC_LITERAL(5, 43, 3), // "err"
 QT_MOC_LITERAL(6, 47, 13), // "presetChanged"
 QT_MOC_LITERAL(7, 61, 8), // "presetID"
-QT_MOC_LITERAL(8, 70, 11), // "parseSerial"
-QT_MOC_LITERAL(9, 82, 9), // "toggleCar"
-QT_MOC_LITERAL(10, 92, 11), // "askHVUpdate"
-QT_MOC_LITERAL(11, 104, 21), // "checkCANCommunication"
-QT_MOC_LITERAL(12, 126, 17) // "checkSensorsError"
+QT_MOC_LITERAL(8, 70, 31), // "actuatorRangePendingFlagCleared"
+QT_MOC_LITERAL(9, 102, 11), // "parseSerial"
+QT_MOC_LITERAL(10, 114, 9), // "toggleCar"
+QT_MOC_LITERAL(11, 124, 11), // "askHVUpdate"
+QT_MOC_LITERAL(12, 136, 17), // "setActuatorsRange"
+QT_MOC_LITERAL(13, 154, 21), // "checkCANCommunication"
+QT_MOC_LITERAL(14, 176, 17), // "checkSensorsError"
+QT_MOC_LITERAL(15, 194, 24) // "actuatorRangePendingFlag"
 
     },
     "Canbus\0controlStateChanged\0\0ctrlState\0"
     "warn\0err\0presetChanged\0presetID\0"
+    "actuatorRangePendingFlagCleared\0"
     "parseSerial\0toggleCar\0askHVUpdate\0"
-    "checkCANCommunication\0checkSensorsError"
+    "setActuatorsRange\0checkCANCommunication\0"
+    "checkSensorsError\0actuatorRangePendingFlag"
 };
 #undef QT_MOC_LITERAL
 
@@ -57,34 +62,44 @@ static const uint qt_meta_data_Canbus[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
-       0,    0, // properties
+       9,   14, // methods
+       1,   84, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       2,       // signalCount
+       3,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    3,   49,    2, 0x06 /* Public */,
-       6,    1,   56,    2, 0x06 /* Public */,
+       1,    3,   59,    2, 0x06 /* Public */,
+       6,    1,   66,    2, 0x06 /* Public */,
+       8,    0,   69,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       8,    0,   59,    2, 0x0a /* Public */,
-       9,    0,   60,    2, 0x0a /* Public */,
-      10,    1,   61,    2, 0x0a /* Public */,
-      11,    1,   64,    2, 0x0a /* Public */,
-      12,    0,   67,    2, 0x0a /* Public */,
+       9,    0,   70,    2, 0x0a /* Public */,
+      10,    0,   71,    2, 0x0a /* Public */,
+      11,    1,   72,    2, 0x0a /* Public */,
+      12,    2,   75,    2, 0x0a /* Public */,
+      13,    1,   80,    2, 0x0a /* Public */,
+      14,    0,   83,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int,    3,    4,    5,
     QMetaType::Void, QMetaType::Int,    7,
+    QMetaType::Void,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int,    2,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int,    2,    2,
     QMetaType::Void, QMetaType::Bool,    2,
     QMetaType::Void,
+
+ // properties: name, type, flags
+      15, QMetaType::Int, 0x00495001,
+
+ // properties: notify_signal_id
+       2,
 
        0        // eod
 };
@@ -97,11 +112,13 @@ void Canbus::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         switch (_id) {
         case 0: _t->controlStateChanged((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
         case 1: _t->presetChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 2: _t->parseSerial(); break;
-        case 3: _t->toggleCar(); break;
-        case 4: _t->askHVUpdate((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 5: _t->checkCANCommunication((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 6: _t->checkSensorsError(); break;
+        case 2: _t->actuatorRangePendingFlagCleared(); break;
+        case 3: _t->parseSerial(); break;
+        case 4: _t->toggleCar(); break;
+        case 5: _t->askHVUpdate((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 6: _t->setActuatorsRange((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 7: _t->checkCANCommunication((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 8: _t->checkSensorsError(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -121,7 +138,27 @@ void Canbus::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
                 return;
             }
         }
+        {
+            typedef void (Canbus::*_t)();
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Canbus::actuatorRangePendingFlagCleared)) {
+                *result = 2;
+                return;
+            }
+        }
     }
+#ifndef QT_NO_PROPERTIES
+    else if (_c == QMetaObject::ReadProperty) {
+        Canbus *_t = static_cast<Canbus *>(_o);
+        Q_UNUSED(_t)
+        void *_v = _a[0];
+        switch (_id) {
+        case 0: *reinterpret_cast< int*>(_v) = _t->actuatorRangePendingFlag(); break;
+        default: break;
+        }
+    } else if (_c == QMetaObject::WriteProperty) {
+    } else if (_c == QMetaObject::ResetProperty) {
+    }
+#endif // QT_NO_PROPERTIES
 }
 
 const QMetaObject Canbus::staticMetaObject = {
@@ -149,14 +186,31 @@ int Canbus::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 9)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 9;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 9)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 7;
+        _id -= 9;
     }
+#ifndef QT_NO_PROPERTIES
+   else if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty
+            || _c == QMetaObject::ResetProperty || _c == QMetaObject::RegisterPropertyMetaType) {
+        qt_static_metacall(this, _c, _id, _a);
+        _id -= 1;
+    } else if (_c == QMetaObject::QueryPropertyDesignable) {
+        _id -= 1;
+    } else if (_c == QMetaObject::QueryPropertyScriptable) {
+        _id -= 1;
+    } else if (_c == QMetaObject::QueryPropertyStored) {
+        _id -= 1;
+    } else if (_c == QMetaObject::QueryPropertyEditable) {
+        _id -= 1;
+    } else if (_c == QMetaObject::QueryPropertyUser) {
+        _id -= 1;
+    }
+#endif // QT_NO_PROPERTIES
     return _id;
 }
 
@@ -172,5 +226,11 @@ void Canbus::presetChanged(int _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 1, _a);
+}
+
+// SIGNAL 2
+void Canbus::actuatorRangePendingFlagCleared()
+{
+    QMetaObject::activate(this, &staticMetaObject, 2, Q_NULLPTR);
 }
 QT_END_MOC_NAMESPACE

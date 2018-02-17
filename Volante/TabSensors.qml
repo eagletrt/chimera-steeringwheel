@@ -1,27 +1,216 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
+import QtQml.Models 2.2
 
 Rectangle {
-    id: sensori
+    id: root
     color: "#000000"
     anchors.fill: parent
 
+    property var choiceButtonSelected: 0
+    property var mBtnSetText: "SET"
+    property var mHelpSetText: "Set the range for Actuator [MIN, MAX]"
+
+    property var setPendingFlag: CAN.actuatorRangePendingFlag 
+
+    function delay(duration) { // In milliseconds
+        var timeStart = new Date().getTime();
+        
+        while (new Date().getTime() - timeStart < duration) {
+            // Do nothing
+        }
+                    
+        // Duration has passed
+    }
+
+
+    ListModel {
+        id: sensors
+
+        // The "m" before the ListElement proerty stands for "model",
+        // and it's used to differenciate it from the actual delegate property
+        // to be binded and thus changed
+
+        ListElement {
+            mText: "APPS"
+            mColor: "green"
+            mValue: 50
+            mErrorLEDCount: 5
+            mSelected: 0
+        }
+
+        ListElement {
+            mText: "BSE"
+            mColor: "red"
+            mValue: 60
+            mErrorLEDCount: 4
+            mSelected: 0
+        }
+
+        ListElement {
+            mText: "STEER"
+            mColor: "grey"
+            mValue: 20
+            mErrorLEDCount: 1
+            mSelected: 0
+        }
+
+    }
+
+    onSetPendingFlagChanged: function() {
+        console.log("Cleared");
+        root.mBtnSetText = "SET";
+    }
+
+    property var btnClickable: false
+    property var isStarted: false
+    property var sensorSelectedIndex: -1
+
     function connect() {
         console.log("Tab connessa - Sensors");
+        menu.btnClicked.connect(btnClickedHandler);
     }
 
     function disconnect() {
         console.log("Tab disconnessa - Sensors");
+        menu.btnClicked.disconnect(btnClickedHandler);
     }
 
-    GridLayout {
-        id: grid4
-        width: parent.width-10
-        height: parent.height-10
-        anchors.centerIn: parent
-        columns: 3
-        rows: 3
-        rowSpacing: 0
+    function unSelectSensors() {
+        if (sensorSelectedIndex != -1) {
+            sensors.setProperty(sensorSelectedIndex, "mSelected", 0);
+        } 
+    }
+
+    function selectSensor(index) {
+        if (sensorSelectedIndex != -1) {
+            sensors.setProperty(sensorSelectedIndex, "mSelected", 0);
+        } 
+
+        index = index % 3;
+
+        sensors.setProperty(index, "mSelected", 1);
+
+        sensorSelectedIndex = index;
+    }
+
+    function btnClickedHandler(btnID) {
+        if (btnID == 0) {
+            if (tabView.stepIntoTab && !choiceButtonSelected) {
+                // We are into the tab, get out!
+                btnClickable = false;
+                isStarted = false;
+
+                // Remove highlight from current selected sensor item
+                unSelectSensors();
+
+                mainwindow.canSwitchPage = true;
+                tabView.stepIntoTab = false;
+            }
+
+            if (choiceButtonSelected) {
+                choiceButtonSelected = 0;
+            }
+        }
+
+        if (btnID == 1) {
+            if (tabView.stepIntoTab && !choiceButtonSelected)  {
+                // Enable buttons for current sensors! 
+                choiceButtonSelected = 1
+            } 
+        }
+
+        if (btnID == 2) {
+            // Step into this tab and change the behaviour of btnID
+            if (!tabView.stepIntoTab) {
+                // Set the button clickable
+                btnClickable = true;
+
+                // Select the first entry of the SensorsList 
+                selectSensor(0);
+
+                // Prevent the button 0 to switch to Racing Page!
+                tabView.stepIntoTab = true;
+                mainwindow.canSwitchPage = false;
+
+            } else {
+                if (!choiceButtonSelected) {
+                    // Loop through sensors
+                    selectSensor(sensorSelectedIndex + 1);
+                } else {
+                    // SET RANGES for the sensorSelectedIndex
+                    // DEBUG: for now only to sensorSelectedIndex = 0 (APPS)
+                    if (sensorSelectedIndex == 0) {
+                        root.mBtnSetText = "Setting..."
+                        CAN.setActuatorsRange(0,0);
+                    }
+                }
+            }
+        }
+    }
+
+    ColumnLayout {
+        anchors.fill: parent
+        spacing: 0
+
+        ListView {
+            id: sensorListView
+            width: parent.width
+            Layout.preferredHeight: parent.height * 0.75
+            model: sensors
+            delegate: SensorStatus {
+                        text: mText
+                        barColor: mColor
+                        barValue: mValue
+                        errorLEDCount: mErrorLEDCount
+                        selected: mSelected
+                        height: sensorListView.height / 3 
+                        width: parent.width
+                    }
+        }
+
+        Rectangle {
+            // If we need this row to be a little bit taller, 
+            // we can edit this prefered height
+            //Layout.preferredHeight: root.height / 2
+            Layout.fillWidth: true
+            Layout.preferredHeight: parent.height / 4
+            color: menu.color
+
+            GridLayout {
+                anchors.fill: parent
+                rows: 1
+                columns: 2
+
+                Text {
+                    text: mHelpSetText
+                    Layout.fillHeight: true
+                    Layout.preferredWidth: parent.width * 0.60
+                    color: "white"
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pointSize: 12
+                }
+
+                Item {
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+
+                    ChoiceButton {
+                        width: 150
+                        height: 40
+                        btnColor: "green" 
+                        btnText: mBtnSetText 
+                        selected: choiceButtonSelected && !setPendingFlag
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+/*
 
         Rectangle {
             id: nameApps
@@ -442,6 +631,14 @@ Rectangle {
                 }
             }
         }
-    }
 
+        Rectangle {
+            Layout.preferredWidth: parent.width 
+            Layout.preferredHeight: parent.height / 4
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            color: "red"
+        }
+    }
 }
+*/

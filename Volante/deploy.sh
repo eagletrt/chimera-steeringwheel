@@ -1,3 +1,5 @@
+#!/bin/bash
+
 QT_PROJECT="EagleSteeringWheel_x86.pro"
 BUILD_DIR=build/
 
