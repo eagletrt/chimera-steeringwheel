@@ -52,6 +52,12 @@ class Canbus : public QObject
         int error;
         int velocity;
         int ctrlIsEnabled;
+
+        int HV_temp;
+        int HV_volt;
+        int LV_temp;
+        int LV_volt;
+
         int ctrlIsOn;
         int goStatus;
         int map;

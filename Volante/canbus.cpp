@@ -171,10 +171,27 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             // Get stop message 
             // Get current map
 
+            /*
+            // VERO FINO AL 20/02
             warning = msg.at(0);
             error = msg.at(1);
             driveModeEnabled = msg.at(2);
-            velocity = (int) msg.at(4);
+            velocity = (int) msg.at(4);*/
+
+            // NUOVA VERSIONE, DAL 20/02
+
+            driveModeEnabled = (msg.at(0) >> 0) & 1; //dovrebbe voler dire msg.at(0)[0], aka il bit piu a dx
+            warning = (msg.at(0) >> 1) & 1;
+            error = (msg.at(0) >> 2) & 1;
+            //HV_fault = (msg.at(0) >> 5) & 1;
+            //LV_fault = (msg.at(0) >> 6) & 1;
+            velocity = ( (int) msg.at(1) ) / 2;
+            HV_temp = ( (int) msg.at(2) ) / 2;
+            HV_volt = ( (int) msg.at(3) ) / 2 + 400;
+            LV_temp = ( (int) msg.at(4) ) / 2;
+            LV_volt = ( (int) msg.at(5) ) / 10;
+
+            // END NUOVA VERSIONE
 
             qDebug() << "Velocity: " << velocity;
 
