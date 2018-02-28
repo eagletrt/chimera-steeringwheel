@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QSerialPort>
+#include <QString>
+
 class ArduinoMgr : public QObject
 {
     Q_OBJECT
@@ -11,13 +13,13 @@ class ArduinoMgr : public QObject
 public:
     ArduinoMgr(QObject *parent);
 public slots:
-
     qint32 brightness();
     qint32 volume();
 
     void turnOn(qint32 id);
     void turnOff(qint32 id);
-
+    void writeToTxt(QString text);
+    void readFromTxt();
 signals:
     void brightnessChanged();
     void volumeChanged();

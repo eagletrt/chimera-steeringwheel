@@ -1,12 +1,15 @@
 Arduino:
 	-Permette di accendere 3 led e fare animazioni 
-	-Può aumentare un counter 	
-	-Può inviare il counter con un bottone di submit
+	-Può aumentare Volume (QML) 	
+	-Può aumentare Brightness (QML)
 PC:
 	-Riceve i dati di arduino
 	-Invia dati ad arduino 
-	-Mostra un grafico dei dati in entrata e una  relativa tabella 
+	-TODO: Mostra un grafico dei dati in entrata 
+	-Tabelle con Request e Response 
 
 sudo chmod a+rw /dev/ttyACM0
 
 BaudRate: 9600
+
+Creare file logSerial.txt in cartella build per salvare i log in .csv

@@ -2,9 +2,11 @@
 
 #include <QDebug>
 #include <QProcess>
+#include <QFile>
+#include <QTextStream>
 
-ArduinoMgr::ArduinoMgr(QObject *parent) : QObject(parent)
-{
+ArduinoMgr::ArduinoMgr(QObject *parent) : QObject(parent){
+
     serial.setPortName("ttyACM0");
     serial.open(QIODevice::ReadWrite);
     qDebug() << "Open Serial Port: "<< serial.portName();
@@ -40,8 +42,9 @@ ArduinoMgr::ArduinoMgr(QObject *parent) : QObject(parent)
                 {
                     m_brightness = brightness.toInt();
                     qDebug() << "Brightness: " << m_brightness;
+                    writeToTxt("Brightness");
+                    writeToTxt(brightness);
                     emit brightnessChanged();
-                    emit
                 }
             }
 
@@ -56,12 +59,13 @@ ArduinoMgr::ArduinoMgr(QObject *parent) : QObject(parent)
                    // exec.start(setVolumeCmd);
                    // exec.waitForFinished();
                     qDebug() << "Volume: " << m_volume;
+                    writeToTxt("Volume");
+                    writeToTxt(volume);
                     emit volumeChanged();
                 }
             }
         }
     });
-
 }
 
 
@@ -71,8 +75,8 @@ void ArduinoMgr::turnOn(qint32 id)
     cmd.append(QString::number(id));
     serial.write(cmd.toLocal8Bit());//.toLocal8Bit()
     serial.flush();
+    writeToTxt(cmd);
     qDebug() << cmd;
-
 }
 
 void ArduinoMgr::turnOff(qint32 id)
@@ -81,6 +85,7 @@ void ArduinoMgr::turnOff(qint32 id)
     cmd.append(QString::number(id));
     serial.write(cmd.toLocal8Bit());
     serial.flush();
+    writeToTxt(cmd);
     qDebug() << cmd;
 
 }
@@ -93,4 +98,39 @@ qint32 ArduinoMgr::brightness()
 qint32 ArduinoMgr::volume()
 {
     return m_volume;
+}
+
+void ArduinoMgr::writeToTxt(QString text){
+    QFile mFile("logSerial.txt");
+    if(!mFile.open(QFile::WriteOnly | QFile::Append)){
+        qDebug() << "Impossibile aprire per scrittura";
+        return;
+    }
+    QTextStream out(&mFile);
+    if(mFile.pos()==0){
+        out << "Request & Response from Arduino\n\n";
+        //out << "Instruction\t , \tVal,\n\n";
+    }
+    if (text.startsWith("V") || text.startsWith("B")){
+        out << text << ",";
+    }else{
+        out << text << ",\n";
+    }
+
+    mFile.flush();
+    mFile.close();
+}
+
+void ArduinoMgr::readFromTxt(){
+    QFile mFile("logSerial.txt");
+    if(!mFile.open(QFile::ReadOnly | QFile::Text)){
+        qDebug() << "Impossibile aprire per lettura";
+        return;
+    }
+    QTextStream in(&mFile);
+    QString mText = in.readAll();
+
+    qDebug() << mText;
+
+    mFile.close();
 }
