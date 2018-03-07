@@ -1,3 +1,5 @@
+#!/bin/sh
+
 QMAKE="/home/$USER/Qt/5.7/gcc_64/bin/qmake"
 QT_PROJECT="EagleSteeringWheel_x86.pro"
 BUILD_DIR=build/
