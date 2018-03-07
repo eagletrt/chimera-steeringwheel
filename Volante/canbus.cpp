@@ -7,6 +7,9 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString serial_port) {
     carStatus = m_carStatus;
 
     qDebug() << "CAN Interface Init";
+    qDebug() << "**************************";
+    qDebug() << serial_port; 
+    qDebug() << "**************************";
 
     /*
      * TODO: change from manual serial port name to 
