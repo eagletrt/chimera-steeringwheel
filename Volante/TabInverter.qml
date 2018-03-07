@@ -7,8 +7,8 @@ Rectangle {
 
     color: "#000000"
 
-    property int currentSelected: -1 
-    property var canHvStatus: CarStatus.HVStatus 
+    property int currentSelected: -1
+    property var canHvStatus: CarStatus.HVStatus
     property var hvPossibleStates: ["NO", "OK", "DEFAULT"]
     property var hvStatus: [
         ["PreCharge", "DEFAULT", false],
@@ -28,7 +28,7 @@ Rectangle {
     }
 
     onCanHvStatusChanged: {
-        console.log("hvStatusChanged");
+        console.log("hvStatusUpdate");
         console.log("PreCharge: " + canHvStatus[0]);
         console.log("Right: " + canHvStatus[1]);
         console.log("Left: " + canHvStatus[2]);
@@ -43,81 +43,86 @@ Rectangle {
     }
 
     function btnClickedHandler(btnID) {
-        if (btnID == 2) {
-            // Step into this tab and change the behaviour of btnID
-            if (!tabView.stepIntoTab) {
-                tabView.stepIntoTab = true;
-                // Prevent the button 0 to switch to Racing Page!
-                mainwindow.canSwitchPage = false;
+      if (btnID == 2) {
 
-                var newHvStatus = hvStatus;
+        // Step into this tab and change the behaviour of btnID
+        if (!tabView.stepIntoTab) {
+          tabView.stepIntoTab = true;
+          // Prevent the button 0 to switch to Racing Page!
+          mainwindow.canSwitchPage = false;
 
-                // Select the first element
-                currentSelected += 1;
-                // Select the new current row
-                newHvStatus[currentSelected][2] = true;
+          var newHvStatus = hvStatus;
 
-                // Force trigger of the model change
-                hvStatus = newHvStatus;
+          // Select the first element
+          currentSelected += 1;
+          // Select the new current row
+          newHvStatus[currentSelected][2] = true;
+
+          // Force trigger of the model change
+          hvStatus = newHvStatus;
+          } else {
+          var newHvStatus = hvStatus;
+
+          // Deselect the current selected
+          newHvStatus[currentSelected][2] = false;
+          // Increase the current selected row
+
+          if (currentSelected == 2) {
+            currentSelected = 0;
             } else {
-                var newHvStatus = hvStatus;
-
-                // Select the new current row
-                newHvStatus[currentSelected][2] = false;
-
-                // Force trigger of the model change
-                hvStatus = newHvStatus;
-
-                currentSelected = -1;
-
-                // Restore Button 0 initial handler 
-                mainwindow.canSwitchPage = true;
-
-                tabView.stepIntoTab = false;
+              currentSelected += 1;
             }
+
+            // Select the new current row
+            newHvStatus[currentSelected][2] = true;
+
+            // Force trigger of the model change
+            hvStatus = newHvStatus;
+          }
         }
 
         if (btnID == 1) {
-            if (tabView.stepIntoTab) {
-                var newHvStatus = hvStatus;
-
-                // Deselect the current selected
-                newHvStatus[currentSelected][2] = false;
-                // Increase the current selected row
-                if (currentSelected == 2) {
-                    currentSelected = 0;
-                } else {
-                    currentSelected += 1;
-                }
-                // Select the new current row
-                newHvStatus[currentSelected][2] = true;
-
-                // Force trigger of the model change
-                hvStatus = newHvStatus;
+          if (!mainwindow.canSwitchPage) {
+            CAN.askHVUpdate(currentSelected);
             }
         }
 
         if (btnID == 0) {
-            if (!mainwindow.canSwitchPage) {
-               CAN.askHVUpdate(currentSelected); 
-            }
+          if (tabView.stepIntoTab) {
+            var newHvStatus = hvStatus;
+
+            // Select the new current row
+            newHvStatus[currentSelected][2] = false;
+
+            // Force trigger of the model change
+            hvStatus = newHvStatus;
+
+            currentSelected = -1;
+
+            // Restore Button 0 initial handler
+            mainwindow.canSwitchPage = true;
+
+            tabView.stepIntoTab = false;
+          }
+
         }
     }
+
 
     GridLayout {
         id: grid1
         anchors.fill: parent
-        columns: 1 
-        rows: 3  
+        columns: 1
+        rows: 3
 
         Repeater {
-            model: hvStatus 
+            model: hvStatus
             delegate: HVStatusLED {
-                text: modelData[0] 
-                state: modelData[1] 
+                text: modelData[0]
+                state: modelData[1]
                 selected: modelData[2]
-                Layout.preferredWidth: root.width / 1 
-                Layout.preferredHeight: root.height / 3 
+                Layout.preferredWidth: root.width / 1
+                Layout.preferredHeight: root.height / 3
             }
         }
     }
