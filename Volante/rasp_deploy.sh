@@ -1,3 +1,5 @@
+#!/bin/bash 
+
 RASP_PI_ROOT=/mnt/rasp-pi-rootfs
 RASP_PI_IMAGE=~/crosscompile-tools/raspbian.img
 RASP_PI_QMAKE=/usr/local/qt5pi/bin/qmake

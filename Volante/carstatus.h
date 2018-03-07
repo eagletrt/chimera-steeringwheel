@@ -5,6 +5,8 @@
 #define CAR_STATUS_GO   1
 #define CAR_STATUS_STOP 2
 
+#define PRESET_NUMBER   8 
+
 #include <QDebug>
 
 class CarStatus : public QObject
@@ -24,6 +26,8 @@ class CarStatus : public QObject
     public:
         CarStatus();
         ~CarStatus();
+
+        const int LOOP_THROUGH_PRESETS = -1;
 
         QString CANStatus() const;
         QString HVStatus() const;
@@ -46,6 +50,7 @@ class CarStatus : public QObject
         int getCtrlIsEnabled();
         int getCtrlIsOn();
         int getCurrentStatus();
+        int getMap();
 
         void setTemperature(int temperature);
         void setStateOfCharge(int stateofcharge);

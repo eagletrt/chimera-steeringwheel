@@ -20,6 +20,7 @@ Rectangle {
     function connect() {
         console.log("Tab connessa - Inverter");
         menu.btnClicked.connect(btnClickedHandler);
+        console.log(tabView.stepIntoTab);
     }
 
     function disconnect() {
@@ -43,71 +44,79 @@ Rectangle {
     }
 
     function btnClickedHandler(btnID) {
-      if (btnID == 2) {
+        console.log("BtnClicked in TabInverter" + btnID);
+        if (btnID == 2) {
+            console.log("Voglio entrare nella tabba");
+            console.log(tabView.stepIntoTab);
+            // Step into this tab and change the behaviour of btnID
+            if (!tabView.stepIntoTab) {
+                tabView.stepIntoTab = true;
+                // Prevent the button 0 to switch to Racing Page!
+                mainwindow.canSwitchPage = false;
 
-        // Step into this tab and change the behaviour of btnID
-        if (!tabView.stepIntoTab) {
-          tabView.stepIntoTab = true;
-          // Prevent the button 0 to switch to Racing Page!
-          mainwindow.canSwitchPage = false;
+                var newHvStatus = hvStatus;
 
-          var newHvStatus = hvStatus;
+                // Select the first element
+                currentSelected += 1;
+                // Select the new current row
+                newHvStatus[currentSelected][2] = true;
 
-          // Select the first element
-          currentSelected += 1;
-          // Select the new current row
-          newHvStatus[currentSelected][2] = true;
+                console.log("Entrato nella tab");
+                console.log(currentSelected);
 
-          // Force trigger of the model change
-          hvStatus = newHvStatus;
-          } else {
-          var newHvStatus = hvStatus;
-
-          // Deselect the current selected
-          newHvStatus[currentSelected][2] = false;
-          // Increase the current selected row
-
-          if (currentSelected == 2) {
-            currentSelected = 0;
+                // Force trigger of the model change
+                hvStatus = newHvStatus;
             } else {
-              currentSelected += 1;
+                var newHvStatus = hvStatus;
+
+                console.log(newHvStatus);
+                console.log(currentSelected);
+
+                // Deselect the current selected
+                newHvStatus[currentSelected][2] = false;
+                // Increase the current selected row
+
+                if (currentSelected == 2) {
+                    currentSelected = 0;
+                } else {
+                    currentSelected += 1;
+                }
+
+                // Select the new current row
+                newHvStatus[currentSelected][2] = true;
+
+                // Force trigger of the model change
+                hvStatus = newHvStatus;
             }
-
-            // Select the new current row
-            newHvStatus[currentSelected][2] = true;
-
-            // Force trigger of the model change
-            hvStatus = newHvStatus;
-          }
         }
 
         if (btnID == 1) {
-          if (!mainwindow.canSwitchPage) {
-            CAN.askHVUpdate(currentSelected);
+            if (!mainwindow.canSwitchPage) {
+                CAN.askHVUpdate(currentSelected);
             }
         }
 
         if (btnID == 0) {
-          if (tabView.stepIntoTab) {
-            var newHvStatus = hvStatus;
+            console.log("Dentro BTN0");
+            console.log(tabView.stepIntoTab);
+            if (tabView.stepIntoTab) {
+                var newHvStatus = hvStatus;
 
-            // Select the new current row
-            newHvStatus[currentSelected][2] = false;
+                // Select the new current row
+                newHvStatus[currentSelected][2] = false;
 
-            // Force trigger of the model change
-            hvStatus = newHvStatus;
+                // Force trigger of the model change
+                hvStatus = newHvStatus;
 
-            currentSelected = -1;
+                currentSelected = -1;
 
-            // Restore Button 0 initial handler
-            mainwindow.canSwitchPage = true;
+                // Restore Button 0 initial handler
+                mainwindow.canSwitchPage = true;
 
-            tabView.stepIntoTab = false;
-          }
-
+                tabView.stepIntoTab = false;
+            }
         }
     }
-
 
     GridLayout {
         id: grid1

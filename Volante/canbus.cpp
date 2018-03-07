@@ -7,8 +7,17 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString serial_port) {
     carStatus = m_carStatus;
 
     qDebug() << "CAN Interface Init";
+    qDebug() << "**************************";
+    qDebug() << serial_port; 
+    qDebug() << "**************************";
+
+    /*
+     * TODO: change from manual serial port name to 
+     * name discovered by the serialPortInfo module!!!
 
     QFileInfo file_info(serial_port);
+
+    qDebug() << "Serial Port name: " << serial_port;
 
     if (file_info.isSymLink()) {
         // This file is a SYM Link
@@ -17,6 +26,10 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString serial_port) {
     } else {
         serial.setPortName(file_info.path());
     }
+
+    */
+
+    serial.setPortName("/dev/ttyAMA0");
 
     serial.setBaudRate(QSerialPort::Baud115200);
     serial.setDataBits(QSerialPort::Data8);
@@ -69,6 +82,12 @@ void Canbus::stopSensorsUpdate() {
 //sends Sensors Status every 30ms
 void Canbus::LoopSensorsUpdate(){
     sendCanMessage(ASK_SENSORS_VALUE_ID, "");
+    m_actuatorRangePendingFlag = 0;
+}
+
+int Canbus::actuatorRangePendingFlag() const {
+  qDebug() << "Asked m_actuatorRangePendingFlag";
+  return m_actuatorRangePendingFlag; 
 }
 
 void Canbus::checkSensorsError() {
@@ -161,10 +180,27 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             // Get stop message 
             // Get current map
 
+            /*
+            // VERO FINO AL 20/02
             warning = msg.at(0);
             error = msg.at(1);
             driveModeEnabled = msg.at(2);
-            velocity = (int) msg.at(4);
+            velocity = (int) msg.at(4);*/
+
+            // NUOVA VERSIONE, DAL 20/02
+
+            driveModeEnabled = (msg.at(0) >> 0) & 1; //dovrebbe voler dire msg.at(0)[0], aka il bit piu a dx
+            warning = (msg.at(0) >> 1) & 1;
+            error = (msg.at(0) >> 2) & 1;
+            //HV_fault = (msg.at(0) >> 5) & 1;
+            //LV_fault = (msg.at(0) >> 6) & 1;
+            velocity = ( (int) msg.at(1) ) / 2;
+            HV_temp = ( (int) msg.at(2) ) / 2;
+            HV_volt = ( (int) msg.at(3) ) / 2 + 400;
+            LV_temp = ( (int) msg.at(4) ) / 2;
+            LV_volt = ( (int) msg.at(5) ) / 10;
+
+            // END NUOVA VERSIONE
 
             qDebug() << "Velocity: " << velocity;
 
@@ -232,19 +268,25 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
 void Canbus::toggleCar() {
     ctrlIsOn = carStatus->getCtrlIsOn();
     goStatus = carStatus->getCurrentStatus();
+    map = carStatus->getMap();
 
     qDebug() << "CtrlIsOn: " << ctrlIsOn;
     qDebug() << "GoIsOn: " << goStatus;
+    qDebug() << "Map:" << map;
 
     /* CarStatus:
      * 0    CAR_STATUS_IDLE
      * 1    CAR_STATUS_GO
      * 2    CAR_STATUS_STOP
+     * 3    CAR_STATUS_MAP
      */
     if (goStatus == CAR_STATUS_STOP) {
-        canMessage = QString("c%1:100\n").arg(QString::number(CHANGE_EXEC_MODE_ID));
+        canMessage = QString("c%1:1000\n").arg(QString::number(CHANGE_EXEC_MODE_ID));
     } else {
-        canMessage = QString("c%1:0%2%3\n").arg(QString::number(CHANGE_EXEC_MODE_ID), QString::number(goStatus), QString::number(ctrlIsOn));
+        canMessage = QString("c%1:0%2%3%4\n").arg(QString::number(CHANGE_EXEC_MODE_ID), 
+                                                  QString::number(goStatus), 
+                                                  QString::number(ctrlIsOn),
+                                                  QString::number(map));
     }
 
     qDebug() << canMessage;
@@ -262,6 +304,29 @@ void Canbus::sendCanMessage(int id, QString message) {
 
 void Canbus::askHVUpdate(int target) {
     sendCanMessage(ASK_HV_STATE_ID, QString::number(target));
+}
+
+void Canbus::setActuatorsRange(int actuatorID, int rangeSide) {
+  /*
+   * Actuators ID: 
+   * 0: APPS
+   * 1: BSE
+   * 2: STEER
+   *
+   * Range Sides:
+   * 0: MIN
+   * 1: MAX
+   */
+  qDebug() << "setActuatorsRange for " << actuatorID << " for " << rangeSide;
+  //sendCanMessages(SET_ACTUATORS_RANGES, QString::number(rangeSide));
+
+  m_actuatorRangePendingFlag = 1;
+  emit actuatorRangePendingFlagCleared();
+
+  m_actuatorRangePendingFlag = 0;
+  emit actuatorRangePendingFlagCleared();
+
+  qDebug() << "actuatorRangePendingFlagCleared";
 }
 
 void Canbus::parseSerial() {

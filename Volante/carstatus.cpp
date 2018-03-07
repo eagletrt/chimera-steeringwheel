@@ -9,7 +9,7 @@ CarStatus::CarStatus() {
 
     m_ctrlIsEnabled = -1;
     // Set control activated by default
-    m_ctrlIsOn = 1; 
+    m_ctrlIsOn = 0; 
     // Set car in IDLE at startup
     m_car_status = CAR_STATUS_IDLE;
 
@@ -64,9 +64,20 @@ void CarStatus::changePreset(int presetID) {
      *
      */
 
-    qDebug() << "New Preset: " << presetID;
+    qDebug() << "Preset to change: " << presetID;
 
-    m_preset = presetID;
+    if (presetID != LOOP_THROUGH_PRESETS) {
+        // Change preset to presetID --> Case Hardware Wiper
+        m_preset = presetID;
+    } else {
+        // Loop through presents from 1 to 8 --> Case Single Button for Preset change
+        m_preset += 1;
+        qDebug() << m_preset;
+        m_preset = m_preset > PRESET_NUMBER ? m_preset % PRESET_NUMBER : m_preset;
+        qDebug() << m_preset;
+    }
+
+    qDebug() << "New Preset: " << m_preset;
 
     emit presetChanged();
 }
@@ -250,6 +261,12 @@ int CarStatus::getCurrentStatus() {
     return m_car_status;
 }
 
+int CarStatus::getMap() {
+    // TODO: Uniform RIO map numbering with UI map numbering
+    // RIO 0..7 UI 1..8
+    return m_preset - 1;
+}
+
 int CarStatus::stopCar() {
     qDebug() << "Yuuu! Stoppo la car!";
     m_car_status = CAR_STATUS_STOP;
@@ -275,6 +292,13 @@ int CarStatus::toggleCarStatus() {
             emit toggleCar();
         }
     }
+
+    // *************
+    // *************
+    // DEBUG ONLY!!!
+    // *************
+    // *************
+    //emit carStatusChanged(m_car_status);
 
     return m_car_status;
 }

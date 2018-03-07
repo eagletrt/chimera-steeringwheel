@@ -5,7 +5,8 @@ Rectangle {
     id: racingPage
     color: "#000000"
 
-    property int currentPreset: 1
+    property int loopThroughPresets: -1
+
     property int currentCharge: 10
     property int currentTemperature: 8
 
@@ -25,7 +26,7 @@ Rectangle {
 
         mainwindow.carStatusChanged.disconnect(carStatusChangedHandler);
         mainwindow.controlStateChanged.disconnect(controlStateChangedHandler);
-        mainwindow.presetChanged.disconnect(presetChangedHandler);
+        //mainwindow.presetChanged.disconnect(presetChangedHandler);
     }
 
     function connect() {
@@ -36,12 +37,14 @@ Rectangle {
 
         mainwindow.carStatusChanged.connect(carStatusChangedHandler);
         mainwindow.controlStateChanged.connect(controlStateChangedHandler);
-        mainwindow.presetChanged.connect(presetChangedHandler);
+        //mainwindow.presetChanged.connect(presetChangedHandler);
     }
 
+    /*
     function presetChangedHandler(presetID) {
         presetChanged(presetID);
     }
+    */
 
     function controlStateChangedHandler(ctrlIsEnabled, ctrlIsOn, warning, error) {
         controlStateChanged(ctrlIsEnabled, ctrlIsOn, warning, error);
@@ -73,7 +76,6 @@ Rectangle {
             } else {
                 console.log("Sent Car Stop command");
             }
-
         }
 
         if (btnID == 1) {
@@ -87,18 +89,11 @@ Rectangle {
             }
 
             /*
-            currentPreset += 1
-            currentPreset = currentPreset % (8+1)
-
-            if (currentPreset == 0) {
-                currentPreset = 1;
-            }
-            console.log("CurrentPreset: " + currentPreset);
-            presetChanged(currentPreset);
             */
         }
 
         if (btnID == 2) {
+            /*
             // Enable or disable the CTRL 
             if (carIsGo) {
                 console.log("Toggle the CTRL");
@@ -106,6 +101,16 @@ Rectangle {
             }
             console.log("Toggle the CTRL");
             CarStatus.toggleCtrl();
+            */
+
+            if (carStatus.state == 'idle') {
+                // Can Change Car Status
+                // NEW: Change MCU Map
+                CarStatus.changePreset(loopThroughPresets)
+            }
+
+
+
         }
 
     }
