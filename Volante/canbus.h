@@ -1,4 +1,4 @@
-#ifndef CANBUS_H 
+#ifndef CANBUS_H
 #define CANBUS_H
 
 #include <QSerialPort>
@@ -22,7 +22,7 @@
 #define BMS_STATUS_ID           0x7EB
 #define GET_ACTUATORS_RANGE_ACK 0xBC
 
-// ID in Scrittura 
+// ID in Scrittura
 // Ask again to check the CAN communication of peripherals
 #define CHECK_CAN_COM           0xEA
 #define ASK_HV_STATE_ID         0xEB
@@ -37,6 +37,11 @@ class Canbus : public QObject
     Q_OBJECT
 
     Q_PROPERTY(int actuatorRangePendingFlag READ actuatorRangePendingFlag NOTIFY actuatorRangePendingFlagCleared)
+    //property volt e temperature
+    Q_PROPERTY(int hvTemp READ hvTemp NOTIFY hvTempChanged)
+    Q_PROPERTY(int lvTemp READ lvTemp NOTIFY lvTempChanged)
+    Q_PROPERTY(int hvVolt READ hvVolt NOTIFY hvVoltChanged)
+    Q_PROPERTY(int lvVolt READ lvVolt NOTIFY lvVoltChanged)
 
     public:
         Canbus(CarStatus* carStatus, const QString serial_port);
@@ -53,10 +58,15 @@ class Canbus : public QObject
         int velocity;
         int ctrlIsEnabled;
 
-        int HV_temp;
-        int HV_volt;
-        int LV_temp;
-        int LV_volt;
+        int m_hvTemp;
+        int m_hvVolt;
+        int m_lvTemp;
+        int m_lvVolt;
+
+        int hvTemp() const;
+        int lvTemp() const;
+        int hvVolt() const;
+        int lvVolt() const;
 
         int ctrlIsOn;
         int goStatus;
@@ -68,7 +78,7 @@ class Canbus : public QObject
         CarStatus* carStatus;
 
     private:
-        QTimer *timer;
+        QTimer timer;
         qint64 canID;
         QByteArray canMSG;
         QString canMessage;
@@ -81,21 +91,23 @@ class Canbus : public QObject
         int m_actuatorRangePendingFlag;
 
     signals:
-        void controlStateChanged(int ctrlState, int warn, int err); 
-        void presetChanged(int presetID); 
+        void controlStateChanged(int ctrlState, int warn, int err);
+        void presetChanged(int presetID);
         void actuatorRangePendingFlagCleared();
 
+        //signal per qml hv e lv temp volt
+        void hvTempChanged();
+        void lvTempChanged();
+        void hvVoltChanged();
+        void lvVoltChanged();
+
     public slots:
-        void LoopSensorsUpdate();
         void parseSerial();
         void toggleCar();
         void askHVUpdate(int);
         void setActuatorsRange(int, int);
         void checkCANCommunication(bool);
         void checkSensorsError();
-        void startSensorsUpdate();
-        void stopSensorsUpdate();
 };
 
 #endif // CANBUS_H
-

@@ -7,12 +7,9 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString serial_port) {
     carStatus = m_carStatus;
 
     qDebug() << "CAN Interface Init";
-    qDebug() << "**************************";
-    qDebug() << serial_port; 
-    qDebug() << "**************************";
 
     /*
-     * TODO: change from manual serial port name to 
+     * TODO: change from manual serial port name to
      * name discovered by the serialPortInfo module!!!
 
     QFileInfo file_info(serial_port);
@@ -65,29 +62,17 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString serial_port) {
 
     idIsArrived = 0;
 
-    timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(LoopSensorsUpdate()));
-}
+    m_hvTemp = -1;
+    m_hvVolt = -1;
+    m_lvVolt = -1;
+    m_lvTemp = -1;
 
-void Canbus::startSensorsUpdate() {
-    qDebug() << "startSensorsUpdate";
-    timer->start(30);
-}
-
-void Canbus::stopSensorsUpdate() {
-    qDebug() << "stopSensorsUpdate";
-    timer->stop();
-}
-
-//sends Sensors Status every 30ms
-void Canbus::LoopSensorsUpdate(){
-    sendCanMessage(ASK_SENSORS_VALUE_ID, "");
     m_actuatorRangePendingFlag = 0;
 }
 
 int Canbus::actuatorRangePendingFlag() const {
   qDebug() << "Asked m_actuatorRangePendingFlag";
-  return m_actuatorRangePendingFlag; 
+  return m_actuatorRangePendingFlag;
 }
 
 void Canbus::checkSensorsError() {
@@ -108,6 +93,13 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
     // back the correct signal
     switch (mid) {
         case GET_APPS_BSE_STATUS:
+            qDebug() << "APPS State: ";
+            qDebug() << "APPS: " << QString::number(msg.at(0));
+            qDebug() << "err APPS: " << QString::number(msg.at(1));
+            qDebug() << "BSE State: ";
+            qDebug() << "BSE: " << QString::number(msg.at(2));
+            qDebug() << "err BSE: " << QString::number(msg.at(3));
+
             carStatus->setAPPSBSEStatus(msg.at(0),
                                     msg.at(1),
                                     msg.at(2),
@@ -115,20 +107,24 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             break;
 
         case GET_STEER_STATUS:
+            qDebug() << "STEER State: ";
+            qDebug() << "STEER: " << QString::number(msg.at(0));
+            qDebug() << "err: " << QString::number(msg.at(1));
+
             carStatus->setSTEERStatus(msg.at(0),
                                     msg.at(1));
             break;
 
         case GET_ERRORS_STATUS:
-            qDebug() << "Errors State: ";
-            qDebug() << "err_apps: " << QString::number(msg.at(0)); 
-            qDebug() << "err_bse: " << QString::number(msg.at(1)); 
-            qDebug() << "err_steer: " << QString::number(msg.at(2)); 
-            qDebug() << "err_wheel_right: " << QString::number(msg.at(3)); 
-            qDebug() << "err_wheel_left: " << QString::number(msg.at(4)); 
-            qDebug() << "err_imu_front: " << QString::number(msg.at(5)); 
+            qDebug() << "Errors State:";
+            qDebug() << "err_apps: " << QString::number(msg.at(0));
+            qDebug() << "err_bse: " << QString::number(msg.at(1));
+            qDebug() << "err_steer: " << QString::number(msg.at(2));
+            qDebug() << "err_wheel_right: " << QString::number(msg.at(3));
+            qDebug() << "err_wheel_left: " << QString::number(msg.at(4));
+            qDebug() << "err_imu_front: " << QString::number(msg.at(5));
             qDebug() << "err_imu_central: " << QString::number(msg.at(6));
-            qDebug() << "err_imu_rear: " << QString::number(msg.at(7)); 
+            qDebug() << "err_imu_rear: " << QString::number(msg.at(7));
 
             carStatus->setERRStatus(msg.at(0),
                                     msg.at(1),
@@ -141,13 +137,13 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             break;
 
         case GET_CAN_STATUS:
-            qDebug() << "Car CANBUS State: "; 
-            qDebug() << "INV_RIGHT: " << QString::number(msg.at(0)); 
-            qDebug() << "INV_LEFT: " << QString::number(msg.at(1)); 
-            qDebug() << "FRONT: " << QString::number(msg.at(2)); 
-            qDebug() << "REAR: " << QString::number(msg.at(3)); 
-            qDebug() << "BMS_HV: " << QString::number(msg.at(4)); 
-            qDebug() << "BMS_LV: " << QString::number(msg.at(5)); 
+            qDebug() << "Car CANBUS State: ";
+            qDebug() << "INV_RIGHT: " << QString::number(msg.at(0));
+            qDebug() << "INV_LEFT: " << QString::number(msg.at(1));
+            qDebug() << "FRONT: " << QString::number(msg.at(2));
+            qDebug() << "REAR: " << QString::number(msg.at(3));
+            qDebug() << "BMS_HV: " << QString::number(msg.at(4));
+            qDebug() << "BMS_LV: " << QString::number(msg.at(5));
 
             carStatus->setCANStatus(msg.at(0),
                                     msg.at(1),
@@ -177,7 +173,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             ctrlIsEnabled = carStatus->getCtrlIsEnabled();
             ctrlIsOn = carStatus->getCtrlIsOn();
             goStatus = carStatus->getCurrentStatus();
-            // Get stop message 
+            // Get stop message
             // Get current map
 
             /*
@@ -188,23 +184,30 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             velocity = (int) msg.at(4);*/
 
             // NUOVA VERSIONE, DAL 20/02
+              driveModeEnabled = (msg.at(0) >> 0) & 1; //dovrebbe voler dire msg.at(0)[0], aka il bit piu a dx
+              warning = (msg.at(0) >> 1) & 1;
+              error = (msg.at(0) >> 2) & 1;
+              //HV_fault = (msg.at(0) >> 5) & 1;
+              //LV_fault = (msg.at(0) >> 6) & 1;
+              velocity = ( (int) msg.at(1) ) / 2;
+              m_hvTemp = ( (int) msg.at(2) ) / 2;
+              m_hvVolt = ( (int) msg.at(3) ) / 2 + 400;
+              m_lvTemp = ( (int) msg.at(4) ) / 2;
+              m_lvVolt = ( (int) msg.at(5) ) / 10;
 
-            driveModeEnabled = (msg.at(0) >> 0) & 1; //dovrebbe voler dire msg.at(0)[0], aka il bit piu a dx
-            warning = (msg.at(0) >> 1) & 1;
-            error = (msg.at(0) >> 2) & 1;
-            //HV_fault = (msg.at(0) >> 5) & 1;
-            //LV_fault = (msg.at(0) >> 6) & 1;
-            velocity = ( (int) msg.at(1) ) / 2;
-            HV_temp = ( (int) msg.at(2) ) / 2;
-            HV_volt = ( (int) msg.at(3) ) / 2 + 400;
-            LV_temp = ( (int) msg.at(4) ) / 2;
-            LV_volt = ( (int) msg.at(5) ) / 10;
+              //emit delle property changed
+              //emit velocity???
+              emit hvTempChanged();
+              emit lvTempChanged();
+              emit hvVoltChanged();
+              emit lvVoltChanged();
+
 
             // END NUOVA VERSIONE
 
             qDebug() << "Velocity: " << velocity;
 
-            if (!warning & !error & !ctrlIsEnabled) { 
+            if (!warning & !error & !ctrlIsEnabled) {
                 ctrlIsEnabled = 1;
             }
 
@@ -213,21 +216,21 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                 // Stop the car
                 ctrlIsEnabled = 0;
             }
-            
+
             if (warning & !error) {
                 ctrlIsEnabled = 0;
             }
 
             // Set the current Car Status
-            carStatus->setCarStatus(ctrlIsEnabled, 
-                                    ctrlIsOn, 
+            carStatus->setCarStatus(ctrlIsEnabled,
+                                    ctrlIsOn,
                                     driveModeEnabled,
                                     velocity,
-                                    warning, 
+                                    warning,
                                     error);
 
             // Send current Execution Mode
-            // [stop, go, ctrlIsOn, map], CHANGE_EXEC_MODE_ID 
+            // [stop, go, ctrlIsOn, map], CHANGE_EXEC_MODE_ID
             /*
             canMessage = QString("%1:0%2%30\n")
                                  .arg(QString::number(CHANGE_EXEC_MODE_ID),
@@ -255,7 +258,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             }
 
             if (msg.at(3) == 0xF) {
-                // Save charge 
+                // Save charge
                 carStatus->setStateOfCharge(msg.at(4));
                 qDebug() << "State of Charge: " << msg.at(4);
             }
@@ -263,6 +266,23 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             break;
     };
 
+}
+
+int Canbus::hvTemp() const {
+    qDebug() << "Asked hvTemp";
+    return m_hvTemp;
+}
+int Canbus::lvTemp() const {
+    qDebug() << "Asked lvTemp";
+    return m_lvTemp;
+}
+int Canbus::hvVolt() const {
+    qDebug() << "Asked hvVolt";
+    return m_hvVolt;
+}
+int Canbus::lvVolt() const {
+    qDebug() << "Asked lvVolt";
+    return m_lvVolt;
 }
 
 void Canbus::toggleCar() {
@@ -283,22 +303,22 @@ void Canbus::toggleCar() {
     if (goStatus == CAR_STATUS_STOP) {
         canMessage = QString("c%1:1000\n").arg(QString::number(CHANGE_EXEC_MODE_ID));
     } else {
-        canMessage = QString("c%1:0%2%3%4\n").arg(QString::number(CHANGE_EXEC_MODE_ID), 
-                                                  QString::number(goStatus), 
+        canMessage = QString("c%1:0%2%3%4\n").arg(QString::number(CHANGE_EXEC_MODE_ID),
+                                                  QString::number(goStatus),
                                                   QString::number(ctrlIsOn),
                                                   QString::number(map));
     }
 
     qDebug() << canMessage;
 
-    // Here don't send can msg BUT simply change the status 
+    // Here don't send can msg BUT simply change the status
     // in the CAN controller
     serial.write(canMessage.toStdString().c_str(), canMessage.size());
 }
 
 void Canbus::sendCanMessage(int id, QString message) {
     // TODO: Change message from ASCII to sequence of numbers
-    canMessage = QString("%1:%2\n").arg(QString::number(id), message); 
+    canMessage = QString("%1:%2\n").arg(QString::number(id), message);
     serial.write(canMessage.toStdString().c_str(), canMessage.size());
 }
 
@@ -308,7 +328,7 @@ void Canbus::askHVUpdate(int target) {
 
 void Canbus::setActuatorsRange(int actuatorID, int rangeSide) {
   /*
-   * Actuators ID: 
+   * Actuators ID:
    * 0: APPS
    * 1: BSE
    * 2: STEER
