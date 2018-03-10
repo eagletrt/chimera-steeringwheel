@@ -49,18 +49,18 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         worstTempX.append(i * (1.0 / updateFrequency) * updateAfterNValues - 60);
         worstTempY.append(-1);
-        /*
-           worstVoltX.append(i * (1.0 / updateFrequency) * updateAfterNValues - 60);
-           worstVoltY.append(-1);
 
-           totalCurrX.append(i * (1.0 / updateFrequency) * updateAfterNValues - 60);
-           totalCurrY.append(-1);
+        worstVoltX.append(i * (1.0 / updateFrequency) * updateAfterNValues - 60);
+        worstVoltY.append(-1);
 
-           voltControlX.append(i * (1.0 / updateFrequency) * updateAfterNValues - 60);
-           voltControlY.append(-1);
+        totalCurrX.append(i * (1.0 / updateFrequency) * updateAfterNValues - 60);
+        totalCurrY.append(-1);
 
-           endurCurrX.append(i * (1.0 / updateFrequency) * updateAfterNValues - 60);
-           endurCurrY.append(-1);*/
+        voltControlX.append(i * (1.0 / updateFrequency) * updateAfterNValues - 60);
+        voltControlY.append(-1);
+
+        endurCurrX.append(i * (1.0 / updateFrequency) * updateAfterNValues - 60);
+        endurCurrY.append(-1);
     }
 }
 
@@ -150,7 +150,7 @@ void MainWindow::parseMessage()
             }
 
             addNewPoint(values_array[0], ui->worstTempPlot, worstTempX, worstTempY);
-            addNewPoint(values_array[1], ui->branchCurrPlot, branchCurrX, branchCurrY);
+            addNewPoint(values_array[1], ui->branchCurrPlot, worstVoltX, worstVoltY);
             addNewPoint(values_array[2], ui->totalCurrPlot, totalCurrX, totalCurrY);
             addNewPoint(values_array[3], ui->voltControlPlot, voltControlX, voltControlY);
             addNewPoint(values_array[4], ui->endurCurrPlot, endurCurrX, endurCurrY);	

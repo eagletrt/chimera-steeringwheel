@@ -7,6 +7,6 @@ cd build
 
 sudo chmod 777 /dev/ttyUSB0
 $QMAKE $QT_PROJECT -o Makefile ../$QT_PROJECT
-make 
+make || exit 1
 
 ./BatteryGraph
