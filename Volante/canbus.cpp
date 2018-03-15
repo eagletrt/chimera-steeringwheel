@@ -62,10 +62,10 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString serial_port) {
 
     idIsArrived = 0;
 
-    m_hvTemp = -1;
-    m_hvVolt = -1;
-    m_lvVolt = -1;
-    m_lvTemp = -1;
+    m_hvTemp = 70;
+    m_hvVolt = 50;
+    m_lvVolt = 40;
+    m_lvTemp = 30;
 
     m_actuatorRangePendingFlag = 0;
 }
@@ -184,24 +184,29 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             velocity = (int) msg.at(4);*/
 
             // NUOVA VERSIONE, DAL 20/02
-              driveModeEnabled = (msg.at(0) >> 0) & 1; //dovrebbe voler dire msg.at(0)[0], aka il bit piu a dx
-              warning = (msg.at(0) >> 1) & 1;
-              error = (msg.at(0) >> 2) & 1;
-              //HV_fault = (msg.at(0) >> 5) & 1;
-              //LV_fault = (msg.at(0) >> 6) & 1;
-              velocity = ( (int) msg.at(1) ) / 2;
-              m_hvTemp = ( (int) msg.at(2) ) / 2;
-              m_hvVolt = ( (int) msg.at(3) ) / 2 + 400;
-              m_lvTemp = ( (int) msg.at(4) ) / 2;
-              m_lvVolt = ( (int) msg.at(5) ) / 10;
+            driveModeEnabled = (msg.at(0) >> 0) & 1; //dovrebbe voler dire msg.at(0)[0], aka il bit piu a dx
+            warning = (msg.at(0) >> 1) & 1;
+            error = (msg.at(0) >> 2) & 1;
+            //HV_fault = (msg.at(0) >> 5) & 1;
+            //LV_fault = (msg.at(0) >> 6) & 1;
+            velocity = ( (int) msg.at(1) ) / 2;
+            m_hvTemp = ( (int) msg.at(2) ) / 2;
+            m_hvVolt = ( (int) msg.at(3) ) / 2 + 400;
+            m_lvTemp = ( (int) msg.at(4) ) / 2;
+            m_lvVolt = ( (int) msg.at(5) ) / 10;
 
-              //emit delle property changed
-              //emit velocity???
-              emit hvTempChanged();
-              emit lvTempChanged();
-              emit hvVoltChanged();
-              emit lvVoltChanged();
+            qDebug() << "Velocity: " << velocity;
+            qDebug() << "hvTemp: " << m_hvTemp;
+            qDebug() << "hvVolt: " << m_hvVolt;
+            qDebug() << "lvTemp: " << m_lvTemp;
+            qDebug() << "lvVolt: " << m_lvVolt;
 
+            //emit delle property changed
+            //emit velocity???
+            emit hvTempChanged();
+            emit lvTempChanged();
+            emit hvVoltChanged();
+            emit lvVoltChanged();
 
             // END NUOVA VERSIONE
 
@@ -270,18 +275,22 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
 
 int Canbus::hvTemp() const {
     qDebug() << "Asked hvTemp";
+    qDebug() << m_hvTemp;
     return m_hvTemp;
 }
 int Canbus::lvTemp() const {
     qDebug() << "Asked lvTemp";
+    qDebug() << m_lvTemp;
     return m_lvTemp;
 }
 int Canbus::hvVolt() const {
     qDebug() << "Asked hvVolt";
+    qDebug() << m_hvVolt;
     return m_hvVolt;
 }
 int Canbus::lvVolt() const {
     qDebug() << "Asked lvVolt";
+    qDebug() << m_lvVolt;
     return m_lvVolt;
 }
 

@@ -20,7 +20,6 @@ Rectangle {
     function connect() {
         console.log("Tab connessa - Inverter");
         menu.btnClicked.connect(btnClickedHandler);
-        console.log(tabView.stepIntoTab);
     }
 
     function disconnect() {
@@ -29,11 +28,6 @@ Rectangle {
     }
 
     onCanHvStatusChanged: {
-        console.log("hvStatusUpdate");
-        console.log("PreCharge: " + canHvStatus[0]);
-        console.log("Right: " + canHvStatus[1]);
-        console.log("Left: " + canHvStatus[2]);
-
         var newHvStatus = hvStatus;
 
         newHvStatus[0][1] = hvPossibleStates[canHvStatus[0]];
@@ -44,10 +38,7 @@ Rectangle {
     }
 
     function btnClickedHandler(btnID) {
-        console.log("BtnClicked in TabInverter" + btnID);
         if (btnID == 2) {
-            console.log("Voglio entrare nella tabba");
-            console.log(tabView.stepIntoTab);
             // Step into this tab and change the behaviour of btnID
             if (!tabView.stepIntoTab) {
                 tabView.stepIntoTab = true;
@@ -61,16 +52,10 @@ Rectangle {
                 // Select the new current row
                 newHvStatus[currentSelected][2] = true;
 
-                console.log("Entrato nella tab");
-                console.log(currentSelected);
-
                 // Force trigger of the model change
                 hvStatus = newHvStatus;
             } else {
                 var newHvStatus = hvStatus;
-
-                console.log(newHvStatus);
-                console.log(currentSelected);
 
                 // Deselect the current selected
                 newHvStatus[currentSelected][2] = false;
@@ -97,8 +82,6 @@ Rectangle {
         }
 
         if (btnID == 0) {
-            console.log("Dentro BTN0");
-            console.log(tabView.stepIntoTab);
             if (tabView.stepIntoTab) {
                 var newHvStatus = hvStatus;
 
