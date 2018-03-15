@@ -125,12 +125,11 @@ void MainWindow::parseMessage()
         QByteArray received = serial.readLine();
 
         //log the data
-        //received.remove("\n");
         //writeToFile(received);
 
         qDebug() << received.length();
         qDebug() << received;
-
+        uint8_t values_array[] = {0,0,0,0,0};
         if(valuesSinceLastUpdate + 1 == updateAfterNValues)
         {
             valuesSinceLastUpdate = 0;
@@ -142,10 +141,10 @@ void MainWindow::parseMessage()
             //add the values to the arrays
             // addNewPoint(valuesReceived[7].toDouble(), ui->totalCurrPlot, totalCurrX, totalCurrY);
 
-            uint8_t values_array[] = {0,0,0,0,0};
 
-            for (int i=0; i<received.length(); i++) {
-                values_array[i] = ((uint8_t) received[i] - 50) / 2;
+            // - 2 perchè tolgo /r/n
+            for (int i=0; i<received.length() - 2; i++) {
+                values_array[i] = ((uint8_t) received[i] - 50);
                 qDebug() << values_array[i];	
             }
 
@@ -154,7 +153,17 @@ void MainWindow::parseMessage()
             addNewPoint(values_array[2], ui->totalCurrPlot, totalCurrX, totalCurrY);
             addNewPoint(values_array[3], ui->voltControlPlot, voltControlX, voltControlY);
             addNewPoint(values_array[4], ui->endurCurrPlot, endurCurrX, endurCurrY);	
-//addNewPoint(valuesReceived[8].toDouble() + valuesReceived[9].toDouble() + valuesReceived[10].toDouble(), ui->worstVoltPlot, worstVoltX, worstVoltY);
+
+            QString toLog = "";
+            for(int i = 0; i < 5; i++)
+            {
+                toLog.append(QString::number(values_array[i]));
+                if(i != 4)
+                    toLog.append("\t");
+            }
+            writeToFile(toLog);
+
+            //addNewPoint(valuesReceived[8].toDouble() + valuesReceived[9].toDouble() + valuesReceived[10].toDouble(), ui->worstVoltPlot, worstVoltX, worstVoltY);
             //addNewPoint(valuesReceived[11].toDouble(), ui->voltControlPlot, voltControlX, voltControlY);
             //addNewPoint(valuesReceived[12].toDouble(), ui->endurCurrPlot, endurCurrX, endurCurrY);
 
@@ -195,20 +204,21 @@ void MainWindow::parseMessage()
             valuesSinceLastUpdate++;
 
         //set skipped value error
-        /*if(lastValueReceived != -1)
-          {
-        //qDebug() << valuesReceived[0].toDouble() << ";" << (lastValueReceived + 1) % 100;
-        if(valuesReceived[0].toInt() % 100 != (lastValueReceived + 1) % 100)
+        if(lastValueReceived != -1)
         {
-        valuesSkipped++;
-        if(valuesSkipped <= 5)
-        ui->lblSkippedData->setStyleSheet("background-color:orange;");
-        else
-        ui->lblSkippedData->setStyleSheet("background-color:red;");
-        ui->lblSkippedData->setText("Skip: " + QString::number(valuesSkipped));
+            //qDebug() << valuesReceived[0].toDouble() << ";" << (lastValueReceived + 1) % 100;
+            if(values_array[4] % 100 != (lastValueReceived + 1) % 100)
+            {
+                valuesSkipped++;
+                if(valuesSkipped <= 5)
+                    ui->lblSkippedData->setStyleSheet("background-color:orange;");
+                else
+                    ui->lblSkippedData->setStyleSheet("background-color:red;");
+                ui->lblSkippedData->setText("Skip: " + QString::number(valuesSkipped));
+                writeToFile("===SKIP===");
+            }
         }
-        }
-        lastValueReceived = valuesReceived[0].toInt();*/
+        lastValueReceived = values_array[4];
     }
 }
 void MainWindow::addNewPoint(int value, QCustomPlot *plot, QVector<double> &x, QVector<double> &y)
@@ -282,7 +292,7 @@ void MainWindow::openSerial()
 
     qDebug() << serial.portName();
 
-    serial.setBaudRate(38400);
+    serial.setBaudRate(115200);
     serial.setDataBits(QSerialPort::Data8);
     serial.setParity(QSerialPort::NoParity);
     serial.setStopBits(QSerialPort::OneStop);

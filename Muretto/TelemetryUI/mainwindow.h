@@ -23,7 +23,7 @@ public:
     int updateAfterNValues = 1; //1 = update each time, 2 = update once every 2 values received etc.
     int valuesSinceLastUpdate = 0;
 
-    int size = 600;
+    int size = 3000;
     QVector<double> worstTempX, worstTempY;
     QVector<double> worstVoltX, worstVoltY;
     QVector<double> totalCurrX, totalCurrY;
