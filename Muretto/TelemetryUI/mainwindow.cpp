@@ -233,6 +233,8 @@ void MainWindow::moveDataToLeft(QVector<double> &arr, int size)
 
 void MainWindow::setNewFileName()
 {
+
+    // TODO: save log in the logs folder rather than on the root folder
     filename =  "log_" + QDate::currentDate().toString().replace(" ", "_") + "_" + QTime::currentTime().toString().replace(" ", "_").replace(":", "_") + ".txt";
     qDebug() << filename;
 
@@ -280,7 +282,7 @@ void MainWindow::openSerial()
 
     qDebug() << serial.portName();
 
-    serial.setBaudRate(115200);
+    serial.setBaudRate(38400);
     serial.setDataBits(QSerialPort::Data8);
     serial.setParity(QSerialPort::NoParity);
     serial.setStopBits(QSerialPort::OneStop);
