@@ -1,0 +1,2 @@
+A 15 bytes <35Hz OK --> 3840  
+A 55 bytes 15Hz OK --> 6600

@@ -19,7 +19,8 @@ public:
     QSerialPort serial;
     QString SERIAL_PORT = "/dev/ttyUSB0";
 
-    int updateFrequency = 50; //Hz
+    int updateFrequency = 13; //Hz
+    int bytesToReceive = 64;
     int updateAfterNValues = 1; //1 = update each time, 2 = update once every 2 values received etc.
     int valuesSinceLastUpdate = 0;
 

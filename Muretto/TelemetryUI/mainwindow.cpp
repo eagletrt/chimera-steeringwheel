@@ -129,7 +129,7 @@ void MainWindow::parseMessage()
 
         qDebug() << received.length();
         qDebug() << received;
-        uint8_t values_array[] = {0,0,0,0,0};
+        uint8_t values_array[bytesToReceive];
         if(valuesSinceLastUpdate + 1 == updateAfterNValues)
         {
             valuesSinceLastUpdate = 0;
@@ -155,10 +155,10 @@ void MainWindow::parseMessage()
             addNewPoint(values_array[4], ui->endurCurrPlot, endurCurrX, endurCurrY);	
 
             QString toLog = "";
-            for(int i = 0; i < 5; i++)
+            for(int i = 0; i < bytesToReceive; i++)
             {
                 toLog.append(QString::number(values_array[i]));
-                if(i != 4)
+                if(i != bytesToReceive-1)
                     toLog.append("\t");
             }
             writeToFile(toLog);
@@ -207,7 +207,7 @@ void MainWindow::parseMessage()
         if(lastValueReceived != -1)
         {
             //qDebug() << valuesReceived[0].toDouble() << ";" << (lastValueReceived + 1) % 100;
-            if(values_array[4] % 100 != (lastValueReceived + 1) % 100)
+            if(values_array[bytesToReceive-1] % 100 != (lastValueReceived + 1) % 100)
             {
                 valuesSkipped++;
                 if(valuesSkipped <= 5)
@@ -218,7 +218,7 @@ void MainWindow::parseMessage()
                 writeToFile("===SKIP===");
             }
         }
-        lastValueReceived = values_array[4];
+        lastValueReceived = values_array[bytesToReceive-1];
     }
 }
 void MainWindow::addNewPoint(int value, QCustomPlot *plot, QVector<double> &x, QVector<double> &y)
