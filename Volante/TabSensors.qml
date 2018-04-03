@@ -13,10 +13,10 @@ Rectangle {
     property var ledStates: ['DEFAULT', 'NO'];
 
     property var choiceButtonSelected: 0
-    property var mBtnSetText: "SET"
-    property var mHelpSetText: "Set the range for Actuator [MIN, MAX]"
+    property var mBtnSetText: "Set"
+    property var mHelpSetText: "Set Actuators [MIN, MAX]"
 
-    property var setPendingFlag: CAN.actuatorRangePendingFlag 
+    property var setPendingFlag: CAN.actuatorRangePendingFlag
 
     ListModel {
         id: sensors
@@ -76,13 +76,13 @@ Rectangle {
     function unSelectSensors() {
         if (sensorSelectedIndex != -1) {
             sensors.setProperty(sensorSelectedIndex, "mSelected", 0);
-        } 
+        }
     }
 
     function selectSensor(index) {
         if (sensorSelectedIndex != -1) {
             sensors.setProperty(sensorSelectedIndex, "mSelected", 0);
-        } 
+        }
 
         index = index % 3;
 
@@ -100,21 +100,25 @@ Rectangle {
 
                 // Remove highlight from current selected sensor item
                 unSelectSensors();
-
+                //console.log(sensorSelectedIndex+" Q1");
                 mainwindow.canSwitchPage = true;
                 tabView.stepIntoTab = false;
             }
 
             if (choiceButtonSelected) {
                 choiceButtonSelected = 0;
+                //console.log(sensorSelectedIndex+" Q2");
             }
         }
 
         if (btnID == 1) {
             if (tabView.stepIntoTab && !choiceButtonSelected)  {
-                // Enable buttons for current sensors! 
+                // Enable buttons for current sensors!
                 choiceButtonSelected = 1
-            } 
+                //console.log(sensorSelectedIndex+" A1");
+                root.mBtnSetText = "..."
+                CAN.setActuatorsRange(sensorSelectedIndex,0);
+            }
         }
 
         if (btnID == 2) {
@@ -123,9 +127,9 @@ Rectangle {
                 // Set the button clickable
                 btnClickable = true;
 
-                // Select the first entry of the SensorsList 
+                // Select the first entry of the SensorsList
                 selectSensor(0);
-
+                //console.log(sensorSelectedIndex+" D1");
                 // Prevent the button 0 to switch to Racing Page!
                 tabView.stepIntoTab = true;
                 mainwindow.canSwitchPage = false;
@@ -133,14 +137,21 @@ Rectangle {
                 if (!choiceButtonSelected) {
                     // Loop through sensors
                     selectSensor(sensorSelectedIndex + 1);
-                } else {
+                    //console.log(sensorSelectedIndex+" D2");
+                }
+                /*
+                else {
+
                     // SET RANGES for the sensorSelectedIndex
                     // DEBUG: for now only to sensorSelectedIndex = 0 (APPS)
+                    console.log(choiceButtonSelected+" D?");
                     if (sensorSelectedIndex == 0) {
+                        console.log(sensorSelectedIndex+" D3");
                         root.mBtnSetText = "Setting..."
                         CAN.setActuatorsRange(0,0);
                     }
                 }
+                */
             }
         }
     }
@@ -160,13 +171,13 @@ Rectangle {
                         barValue: mValue
                         errorLEDCount: mErrorLEDCount
                         selected: mSelected
-                        height: sensorListView.height / 3 
+                        height: sensorListView.height / 3
                         width: parent.width
                     }
         }
 
         Rectangle {
-            // If we need this row to be a little bit taller, 
+            // If we need this row to be a little bit taller,
             // we can edit this prefered height
             //Layout.preferredHeight: root.height / 2
             Layout.fillWidth: true
@@ -195,9 +206,9 @@ Rectangle {
                     ChoiceButton {
                         width: 150
                         height: 40
-                        btnColor: "green" 
-                        btnText: mBtnSetText 
-                        selected: choiceButtonSelected && !setPendingFlag
+                        btnColor: "green"
+                        btnText: mBtnSetText
+                        selected: choiceButtonSelected && setPendingFlag
                     }
                 }
 
@@ -524,7 +535,7 @@ Rectangle {
         }
 
         Rectangle {
-            Layout.preferredWidth: parent.width 
+            Layout.preferredWidth: parent.width
             Layout.preferredHeight: parent.height / 4
             Layout.fillHeight: true
             Layout.fillWidth: true

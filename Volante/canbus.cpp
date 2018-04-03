@@ -71,7 +71,7 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString serial_port) {
 }
 
 int Canbus::actuatorRangePendingFlag() const {
-  qDebug() << "Asked m_actuatorRangePendingFlag";
+  qDebug() << m_actuatorRangePendingFlag << "Asked m_actuatorRangePendingFlag";
   return m_actuatorRangePendingFlag;
 }
 
@@ -109,11 +109,17 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
         case GET_ACTUATORS_RANGE_ACK:
             switch (msg.at(0)) {
                 case 0:
-                    if (msg.at(1) == 0)
+                    if (msg.at(1) == 0){
                         //APPS min
                         qDebug() << "ACTUATORS_RANGE_ACK for APPS min";
+
                         //EMIT FLAG CLEARED?
-                    else if (msg.at(1) == 1)
+                        m_actuatorRangePendingFlag = 0;
+                        emit actuatorRangePendingFlagCleared();
+
+                        qDebug() << "actuatorRangePendingFlagCleared";
+
+                    }else if (msg.at(1) == 1)
                         //APPS max
                         qDebug() << "ACTUATORS_RANGE_ACK for APPS max";
                     break;
@@ -377,15 +383,16 @@ void Canbus::setActuatorsRange(int actuatorID, int rangeSide) {
    * 1: MAX
    */
   qDebug() << "setActuatorsRange for " << actuatorID << " for " << rangeSide;
-  sendCanMessage(SET_ACTUATORS_RANGES, QString("%1%2").arg(QString::number(actuatorID), QString::number(rangeSide)));
+  sendCanMessage(SET_ACTUATORS_RANGES, QString("%1:%2").arg(QString::number(actuatorID), QString::number(rangeSide)));
 
   m_actuatorRangePendingFlag = 1;
   emit actuatorRangePendingFlagCleared();
-
+/*
   m_actuatorRangePendingFlag = 0;
   emit actuatorRangePendingFlagCleared();
 
   qDebug() << "actuatorRangePendingFlagCleared";
+*/
 }
 
 void Canbus::parseSerial() {
