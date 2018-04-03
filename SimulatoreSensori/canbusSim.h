@@ -14,13 +14,14 @@
 #define CAR_STATUS_STOP 2
 
 // ID requests to control boxes
-#define GET_CAN_STATUS      0xDA
-#define GET_HV_STATE_ID     0xDB
-#define GET_ERRORS_STATUS   0xDD
-#define EXEC_MODE_ID        0xDF
-#define GET_APPS_BSE_STATUS 0xDE
-#define GET_STEER_STATUS    0xE1
-#define BMS_STATUS_ID       0x7EB
+#define GET_CAN_STATUS          0xDA
+#define GET_HV_STATE_ID         0xDB
+#define GET_ERRORS_STATUS       0xDD
+#define EXEC_MODE_ID            0xDF
+#define GET_APPS_BSE_STATUS     0xDE
+#define GET_STEER_STATUS        0xE1
+#define BMS_STATUS_ID           0x7EB
+#define GET_ACTUATORS_RANGE_ACK 0xBC
 
 // ID requests from volante
 // Ask again to check the CAN communication of peripherals
@@ -30,6 +31,7 @@
 #define ASK_SENSORS_VALUE_ID    0xED
 #define ASK_BATTERY_STATUS      0xEE
 #define CHANGE_EXEC_MODE_ID     0xEF
+#define SET_ACTUATORS_RANGES    0xBB
 
 class CanbusSim : public QObject
 {

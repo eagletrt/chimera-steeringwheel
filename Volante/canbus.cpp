@@ -106,6 +106,36 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                                     msg.at(3));
             break;
 
+        case GET_ACTUATORS_RANGE_ACK:
+            switch (msg.at(0)) {
+                case 0:
+                    if (msg.at(1) == 0)
+                        //APPS min
+                        qDebug() << "ACTUATORS_RANGE_ACK for APPS min";
+                        //EMIT FLAG CLEARED?
+                    else if (msg.at(1) == 1)
+                        //APPS max
+                        qDebug() << "ACTUATORS_RANGE_ACK for APPS max";
+                    break;
+                case 1:
+                    if (msg.at(1) == 0)
+                        //BSE min
+                        qDebug() << "ACTUATORS_RANGE_ACK for BSE min";
+                     else if (msg.at(1) == 1)
+                        //BSE max
+                        qDebug() << "ACTUATORS_RANGE_ACK for BSE min";
+                    break;
+                case 2:
+                    if (msg.at(1) == 0)
+                        //STEER min
+                        qDebug() << "ACTUATORS_RANGE_ACK for STEER min";
+                    else if (msg.at(1) == 1)
+                        //STEER max
+                        qDebug() << "ACTUATORS_RANGE_ACK for STEER min";
+                    break;
+            }
+            break;
+
         case GET_STEER_STATUS:
             qDebug() << "STEER State: ";
             qDebug() << "STEER: " << QString::number(msg.at(0));
@@ -347,7 +377,7 @@ void Canbus::setActuatorsRange(int actuatorID, int rangeSide) {
    * 1: MAX
    */
   qDebug() << "setActuatorsRange for " << actuatorID << " for " << rangeSide;
-  //sendCanMessages(SET_ACTUATORS_RANGES, QString::number(rangeSide));
+  sendCanMessage(SET_ACTUATORS_RANGES, QString("%1%2").arg(QString::number(actuatorID), QString::number(rangeSide)));
 
   m_actuatorRangePendingFlag = 1;
   emit actuatorRangePendingFlagCleared();

@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     QQuickView *qmlView = new QQuickView();
 
-    //inizializzati all interno di sensorswindow.h dopo aver fatto la widget del volante
+    //inizializzati all interno di sensorswindow.cpp dopo aver fatto la widget del volante
     CarStatusSim* carStatus; //= new CarStatus();
     CanbusSim* canInterface; //= new Canbus(carStatus, SERIAL_PORT_V1);
 
