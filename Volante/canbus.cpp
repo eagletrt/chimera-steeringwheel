@@ -388,6 +388,9 @@ void Canbus::setActuatorsRange(int actuatorID, int rangeSide) {
   m_actuatorRangePendingFlag = 1;
   emit actuatorRangePendingFlagCleared();
 /*
+  QUESTO SERVE A MOSTRARE A UI CHE LA PROCEDURA È FINITA
+  SETTO A 0 E FACCIO L'EMIT (NON VA INSERITO QUA MA IN FASE DI ACK)
+
   m_actuatorRangePendingFlag = 0;
   emit actuatorRangePendingFlagCleared();
 

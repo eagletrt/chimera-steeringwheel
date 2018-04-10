@@ -13,7 +13,7 @@ Rectangle {
     property var ledStates: ['DEFAULT', 'NO'];
 
     property var choiceButtonSelected: 0
-    property var mBtnSetText: "Set"
+    property var mBtnSetText: "SET"
     property var mHelpSetText: "Set Actuators [MIN, MAX]"
 
     property var setPendingFlag: CAN.actuatorRangePendingFlag
@@ -50,10 +50,14 @@ Rectangle {
         }
 
     }
-
     onSetPendingFlagChanged: function() {
-        console.log("Cleared");
-        root.mBtnSetText = "SET";
+        if(setPendingFlag==0){
+            root.mBtnSetText = "SET";
+            //console.log(setPendingFlag);
+          }else{
+                root.mBtnSetText = "...";
+                //console.log(setPendingFlag);
+          }
     }
 
     property var btnClickable: false
@@ -100,14 +104,13 @@ Rectangle {
 
                 // Remove highlight from current selected sensor item
                 unSelectSensors();
-                //console.log(sensorSelectedIndex+" Q1");
                 mainwindow.canSwitchPage = true;
                 tabView.stepIntoTab = false;
             }
 
             if (choiceButtonSelected) {
                 choiceButtonSelected = 0;
-                //console.log(sensorSelectedIndex+" Q2");
+                //setPendingFlag=0;
             }
         }
 
@@ -115,8 +118,7 @@ Rectangle {
             if (tabView.stepIntoTab && !choiceButtonSelected)  {
                 // Enable buttons for current sensors!
                 choiceButtonSelected = 1
-                //console.log(sensorSelectedIndex+" A1");
-                root.mBtnSetText = "..."
+                //root.mBtnSetText = "Set...";
                 CAN.setActuatorsRange(sensorSelectedIndex,0);
             }
         }
@@ -129,7 +131,6 @@ Rectangle {
 
                 // Select the first entry of the SensorsList
                 selectSensor(0);
-                //console.log(sensorSelectedIndex+" D1");
                 // Prevent the button 0 to switch to Racing Page!
                 tabView.stepIntoTab = true;
                 mainwindow.canSwitchPage = false;
@@ -209,6 +210,7 @@ Rectangle {
                         btnColor: "green"
                         btnText: mBtnSetText
                         selected: choiceButtonSelected && setPendingFlag
+                        //potrebbe non servire setPendingFlag se sistemiamo il txt
                     }
                 }
 
