@@ -4,6 +4,7 @@
 #include <QtQuick/QQuickView>
 #include <QFileInfo>
 #include <QQmlContext>
+#include <time.h>
 
 using namespace std;
 
@@ -352,6 +353,12 @@ void SensorsWindow::ToggleColorRedGray(QPushButton *btn)
         btn->setStyleSheet("background-color: #d5d5d5;");
 }
 
+void sleep(unsigned int mseconds)
+{
+    clock_t goal = mseconds + clock();
+    while (goal > clock());
+}
+
 //get and respond to a steering wheel request
 void SensorsWindow::parseMessage()
 {
@@ -424,6 +431,14 @@ void SensorsWindow::parseMessage()
             case CHANGE_EXEC_MODE_ID:
             {
                 qDebug() << "Change exec mode";
+                break;
+            }
+            case SET_ACTUATORS_RANGES:
+            {
+                qDebug() << "Set actuator ranges";
+                sleep(2000);
+                qDebug() << "sending ACK " << canMsg;
+                canInterfaceSim->MySendSerialMessage(GET_ACTUATORS_RANGE_ACK, vector<int> {canMsg/10, canMsg%10});
                 break;
             }
         }
