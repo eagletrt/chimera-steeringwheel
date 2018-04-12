@@ -14,7 +14,7 @@ Rectangle {
 
     property var choiceButtonSelected: 0
     property var mBtnSetText: "SET"
-    property var mHelpSetText: "Set Actuators [MIN, MAX]"
+    property var mHelpSetText: "Set Actuators [MIN,MAX]"
 
     property var setPendingFlag: CAN.actuatorRangePendingFlag
 
@@ -50,13 +50,49 @@ Rectangle {
         }
 
     }
-    onSetPendingFlagChanged: function() {
-        if(setPendingFlag==0){
-            root.mBtnSetText = "SET";
-            //console.log(setPendingFlag);
-          }else{
-                root.mBtnSetText = "...";
-                //console.log(setPendingFlag);
+
+    onSetPendingFlagChanged: function(){
+        switch(setPendingFlag){
+            case 0:
+              root.mBtnSetText = "SET";
+              root.mHelpSetText = "Set Actuators [MIN,MAX]";
+            break;
+            case 1:
+              root.mBtnSetText = "Setting...";
+              root.mHelpSetText = "Waiting for APPS MIN ACK...";
+            break;
+            case 2:
+              root.mHelpSetText = "Waiting for APPS MAX ACK...";
+              CAN.setActuatorsRange(0,1);
+            break;
+            case 3:
+              root.mBtnSetText = "SET";
+              root.mHelpSetText = "Just DONE APPS SETUP";
+            break;
+            case 4:
+              root.mBtnSetText = "Setting...";
+              root.mHelpSetText = "Waiting for BSE MIN ACK...";
+            break;
+            case 5:
+              root.mHelpSetText = "Waiting for BSE MAX ACK...";
+              CAN.setActuatorsRange(1,1);
+            break;
+            case 6:
+              root.mBtnSetText = "SET";
+              root.mHelpSetText = "Just DONE BSE SETUP";
+            break;
+            case 7:
+              root.mBtnSetText = "Setting...";
+              root.mHelpSetText = "Waiting for STEER LEFT ACK...";
+            break;
+            case 8:
+              root.mHelpSetText = "Waiting for STEER LEFT ACK...";
+              CAN.setActuatorsRange(2,1);
+            break;
+            case 9:
+              root.mBtnSetText = "SET";
+              root.mHelpSetText = "Just DONE STEER SETUP";
+            break;
           }
     }
 
@@ -106,11 +142,12 @@ Rectangle {
                 unSelectSensors();
                 mainwindow.canSwitchPage = true;
                 tabView.stepIntoTab = false;
-            }
-
-            if (choiceButtonSelected) {
-                choiceButtonSelected = 0;
                 //setPendingFlag=0;
+            }
+            //se non arriva l'ack non esce
+            if (choiceButtonSelected) { //&& !setPendingFlag
+                choiceButtonSelected = 0;
+
             }
         }
 
@@ -134,6 +171,7 @@ Rectangle {
                 // Prevent the button 0 to switch to Racing Page!
                 tabView.stepIntoTab = true;
                 mainwindow.canSwitchPage = false;
+
             } else {
                 if (!choiceButtonSelected) {
                     // Loop through sensors
@@ -209,7 +247,7 @@ Rectangle {
                         height: 40
                         btnColor: "green"
                         btnText: mBtnSetText
-                        selected: choiceButtonSelected && setPendingFlag
+                        selected: choiceButtonSelected && (setPendingFlag>0)
                         //potrebbe non servire setPendingFlag se sistemiamo il txt
                     }
                 }

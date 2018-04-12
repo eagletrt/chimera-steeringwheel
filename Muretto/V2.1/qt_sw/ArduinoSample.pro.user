@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.5.1, 2018-02-28T17:29:29. -->
+<!-- Written by QtCreator 4.5.2, 2018-04-09T17:44:49. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
-  <value type="QByteArray">{eb47356b-7416-4002-ae03-86345807b187}</value>
+  <value type="QByteArray">{daf00860-b44e-47b9-a407-f573a2f7e1f0}</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -303,8 +303,8 @@
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">ArduinoSample</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/lucamartinelli/Documenti/Project/eagle-safe/eagle-telemetria/Muretto/V2.1/qt_sw/ArduinoSample.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">ArduinoSample2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/lucamartinelli/Documenti/Project/eagle-telemetria/Muretto/V2.1/qt_sw/ArduinoSample.pro</value>
     <value type="bool" key="QmakeProjectManager.QmakeRunConfiguration.UseLibrarySearchPath">true</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">ArduinoSample.pro</value>
