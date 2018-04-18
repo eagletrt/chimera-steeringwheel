@@ -435,8 +435,8 @@ void SensorsWindow::parseMessage()
             }
             case SET_ACTUATORS_RANGES:
             {
-                qDebug() << "Set actuator ranges";
-                sleep(2000);
+                qDebug() << "Set actuator ranges for msg: " << canMsg/10 << canMsg%10;
+                sleep(5000);
                 qDebug() << "sending ACK " << canMsg;
                 canInterfaceSim->MySendSerialMessage(GET_ACTUATORS_RANGE_ACK, vector<int> {canMsg/10, canMsg%10});
                 break;

@@ -13,6 +13,7 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString serial_port) {
      * name discovered by the serialPortInfo module!!!
      */
 
+    //old CAN working fine on sim
     QFileInfo file_info(serial_port);
 
     qDebug() << "Serial Port name: " << serial_port;
@@ -24,6 +25,10 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString serial_port) {
     } else {
         serial.setPortName(file_info.path());
     }
+    //end old CAN
+
+    //new CAN not working on sim
+    //serial.setPortName("/dev/ttyAMA0")
 
     serial.setBaudRate(QSerialPort::Baud115200);
     serial.setDataBits(QSerialPort::Data8);
@@ -137,7 +142,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
 
                     }else if (msg.at(1) == 1){
                         //BSE max
-                        qDebug() << "ACTUATORS_RANGE_ACK for BSE min";
+                        qDebug() << "ACTUATORS_RANGE_ACK for BSE max";
 
                         m_actuatorRangePendingFlag = 6;
                         emit actuatorRangePendingFlagCleared();
@@ -157,7 +162,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
 
                     }else if (msg.at(1) == 1){
                         //STEER max
-                        qDebug() << "ACTUATORS_RANGE_ACK for STEER min";
+                        qDebug() << "ACTUATORS_RANGE_ACK for STEER max";
 
                         m_actuatorRangePendingFlag = 9;
                         emit actuatorRangePendingFlagCleared();
