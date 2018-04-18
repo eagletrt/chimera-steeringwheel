@@ -11,6 +11,7 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString serial_port) {
     /*
      * TODO: change from manual serial port name to
      * name discovered by the serialPortInfo module!!!
+     */
 
     QFileInfo file_info(serial_port);
 
@@ -23,10 +24,6 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString serial_port) {
     } else {
         serial.setPortName(file_info.path());
     }
-
-    */
-
-    serial.setPortName("/dev/ttyAMA0");
 
     serial.setBaudRate(QSerialPort::Baud115200);
     serial.setDataBits(QSerialPort::Data8);

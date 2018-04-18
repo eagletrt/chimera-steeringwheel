@@ -5,9 +5,9 @@
 TEMPLATE = app
 TARGET = EagleSteeringWheel 
 INCLUDEPATH += . \
-               lib/ \
               
                
+               lib/ 
 
 QT += core gui qml quick serialport
 
