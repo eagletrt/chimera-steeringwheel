@@ -116,18 +116,16 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                         qDebug() << "ACTUATORS_RANGE_ACK for APPS min";
 
                         m_actuatorRangePendingFlag = 2;
+                        qDebug() << "set m_actuatorRangePendingFlag = 2";
                         emit actuatorRangePendingFlagCleared();
-
-                        qDebug() << "actuatorRangePendingFlagCleared";
-
-                    }else if (msg.at(1) == 1){
+                    }
+                    else if (msg.at(1) == 1){
                         //APPS max
                         qDebug() << "ACTUATORS_RANGE_ACK for APPS max";
 
                         m_actuatorRangePendingFlag = 3;
+                        qDebug() << "set m_actuatorRangePendingFlag = 3";
                         emit actuatorRangePendingFlagCleared();
-
-                        qDebug() << "actuatorRangePendingFlagCleared";
                       }
                     break;
                 case 1:
@@ -136,18 +134,16 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                         qDebug() << "ACTUATORS_RANGE_ACK for BSE min";
 
                         m_actuatorRangePendingFlag = 5;
+                        qDebug() << "set m_actuatorRangePendingFlag = 5";
                         emit actuatorRangePendingFlagCleared();
-
-                        qDebug() << "actuatorRangePendingFlagCleared";
-
-                    }else if (msg.at(1) == 1){
+                    }
+                    else if (msg.at(1) == 1){
                         //BSE max
                         qDebug() << "ACTUATORS_RANGE_ACK for BSE max";
 
                         m_actuatorRangePendingFlag = 6;
+                        qDebug() << "set m_actuatorRangePendingFlag = 6";
                         emit actuatorRangePendingFlagCleared();
-
-                        qDebug() << "actuatorRangePendingFlagCleared";
                       }
                     break;
                 case 2:
@@ -156,18 +152,16 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                         qDebug() << "ACTUATORS_RANGE_ACK for STEER min";
 
                         m_actuatorRangePendingFlag = 8;
+                        qDebug() << "set m_actuatorRangePendingFlag = 8";
                         emit actuatorRangePendingFlagCleared();
-
-                        qDebug() << "actuatorRangePendingFlagCleared";
-
-                    }else if (msg.at(1) == 1){
+                    }
+                    else if (msg.at(1) == 1){
                         //STEER max
                         qDebug() << "ACTUATORS_RANGE_ACK for STEER max";
 
                         m_actuatorRangePendingFlag = 9;
+                        qDebug() << "set m_actuatorRangePendingFlag = 9";
                         emit actuatorRangePendingFlagCleared();
-
-                        qDebug() << "actuatorRangePendingFlagCleared";
                       }
                     break;
             }
@@ -414,7 +408,7 @@ void Canbus::setActuatorsRange(int actuatorID, int rangeSide) {
    * 1: MAX
    */
   qDebug() << "setActuatorsRange for " << actuatorID << " for " << rangeSide;
-  sendCanMessage(SET_ACTUATORS_RANGES, QString("%1:%2").arg(QString::number(actuatorID), QString::number(rangeSide)));
+  sendCanMessage(SET_ACTUATORS_RANGES, QString("%1%2").arg(QString::number(actuatorID), QString::number(rangeSide)));
 
   switch(actuatorID){
       case 0:
