@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import QtQuick.Controls 1.4 
+import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Styles 1.4
 
@@ -34,15 +34,15 @@ Rectangle {
     }
 
     function btnPressedHandler(btnID) {
-        menu.btnPressed(btnID); 
+        menu.btnPressed(btnID);
     }
 
     function btnReleasedHandler(btnID) {
-        menu.btnReleased(btnID); 
+        menu.btnReleased(btnID);
     }
 
     function btnClickedHandler(btnID) {
-        menu.btnClicked(btnID); 
+        menu.btnClicked(btnID);
     }
 
     TabView {
@@ -64,7 +64,7 @@ Rectangle {
                         if (tabView.currentIndex == 4) {
                             tabView.currentIndex = 0;
                         } else {
-                            tabView.currentIndex++; 
+                            tabView.currentIndex++;
                         }
 
                        if (tabView.getTab(tabView.currentIndex).children[0].connect) {
@@ -89,7 +89,7 @@ Rectangle {
 
         Tab {
             title: "Inverter"
-            TabInverter {
+            RacingPage {
             }
         }
 
@@ -119,7 +119,7 @@ Rectangle {
                 border.color:  "black"
                 border.width: 1
                 implicitWidth: tabView.width/5+4/5
-                implicitHeight: menu.height/6
+                implicitHeight: menu.height/6 //15
                 Text {
                     id: text
                     font.family: "Stencil"
