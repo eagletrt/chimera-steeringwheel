@@ -25,7 +25,7 @@ Rectangle {
 
     GridLayout {
         anchors.fill: parent
-        rows: 2 
+        rows: 2
         columns: 1
         rowSpacing: 0
         columnSpacing: 0
@@ -84,13 +84,13 @@ Rectangle {
 
                     GridLayout {
                         anchors.fill: parent
-
+                        /*
                         HVBatteryCharge {
                             width: root.width / 6
                             Layout.fillHeight: true
                             charge: 10
                         }
-
+                        */
                         Rectangle {
                             color: "transparent"
                             Layout.fillWidth: true
@@ -104,13 +104,13 @@ Rectangle {
                                 Repeater {
                                     model: statusHV
                                     Rectangle {
-                                        width: col.width 
-                                        height: col.height / 6 
+                                        width: col.width
+                                        height: col.height / 6
                                         color: "transparent"
 
                                         Text {
                                             anchors.centerIn: parent
-                                            text: modelData[0] + ":" + modelData[1] + " " + modelData[2] 
+                                            text: modelData[0] + ":" + modelData[1] + " " + modelData[2]
                                             color: "white"
                                         }
                                     }
@@ -142,25 +142,26 @@ Rectangle {
                                 Repeater {
                                     model: statusLV
                                     Rectangle {
-                                        width: col2.width 
-                                        height: col2.height / 6 
+                                        width: col2.width
+                                        height: col2.height / 6
                                         color: "transparent"
 
                                         Text {
                                             anchors.centerIn: parent
-                                            text: modelData[0] + ":" + modelData[1] + " " + modelData[2] 
+                                            text: modelData[0] + ":" + modelData[1] + " " + modelData[2]
                                             color: "white"
                                         }
                                     }
                                 }
                             }
                         }
-
+                        /*
                         HVBatteryCharge {
                             width: root.width / 6
                             Layout.fillHeight: true
                             charge: 5
                         }
+                        */
                     }
                 }
             }
