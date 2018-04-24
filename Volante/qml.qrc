@@ -27,5 +27,41 @@
         <file>TabBattery.qml</file>
         <file>TabErrors.qml</file>
         <file>LED.qml</file>
+        <file>img/HV.png</file>
+        <file>img/LV.png</file>
+        <file>img/radio_na.png</file>
+        <file>img/radio.png</file>
+        <file>img/run.png</file>
+        <file>img/idle.png</file>
+        <file>img/hv1.png</file>
+        <file>img/hv2.png</file>
+        <file>img/hv3.png</file>
+        <file>img/hv4.png</file>
+        <file>img/hv5.png</file>
+        <file>img/hv6.png</file>
+        <file>img/hv7.png</file>
+        <file>img/hv8.png</file>
+        <file>img/hv9.png</file>
+        <file>img/hv10.png</file>
+        <file>img/hv11.png</file>
+        <file>img/hv12.png</file>
+        <file>img/hv13.png</file>
+        <file>img/hv14.png</file>
+        <file>img/hv15.png</file>
+        <file>img/lv1.png</file>
+        <file>img/lv2.png</file>
+        <file>img/lv3.png</file>
+        <file>img/lv4.png</file>
+        <file>img/lv5.png</file>
+        <file>img/lv6.png</file>
+        <file>img/lv7.png</file>
+        <file>img/lv8.png</file>
+        <file>img/lv9.png</file>
+        <file>img/lv10.png</file>
+        <file>img/lv11.png</file>
+        <file>img/lv12.png</file>
+        <file>img/lv13.png</file>
+        <file>img/lv14.png</file>
+        <file>img/lv15.png</file>
     </qresource>
 </RCC>

@@ -14,7 +14,7 @@ Rectangle {
 
     property int carIsGo: 0
 
-    signal presetChanged(int presetID)  
+    signal presetChanged(int presetID)
     signal carStatusChanged(int statusID)
     signal controlStateChanged(int ctrlIsEnabled, int ctrlIsOn, int warning, int error)
 
@@ -81,7 +81,7 @@ Rectangle {
         if (btnID == 1) {
             console.log("Car is Go == " + carIsGo)
             if (carIsGo) {
-                // Stop the car 
+                // Stop the car
                 carIsGo = CarStatus.stopCar();
             } else {
                 // IDLE STATE
@@ -94,7 +94,7 @@ Rectangle {
 
         if (btnID == 2) {
             /*
-            // Enable or disable the CTRL 
+            // Enable or disable the CTRL
             if (carIsGo) {
                 console.log("Toggle the CTRL");
                 CarStatus.toggleCtrl();
@@ -131,45 +131,12 @@ Rectangle {
     }
 
     GridLayout {
-        id: mainlayout 
+        id: mainlayout
         rows: 2
         anchors.fill: parent
         flow: GridLayout.TopToBottom
 
-        Rectangle {
-            id: topbar
-            height: racingPage.topBarHeight
-            width: parent.width
-
-            color: "transparent"
-
-
-            GridLayout {
-                anchors.fill: parent
-                columns: 3
-
-                Status {
-                    id: carStatus
-                    state: "idle"
-                    Layout.minimumWidth: 80
-                }
-
-                Status {
-                    id: elapsedTime
-                    Layout.fillWidth: true
-                    fontsize: 22 
-                    text: "00:00:00"
-                    color: "transparent"
-                }
-
-                Status {
-                    id: radioStatus
-                    state: 'off'
-                    Layout.minimumWidth: 80
-                }
-            }
-        }
-
+        
         Rectangle {
             Layout.fillHeight: true
             width: parent.width
@@ -178,28 +145,29 @@ Rectangle {
             GridLayout {
                 id: body
                 anchors.fill: parent
-                columns: 3
-
+                columns: 1 //3
+/*
                 HVBatteryCharge {
                     id: batterycharge
                     width: 80
                     Layout.fillHeight: true
                     charge: currentCharge
                 }
-
+*/
                 CentralView {
                     id: centralview
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                 }
-
+/*
                 HVBatteryCharge {
                     id: batterytemp
                     width: 80
-                    charge: currentTemperature 
+                    charge: currentTemperature
                     temperature: true
                     Layout.fillHeight: true
                 }
+*/
             }
         }
     }

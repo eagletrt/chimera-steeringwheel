@@ -35,6 +35,6 @@ Rectangle {
         id: innerLED
         width: root.width
         height: root.width
-        radius: root.width/2
+        radius: root.height/4
     }
 }

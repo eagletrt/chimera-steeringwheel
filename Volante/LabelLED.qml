@@ -8,12 +8,12 @@ Rectangle {
     property var text
     property var ledColor
 
-    states: [ 
+    states: [
         State {
             name: "on"
             PropertyChanges {
-                target: statusLed 
-                color: root.ledColor 
+                target: statusLed
+                color: root.ledColor
             }
         },
         State {
@@ -30,7 +30,7 @@ Rectangle {
                 color: "#333333"
             }
             PropertyChanges {
-                target: statusText 
+                target: statusText
                 color: "#333333"
             }
         }
@@ -48,11 +48,11 @@ Rectangle {
             Rectangle {
                 id: statusLed
                 anchors.centerIn: parent
-                height: 30
-                width: 30
-                radius: 30
+                height: 20
+                width: 20
+                radius: 20
             }
-        } 
+        }
 
         Rectangle {
             Layout.preferredWidth: root.width / 2

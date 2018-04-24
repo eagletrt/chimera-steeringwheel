@@ -29,7 +29,7 @@ Rectangle {
     GridLayout {
         anchors.fill: parent
         columns: 8
-        columnSpacing: 5
+        columnSpacing: 3
 
         Repeater {
             model: presets
@@ -38,7 +38,7 @@ Rectangle {
                 currentIndex: currentPreset
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-            } 
+            }
         }
     }
 }

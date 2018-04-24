@@ -64,7 +64,7 @@ Rectangle {
 
             } else {
                 if (!isStarted) {
-                    // Update the errors 
+                    // Update the errors
                     isStarted = true;
                     console.log("Update Errors");
                     CAN.checkSensorsError();
@@ -73,7 +73,7 @@ Rectangle {
                 // Set the button again to be not clickable
                 btnClickable = false;
 
-                // Restore Button 0 initial handler 
+                // Restore Button 0 initial handler
                 mainwindow.canSwitchPage = true;
                 tabView.stepIntoTab = false;
             }
@@ -106,43 +106,43 @@ Rectangle {
         anchors.fill: parent
 
         Repeater {
-            model: errorsLEDS[0]  
+            model: errorsLEDS[0]
             CANStatusLED {
-                text: modelData[0] 
-                state: modelData[1] 
-                Layout.preferredWidth: errors.width / 3 
+                text: modelData[0]
+                state: modelData[1]
+                Layout.preferredWidth: errors.width / 4
+                Layout.preferredHeight: errors.height / 5
+            }
+        }
+
+        Repeater {
+            model: errorsLEDS[1]
+            CANStatusLED {
+                text: modelData[0]
+                state: modelData[1]
+                Layout.preferredWidth: errors.width / 3
                 Layout.preferredHeight: errors.height / 4
             }
         }
 
         Repeater {
-            model: errorsLEDS[1]  
+            model: errorsLEDS[2]
             CANStatusLED {
-                text: modelData[0] 
-                state: modelData[1] 
-                Layout.preferredWidth: errors.width / 3 
-                Layout.preferredHeight: errors.height / 4
-            }
-        }
-
-        Repeater {
-            model: errorsLEDS[2]  
-            CANStatusLED {
-                text: modelData[0] 
-                state: modelData[1] 
+                text: modelData[0]
+                state: modelData[1]
                 Layout.preferredWidth: errors.width / 3
                 Layout.preferredHeight: errors.height / 4
             }
         }
 
         Rectangle {
-            Layout.preferredWidth: errors.width 
-            Layout.preferredHeight: errors.height / 5 
+            Layout.preferredWidth: errors.width
+            Layout.preferredHeight: errors.height / 5
             Layout.columnSpan: 3
             color: "#000000"
 
             Button {
-                state: !btnClickable ? 'IDLE' : 'SELECTED'   
+                state: !btnClickable ? 'IDLE' : 'SELECTED'
                 activeColor: "blue"
                 text: "UPDATE"
             }

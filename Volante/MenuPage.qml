@@ -48,7 +48,7 @@ Rectangle {
     TabView {
         id: tabView
         anchors.fill: parent
-
+        tabPosition: Qt.BottomEdge
         property var stepIntoTab: false
 
         Connections {
@@ -72,12 +72,13 @@ Rectangle {
                        }
                     }
                 }
-
+/*
                 if (btnID == 1) {
                     if (!tabView.stepIntoTab) {
                         mainwindow.changePage();
                     }
                 }
+*/
             }
         }
 
@@ -89,14 +90,20 @@ Rectangle {
 
         Tab {
             title: "Inverter"
+            TabInverter {
+            }
+        }
+
+        Tab {
+            title: "Racing"
             RacingPage {
             }
         }
 
         Tab {
             title: "Errors"
-			TabErrors {
-			}
+			      TabErrors {
+			      }
         }
 
         Tab {
@@ -119,7 +126,8 @@ Rectangle {
                 border.color:  "black"
                 border.width: 1
                 implicitWidth: tabView.width/5+4/5
-                implicitHeight: menu.height/6 //15
+                implicitHeight:  15//menu.height/6
+                y: 0
                 Text {
                     id: text
                     font.family: "Stencil"
@@ -130,5 +138,6 @@ Rectangle {
                 }
             }
         }
+
     }
 }
