@@ -65,8 +65,8 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString serial_port) {
     idIsArrived = 0;
 
     m_hvTemp = 70;
-    m_hvVolt = 50;
-    m_lvVolt = 40;
+    m_hvVolt = 120;
+    m_lvVolt = 120;
     m_lvTemp = 30;
 
     m_actuatorRangePendingFlag = 0;

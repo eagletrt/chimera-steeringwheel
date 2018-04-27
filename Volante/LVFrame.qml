@@ -2,12 +2,124 @@ import QtQuick 2.0
 
 Item{
 
+property var lvVolt : CAN.lvVolt;
+property int lvVal : (lvVolt * 12 / 120) + 0.5 + 2;
+
+onLvVoltChanged: function(){
+  switch (lvVal){
+    case 14:
+      break;
+    case 13:
+      lv14.opacity = 0;
+      break;
+    case 12:
+      lv14.opacity = 0;
+      lv13.opacity = 0;
+      break;
+    case 11:
+      lv14.opacity = 0;
+      lv13.opacity = 0;
+      lv12.opacity = 0;
+      break;
+    case 10:
+      lv14.opacity = 0;
+      lv13.opacity = 0;
+      lv12.opacity = 0;
+      lv11.opacity = 0;
+      break;
+    case 9:
+      lv14.opacity = 0;
+      lv13.opacity = 0;
+      lv12.opacity = 0;
+      lv11.opacity = 0;
+      lv10.opacity = 0;
+      break;
+    case 8:
+      lv14.opacity = 0;
+      lv13.opacity = 0;
+      lv12.opacity = 0;
+      lv11.opacity = 0;
+      lv10.opacity = 0;
+      lv9.opacity = 0;
+      break;
+    case 7:
+      lv14.opacity = 0;
+      lv13.opacity = 0;
+      lv12.opacity = 0;
+      lv11.opacity = 0;
+      lv10.opacity = 0;
+      lv9.opacity = 0;
+      lv8.opacity = 0;
+      break;
+    case 6:
+      lv14.opacity = 0;
+      lv13.opacity = 0;
+      lv12.opacity = 0;
+      lv11.opacity = 0;
+      lv10.opacity = 0;
+      lv9.opacity = 0;
+      lv8.opacity = 0;
+      lv7.opacity = 0;
+      break;
+    case 5:
+      lv14.opacity = 0;
+      lv13.opacity = 0;
+      lv12.opacity = 0;
+      lv11.opacity = 0;
+      lv10.opacity = 0;
+      lv9.opacity = 0;
+      lv8.opacity = 0;
+      lv7.opacity = 0;
+      lv6.opacity = 0;
+      break;
+    case 4:
+      lv14.opacity = 0;
+      lv13.opacity = 0;
+      lv12.opacity = 0;
+      lv11.opacity = 0;
+      lv10.opacity = 0;
+      lv9.opacity = 0;
+      lv8.opacity = 0;
+      lv7.opacity = 0;
+      lv6.opacity = 0;
+      lv5.opacity = 0;
+      break;
+    case 3:
+      lv14.opacity = 0;
+      lv13.opacity = 0;
+      lv12.opacity = 0;
+      lv11.opacity = 0;
+      lv10.opacity = 0;
+      lv9.opacity = 0;
+      lv8.opacity = 0;
+      lv7.opacity = 0;
+      lv6.opacity = 0;
+      lv5.opacity = 0;
+      lv4.opacity = 0;
+      break;
+    case 2:
+      lv14.opacity = 0;
+      lv13.opacity = 0;
+      lv12.opacity = 0;
+      lv11.opacity = 0;
+      lv10.opacity = 0;
+      lv9.opacity = 0;
+      lv8.opacity = 0;
+      lv7.opacity = 0;
+      lv6.opacity = 0;
+      lv5.opacity = 0;
+      lv4.opacity = 0;
+      lv3.opacity = 0;
+      break;
+  }
+}
+
   Image {
     id: lv
     source: "img/LV.png"
     opacity: 1
   }
-  
+
   Image {
   	id: lv1
   	objectName: "lv1"

@@ -2,12 +2,124 @@ import QtQuick 2.0
 
 Item{
 
+property var hvVolt : CAN.hvVolt;
+property int hvVal : (hvVolt * 12 / 120) + 0.5 + 2;
+
+onHvVoltChanged: function(){
+  switch (hvVal){
+    case 14:
+      break;
+    case 13:
+      hv14.opacity = 0;
+      break;
+    case 12:
+      hv14.opacity = 0;
+      hv13.opacity = 0;
+      break;
+    case 11:
+      hv14.opacity = 0;
+      hv13.opacity = 0;
+      hv12.opacity = 0;
+      break;
+    case 10:
+      hv14.opacity = 0;
+      hv13.opacity = 0;
+      hv12.opacity = 0;
+      hv11.opacity = 0;
+      break;
+    case 9:
+      hv14.opacity = 0;
+      hv13.opacity = 0;
+      hv12.opacity = 0;
+      hv11.opacity = 0;
+      hv10.opacity = 0;
+      break;
+    case 8:
+      hv14.opacity = 0;
+      hv13.opacity = 0;
+      hv12.opacity = 0;
+      hv11.opacity = 0;
+      hv10.opacity = 0;
+      hv9.opacity = 0;
+      break;
+    case 7:
+      hv14.opacity = 0;
+      hv13.opacity = 0;
+      hv12.opacity = 0;
+      hv11.opacity = 0;
+      hv10.opacity = 0;
+      hv9.opacity = 0;
+      hv8.opacity = 0;
+      break;
+    case 6:
+      hv14.opacity = 0;
+      hv13.opacity = 0;
+      hv12.opacity = 0;
+      hv11.opacity = 0;
+      hv10.opacity = 0;
+      hv9.opacity = 0;
+      hv8.opacity = 0;
+      hv7.opacity = 0;
+      break;
+    case 5:
+      hv14.opacity = 0;
+      hv13.opacity = 0;
+      hv12.opacity = 0;
+      hv11.opacity = 0;
+      hv10.opacity = 0;
+      hv9.opacity = 0;
+      hv8.opacity = 0;
+      hv7.opacity = 0;
+      hv6.opacity = 0;
+      break;
+    case 4:
+      hv14.opacity = 0;
+      hv13.opacity = 0;
+      hv12.opacity = 0;
+      hv11.opacity = 0;
+      hv10.opacity = 0;
+      hv9.opacity = 0;
+      hv8.opacity = 0;
+      hv7.opacity = 0;
+      hv6.opacity = 0;
+      hv5.opacity = 0;
+      break;
+    case 3:
+      hv14.opacity = 0;
+      hv13.opacity = 0;
+      hv12.opacity = 0;
+      hv11.opacity = 0;
+      hv10.opacity = 0;
+      hv9.opacity = 0;
+      hv8.opacity = 0;
+      hv7.opacity = 0;
+      hv6.opacity = 0;
+      hv5.opacity = 0;
+      hv4.opacity = 0;
+      break;
+    case 2:
+      hv14.opacity = 0;
+      hv13.opacity = 0;
+      hv12.opacity = 0;
+      hv11.opacity = 0;
+      hv10.opacity = 0;
+      hv9.opacity = 0;
+      hv8.opacity = 0;
+      hv7.opacity = 0;
+      hv6.opacity = 0;
+      hv5.opacity = 0;
+      hv4.opacity = 0;
+      hv3.opacity = 0;
+      break;
+  }
+}
+
   Image {
     id: hv
     source: "img/HV.png"
     opacity: 1
   }
-  
+
   Image {
   	id: hv1
   	objectName: "hv1"

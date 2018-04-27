@@ -33,7 +33,7 @@ Rectangle {
         Rectangle {
             height: 30
             Layout.fillWidth: true
-            color: "blue"
+            color: "red"
 
             GridLayout {
                 anchors.fill: parent

@@ -7,17 +7,7 @@ Rectangle {
   color: "black"
   id: frame
 
-  StatusFrame{
 
-  }
-
-  HVFrame{
-
-  }
-
-  LVFrame{
-
-  }
 
   Text {
       id: mainTime
@@ -118,5 +108,16 @@ Rectangle {
               }
           }
       }
+  }
+  StatusFrame{
+
+  }
+
+  HVFrame{
+
+  }
+
+  LVFrame{
+
   }
 }

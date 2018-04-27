@@ -61,7 +61,7 @@ Rectangle {
                             tabView.getTab(tabView.currentIndex).children[0].disconnect();
                         }
 
-                        if (tabView.currentIndex == 4) {
+                        if (tabView.currentIndex == 5) {
                             tabView.currentIndex = 0;
                         } else {
                             tabView.currentIndex++;
@@ -83,38 +83,38 @@ Rectangle {
         }
 
         Tab {
-            title: "Status"
+            //title: "Status"
             TabStatus {
             }
        }
 
         Tab {
-            title: "Inverter"
+            //title: "Inverter"
             TabInverter {
             }
         }
 
         Tab {
-            title: "Racing"
+            //title: "Racing"
             RacingPage {
             }
         }
 
         Tab {
-            title: "Errors"
+            //title: "Errors"
 			      TabErrors {
 			      }
         }
 
         Tab {
-            title: "Sensors"
+            //title: "Sensors"
             TabSensors {
 
             }
         }
 
         Tab {
-            title: "Battery"
+            //title: "Battery"
             TabBattery {
             }
         }
@@ -122,11 +122,11 @@ Rectangle {
         style: TabViewStyle {
             frameOverlap: 0
             tab: Rectangle {
-                color: styleData.selected ? "gray" : "light grey"
+                color: styleData.selected ? "yellow" : "blue"
                 border.color:  "black"
                 border.width: 1
-                implicitWidth: tabView.width/5+4/5
-                implicitHeight:  15//menu.height/6
+                implicitWidth: tabView.width/6
+                implicitHeight:  7//menu.height/6
                 y: 0
                 Text {
                     id: text
