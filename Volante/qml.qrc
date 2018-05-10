@@ -36,6 +36,7 @@
         <file>img/radio.png</file>
         <file>img/run.png</file>
         <file>img/idle.png</file>
+        <file>img/hv0.png</file>
         <file>img/hv1.png</file>
         <file>img/hv2.png</file>
         <file>img/hv3.png</file>
@@ -51,6 +52,7 @@
         <file>img/hv13.png</file>
         <file>img/hv14.png</file>
         <file>img/hv15.png</file>
+        <file>img/lv0.png</file>
         <file>img/lv1.png</file>
         <file>img/lv2.png</file>
         <file>img/lv3.png</file>
