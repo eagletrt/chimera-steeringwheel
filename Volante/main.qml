@@ -7,15 +7,13 @@ Rectangle {
   color: "black"
   id: frame
 
-
-
   Text {
-      id: mainTime
-      x:175
-      y:15
-      font.pointSize: 22
-      text: "00:00:00"
-      color: "white"
+    id: mainTime
+    x: 161
+    y: 2
+    font.pointSize: 26
+    text: "00:00:00"
+    color: "white"
   }
 
   Rectangle {

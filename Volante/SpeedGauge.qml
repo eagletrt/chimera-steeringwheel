@@ -13,7 +13,8 @@ Rectangle {
 
     Text {
         id: texthvTemp
-        text: CAN.hvTemp +  " °C" 
+        text: CAN.hvTemp +  " °C"
+        x: 7
         y: 25
         color: "white"
     }
@@ -29,7 +30,7 @@ Rectangle {
     Text {
         id: textlvTemp
         text: CAN.lvTemp + " °C"
-        x: 250
+        x: 327
         y: 25
         color: "white"
     }
@@ -38,14 +39,14 @@ Rectangle {
         id: textlvVolt
         font.pointSize: 12
         text: CAN.lvVolt + " V"
-        x: 250
+        x: 320
         y: 50
         color: "white"
     }
 
     Text {
         id: textVelocity
-        text: velocity 
+        text: velocity
         font.pointSize: 70
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter

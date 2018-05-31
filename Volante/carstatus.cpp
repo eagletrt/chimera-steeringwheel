@@ -9,7 +9,7 @@ CarStatus::CarStatus() {
 
     m_ctrlIsEnabled = -1;
     // Set control activated by default
-    m_ctrlIsOn = 0; 
+    m_ctrlIsOn = 0;
     // Set car in IDLE at startup
     m_car_status = CAR_STATUS_IDLE;
 
@@ -93,26 +93,26 @@ int CarStatus::velocity() const {
 
 QString CarStatus::CANStatus() const {
     qDebug() << "Asked CanStatus";
-    return QString("%1%2%3%4%5%6").arg(QString::number(m_invr), 
-                                       QString::number(m_invl), 
+    return QString("%1%2%3%4%5%6").arg(QString::number(m_invr),
+                                       QString::number(m_invl),
                                        QString::number(m_front),
-                                       QString::number(m_rear), 
-                                       QString::number(m_lv), 
+                                       QString::number(m_rear),
+                                       QString::number(m_lv),
                                        QString::number(m_hv));
 }
 
 QString CarStatus::HVStatus() const {
     qDebug() << "Asked HVStatus";
-    return QString("%1%2%3").arg(QString::number(m_preCharge), 
-                                 QString::number(m_invRight), 
+    return QString("%1%2%3").arg(QString::number(m_preCharge),
+                                 QString::number(m_invRight),
                                  QString::number(m_invLeft));
 }
 
 QString CarStatus::ERRStatus() const {
     qDebug() << "Asked ERRStatus";
     return QString("%1%2%3%4%5%6%7%8")
-        .arg(QString::number(m_err_apps), 
-             QString::number(m_err_bse), 
+        .arg(QString::number(m_err_apps),
+             QString::number(m_err_bse),
              QString::number(m_err_steer),
              QString::number(m_err_wheel_left),
              QString::number(m_err_wheel_right),
@@ -197,11 +197,11 @@ void CarStatus::setERRStatus(int err_apps,
     emit ERRStatusChanged();
 }
 
-void CarStatus::setCANStatus(int invr, 
-                             int invl, 
-                             int front, 
-                             int rear, 
-                             int lv, 
+void CarStatus::setCANStatus(int invr,
+                             int invl,
+                             int front,
+                             int rear,
+                             int lv,
                              int hv) {
     m_invr = invr;
     m_invl = invl;
@@ -214,7 +214,7 @@ void CarStatus::setCANStatus(int invr,
 }
 
 void CarStatus::setHVStatus(int preCharge,
-                            int invRight, 
+                            int invRight,
                             int invLeft) {
     m_invRight = invRight;
     m_invLeft = invLeft;
@@ -231,11 +231,11 @@ int CarStatus::getCtrlIsOn() {
     return m_ctrlIsOn;
 }
 
-void CarStatus::setCarStatus(int ctrlIsEnabled, 
+void CarStatus::setCarStatus(int ctrlIsEnabled,
                              int ctrlIsOn,
                              int driveModeEnabled,
                              int velocity,
-                             int warning, 
+                             int warning,
                              int error) {
 
     m_ctrlIsEnabled = ctrlIsEnabled;
@@ -284,6 +284,7 @@ int CarStatus::toggleCarStatus() {
 
         // Send CAN request to the CTRL
         emit toggleCar();
+        
     } else {
         if (m_car_status == CAR_STATUS_GO) {
             qDebug() << "CAR_STATUS_GO -> CAR_STATUS_IDLE";

@@ -24,7 +24,7 @@ Rectangle {
         mainwindow.btnReleased.disconnect(btnReleasedHandler);
         mainwindow.btnClicked.disconnect(btnClickedHandler);
 
-        mainwindow.carStatusChanged.disconnect(carStatusChangedHandler);
+        //mainwindow.carStatusChanged.disconnect(carStatusChangedHandler);
         mainwindow.controlStateChanged.disconnect(controlStateChangedHandler);
         //mainwindow.presetChanged.disconnect(presetChangedHandler);
     }
@@ -35,7 +35,7 @@ Rectangle {
         mainwindow.btnReleased.connect(btnReleasedHandler);
         mainwindow.btnClicked.connect(btnClickedHandler);
 
-        mainwindow.carStatusChanged.connect(carStatusChangedHandler);
+        //mainwindow.carStatusChanged.connect(carStatusChangedHandler);
         mainwindow.controlStateChanged.connect(controlStateChangedHandler);
         //mainwindow.presetChanged.connect(presetChangedHandler);
     }
@@ -73,6 +73,7 @@ Rectangle {
 
             if (carIsGo) {
                 console.log("Sent Car Start command");
+                //StatusFrame.run.opacity = 1;
             } else {
                 console.log("Sent Car Stop command");
             }
@@ -91,7 +92,7 @@ Rectangle {
             /*
             */
         }
-
+/*
         if (btnID == 2) {
             /*
             // Enable or disable the CTRL
@@ -101,24 +102,21 @@ Rectangle {
             }
             console.log("Toggle the CTRL");
             CarStatus.toggleCtrl();
-            */
+
 
             if (carStatus.state == 'idle') {
                 // Can Change Car Status
                 // NEW: Change MCU Map
                 CarStatus.changePreset(loopThroughPresets)
             }
-
-
-
         }
-
+*/
     }
-
+/*
     function carStatusChangedHandler(statusID) {
         console.log("Car Status Changed: " + statusID);
         if (statusID == 0) {
-            carStatus.state = 'idle';
+            carStatus.state = "idle";
         }
 
         if (statusID == 1) {
@@ -129,14 +127,14 @@ Rectangle {
             carStatus.state = "stop";
         }
     }
-
+*/
     GridLayout {
         id: mainlayout
         rows: 2
         anchors.fill: parent
         flow: GridLayout.TopToBottom
 
-        
+
         Rectangle {
             Layout.fillHeight: true
             width: parent.width

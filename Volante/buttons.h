@@ -6,7 +6,7 @@
 #include <QGuiApplication>
 #include <QTime>
 
-#include "wiringPi.h"
+#include "lib/wiringPi.h"
 
 class Buttons : public QObject
 {
@@ -52,4 +52,3 @@ class Buttons : public QObject
 };
 
 #endif // BUTTONS_H
-

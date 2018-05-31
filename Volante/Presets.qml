@@ -12,9 +12,9 @@ Rectangle {
         [3, 0],
         [4, 0],
         [5, 0],
-        [6, 0],
+        [6, 0],/*
         [7, 0],
-        [8, 0],
+        [8, 0],*/
     ]
 
     /*
@@ -28,8 +28,8 @@ Rectangle {
 
     GridLayout {
         anchors.fill: parent
-        columns: 8
-        columnSpacing: 3
+        columns: 6
+        columnSpacing: 5
 
         Repeater {
             model: presets

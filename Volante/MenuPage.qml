@@ -54,7 +54,25 @@ Rectangle {
         Connections {
             target: menu
             onBtnClicked: {
-                if (btnID == 0) {
+                if (btnID == 4) {
+                    //console.log("Cliccato btn 1");
+                    if (!tabView.stepIntoTab) {
+                        if (tabView.getTab(tabView.currentIndex).children[0].disconnect) {
+                            tabView.getTab(tabView.currentIndex).children[0].disconnect();
+                        }
+
+                        if (tabView.currentIndex == 0) {
+                            tabView.currentIndex = 5;
+                        } else {
+                            tabView.currentIndex--;
+                        }
+
+                       if (tabView.getTab(tabView.currentIndex).children[0].connect) {
+                            tabView.getTab(tabView.currentIndex).children[0].connect();
+                       }
+                    }
+                }
+                if (btnID == 5) {
                     //console.log("Cliccato btn 1");
                     if (!tabView.stepIntoTab) {
                         if (tabView.getTab(tabView.currentIndex).children[0].disconnect) {
@@ -72,6 +90,7 @@ Rectangle {
                        }
                     }
                 }
+
 /*
                 if (btnID == 1) {
                     if (!tabView.stepIntoTab) {

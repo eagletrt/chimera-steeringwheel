@@ -1,11 +1,11 @@
-#ifndef CARSTATUS_H 
+#ifndef CARSTATUS_H
 #define CARSTATUS_H
 
 #define CAR_STATUS_IDLE 0
 #define CAR_STATUS_GO   1
 #define CAR_STATUS_STOP 2
 
-#define PRESET_NUMBER   8 
+#define PRESET_NUMBER   6 
 
 #include <QDebug>
 
@@ -73,7 +73,7 @@ class CarStatus : public QObject
 
         int m_warning;
         int m_error;
-        
+
         int m_stateofcharge;
         int m_temperature;
         int m_velocity;
@@ -106,7 +106,7 @@ class CarStatus : public QObject
         void tempChanged(int temperature);
         void socChanged(int soc);
         void execModeChanged(int ctrlIsEnabled, int ctrlIsOn, int warning, int error);
-        void carStatusChanged(int statusID); 
+        void carStatusChanged(int statusID);
 
         void toggleCar();
 
@@ -116,11 +116,9 @@ class CarStatus : public QObject
         void APPSStatusChanged();
         void BSEStatusChanged();
         void STEERStatusChanged();
-        void CTRLEnabledChanged(); 
+        void CTRLEnabledChanged();
         void velocityChanged();
         void presetChanged();
 };
 
 #endif // CARSTATUS_H
-
-

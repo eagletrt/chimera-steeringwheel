@@ -1,5 +1,5 @@
 import QtQuick 2.7
-import QtQuick.Layouts 1.3 
+import QtQuick.Layouts 1.3
 
 Rectangle {
     id: root
@@ -24,7 +24,7 @@ Rectangle {
         }
 
         Presets {
-            height: 35
+            height: 30
             Layout.fillWidth: true
         }
     }
@@ -34,7 +34,7 @@ Rectangle {
 Rectangle {
             id: centralview
             color: "transparent"
-            width: body.width - batterytemp.width * 2 
+            width: body.width - batterytemp.width * 2
             height: parent.height
             x: batterytemp.width
 
@@ -44,4 +44,3 @@ Rectangle {
                 height: body.height
                 color: "black"
                 */
-

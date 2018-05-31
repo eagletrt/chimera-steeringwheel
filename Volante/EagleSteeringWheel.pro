@@ -3,18 +3,18 @@
 ######################################################################
 
 TEMPLATE = app
-TARGET = EagleSteeringWheel 
+TARGET = EagleSteeringWheel
 INCLUDEPATH += . \
-              
-               
-               lib/ 
+
+
+               lib/
 
 QT += core gui qml quick serialport
 
 # Input
 HEADERS += buttons.h \
            console.h \
-           canbus.h \ 
+           canbus.h \
            carstatus.h
 
 SOURCES += main.cpp \
@@ -25,5 +25,5 @@ SOURCES += main.cpp \
 
 RESOURCES += qml.qrc
 
-#LIBS += -L/usr/local/lib -lwiringPi
-LIBS += -Llib -lwiringPi
+LIBS += -L/usr/local/lib -lwiringPi
+#LIBS += -Llib -lwiringPi
