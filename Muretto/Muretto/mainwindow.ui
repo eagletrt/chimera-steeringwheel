@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>413</width>
-    <height>239</height>
+    <height>349</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -326,7 +326,7 @@
         <string/>
        </property>
        <property name="text">
-        <string>dev/ttyUSB0</string>
+        <string>/dev/ttyUSB0</string>
        </property>
       </widget>
      </item>
@@ -364,6 +364,19 @@
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>280</y>
+      <width>89</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>fake data</string>
+    </property>
    </widget>
   </widget>
  </widget>

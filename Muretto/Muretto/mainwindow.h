@@ -32,6 +32,7 @@ private slots:
     void parseMessage();
     void on_pushButton_pause_clicked();
     void on_pushButton_serialRetry_clicked();
+    void on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;

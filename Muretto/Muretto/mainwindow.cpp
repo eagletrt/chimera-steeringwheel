@@ -55,26 +55,14 @@ void MainWindow::on_pushButton_start_clicked()
     ui->label_skippedData->setStyleSheet("background-color:green;");
     ui->label_skippedData->setText("Skip: 0");
 
-    //Create line plots
-//    QStringList strings = {"Throttle", "Time (s)", "Percentage (%)"};
-//    createLinePlot(ui->worstTempPlot, worstTempX, worstTempY, strings, 0, 100);
-//    QStringList strings2 = {"BSE", "Time (s)", "Percentage (%)"};
-//    createLinePlot(ui->branchCurrPlot, branchCurrX, branchCurrY, strings2, 0, 100);
-//    QStringList strings3 = {"TempHV", "Time(s)", "Percentage (%)"};
-//    createLinePlot(ui->totalCurrPlot, totalCurrX, totalCurrY, strings3, 0, 100);
-//    QStringList strings4 = {"Curr HV Left", "Time(s)", "Percentage (%)"};
-//    createLinePlot(ui->voltControlPlot, voltControlX, voltControlY, strings4, 0, 100);
-//    QStringList strings8 = {"Curr HV Right", "Time(s)", "Percentage (%)"};
-//    createLinePlot(ui->endurCurrPlot, endurCurrX, endurCurrY, strings8, 0, 100);
-
     //open requested windows
     if (ui->checkBox_temps->isChecked() && !windowsOpened[0]) { //if requested and not open ATM
 
         //Create line plots
         QStringList strings_tempHV = {"TempHV", "Time(s)", "Percentage (%)"};
-        createLinePlot(window0_temps->findChild<QCustomPlot*>("plot_tempHV"), totalCurrX, totalCurrY, strings_tempHV, 0, 100);
+        createLinePlot(window0_temps->findChild<QCustomPlot*>("plot_tempHV"), worstTempX, worstTempY, strings_tempHV, 0, 100);
         QStringList strings_temp2 = {"Temp2", "Time(s)", "Percentage (%)"};
-        createLinePlot(window0_temps->findChild<QCustomPlot*>("plot_temp2"), totalCurrX, totalCurrY, strings_temp2, 0, 100);
+        createLinePlot(window0_temps->findChild<QCustomPlot*>("plot_temp2"), branchCurrX, branchCurrY, strings_temp2, 0, 100);
 
         windowsOpened[0] = true;
         window0_temps->show(); //show window
@@ -85,9 +73,9 @@ void MainWindow::on_pushButton_start_clicked()
         QStringList strings_test0 = {"Test0", "Time(s)", "Armadi (a)"};
         createLinePlot(window1_test->findChild<QCustomPlot*>("plot_test0"), totalCurrX, totalCurrY, strings_test0, 0, 100);
         QStringList strings_test1 = {"Test1", "Time(s)", "Giuseppi (g)"};
-        createLinePlot(window1_test->findChild<QCustomPlot*>("plot_test1"), totalCurrX, totalCurrY, strings_test1, 0, 20);
+        createLinePlot(window1_test->findChild<QCustomPlot*>("plot_test1"), voltControlX, voltControlY, strings_test1, 0, 20);
         QStringList strings_test2 = {"Test2", "Time(s)", "Sedie (s)"};
-        createLinePlot(window1_test->findChild<QCustomPlot*>("plot_test2"), totalCurrX, totalCurrY, strings_test2, 0, 100);
+        createLinePlot(window1_test->findChild<QCustomPlot*>("plot_test2"), endurCurrX, endurCurrY, strings_test2, 0, 100);
 
         windowsOpened[1] = true;
         window1_test->show(); //show window
@@ -116,12 +104,10 @@ void MainWindow::on_windowClosed(int windowID)
         case 0:
             window0_temps = new TempsWindow(this);
             connect(window0_temps,SIGNAL(windowClosed(int)),this, SLOT(on_windowClosed(int)));
-            qDebug() << "reset window to new TempsWindow";
         break;
         case 1:
             window1_test = new TestWindow(this);
             connect(window1_test,SIGNAL(windowClosed(int)),this, SLOT(on_windowClosed(int)));
-            qDebug() << "reset window to new TestWindow";
         break;
     }
 
@@ -142,7 +128,7 @@ void MainWindow::openSerial()
         serial.setPortName(file_info.absoluteFilePath());
     }
 
-    qDebug() << serial.portName();
+    qDebug() << "serial:" << serial.portName();
 
     serial.setBaudRate(115200);
     serial.setDataBits(QSerialPort::Data8);
@@ -181,14 +167,6 @@ void MainWindow::parseMessage()
         {
             valuesSinceLastUpdate = 0;
 
-            //qDebug() << received;
-
-            //qDebug() << valuesReceived;
-
-            //add the values to the arrays
-            // addNewPoint(valuesReceived[7].toDouble(), ui->totalCurrPlot, totalCurrX, totalCurrY);
-
-
             // - 2 perchè tolgo /r/n
             for (int i=0; i<received.length() - 2; i++) {
                 values_array[i] = ((uint8_t) received[i] - 50);
@@ -197,14 +175,15 @@ void MainWindow::parseMessage()
 
             //update the plots that are in an opened windows
             if (windowsOpened[0]) {
-                addNewPoint(values_array[0], window0_temps->findChild<QCustomPlot*>("plot_tempHV"), totalCurrX, totalCurrY);
-                addNewPoint(values_array[1], window0_temps->findChild<QCustomPlot*>("plot_temp2"), totalCurrX, totalCurrY);
+                addNewPoint(values_array[0], window0_temps->findChild<QCustomPlot*>("plot_tempHV"), worstTempX, worstTempY);
+                addNewPoint(values_array[1], window0_temps->findChild<QCustomPlot*>("plot_temp2"), worstVoltX, worstVoltY);
             }
+
             //update the plots that are in an opened windows
             if (windowsOpened[1]) {
                 addNewPoint(values_array[2], window1_test->findChild<QCustomPlot*>("plot_test0"), totalCurrX, totalCurrY);
-                addNewPoint(values_array[3], window1_test->findChild<QCustomPlot*>("plot_test1"), totalCurrX, totalCurrY);
-                addNewPoint(values_array[4], window1_test->findChild<QCustomPlot*>("plot_test2"), totalCurrX, totalCurrY);
+                addNewPoint(values_array[3], window1_test->findChild<QCustomPlot*>("plot_test1"), voltControlX, voltControlY);
+                addNewPoint(values_array[4], window1_test->findChild<QCustomPlot*>("plot_test2"), endurCurrX, endurCurrY);
             }
 
             QString toLog = "";
@@ -243,6 +222,8 @@ void MainWindow::createLinePlot(QCustomPlot *plot, QVector<double> x, QVector<do
 {
     plot->addGraph();
     plot->graph(0)->setData(x, y);
+    plot->xAxis->setRange(0, 60);
+    plot->yAxis->setRange(minVal, maxVal);
 
     //set dark theme
     plot->graph(0)->setPen(QPen(QColor(128,216,255)));
@@ -278,9 +259,6 @@ void MainWindow::createLinePlot(QCustomPlot *plot, QVector<double> x, QVector<do
     axisRectGradient.setColorAt(0, QColor(80, 80, 80));
     axisRectGradient.setColorAt(1, QColor(30, 30, 30));
     plot->axisRect()->setBackground(axisRectGradient);
-
-    plot->xAxis->setRange(0, 60);
-    plot->yAxis->setRange(minVal, maxVal);
 
     //title
     plot->plotLayout()->insertRow(0);
@@ -347,5 +325,23 @@ void MainWindow::writeToFile(QString stringToWrite)
         QTextStream stream( &file );
         stream << stringToWrite << endl;
         file.close();
+    }
+}
+
+//test plots
+void MainWindow::on_pushButton_clicked()
+{
+    for (int var = 0; var < 100; ++var) {
+        if (windowsOpened[0]) {
+            addNewPoint(var, window0_temps->findChild<QCustomPlot*>("plot_tempHV"), worstTempX, worstTempY);
+            addNewPoint(90, window0_temps->findChild<QCustomPlot*>("plot_temp2"), worstVoltX, worstVoltY);
+        }
+
+        //update the plots that are in an opened windows
+        if (windowsOpened[1]) {
+            addNewPoint(10, window1_test->findChild<QCustomPlot*>("plot_test0"), totalCurrX, totalCurrY);
+            addNewPoint(var/5, window1_test->findChild<QCustomPlot*>("plot_test1"), voltControlX, voltControlY);
+            addNewPoint(20, window1_test->findChild<QCustomPlot*>("plot_test2"), endurCurrX, endurCurrY);
+        }
     }
 }
