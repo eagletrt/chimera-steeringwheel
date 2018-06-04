@@ -12,7 +12,7 @@ DEPLOY_TARGET_DIR=/home/pi
 # Mount image needed for crosscompilation dependencies
 if [ ! "$(ls -A $RASP_PI_ROOT )" ]; then
     echo "E' Vuota!"
-    #98304 è variabile
+    #94208 98304 è variabile
     sudo mount -o loop,offset=$((512 * 98304)) $RASP_PI_IMAGE $RASP_PI_ROOT
 fi
 
@@ -26,4 +26,4 @@ $RASP_PI_QMAKE -spec devices/linux-rasp-pi-g++ -o Makefile ../$RASP_PI_PROJECT
 make
 
 # Upload executable on the Rasp
-#scp EagleSteeringWheel pi@$PI_ADDRESS:$DEPLOY_TARGET_DIR
+scp EagleSteeringWheel pi@$PI_ADDRESS:$DEPLOY_TARGET_DIR

@@ -9,15 +9,15 @@
 #define BTN_TOP_RIGHT       22
 */
 
-#define BTN_TOP_LEFT        18//14
-#define BTN_BOTTOM_LEFT     23//13
-#define BTN_BOTTOM_RIGHT    24//12
-#define BTN_TOP_RIGHT       25//26
+#define BTN_TOP_LEFT        14
+#define BTN_BOTTOM_LEFT     13
+#define BTN_BOTTOM_RIGHT    12
+#define BTN_TOP_RIGHT       0
 #define PADDLE_LEFT         8
 #define PADDLE_RIGHT        7
 
 #define MAP_0               11
-#define MAP_1               8
+//#define MAP_1               8
 #define MAP_2               10
 #define MAP_3               13
 #define MAP_4               9
