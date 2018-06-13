@@ -10,9 +10,9 @@ Rectangle {
 
     onSelectedChanged: {
         if (root.selected) {
-            root.color = "#dddddd";
-
-            button.state = "RESET"
+            //root.color = "#dddddd";
+            //root.opacity = 0.5
+            button.state = "RESET"//START
         } else {
             root.color = "#000000";
 
@@ -26,21 +26,21 @@ Rectangle {
         State {
             name: "OK"
             PropertyChanges {
-                target: led 
+                target: led
                 color: "green"
             }
         },
         State {
             name: "NO"
             PropertyChanges {
-                target: led 
+                target: led
                 color: "red"
             }
         },
         State {
             name: "DEFAULT"
             PropertyChanges {
-                target: led 
+                target: led
                 color: "lightgrey"
             }
         }
@@ -52,13 +52,14 @@ Rectangle {
         spacing: 0
 
         Rectangle {
-            width: root.width * 1/2 
+            width: root.width * 1/2
             height: root.height
             color: "transparent"
 
             Text {
                 anchors.centerIn: parent
-                text: root.text 
+                text: root.text
+                font.pixelSize: 15
                 color: "white"
             }
         }
@@ -71,9 +72,9 @@ Rectangle {
             Rectangle {
                 id: led
                 anchors.centerIn: parent
-                width: 40 
+                width: 40
                 height: 40
-                radius: 40 
+                radius: 40
             }
         }
 
@@ -89,8 +90,8 @@ Rectangle {
                     State {
                         name: "RESET"
                         PropertyChanges {
-                            target: button 
-                            color: "teal"
+                            target: button
+                            color: "grey"
                         }
                         PropertyChanges {
                             target: text
@@ -100,7 +101,7 @@ Rectangle {
                     State {
                         name: "NORMAL"
                         PropertyChanges {
-                            target: button 
+                            target: button
                             color: "transparent"
                         }
                         PropertyChanges {
@@ -110,15 +111,15 @@ Rectangle {
                     }
                 ]
                 anchors.centerIn: parent
-                width: parent.width - 35
-                height: parent.height - 35
+                width: parent.width - 30
+                height: parent.height - 30
                 color: "#888888"
                 radius: 8
 
                 Text {
                     id: text
                     anchors.centerIn: parent
-                    text: "Reset"
+                    text: "RESET"
                     color: "white"
                 }
             }

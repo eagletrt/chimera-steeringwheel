@@ -51,14 +51,18 @@ Rectangle {
     }
 
     function btnPressedHandler(btnID) {
-        if (btnID == 2) {
+        if (btnID == 3) {
             radioStatus.state = 'on';
+            StatusFrame.radio.opacity = 1;
+            StatusFrame.radio_na.opacity = 0;
         }
     }
 
     function btnReleasedHandler(btnID) {
-        if (btnID == 2) {
+        if (btnID == 3) {
             radioStatus.state = 'off';
+            StatusFrame.radio.opacity = 0;
+            StatusFrame.radio_na.opacity = 1;
         }
     }
 
@@ -112,22 +116,27 @@ Rectangle {
         }
 */
     }
-/*
+
     function carStatusChangedHandler(statusID) {
         console.log("Car Status Changed: " + statusID);
         if (statusID == 0) {
             carStatus.state = "idle";
+            StatusFrame.idle.opacity = 1;
+            StatusFrame.run.opacity = 0;
         }
 
         if (statusID == 1) {
             carStatus.state = "run";
+            StatusFrame.idle.opacity = 0;
+            StatusFrame.run.opacity = 1;
         }
 
         if (statusID == 2) {
             carStatus.state = "stop";
+            StatusFrame.idle.opacity = 1;
         }
     }
-*/
+
     GridLayout {
         id: mainlayout
         rows: 2

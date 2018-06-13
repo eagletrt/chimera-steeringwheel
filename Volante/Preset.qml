@@ -14,8 +14,8 @@ Rectangle {
         if (currentIndex == root.index) {
             root.state = 'active'
         } else {
-            root.state = 'notactive'  
-        } 
+            root.state = 'notactive'
+        }
     }
 
     states: [
@@ -23,14 +23,14 @@ Rectangle {
             name: 'active'
             PropertyChanges {
                 target: root
-                color: 'blue' 
+                color: 'blue'
             }
         }
     ]
 
     Text {
         id: text
-        text: "P" + root.index 
+        text: "P" + root.index
         anchors.centerIn: parent
         font.pointSize: 9
         color: "white"

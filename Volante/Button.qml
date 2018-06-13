@@ -3,8 +3,8 @@ import QtQuick 2.0
 Rectangle {
     id: root
 
-    property var activeColor 
-    property var text 
+    property var activeColor
+    property var text
 
     anchors.centerIn: parent
     width: parent.width * 0.7
@@ -15,22 +15,22 @@ Rectangle {
             name: "SELECTED"
             PropertyChanges {
                 target: root
-                color: root.activeColor 
+                color: root.activeColor
             }
         },
         State {
             name: "IDLE"
             PropertyChanges {
                 target: root
-                color: "lightgrey"
+                color: "#333"//"grey"
             }
         }
     ]
 
     Text {
-        text: root.text 
+        text: root.text
         anchors.centerIn: parent
         color: "white"
+        font.pointSize: 15
     }
 }
-

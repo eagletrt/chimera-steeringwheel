@@ -11,7 +11,7 @@ Rectangle {
     id: mainTime
     x: 161
     y: 2
-    font.pointSize: 26
+    font.pointSize: 22
     text: "00:00:00"
     color: "white"
   }

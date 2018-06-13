@@ -10,12 +10,12 @@ Rectangle {
     property var errorLEDCount
     property var selected
 
-    color: root.selected == 1 ? "green" : menu.color 
+    color: root.selected == 1 ? "green" : menu.color
 
 
     RowLayout {
         anchors.fill: parent
-        spacing: 10 
+        spacing: 10
 
         Rectangle {
             Layout.preferredWidth: parent.width*1/8
@@ -25,7 +25,7 @@ Rectangle {
             color: "transparent"
 
             Text {
-                text: root.text 
+                text: root.text
                 font.family: "Stencil"
                 font.pointSize: 11
                 color: "white"
@@ -49,12 +49,12 @@ Rectangle {
                 color: menu.color
 
                 Rectangle {
-                    width: root.barValue 
+                    width: root.barValue
                     height: parent.height-2
                     anchors.left: parent.left
                     anchors.leftMargin: 1
                     anchors.verticalCenter: parent.verticalCenter
-                    color: root.barColor 
+                    color: root.barColor
                 }
             }
         }
@@ -69,16 +69,16 @@ Rectangle {
 
             RowLayout {
                 anchors.verticalCenter: parent.verticalCenter
-                spacing: 15 
+                spacing: 10
 
                 Repeater {
                     model: root.errorLEDCount
                     delegate: Rectangle {
                         anchors.verticalCenter: parent.verticalCenter
-                        width: 25 
-                        height: 25 
+                        width: 25
+                        height: 25
                         color: "lightgray"
-                        radius: 25 / 2 
+                        radius: 25 / 2
                     }
                 }
             }

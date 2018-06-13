@@ -24,8 +24,8 @@ Rectangle {
         }
 
         Presets {
-            height: 30
-            Layout.fillWidth: true
+            height: 25
+            width: 365
         }
     }
 }

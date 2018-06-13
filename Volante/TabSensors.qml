@@ -58,7 +58,7 @@ Rectangle {
               root.mHelpSetText = "Set Actuators [MIN,MAX]";
             break;
             case 1:
-              root.mBtnSetText = "Setting...";
+              root.mBtnSetText = "SETTING...";
               root.mHelpSetText = "Waiting for APPS MIN ACK...";
             break;
             case 2:
@@ -70,7 +70,7 @@ Rectangle {
               root.mHelpSetText = "Just DONE APPS SETUP";
             break;
             case 4:
-              root.mBtnSetText = "Setting...";
+              root.mBtnSetText = "SETTING...";
               root.mHelpSetText = "Waiting for BSE MIN ACK...";
             break;
             case 5:
@@ -82,7 +82,7 @@ Rectangle {
               root.mHelpSetText = "Just DONE BSE SETUP";
             break;
             case 7:
-              root.mBtnSetText = "Setting...";
+              root.mBtnSetText = "SETTING...";
               root.mHelpSetText = "Waiting for STEER LEFT ACK...";
             break;
             case 8:
@@ -90,7 +90,7 @@ Rectangle {
               CAN.setActuatorsRange(2,1);
             break;
             case 9:
-              root.mBtnSetText = "SET";
+              root.mBtnSetText = "SETTING";
               root.mHelpSetText = "Just DONE STEER SETUP";
             break;
           }
@@ -235,7 +235,7 @@ Rectangle {
                     color: "white"
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
-                    font.pointSize: 12
+                    font.pointSize: 10
                 }
 
                 Item {

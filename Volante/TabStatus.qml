@@ -5,16 +5,16 @@ Rectangle {
     id: root
     property var btnClickable: false
     property var isStarted: false
-    property var canstatus: CarStatus.CANStatus 
+    property var canstatus: CarStatus.CANStatus
     property var ledStates: ['NO', 'OK', 'DEFAULT']
     property var canLeds: [
         ["InvRight", 'CAN_DEFAULT'],
         ["InvLeft", 'CAN_DEFAULT'],
-        ["UPyFront", 'CAN_DEFAULT'],
-        ["UPyRear", 'CAN_DEFAULT'],
-        ["BatteryMS HV", 'CAN_DEFAULT'],
-        ["BatteryMS LV", 'CAN_DEFAULT'],
-    ] 
+        ["PyFront", 'CAN_DEFAULT'],
+        ["PyRear", 'CAN_DEFAULT'],
+        ["BMS HV", 'CAN_DEFAULT'],
+        ["BMS LV", 'CAN_DEFAULT'],
+    ]
 
     onCanstatusChanged: {
         console.log("Cambiato il CAN Status da Centralina");
@@ -59,7 +59,7 @@ Rectangle {
                 // Set the button again to be not clickable
                 btnClickable = false;
 
-                // Restore Button 0 initial handler 
+                // Restore Button 0 initial handler
                 mainwindow.canSwitchPage = true;
                 tabView.stepIntoTab = false;
             }
@@ -76,7 +76,7 @@ Rectangle {
 
         if (btnID == 0) {
             if (!mainwindow.canSwitchPage) {
-               // Set  
+               // Set
                // do something
             }
         }
@@ -94,17 +94,17 @@ Rectangle {
 
         GridLayout {
             id: grid1
-            columns: 2 
-            rows: 4 
+            columns: 2
+            rows: 4
             anchors.fill: parent
             columnSpacing: 0
             rowSpacing: 0
 
             Repeater {
-                model: canLeds 
+                model: canLeds
                 delegate: CANStatusLED {
-                    text: modelData[0] 
-                    state: modelData[1] 
+                    text: modelData[0]
+                    state: modelData[1]
                     Layout.preferredWidth: status.width / 2
                     Layout.preferredHeight: status.height / 4
                 }
@@ -116,8 +116,8 @@ Rectangle {
                 color: "#000000"
 
                 Button {
-                    state: root.btnClickable ? 'SELECTED' : 'IDLE' 
-                    activeColor: "blue" 
+                    state: root.btnClickable ? 'SELECTED' : 'IDLE'
+                    activeColor: "blue"
                     text: "ASK AGAIN"
                 }
             }
@@ -129,13 +129,11 @@ Rectangle {
                 color: "#000000"
 
                 Button {
-                    state: root.btnClickable & !isStarted ? 'SELECTED' : 'IDLE' 
-                    activeColor: "green" 
-                    text: "'MPIZA'"
+                    state: root.btnClickable & !isStarted ? 'SELECTED' : 'IDLE'
+                    activeColor: "green"
+                    text: "START"
                 }
             }
-            
         }
     }
 }
-

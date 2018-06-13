@@ -13,21 +13,21 @@ Rectangle {
         State {
             name: "OK"
             PropertyChanges {
-                target: led 
+                target: led
                 color: "green"
             }
         },
         State {
             name: "NO"
             PropertyChanges {
-                target: led 
+                target: led
                 color: "red"
             }
         },
         State {
             name: "DEFAULT"
             PropertyChanges {
-                target: led 
+                target: led
                 color: "lightgrey"
             }
         }
@@ -39,13 +39,13 @@ Rectangle {
         spacing: 0
 
         Rectangle {
-            width: root.width * 3/4
+            width: root.width * 3/6 //4/5
             height: root.height
             color: "transparent"
 
             Text {
                 anchors.centerIn: parent
-                text: root.text 
+                text: root.text
                 font.pixelSize: 15
                 color: "white"
             }
@@ -53,15 +53,15 @@ Rectangle {
 
         Rectangle {
             color: "transparent"
-            width: root.width * 1/4
+            width: root.width * 3/6 //1/5
             height: root.height
 
             Rectangle {
                 id: led
                 anchors.centerIn: parent
-                width: 40 
-                height: 40
-                radius: 40 
+                width: 30
+                height: 30
+                radius: 30
                 color: "transparent"
             }
         }
