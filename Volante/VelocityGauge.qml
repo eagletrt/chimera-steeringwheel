@@ -5,6 +5,7 @@ Rectangle {
     height: 180
     color: "transparent"
     anchors.centerIn: parent
+    FontLoader {id:blackops; source: "lib/blops.TTF"}
 
     //property int value: Math.sqrt(acceleratore.width)*6
     property int value: 0
@@ -23,6 +24,7 @@ Rectangle {
         text: parent.value
         anchors.centerIn: parent
         color: "white"
+        font.family: blackops.name;
         font.pointSize: 70
     }
 }

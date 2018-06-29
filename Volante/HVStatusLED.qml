@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
 Rectangle {
+    FontLoader {id:blackops; source: "lib/blops.TTF"}
     id: root
     color: "#000000"
     property var text
@@ -52,21 +53,22 @@ Rectangle {
         spacing: 0
 
         Rectangle {
-            width: root.width * 1/2
+            width: root.width * 5/9 //1/2
             height: root.height
             color: "transparent"
 
             Text {
                 anchors.centerIn: parent
+                font.family: blackops.name;
                 text: root.text
-                font.pixelSize: 15
+                font.pixelSize: 10
                 color: "white"
             }
         }
 
         Rectangle {
             color: "transparent"
-            width: root.width * 1/4
+            width: root.width * 2/9//1/4
             height: root.height
 
             Rectangle {
@@ -80,7 +82,7 @@ Rectangle {
 
         Rectangle {
             color: "transparent"
-            width: root.width * 1/4
+            width: root.width * 2/9//1/4
             height: root.height
 
             Rectangle {
@@ -111,13 +113,15 @@ Rectangle {
                     }
                 ]
                 anchors.centerIn: parent
-                width: parent.width - 30
+                width: parent.width - 20
                 height: parent.height - 30
                 color: "#888888"
-                radius: 8
+                radius: 5
 
                 Text {
                     id: text
+                    font.family: blackops.name;
+                    font.pixelSize: 7
                     anchors.centerIn: parent
                     text: "RESET"
                     color: "white"

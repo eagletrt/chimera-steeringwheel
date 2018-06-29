@@ -54,14 +54,6 @@ bool KeyPressEventFilter::eventFilter(QObject *obj, QEvent *event) {
         case (Qt::Key_6):
             btnID = 16;
             break;
-        /*
-        case (Qt::Key_7):
-            btnID = 17;
-            break;
-        case (Qt::Key_8):
-            btnID = 18 ;
-            break;
-        */
         default:
             break;
     }

@@ -6,6 +6,7 @@ Rectangle {
     id: root
     color: "#000000"
     anchors.fill: parent
+    FontLoader {id:blackops; source: "lib/blops.TTF"}
 
     property var appsStatus: CarStatus.APPSStatus
     property var bseStatus: CarStatus.BSEStatus
@@ -55,43 +56,43 @@ Rectangle {
         switch(setPendingFlag){
             case 0:
               root.mBtnSetText = "SET";
-              root.mHelpSetText = "Set Actuators [MIN,MAX]";
+              root.mHelpSetText = "Set Actuators";
             break;
             case 1:
               root.mBtnSetText = "SETTING...";
-              root.mHelpSetText = "Waiting for APPS MIN ACK...";
+              root.mHelpSetText = "APPS MIN ACK";
             break;
             case 2:
-              root.mHelpSetText = "Waiting for APPS MAX ACK...";
+              root.mHelpSetText = "APPS MAX ACK";
               CAN.setActuatorsRange(0,1);
             break;
             case 3:
               root.mBtnSetText = "SET";
-              root.mHelpSetText = "Just DONE APPS SETUP";
+              root.mHelpSetText = "DONE APPS";
             break;
             case 4:
               root.mBtnSetText = "SETTING...";
-              root.mHelpSetText = "Waiting for BSE MIN ACK...";
+              root.mHelpSetText = "BSE MIN ACK";
             break;
             case 5:
-              root.mHelpSetText = "Waiting for BSE MAX ACK...";
+              root.mHelpSetText = "BSE MAX ACK";
               CAN.setActuatorsRange(1,1);
             break;
             case 6:
               root.mBtnSetText = "SET";
-              root.mHelpSetText = "Just DONE BSE SETUP";
+              root.mHelpSetText = "DONE BSE";
             break;
             case 7:
               root.mBtnSetText = "SETTING...";
-              root.mHelpSetText = "Waiting for STEER LEFT ACK...";
+              root.mHelpSetText = "STEER LEFT ACK";
             break;
             case 8:
-              root.mHelpSetText = "Waiting for STEER LEFT ACK...";
+              root.mHelpSetText = "STEER RIGHT ACK";
               CAN.setActuatorsRange(2,1);
             break;
             case 9:
               root.mBtnSetText = "SETTING";
-              root.mHelpSetText = "Just DONE STEER SETUP";
+              root.mHelpSetText = "DONE STEER";
             break;
           }
     }
@@ -235,7 +236,8 @@ Rectangle {
                     color: "white"
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
-                    font.pointSize: 10
+                    font.family: blackops.name;
+                    font.pointSize: 7
                 }
 
                 Item {

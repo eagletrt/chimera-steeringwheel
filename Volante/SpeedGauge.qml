@@ -2,6 +2,8 @@ import QtQuick 2.7
 
 Rectangle {
 
+    FontLoader {id:blackops; source: "lib/blops.TTF"}
+
     property int hvTemp: CAN.hvTemp;
     property int hvVolt: CAN.hvVolt;
     property int lvTemp: CAN.lvTemp;
@@ -127,7 +129,8 @@ Rectangle {
     Text {
         id: textVelocity
         text: velocity
-        font.pointSize: 70
+        font.pointSize: 35
+        font.family: blackops.name;
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         anchors.verticalCenterOffset: -5
@@ -136,9 +139,11 @@ Rectangle {
 
     Text {
         text: "kmh"
+        font.family: blackops.name;
+        font.pointSize: 5
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
-        anchors.verticalCenterOffset: 40
+        anchors.verticalCenterOffset: 37
         color: "white"
     }
 

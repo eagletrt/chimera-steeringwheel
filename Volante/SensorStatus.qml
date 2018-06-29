@@ -10,6 +10,8 @@ Rectangle {
     property var errorLEDCount
     property var selected
 
+    FontLoader {id:blackops; source: "lib/blops.TTF"}
+
     color: root.selected == 1 ? "green" : menu.color
 
 
@@ -26,8 +28,8 @@ Rectangle {
 
             Text {
                 text: root.text
-                font.family: "Stencil"
-                font.pointSize: 11
+                font.family: blackops.name;
+                font.pointSize: 6
                 color: "white"
                 anchors.centerIn: parent
             }

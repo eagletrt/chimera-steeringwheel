@@ -5,10 +5,10 @@ Rectangle {
     id: root
     radius: 8
     anchors.centerIn: parent
-
+    FontLoader {id:blackops; source: "lib/blops.TTF"}
     property var btnText
     property var btnColor
-    property var selected 
+    property var selected
 
     color: root.selected ? root.btnColor : "#333"
 
@@ -16,8 +16,9 @@ Rectangle {
         anchors.centerIn: parent
         color: "white"
         text: root.btnText
+        font.pointSize: 7
+        font.family: blackops.name;
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
     }
 }
-

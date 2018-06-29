@@ -37,7 +37,7 @@ CarStatus::CarStatus() {
     m_lv = 2;
     m_hv = 2;
 
-    m_velocity = 75;
+    m_velocity = 17;
     m_preset = 1;
 
     m_apps = 0;
@@ -284,7 +284,6 @@ int CarStatus::toggleCarStatus() {
 
         // Send CAN request to the CTRL
         emit toggleCar();
-
     } else {
         if (m_car_status == CAR_STATUS_GO) {
             qDebug() << "CAR_STATUS_GO -> CAR_STATUS_IDLE";

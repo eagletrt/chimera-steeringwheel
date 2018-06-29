@@ -32,7 +32,8 @@ Rectangle {
         id: text
         text: "P" + root.index
         anchors.centerIn: parent
-        font.pointSize: 9
+        font.family: blackops.name;
+        font.pointSize: 6
         color: "white"
     }
 }

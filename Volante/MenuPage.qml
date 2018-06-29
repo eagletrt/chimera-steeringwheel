@@ -149,7 +149,7 @@ Rectangle {
                 y: 0
                 Text {
                     id: text
-                    font.family: "Stencil"
+                    //font.family: "Stencil"
                     font.pointSize: 10
                     anchors.centerIn: parent
                     text: styleData.title

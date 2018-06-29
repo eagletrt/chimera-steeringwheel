@@ -3,6 +3,8 @@ import QtQuick 2.0
 Rectangle {
     id: root
 
+    FontLoader {id:blackops; source: "lib/blops.TTF"}
+
     property var activeColor
     property var text
 
@@ -31,6 +33,7 @@ Rectangle {
         text: root.text
         anchors.centerIn: parent
         color: "white"
-        font.pointSize: 15
+        font.family: blackops.name;
+        font.pointSize: 7
     }
 }

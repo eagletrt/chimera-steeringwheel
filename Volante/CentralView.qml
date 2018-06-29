@@ -29,18 +29,3 @@ Rectangle {
         }
     }
 }
-
-/*
-Rectangle {
-            id: centralview
-            color: "transparent"
-            width: body.width - batterytemp.width * 2
-            height: parent.height
-            x: batterytemp.width
-
-            Rectangle {
-                id: presets1
-                width: 50
-                height: body.height
-                color: "black"
-                */

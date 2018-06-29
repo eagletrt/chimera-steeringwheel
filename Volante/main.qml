@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.0
 
 Rectangle {
+  FontLoader {id:blackops; source: "lib/blops.TTF"}
   width: 480
   height: 272
   color: "black"
@@ -10,9 +11,10 @@ Rectangle {
   Text {
     id: mainTime
     x: 161
-    y: 2
-    font.pointSize: 22
-    text: "00:00:00"
+    y: 9
+    font.family: blackops.name;
+    font.pointSize: 11
+    text: "OO:OO:OO"
     color: "white"
   }
 

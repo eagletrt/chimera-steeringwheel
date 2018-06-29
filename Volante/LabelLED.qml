@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 Rectangle {
     id: root
     color: "transparent"
-
+    FontLoader {id:blackops; source: "lib/blops.TTF"}
     property var text
     property var ledColor
 
@@ -64,7 +64,8 @@ Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
 
                 text: root.text
-                font.pointSize: 9
+                font.pointSize: 6
+                font.family: blackops.name;
                 color: "white"
             }
         }

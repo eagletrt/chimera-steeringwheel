@@ -17,6 +17,8 @@
         <file>CANStatusLED.qml</file>
         <file>HVStatusLED.qml</file>
 
+        <file>lib/blops.TTF</file>
+
         <file>HVFrame.qml</file>
         <file>LVFrame.qml</file>
         <file>StatusFrame.qml</file>

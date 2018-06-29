@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.3
 Rectangle {
     id: root
     color: "#000000"
+    FontLoader {id:blackops; source: "lib/blops.TTF"}
 
     property var statusHV: [
         ["T. Max", "0", "° C"],
@@ -49,6 +50,8 @@ Rectangle {
 
                     Text {
                         text: "HV"
+                        font.family: blackops.name;
+                        font.pointSize: 10
                         anchors.centerIn: parent
                     }
                 }
@@ -58,6 +61,8 @@ Rectangle {
                     color: "blue"
 
                     Text {
+                        font.family: blackops.name;
+                        font.pointSize: 10
                         text: "LV"
                         anchors.centerIn: parent
                     }
@@ -110,6 +115,8 @@ Rectangle {
 
                                         Text {
                                             anchors.centerIn: parent
+                                            font.family: blackops.name;
+                                            font.pointSize: 6
                                             text: modelData[0] + ":" + modelData[1] + " " + modelData[2]
                                             color: "white"
                                         }
@@ -148,6 +155,8 @@ Rectangle {
 
                                         Text {
                                             anchors.centerIn: parent
+                                            font.family: blackops.name;
+                                            font.pointSize: 6
                                             text: modelData[0] + ":" + modelData[1] + " " + modelData[2]
                                             color: "white"
                                         }

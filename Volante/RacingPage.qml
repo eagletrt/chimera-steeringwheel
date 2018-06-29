@@ -24,7 +24,7 @@ Rectangle {
         mainwindow.btnReleased.disconnect(btnReleasedHandler);
         mainwindow.btnClicked.disconnect(btnClickedHandler);
 
-        //mainwindow.carStatusChanged.disconnect(carStatusChangedHandler);
+        mainwindow.carStatusChanged.disconnect(carStatusChangedHandler);
         mainwindow.controlStateChanged.disconnect(controlStateChangedHandler);
         //mainwindow.presetChanged.disconnect(presetChangedHandler);
     }
@@ -35,16 +35,16 @@ Rectangle {
         mainwindow.btnReleased.connect(btnReleasedHandler);
         mainwindow.btnClicked.connect(btnClickedHandler);
 
-        //mainwindow.carStatusChanged.connect(carStatusChangedHandler);
+        mainwindow.carStatusChanged.connect(carStatusChangedHandler);
         mainwindow.controlStateChanged.connect(controlStateChangedHandler);
         //mainwindow.presetChanged.connect(presetChangedHandler);
     }
 
-    /*
+/*
     function presetChangedHandler(presetID) {
         presetChanged(presetID);
     }
-    */
+*/
 
     function controlStateChangedHandler(ctrlIsEnabled, ctrlIsOn, warning, error) {
         controlStateChanged(ctrlIsEnabled, ctrlIsOn, warning, error);
@@ -96,7 +96,7 @@ Rectangle {
             /*
             */
         }
-/*
+
         if (btnID == 2) {
             /*
             // Enable or disable the CTRL
@@ -106,7 +106,7 @@ Rectangle {
             }
             console.log("Toggle the CTRL");
             CarStatus.toggleCtrl();
-
+            */
 
             if (carStatus.state == 'idle') {
                 // Can Change Car Status
@@ -114,26 +114,21 @@ Rectangle {
                 CarStatus.changePreset(loopThroughPresets)
             }
         }
-*/
     }
 
     function carStatusChangedHandler(statusID) {
         console.log("Car Status Changed: " + statusID);
         if (statusID == 0) {
             carStatus.state = "idle";
-            StatusFrame.idle.opacity = 1;
-            StatusFrame.run.opacity = 0;
         }
 
         if (statusID == 1) {
             carStatus.state = "run";
             StatusFrame.idle.opacity = 0;
-            StatusFrame.run.opacity = 1;
         }
 
         if (statusID == 2) {
             carStatus.state = "stop";
-            StatusFrame.idle.opacity = 1;
         }
     }
 
@@ -153,28 +148,12 @@ Rectangle {
                 id: body
                 anchors.fill: parent
                 columns: 1 //3
-/*
-                HVBatteryCharge {
-                    id: batterycharge
-                    width: 80
-                    Layout.fillHeight: true
-                    charge: currentCharge
-                }
-*/
+
                 CentralView {
                     id: centralview
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                 }
-/*
-                HVBatteryCharge {
-                    id: batterytemp
-                    width: 80
-                    charge: currentTemperature
-                    temperature: true
-                    Layout.fillHeight: true
-                }
-*/
             }
         }
     }
