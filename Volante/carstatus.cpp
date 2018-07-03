@@ -37,7 +37,7 @@ CarStatus::CarStatus() {
     m_lv = 2;
     m_hv = 2;
 
-    m_velocity = 17;
+    m_velocity = 58;
     m_preset = 1;
 
     m_apps = 0;

@@ -5,11 +5,9 @@
 TEMPLATE = app
 TARGET = EagleSteeringWheel
 INCLUDEPATH += . \
-
-
                lib/
 
-QT += core gui qml quick serialport
+QT += core gui qml quick serialbus
 
 # Input
 HEADERS += buttons.h \

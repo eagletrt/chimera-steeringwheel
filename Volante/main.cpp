@@ -9,9 +9,9 @@
 #include "canbus.h"
 #include "carstatus.h"
 
-const QString SERIAL_PORT = "/dev/ttyAMA0";
+const QString CAN_INTERFACE = "socketcan";
 
-int main(int argc, char* argv[]) 
+int main(int argc, char* argv[])
 {
     qDebug() << "Running in raspiARM mode";
     qDebug() << "Start Core Application...";
@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
     Buttons buttons(&app);
     Console logger;
     CarStatus carStatus;
-    Canbus canInterface(&carStatus, SERIAL_PORT);
+    Canbus canInterface(&carStatus, CAN_INTERFACE);
 
     QObject::connect(&buttons, &Buttons::presetChanged,
                      &carStatus, &CarStatus::changePreset);

@@ -1,11 +1,12 @@
 #ifndef CANBUS_H
 #define CANBUS_H
 
-#include <QSerialPort>
 #include <QTimer>
 #include <QByteArray>
 #include <QHash>
 #include "carstatus.h"
+
+#include <QCanBus>
 
 // CarStatus Constants
 #define CAR_STATUS_IDLE 0
@@ -44,10 +45,8 @@ class Canbus : public QObject
     Q_PROPERTY(int lvVolt READ lvVolt NOTIFY lvVoltChanged)
 
     public:
-        Canbus(CarStatus* carStatus, const QString serial_port);
+        Canbus(CarStatus* carStatus, const QString can_interface);
         ~Canbus();
-
-        QSerialPort serial;
 
         int invLeftState;
         int invRightState;
@@ -84,7 +83,7 @@ class Canbus : public QObject
         QString canMessage;
 
         void parseCANMessage(int mid, QByteArray msg);
-        void sendCanMessage(int, QString);
+        void sendCanMessage(int, QByteArray);
 
         int idIsArrived;
 

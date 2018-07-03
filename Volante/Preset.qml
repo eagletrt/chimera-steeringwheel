@@ -30,7 +30,7 @@ Rectangle {
 
     Text {
         id: text
-        text: "P" + root.index
+        text: root.index //"P" + root.index 
         anchors.centerIn: parent
         font.family: blackops.name;
         font.pointSize: 6

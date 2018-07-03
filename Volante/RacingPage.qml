@@ -26,7 +26,7 @@ Rectangle {
 
         mainwindow.carStatusChanged.disconnect(carStatusChangedHandler);
         mainwindow.controlStateChanged.disconnect(controlStateChangedHandler);
-        //mainwindow.presetChanged.disconnect(presetChangedHandler);
+        mainwindow.presetChanged.disconnect(presetChangedHandler);
     }
 
     function connect() {
@@ -37,14 +37,14 @@ Rectangle {
 
         mainwindow.carStatusChanged.connect(carStatusChangedHandler);
         mainwindow.controlStateChanged.connect(controlStateChangedHandler);
-        //mainwindow.presetChanged.connect(presetChangedHandler);
+        mainwindow.presetChanged.connect(presetChangedHandler);
     }
 
-/*
+
     function presetChangedHandler(presetID) {
         presetChanged(presetID);
     }
-*/
+
 
     function controlStateChangedHandler(ctrlIsEnabled, ctrlIsOn, warning, error) {
         controlStateChanged(ctrlIsEnabled, ctrlIsOn, warning, error);

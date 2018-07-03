@@ -5,8 +5,8 @@ RASP_PI_IMAGE=~/crosscompile-tools/raspbian.img
 RASP_PI_QMAKE=/mnt/rasp-pi-rootfs/usr/local/qt5pi/bin/qmake
 RASP_PI_PROJECT=EagleSteeringWheel.pro
 BUILD_DIR=build-arm/
-PI_ADDRESS=10.42.0.30
-PI_ADDRESS=raspberrypi.local
+PI_ADDRESS=192.168.43.244
+#PI_ADDRESS=root
 DEPLOY_TARGET_DIR=/home/pi
 
 # Mount image needed for crosscompilation dependencies
@@ -26,4 +26,4 @@ $RASP_PI_QMAKE -spec devices/linux-rasp-pi-g++ -o Makefile ../$RASP_PI_PROJECT
 make
 
 # Upload executable on the Rasp
-scp EagleSteeringWheel pi@$PI_ADDRESS:$DEPLOY_TARGET_DIR
+scp EagleSteeringWheel root@$PI_ADDRESS:/

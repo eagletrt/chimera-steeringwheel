@@ -3,23 +3,23 @@
 ######################################################################
 
 TEMPLATE = app
-TARGET = EagleSteeringWheel_x86 
+TARGET = EagleSteeringWheel_x86
 INCLUDEPATH += . \
                lib/
 
-QT += core gui qml quick serialport
+QT += core gui qml quick serialbus
 
 # Input
 HEADERS += buttons_x86.h \
            keypresseventfilter.h \
            console.h \
-           canbus.h \ 
-           carstatus.h 
+           canbus.h \
+           carstatus.h
 
 
 SOURCES += main_x86.cpp \
            buttons_x86.cpp \
-           keypresseventfilter.cpp \ 
+           keypresseventfilter.cpp \
            console.cpp \
            canbus.cpp \
            carstatus.cpp

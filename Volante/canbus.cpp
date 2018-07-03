@@ -2,50 +2,25 @@
 #include <QDebug>
 #include <QFileInfo>
 
-Canbus::Canbus(CarStatus* m_carStatus, const QString serial_port) {
+QCanBusDevice *device;
+
+Canbus::Canbus(CarStatus* m_carStatus, const QString can_interface) {
+
+    foreach (const QByteArray &backend, QCanBus::instance()->plugins()) {
+      if (backend == can_interface) {
+        qDebug() << "Socketcan Found";
+        break;
+      }
+    }
+
+    device = QCanBus::instance()->createDevice("socketcan", QStringLiteral("vcan0"));
+    device->connectDevice();
 
     carStatus = m_carStatus;
 
     qDebug() << "CAN Interface Init";
 
-    /*
-     * TODO: change from manual serial port name to
-     * name discovered by the serialPortInfo module!!!
-     */
-
-    //old CAN working fine on sim
-    QFileInfo file_info(serial_port);
-
-    qDebug() << "Serial Port name: " << serial_port;
-
-    if (file_info.isSymLink()) {
-        // This file is a SYM Link
-        // thus the serial needs to be be targeted correctly
-        serial.setPortName(file_info.symLinkTarget());
-    } else {
-        serial.setPortName(file_info.path());
-    }
-    //end old CAN
-
-    //new CAN not working on sim
-    //serial.setPortName("/dev/ttyAMA0")
-
-    serial.setBaudRate(QSerialPort::Baud115200);
-    serial.setDataBits(QSerialPort::Data8);
-    serial.setParity(QSerialPort::NoParity);
-    serial.setStopBits(QSerialPort::OneStop);
-    serial.setFlowControl(QSerialPort::NoFlowControl);
-
-    // Open the serial
-    bool serialIsOpen = serial.open(QIODevice::ReadWrite);
-
-    if (serialIsOpen) {
-        qDebug() << "Serial Communication: OK";
-    } else {
-        qDebug() << "Serial Communication: NO";
-    }
-
-    connect(&serial, SIGNAL(readyRead()),
+    connect(device, SIGNAL(framesReceived()),
             this, SLOT(parseSerial()));
 
     connect(carStatus, SIGNAL(toggleCar()),
@@ -78,15 +53,20 @@ int Canbus::actuatorRangePendingFlag() const {
 }
 
 void Canbus::checkSensorsError() {
+    QByteArray vuoto;
     qDebug() << "CheckSensorsError";
-    sendCanMessage(CHECK_SENSOR_ERROR_ID, "");
+    sendCanMessage(CHECK_SENSOR_ERROR_ID, vuoto);
 }
 
 void Canbus::checkCANCommunication(bool isOk = false) {
+  QByteArray check;
+  check.resize(1);
     if (isOk) {
-        sendCanMessage(CHECK_CAN_COM, QString::number(1));
+      check[0] = 1;
+      sendCanMessage(CHECK_CAN_COM, check);//QString::number(1));
     } else {
-        sendCanMessage(CHECK_CAN_COM, QString::number(0));
+      check[0] = 0;
+      sendCanMessage(CHECK_CAN_COM, check);//QString::number(0));
     }
 }
 
@@ -360,6 +340,8 @@ void Canbus::toggleCar() {
     goStatus = carStatus->getCurrentStatus();
     map = carStatus->getMap();
 
+    QByteArray toggleCAN;
+
     qDebug() << "CtrlIsOn: " << ctrlIsOn;
     qDebug() << "GoIsOn: " << goStatus;
     qDebug() << "Map:" << map;
@@ -371,29 +353,35 @@ void Canbus::toggleCar() {
      * 3    CAR_STATUS_MAP
      */
     if (goStatus == CAR_STATUS_STOP) {
-        canMessage = QString("c%1:1000\n").arg(QString::number(CHANGE_EXEC_MODE_ID));
+        //canMessage = QString("c%1:1000\n").arg(QString::number(CHANGE_EXEC_MODE_ID));
+        toggleCAN[0] = 100;
+        toggleCAN.resize(1);
     } else {
-        canMessage = QString("c%1:0%2%3%4\n").arg(QString::number(CHANGE_EXEC_MODE_ID),
-                                                  QString::number(goStatus),
-                                                  QString::number(ctrlIsOn),
-                                                  QString::number(map));
+        toggleCAN[0] = goStatus;
+        toggleCAN[1] = ctrlIsOn;
+        toggleCAN[2] = map;//percentuale di tua madre puttana
+        toggleCAN.resize(3);
+        //questo era il messaggio QString("c%1:0%2%3%4\n").arg(QString::number(CHANGE_EXEC_MODE_ID),
     }
 
     qDebug() << canMessage;
 
-    // Here don't send can msg BUT simply change the status
-    // in the CAN controller
-    serial.write(canMessage.toStdString().c_str(), canMessage.size());
+    sendCanMessage(CHANGE_EXEC_MODE_ID, toggleCAN);
 }
 
-void Canbus::sendCanMessage(int id, QString message) {
-    // TODO: Change message from ASCII to sequence of numbers
-    canMessage = QString("%1:%2\n").arg(QString::number(id), message);
-    serial.write(canMessage.toStdString().c_str(), canMessage.size());
+void Canbus::sendCanMessage(int id, QByteArray message) {
+    QCanBusFrame frame;
+    frame.setFrameId(id);
+    frame.setPayload(message);
+    device->writeFrame(frame);
+
 }
 
 void Canbus::askHVUpdate(int target) {
-    sendCanMessage(ASK_HV_STATE_ID, QString::number(target));
+    QByteArray arrayTarget;
+    arrayTarget[0] = target;
+    arrayTarget.resize(1);
+    sendCanMessage(ASK_HV_STATE_ID, arrayTarget);
 }
 
 void Canbus::setActuatorsRange(int actuatorID, int rangeSide) {
@@ -407,8 +395,14 @@ void Canbus::setActuatorsRange(int actuatorID, int rangeSide) {
    * 0: MIN
    * 1: MAX
    */
+
+   QByteArray actuator;
+   actuator.resize(2);
+   actuator[0] = actuatorID;
+   actuator[1] = rangeSide;
+
   qDebug() << "setActuatorsRange for " << actuatorID << " for " << rangeSide;
-  sendCanMessage(SET_ACTUATORS_RANGES, QString("%1%2").arg(QString::number(actuatorID), QString::number(rangeSide)));
+  sendCanMessage(SET_ACTUATORS_RANGES, actuator);//QString("%1%2").arg(QString::number(actuatorID), QString::number(rangeSide)));
 
   switch(actuatorID){
       case 0:
@@ -435,51 +429,23 @@ void Canbus::setActuatorsRange(int actuatorID, int rangeSide) {
 }
 
 void Canbus::parseSerial() {
-    QByteArray canFrame;
     QByteArray canMsg;
+    int canId;
 
-    while (serial.canReadLine()) {
-        canFrame = QByteArray();
-        canMsg = QByteArray();
+    while(device->framesAvailable()){
 
-        canFrame = serial.readLine();
+      QCanBusFrame frame = device->readFrame();
+      canMsg = frame.payload();
+      canId = frame.frameId();
 
-        //canID = *canFrame[0] << 8 | *canFrame[1];
-        canID = (uint8_t) canFrame[0] << 8 | (uint8_t) canFrame[1];
-
-        if (canID != 0) {
-            // Init the new canMsg array
-            for (int i = 0; i < 8; i++) {
-                canMsg.append(canFrame.at(i+2));
-            }
-
-            qDebug() << "CAN ID: " << canID << " CAN MSG " << canMsg;
-            parseCANMessage(canID, canMsg);
-        }
+      if(canId != 0){
+        //qDebug() << QString::number(canId);
+        parseCANMessage(canId,canMsg);
+      }
 
     }
-
-
-    /*
-    if (bytesToBeRead > 0) {
-
-        qDebug() << "Bytes to be read: " << bytesToBeRead;
-
-        while (serial.canReadLine()) {
-            qDebug() << "Data to read" << bytesToBeRead;
-            if (bytesToBeRead >> 11) {
-                qDebug() << "CAN Msg";
-                canFrame = serial.readLine();
-            } else {
-                qDebug() << serial.readLine();
-            }
-        }
-
-    }
-    */
 }
 
 Canbus::~Canbus() {
-    qDebug() << "Closing serial port...";
-    serial.close();
+    qDebug() << "Closing CAN...";
 }
