@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 Rectangle {
     id: root
     color: "#000000"
-    FontLoader {id:blackops; source: "lib/blops.TTF"}
+    FontLoader {id:blackops; source: "lib/blops.ttf"}
 
     property var statusHV: [
         ["T. Max", "0", "° C"],

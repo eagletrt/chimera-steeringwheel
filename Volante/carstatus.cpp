@@ -37,7 +37,7 @@ CarStatus::CarStatus() {
     m_lv = 2;
     m_hv = 2;
 
-    m_velocity = 58;
+    m_velocity = 79;
     m_preset = 1;
 
     m_apps = 0;
@@ -254,7 +254,13 @@ void CarStatus::setCarStatus(int ctrlIsEnabled,
 
     emit execModeChanged(ctrlIsEnabled, ctrlIsOn, warning, error);
     emit velocityChanged();
-    emit carStatusChanged(m_car_status);
+    emit carStatusChanged();
+}
+
+int CarStatus::carStatus() {
+    qDebug() << "Asked carStatus";
+    qDebug() << m_car_status;
+    return m_car_status;
 }
 
 int CarStatus::getCurrentStatus() {
@@ -262,8 +268,6 @@ int CarStatus::getCurrentStatus() {
 }
 
 int CarStatus::getMap() {
-    // TODO: Uniform RIO map numbering with UI map numbering
-    // RIO 0..7 UI 1..8
     return m_preset - 1;
 }
 

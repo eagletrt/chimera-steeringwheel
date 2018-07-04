@@ -10,8 +10,8 @@ Rectangle {
     property var canLeds: [
         ["InvRight", 'CAN_DEFAULT'],
         ["InvLeft", 'CAN_DEFAULT'],
-        ["PyFront", 'CAN_DEFAULT'],
-        ["PyRear", 'CAN_DEFAULT'],
+        ["STMFront", 'CAN_DEFAULT'],
+        ["STMRear", 'CAN_DEFAULT'],
         ["BMS HV", 'CAN_DEFAULT'],
         ["BMS LV", 'CAN_DEFAULT'],
     ]

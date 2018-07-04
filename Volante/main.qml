@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.0
 
 Rectangle {
-  FontLoader {id:blackops; source: "lib/blops.TTF"}
+  FontLoader {id:blackops; source: "lib/blops.ttf"}
   width: 480
   height: 272
   color: "black"
@@ -11,10 +11,10 @@ Rectangle {
   Text {
     id: mainTime
     x: 161
-    y: 9
+    y: 10
     font.family: blackops.name;
     font.pointSize: 11
-    text: "OO:OO:OO"
+    text: "00:00:00"
     color: "white"
   }
 
@@ -66,7 +66,7 @@ Rectangle {
               mainwindow.btnReleased(btnID);
           }
       }
-
+/*
       Connections {
           target: CarStatus
           onCarStatusChanged: {
@@ -76,7 +76,7 @@ Rectangle {
               mainwindow.controlStateChanged(ctrlIsEnabled, ctrlIsOn, warning, error);
           }
       }
-
+*/
       StackView {
           anchors.fill: parent
           id: stack

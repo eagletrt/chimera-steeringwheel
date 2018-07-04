@@ -44,6 +44,9 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString can_interface) {
     m_lvVolt = 120;
     m_lvTemp = 30;
 
+    m_brakeVal = 6;
+    m_throttleVal = 8;
+
     m_actuatorRangePendingFlag = 0;
 }
 
@@ -87,7 +90,20 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                                     msg.at(2),
                                     msg.at(3));
             break;
+        case TH_BK_VALUE:
+            qDebug() << "Throttle: " << QString::number(msg.at(0));
+            qDebug() << "Brake: " << QString::number(msg.at(1));
 
+            if (msg.at(0) == 0x02){
+               m_brakeVal = ( (int) msg.at(1) );
+            }else{
+               m_throttleVal = ( (int) msg.at(1));
+            }
+
+            emit brakeValChanged();
+            emit throttleValChanged();
+
+            break;
         case GET_ACTUATORS_RANGE_ACK:
             switch (msg.at(0)) {
                 case 0:
@@ -209,7 +225,6 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                 qDebug() << "Ricevuto Stato HV";
             }
             break;
-
         case EXEC_MODE_ID:
             ctrlIsEnabled = carStatus->getCtrlIsEnabled();
             ctrlIsOn = carStatus->getCtrlIsOn();
@@ -314,24 +329,31 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
 
 }
 
+int Canbus::brakeVal() const {
+    return m_brakeVal;
+}
+int Canbus::throttleVal() const {
+    return m_throttleVal;
+}
+
 int Canbus::hvTemp() const {
-    qDebug() << "Asked hvTemp";
-    qDebug() << m_hvTemp;
+    /*qDebug() << "Asked hvTemp";
+    qDebug() << m_hvTemp;*/
     return m_hvTemp;
 }
 int Canbus::lvTemp() const {
-    qDebug() << "Asked lvTemp";
-    qDebug() << m_lvTemp;
+    /*qDebug() << "Asked lvTemp";
+    qDebug() << m_lvTemp;*/
     return m_lvTemp;
 }
 int Canbus::hvVolt() const {
-    qDebug() << "Asked hvVolt";
-    qDebug() << m_hvVolt;
+    /*qDebug() << "Asked hvVolt";
+    qDebug() << m_hvVolt;*/
     return m_hvVolt;
 }
 int Canbus::lvVolt() const {
-    qDebug() << "Asked lvVolt";
-    qDebug() << m_lvVolt;
+    /*qDebug() << "Asked lvVolt";
+    qDebug() << m_lvVolt;*/
     return m_lvVolt;
 }
 

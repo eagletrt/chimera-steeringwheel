@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 Rectangle {
     id: root
     color: "transparent"
-    FontLoader {id:blackops; source: "lib/blops.TTF"}
+    FontLoader {id:blackops; source: "lib/blops.ttf"}
     property var text
     property var ledColor
 
@@ -42,7 +42,7 @@ Rectangle {
 
         Rectangle {
             color: "transparent"
-            Layout.preferredWidth: root.width / 2
+            Layout.preferredWidth: root.width / 4
             Layout.fillHeight: true
 
             Rectangle {

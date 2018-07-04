@@ -5,7 +5,7 @@ Rectangle {
     id: root
     radius: 8
     anchors.centerIn: parent
-    FontLoader {id:blackops; source: "lib/blops.TTF"}
+    FontLoader {id:blackops; source: "lib/blops.ttf"}
     property var btnText
     property var btnColor
     property var selected

@@ -10,16 +10,16 @@ Rectangle {
             console.log("CtrlStateChanged");
 
             if (ctrlIsEnabled == 1) {
-                ctrlLED.enabled = true 
+                ctrlLED.enabled = true
             } else {
-                ctrlLED.enabled = false 
+                ctrlLED.enabled = false
             }
 
             // When the user chooses not to abilitate the Ctrl
             if (ctrlIsOn == 1) {
-                ctrlLED.active = true 
+                ctrlLED.active = true
             } else {
-                ctrlLED.active = false 
+                ctrlLED.active = false
             }
 
             if (warning) {
@@ -40,15 +40,15 @@ Rectangle {
 
     GridLayout {
         anchors.fill: parent
-        columns: 4 
+        columns: 4
 
         CtrlLabelLED {
             id: ctrlLED
-            Layout.columnSpan: 2
+            Layout.columnSpan: 1
             Layout.fillWidth: true
             Layout.fillHeight: true
-            enabled: true
-            active: true
+            enabled: false
+            active: false
         }
 
         LabelLED {
@@ -70,4 +70,3 @@ Rectangle {
         }
     }
 }
-

@@ -22,6 +22,7 @@
 #define GET_STEER_STATUS        0xE1
 #define BMS_STATUS_ID           0x7EB
 #define GET_ACTUATORS_RANGE_ACK 0xBC
+#define TH_BK_VALUE             0xB0
 
 // ID in Scrittura
 // Ask again to check the CAN communication of peripherals
@@ -44,6 +45,9 @@ class Canbus : public QObject
     Q_PROPERTY(int hvVolt READ hvVolt NOTIFY hvVoltChanged)
     Q_PROPERTY(int lvVolt READ lvVolt NOTIFY lvVoltChanged)
 
+    Q_PROPERTY(int brakeVal READ brakeVal NOTIFY brakeValChanged)
+    Q_PROPERTY(int throttleVal READ throttleVal NOTIFY throttleValChanged)
+
     public:
         Canbus(CarStatus* carStatus, const QString can_interface);
         ~Canbus();
@@ -62,10 +66,17 @@ class Canbus : public QObject
         int m_lvTemp;
         int m_lvVolt;
 
+        int m_brakeVal;
+        int m_throttleVal;
+
         int hvTemp() const;
         int lvTemp() const;
         int hvVolt() const;
         int lvVolt() const;
+
+        int brakeVal() const;
+        int throttleVal() const;
+
 
         int ctrlIsOn;
         int goStatus;
@@ -99,6 +110,9 @@ class Canbus : public QObject
         void lvTempChanged();
         void hvVoltChanged();
         void lvVoltChanged();
+
+        void brakeValChanged();
+        void throttleValChanged();
 
     public slots:
         void parseSerial();

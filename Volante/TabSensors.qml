@@ -6,7 +6,7 @@ Rectangle {
     id: root
     color: "#000000"
     anchors.fill: parent
-    FontLoader {id:blackops; source: "lib/blops.TTF"}
+    FontLoader {id:blackops; source: "lib/blops.ttf"}
 
     property var appsStatus: CarStatus.APPSStatus
     property var bseStatus: CarStatus.BSEStatus

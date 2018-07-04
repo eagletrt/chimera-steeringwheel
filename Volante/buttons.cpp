@@ -1,7 +1,8 @@
 #include "buttons.h"
 #include <QDebug>
 
-#define BTN_TOP_LEFT        18
+//wiringpi definition for GPIO
+#define BTN_TOP_LEFT        23
 #define BTN_TOP_RIGHT       20
 /*rotto
 #define BTN_BOTTOM_LEFT
@@ -10,13 +11,12 @@
 #define PADDLE_RIGHT
 */
 
-// 4 27 22 23 24 5
 #define MAP_1              7
 #define MAP_2              2
 #define MAP_3              3
 #define MAP_4              4
 #define MAP_5              5
-#define MAP_6              16
+#define MAP_6              21
 
 Buttons::Buttons(QGuiApplication *app)
 {
@@ -43,18 +43,19 @@ Buttons::Buttons(QGuiApplication *app)
    isBackFromMap3 = false;
    switchIsWrong = false;
 
-   pinEnabled = {2,3,4,5,7,16,18,20,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115};
+   pinEnabled = {2,3,4,5,7,20,23,100,101,102,103,104,107,113,114,115};
 
    /*
-      1-
-      2-
-      3-
-      4-7
-      5-
-      6-
+         Encoder 1-2
+      100  1         107  2
+      101  2         115  3
+      102  3         113  4
+      103  4         114  5
+      104  5         112  6
+         Buttons
+      paddle L/R  108/109
+      bottom left/right 110/111
    */
-
-   //pinEnabled = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,18,21,22,23,24,25,26,27,28,29,30,31,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115};
 
    printf ("Raspberry Pi - MCP23017 Test\n") ;
 
@@ -76,7 +77,7 @@ Buttons::Buttons(QGuiApplication *app)
 }
 
 void Buttons::emitBtnEvent(int btnId, int btnAction) {
-   qDebug() << "Emitting " << btnAction << " on " << btnId;
+   //qDebug() << "Emitting " << btnAction << " on " << btnId;
    if (btnAction == BTN_PRESSED) {
       emit btnPressed(btnId);
    } else {
@@ -95,40 +96,38 @@ void Buttons::readGPIOState()
       if (pinState.at(i) != previusPinState.at(i)) {
          btnAction = -1;
 
-         qDebug() << "Changed pinState at " << i;
+         //qDebug() << "####### PIN " << pinEnabled[i] << "is " << pinState[i] << " #######";
 
          switch (btnState.at(i)) {
             case BTN_NORMAL:
-            btnState[i] = BTN_PRESSED;
-
-            btnAction = BTN_PRESSED;
+               btnState[i] = BTN_PRESSED;
+               btnAction = BTN_PRESSED;
             break;
-
             case BTN_PRESSED:
-            btnState[i] = BTN_NORMAL;
-            btnAction = BTN_NORMAL;
+               btnState[i] = BTN_NORMAL;
+               btnAction = BTN_NORMAL;
             break;
          }
 
          // Emit btn events
-         switch (i) {
+         switch (pinEnabled[i]) {
             case BTN_TOP_LEFT:
-            emitBtnEvent(0, btnAction);
+               emitBtnEvent(5, btnAction);
             break;
             /*case BTN_BOTTOM_LEFT:
-            emitBtnEvent(1, btnAction);
+               emitBtnEvent(1, btnAction);
             break;
-            case BTN_BOTTOM_RIGHT:
-            emitBtnEvent(2, btnAction);
+               case BTN_BOTTOM_RIGHT:
+               emitBtnEvent(2, btnAction);
             break;*/
             case BTN_TOP_RIGHT:
-            emitBtnEvent(3, btnAction);
+               emitBtnEvent(3, btnAction);
             break;/*
             case PADDLE_LEFT:
-            emitBtnEvent(4, btnAction);
+               emitBtnEvent(4, btnAction);
             break;
             case PADDLE_RIGHT:
-            emitBtnEvent(5, btnAction);
+               emitBtnEvent(5, btnAction);
             break;*/
          }
 
@@ -136,7 +135,7 @@ void Buttons::readGPIOState()
          int map = -1;
 
          // Change Maps
-         switch(i) {
+         switch(pinEnabled[i]) {
             case MAP_1:
             map = 1;
             break;

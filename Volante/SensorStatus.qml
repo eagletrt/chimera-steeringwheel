@@ -10,7 +10,7 @@ Rectangle {
     property var errorLEDCount
     property var selected
 
-    FontLoader {id:blackops; source: "lib/blops.TTF"}
+    FontLoader {id:blackops; source: "lib/blops.ttf"}
 
     color: root.selected == 1 ? "green" : menu.color
 

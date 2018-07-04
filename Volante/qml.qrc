@@ -2,7 +2,7 @@
     <qresource prefix="/">
         <file>main.qml</file>
 
-        <file>lib/blops.TTF</file>
+        <file>lib/blops.ttf</file>
 
         <file>RacingPage.qml</file>
         <file>Pedali.qml</file>

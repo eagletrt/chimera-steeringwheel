@@ -5,7 +5,7 @@
 #define CAR_STATUS_GO   1
 #define CAR_STATUS_STOP 2
 
-#define PRESET_NUMBER   6 
+#define PRESET_NUMBER   6
 
 #include <QDebug>
 
@@ -22,6 +22,9 @@ class CarStatus : public QObject
     Q_PROPERTY(QList<int> STEERStatus READ STEERStatus NOTIFY STEERStatusChanged)
     Q_PROPERTY(int velocity READ velocity NOTIFY velocityChanged)
     Q_PROPERTY(int preset READ preset NOTIFY presetChanged)
+
+    Q_PROPERTY(int carStatus READ carStatus NOTIFY carStatusChanged)
+
 
     public:
         CarStatus();
@@ -51,6 +54,8 @@ class CarStatus : public QObject
         int getCtrlIsOn();
         int getCurrentStatus();
         int getMap();
+
+        int carStatus();
 
         void setTemperature(int temperature);
         void setStateOfCharge(int stateofcharge);
@@ -106,7 +111,7 @@ class CarStatus : public QObject
         void tempChanged(int temperature);
         void socChanged(int soc);
         void execModeChanged(int ctrlIsEnabled, int ctrlIsOn, int warning, int error);
-        void carStatusChanged(int statusID);
+        void carStatusChanged();
 
         void toggleCar();
 

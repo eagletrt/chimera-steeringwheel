@@ -25,7 +25,7 @@ Rectangle {
         State {
             name: "enabled"
             PropertyChanges {
-                target: spindle 
+                target: spindle
                 color: "green"
             }
             AnchorChanges {
@@ -37,7 +37,7 @@ Rectangle {
         State {
             name: "disabled"
             PropertyChanges {
-                target: spindle 
+                target: spindle
                 color: "grey"
             }
             AnchorChanges {
@@ -53,23 +53,23 @@ Rectangle {
 
         Rectangle {
             color: "#000000"
-            width: root.width * 1/3 
-            height: root.height 
+            width: root.width * 1/5
+            height: root.height
 
             Rectangle {
                 id: slider_cont
-                width: parent.width * 0.9
-                height: parent.height * 0.5
+                width: parent.width * 0//0.9
+                height: parent.height * 0//0.5
                 anchors.centerIn: parent
                 color: "#000000"
                 border.width: 2
-                border.color: ctrlStatus ? 'green' : "gray"  
-                radius: 10 
+                border.color: ctrlStatus ? 'green' : "gray"
+                radius: 10
 
                 Rectangle {
                     id: spindle
                     width: parent.height - 6
-                    height: parent.height - 6 
+                    height: parent.height - 6
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.leftMargin: 3
                     anchors.rightMargin: 3
@@ -81,8 +81,8 @@ Rectangle {
         LabelLED {
             text: "CTRL"
             ledColor: "purple"
-            width: root.width * 2/3 
-            height: root.height 
+            width: root.width * 2/3
+            height: root.height
             state: root.active ? 'on' : 'off'
         }
     }

@@ -7,7 +7,7 @@ Rectangle {
 
     state: "CAN_DEFAULT"
 
-    FontLoader {id:blackops; source: "lib/blops.TTF"}
+    FontLoader {id:blackops; source: "lib/blops.ttf"}
 
     property var text
 

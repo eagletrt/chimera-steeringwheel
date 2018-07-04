@@ -94,17 +94,17 @@ Rectangle {
     }
 
     Tab {
-      RacingPage {
-      }
-    }
-
-    Tab {
       TabStatus {
       }
     }
 
     Tab {
       TabInverter {
+      }
+    }
+
+   Tab {
+      RacingPage {
       }
     }
 

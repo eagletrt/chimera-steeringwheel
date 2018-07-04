@@ -12,6 +12,7 @@ Rectangle {
 
         StatusLED {
             id: statusleds
+
             height: 40
             Layout.fillWidth: true
         }

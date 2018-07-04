@@ -15,7 +15,6 @@ Rectangle {
     property int carIsGo: 0
 
     signal presetChanged(int presetID)
-    signal carStatusChanged(int statusID)
     signal controlStateChanged(int ctrlIsEnabled, int ctrlIsOn, int warning, int error)
 
     function disconnect() {
@@ -24,7 +23,6 @@ Rectangle {
         mainwindow.btnReleased.disconnect(btnReleasedHandler);
         mainwindow.btnClicked.disconnect(btnClickedHandler);
 
-        mainwindow.carStatusChanged.disconnect(carStatusChangedHandler);
         mainwindow.controlStateChanged.disconnect(controlStateChangedHandler);
         mainwindow.presetChanged.disconnect(presetChangedHandler);
     }
@@ -35,7 +33,6 @@ Rectangle {
         mainwindow.btnReleased.connect(btnReleasedHandler);
         mainwindow.btnClicked.connect(btnClickedHandler);
 
-        mainwindow.carStatusChanged.connect(carStatusChangedHandler);
         mainwindow.controlStateChanged.connect(controlStateChangedHandler);
         mainwindow.presetChanged.connect(presetChangedHandler);
     }
@@ -98,40 +95,30 @@ Rectangle {
         }
 
         if (btnID == 2) {
-            /*
-            // Enable or disable the CTRL
-            if (carIsGo) {
-                console.log("Toggle the CTRL");
-                CarStatus.toggleCtrl();
-            }
-            console.log("Toggle the CTRL");
-            CarStatus.toggleCtrl();
-            */
 
-            if (carStatus.state == 'idle') {
-                // Can Change Car Status
-                // NEW: Change MCU Map
-                CarStatus.changePreset(loopThroughPresets)
-            }
+        }
+
+        if (btnID == 3) {
+
         }
     }
-
+/*
     function carStatusChangedHandler(statusID) {
         console.log("Car Status Changed: " + statusID);
         if (statusID == 0) {
-            carStatus.state = "idle";
+            //carStatus.state = "idle";
         }
 
         if (statusID == 1) {
-            carStatus.state = "run";
-            StatusFrame.idle.opacity = 0;
+            //carStatus.state = "run";
+            statusframe.statusfram.idle.opacity = 0;
         }
 
         if (statusID == 2) {
-            carStatus.state = "stop";
+            //carStatus.state = "stop";
         }
     }
-
+*/
     GridLayout {
         id: mainlayout
         rows: 2
