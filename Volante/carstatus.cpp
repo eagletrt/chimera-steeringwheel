@@ -5,7 +5,7 @@ CarStatus::CarStatus() {
 
     m_invRight = 2;
     m_invLeft = 2;
-    m_preCharge = 2;
+    m_preCharge = 1;
 
     m_ctrlIsEnabled = -1;
     // Set control activated by default
@@ -108,9 +108,9 @@ QString CarStatus::CANStatus() const {
 
 QString CarStatus::HVStatus() const {
     qDebug() << "Asked HVStatus";
-    return QString("%1%2%3").arg(QString::number(m_preCharge),
+    return QString("%1%2%3").arg(QString::number(m_invLeft),
                                  QString::number(m_invRight),
-                                 QString::number(m_invLeft));
+                                 QString::number(m_preCharge));
 }
 
 QString CarStatus::ERRStatus() const {
@@ -225,9 +225,9 @@ void CarStatus::setCANStatus(int invr,
     emit CANStatusChanged();
 }
 
-void CarStatus::setHVStatus(int preCharge,
+void CarStatus::setHVStatus(int invLeft,
                             int invRight,
-                            int invLeft) {
+                            int preCharge) {
     m_invRight = invRight;
     m_invLeft = invLeft;
     m_preCharge = preCharge;

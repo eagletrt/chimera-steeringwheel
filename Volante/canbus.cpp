@@ -254,25 +254,20 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                                           (msg.at(1) >> 5) & 1,
                                           (msg.at(1) >> 6) & 1,
                                           (msg.at(1) >> 7) & 1);
+            } else if(msg.at(0) == ECU_INV_LEFT){
+               QString oldStatus = carStatus->HVStatus();
+               carStatus->setHVStatus(1,oldStatus.mid(1,1).toInt(), oldStatus.mid(2,1).toInt());
+               qDebug() << "Ricevuto Stato INV LEFT" << oldStatus.mid(1,1).toInt();
+               qDebug() << oldStatus;
+            } else if(msg.at(0) == ECU_INV_RIGHT){
+               QString oldStatus = carStatus->HVStatus();
+               carStatus->setHVStatus(oldStatus.mid(0,1).toInt(), 1, oldStatus.mid(2,1).toInt());
+               qDebug() << "Ricevuto Stato INV RIGHT" << oldStatus.mid(0,1).toInt();
+               qDebug() << oldStatus;
             }
 
             break;
 
-        case GET_HV_STATE_ID:
-
-            qDebug() << "Messaggio: " << msg;
-
-            if (msg.at(0) != 0xAF) {
-                // [INV_R, INV_L, PRE]
-                preChargeState = msg.at(0);
-                invRightState = msg.at(1);
-                invLeftState = msg.at(2);
-
-                carStatus->setHVStatus(preChargeState, invRightState, invLeftState);
-
-                qDebug() << "Ricevuto Stato HV";
-            }
-            break;
         case EXEC_MODE_ID:
             ctrlIsEnabled = carStatus->getCtrlIsEnabled();
             ctrlIsOn = carStatus->getCtrlIsOn();
@@ -449,9 +444,14 @@ void Canbus::sendCanMessage(int id, QByteArray message) {
 
 void Canbus::askHVUpdate(int target) {
     QByteArray arrayTarget;
-    arrayTarget[0] = target;
-    arrayTarget.resize(1);
-    sendCanMessage(ASK_HV_STATE_ID, arrayTarget);
+    arrayTarget.resize(8);
+    if(target == 0)
+      arrayTarget[0] = ECU_INV_LEFT;
+    else if(target == 1)
+      arrayTarget[0] = ECU_INV_RIGHT;
+
+   if(target != 2)
+      sendCanMessage(ECU_MSG, arrayTarget);
 }
 
 void Canbus::setActuatorsRange(int actuatorID, int rangeSide) {

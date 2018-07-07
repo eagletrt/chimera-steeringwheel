@@ -33,6 +33,8 @@
 #define CHANGE_EXEC_MODE_ID     0xEF
 
 //NEW DEFINE FOR VARANO 2018
+#define ECU_INV_LEFT            0x08
+#define ECU_INV_RIGHT           0x09
 #define STEERING_WHEEL_ID       0xA0
 #define ECU_ERRORS              0x01
 #define ECU_WARNINGS            0x02

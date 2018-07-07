@@ -11,9 +11,9 @@ Rectangle {
     property var canHvStatus: CarStatus.HVStatus
     property var hvPossibleStates: ["NO", "OK", "DEFAULT"]
     property var hvStatus: [
-        ["PreCharge", "DEFAULT", false],
-        ["Inverter Right", "DEFAULT", false],
         ["Inverter Left", "DEFAULT", false],
+        ["Inverter Right", "DEFAULT", false],
+        ["preCharge", "DEFAULT", false]
     ]
 
 
