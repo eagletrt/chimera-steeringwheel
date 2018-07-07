@@ -24,8 +24,9 @@ CarStatus::CarStatus() {
     m_err_apps = 2;
     m_err_bse = 2;
     m_err_steer = 2;
-    m_err_wheel_right = 2;
     m_err_wheel_left = 2;
+    m_err_wheel_right = 2;
+    m_err_gps = 2;
     m_err_imu_front = 2;
     m_err_imu_central = 2;
     m_err_imu_rear = 2;
@@ -33,11 +34,13 @@ CarStatus::CarStatus() {
     m_invr = 2;
     m_invl = 2;
     m_front = 2;
+    m_central = 2;
+    m_pedals = 2;
     m_rear = 2;
     m_lv = 2;
     m_hv = 2;
 
-    m_velocity = 79;
+    m_velocity = 100;
     m_preset = 1;
 
     m_apps = 0;
@@ -93,9 +96,11 @@ int CarStatus::velocity() const {
 
 QString CarStatus::CANStatus() const {
     qDebug() << "Asked CanStatus";
-    return QString("%1%2%3%4%5%6").arg(QString::number(m_invr),
+    return QString("%1%2%3%4%5%6%7%8").arg(QString::number(m_invr),
                                        QString::number(m_invl),
                                        QString::number(m_front),
+                                       QString::number(m_central),
+                                       QString::number(m_pedals),
                                        QString::number(m_rear),
                                        QString::number(m_lv),
                                        QString::number(m_hv));
@@ -110,13 +115,14 @@ QString CarStatus::HVStatus() const {
 
 QString CarStatus::ERRStatus() const {
     qDebug() << "Asked ERRStatus";
-    return QString("%1%2%3%4%5%6%7%8")
+    return QString("%1%2%3%4%5%6%7%8%9")
         .arg(QString::number(m_err_apps),
              QString::number(m_err_bse),
-             QString::number(m_err_steer),
              QString::number(m_err_wheel_left),
              QString::number(m_err_wheel_right),
+             QString::number(m_err_steer),
              QString::number(m_err_imu_front),
+             QString::number(m_err_gps),
              QString::number(m_err_imu_central),
              QString::number(m_err_imu_rear));
 }
@@ -178,16 +184,18 @@ void CarStatus::setAPPSBSEStatus(int apps,
 
 void CarStatus::setERRStatus(int err_apps,
                              int err_bse,
-                             int err_steer,
-                             int err_wheel_right,
                              int err_wheel_left,
+                             int err_wheel_right,
+                             int err_steer,
                              int err_imu_front,
+                             int err_gps,
                              int err_imu_central,
                              int err_imu_rear) {
 
     m_err_apps = err_apps;
     m_err_bse = err_bse;
     m_err_steer = err_steer;
+    m_err_gps = err_gps;
     m_err_wheel_right = err_wheel_left;
     m_err_wheel_left = err_wheel_right;
     m_err_imu_front = err_imu_front;
@@ -200,15 +208,19 @@ void CarStatus::setERRStatus(int err_apps,
 void CarStatus::setCANStatus(int invr,
                              int invl,
                              int front,
+                             int central,
+                             int pedals,
                              int rear,
-                             int lv,
-                             int hv) {
+                             int hv,
+                             int lv) {
     m_invr = invr;
     m_invl = invl;
     m_front = front;
     m_rear = rear;
     m_lv = lv;
     m_hv = hv;
+    m_central = central;
+    m_pedals = pedals;
 
     emit CANStatusChanged();
 }

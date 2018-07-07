@@ -45,8 +45,8 @@ class CarStatus : public QObject
 
         void setHVStatus(int invRight, int invLeft, int preCharge);
         void setCarStatus(int, int, int, int, int, int);
-        void setCANStatus(int, int, int, int, int, int);
-        void setERRStatus(int, int, int, int, int, int, int, int);
+        void setCANStatus(int, int, int, int, int, int, int, int);
+        void setERRStatus(int, int, int, int, int, int, int, int, int);
         void setAPPSBSEStatus(int, int, int, int);
         void setSTEERStatus(int, int);
 
@@ -90,12 +90,15 @@ class CarStatus : public QObject
         int m_rear;
         int m_lv;
         int m_hv;
+        int m_central;
+        int m_pedals;
 
         int m_err_apps;
         int m_err_bse;
         int m_err_steer;
-        int m_err_wheel_right;
         int m_err_wheel_left;
+        int m_err_wheel_right;
+        int m_err_gps;
         int m_err_imu_front;
         int m_err_imu_central;
         int m_err_imu_rear;

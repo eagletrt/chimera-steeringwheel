@@ -2,14 +2,12 @@
 #include <QDebug>
 
 //wiringpi definition for GPIO
-#define BTN_TOP_LEFT        23
-#define BTN_TOP_RIGHT       20
-/*rotto
-#define BTN_BOTTOM_LEFT
-#define BTN_BOTTOM_RIGHT
-#define PADDLE_LEFT
-#define PADDLE_RIGHT
-*/
+#define BTN_TOP_LEFT       108
+#define BTN_TOP_RIGHT      109
+#define BTN_BOTTOM_LEFT    25
+#define BTN_BOTTOM_RIGHT   23
+#define PADDLE_LEFT        110
+#define PADDLE_RIGHT       111
 
 #define MAP_1              7
 #define MAP_2              2
@@ -42,22 +40,22 @@ Buttons::Buttons(QGuiApplication *app)
    isBackFromMap6 = false;
    isBackFromMap3 = false;
    switchIsWrong = false;
-
-   pinEnabled = {2,3,4,5,7,20,23,100,101,102,103,104,107,113,114,115};
+   //
+   pinEnabled = {2,3,4,5,7,20,21,23,25,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115};
 
    /*
          Encoder 1-2
-      100  1         107  2
-      101  2         115  3
-      102  3         113  4
-      103  4         114  5
-      104  5         112  6
+      100  1         106  1
+      101  2         107  2
+      102  3         115  3
+      103  4         113  4
+      104  5         114  5
+      105  6         112  6
          Buttons
       paddle L/R  108/109
       bottom left/right 110/111
-   */
 
-   printf ("Raspberry Pi - MCP23017 Test\n") ;
+   */
 
    for (int i=0; i < pinEnabled.size(); i++) {
       pinMode(pinEnabled[i], INPUT);
@@ -77,7 +75,7 @@ Buttons::Buttons(QGuiApplication *app)
 }
 
 void Buttons::emitBtnEvent(int btnId, int btnAction) {
-   //qDebug() << "Emitting " << btnAction << " on " << btnId;
+   qDebug() << "Emitting " << btnAction << " on " << btnId;
    if (btnAction == BTN_PRESSED) {
       emit btnPressed(btnId);
    } else {
@@ -90,13 +88,17 @@ void Buttons::readGPIOState()
 {
    // Controllo degli input di Raspberry
 
+   //inviare messaggio in can checkSteer
+   //inviare ogni 10milli
+   //se non va faccio un altro timer
+
    for (int i=0; i < pinEnabled.size(); i++) {
       pinState[i] = digitalRead(pinEnabled.at(i));
 
       if (pinState.at(i) != previusPinState.at(i)) {
          btnAction = -1;
 
-         //qDebug() << "####### PIN " << pinEnabled[i] << "is " << pinState[i] << " #######";
+         qDebug() << "####### PIN " << pinEnabled[i] << "is " << pinState[i] << " #######";
 
          switch (btnState.at(i)) {
             case BTN_NORMAL:
@@ -112,23 +114,23 @@ void Buttons::readGPIOState()
          // Emit btn events
          switch (pinEnabled[i]) {
             case BTN_TOP_LEFT:
-               emitBtnEvent(5, btnAction);
+               emitBtnEvent(0, btnAction);
             break;
-            /*case BTN_BOTTOM_LEFT:
+            case BTN_BOTTOM_LEFT:
                emitBtnEvent(1, btnAction);
             break;
                case BTN_BOTTOM_RIGHT:
                emitBtnEvent(2, btnAction);
-            break;*/
+            break;
             case BTN_TOP_RIGHT:
                emitBtnEvent(3, btnAction);
-            break;/*
+            break;
             case PADDLE_LEFT:
                emitBtnEvent(4, btnAction);
             break;
             case PADDLE_RIGHT:
                emitBtnEvent(5, btnAction);
-            break;*/
+            break;
          }
 
 

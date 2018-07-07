@@ -99,6 +99,11 @@ Rectangle {
     }
 
     Tab {
+      TabErrors {
+      }
+    }
+
+    Tab {
       TabInverter {
       }
     }
@@ -109,33 +114,27 @@ Rectangle {
     }
 
     Tab {
-      TabErrors {
+      TabBattery {
       }
     }
 
     Tab {
       TabSensors {
-
-      }
-    }
-
-    Tab {
-      TabBattery {
       }
     }
 
     style: TabViewStyle {
       frameOverlap: 0
       tab: Rectangle {
-        color: styleData.selected ? "yellow" : "blue"
-        border.color:  "black"
-        border.width: 1
+        color: styleData.selected ? "lightgray" : "black" //#2266FF
+        border.color: styleData.selected ? "black" : "lightgray"
+        border.width:  0.5
         implicitWidth: tabView.width/6
-        implicitHeight:  7
+        implicitHeight:  5
         y: 0
         Text {
           id: text
-          font.pointSize: 10
+          font.pointSize: 5
           anchors.centerIn: parent
           text: styleData.title
           color: "black"

@@ -1,5 +1,8 @@
-import QtQuick 2.0
+//import QtQuick 2.0
 import QtQuick.Controls 2.0
+
+import QtQuick 2.4
+import QtQuick.Window 2.2
 
 Rectangle {
   FontLoader {id:blackops; source: "lib/blops.ttf"}
@@ -8,14 +11,27 @@ Rectangle {
   color: "black"
   id: frame
 
-  Text {
-    id: mainTime
-    x: 161
-    y: 10
-    font.family: blackops.name;
-    font.pointSize: 11
-    text: "00:00:00"
-    color: "white"
+  Timer {
+      interval: 1; running: true; repeat: true
+      onTriggered: mainTime.text = new Date().toLocaleTimeString(Qt.locale("it_IT"),"hh:mm:ss")
+  }
+
+  Rectangle{
+     id: timeRectangle
+     color: "black"
+     width: 152
+     height: 37
+     x: 164
+     y: 3
+
+     Text {
+        id: mainTime
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        font.family: blackops.name;
+        font.pointSize: 13
+        color: "lightgray"
+     }
   }
 
   Rectangle {
@@ -40,20 +56,6 @@ Rectangle {
       signal controlStateChanged(int ctrlIsEnabled, int ctrlIsOn, int warning, int error);
       signal hvStatusChanged(int invRight, int invLeft, int preCharge)
 
-      function changePage() {
-          if (canSwitchPage) {
-              if (itemOnTop == 1) {
-                  /*Cazzo mene io non switcho
-                  stack.push(page2);
-                  itemOnTop = 2;
-                  */
-              } else {
-                  stack.push(page1);
-                  itemOnTop = 1;
-              }
-          }
-      }
-
       Connections {
           target: Buttons
           onBtnClicked: {
@@ -66,17 +68,7 @@ Rectangle {
               mainwindow.btnReleased(btnID);
           }
       }
-/*
-      Connections {
-          target: CarStatus
-          onCarStatusChanged: {
-              mainwindow.carStatusChanged(statusID);
-          }
-          onExecModeChanged: {
-              mainwindow.controlStateChanged(ctrlIsEnabled, ctrlIsOn, warning, error);
-          }
-      }
-*/
+
       StackView {
           anchors.fill: parent
           id: stack
@@ -85,7 +77,6 @@ Rectangle {
 
           Component.onCompleted: {
               this.push(page1);
-              //mainwindow.btnClicked.connect(changePage)
           }
 
           onCurrentItemChanged: {

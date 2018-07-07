@@ -6,6 +6,18 @@ QCanBusDevice *device;
 
 Canbus::Canbus(CarStatus* m_carStatus, const QString can_interface) {
 
+/*
+   Right Can for 5.10.1 RPI
+
+   QString errorString;
+   device = QCanBus::instance()->createDevice(
+       QStringLiteral("socketcan"), QStringLiteral("vcan0"), &errorString);
+   if (!device)
+       qDebug() << errorString;
+   else
+       device->connectDevice();
+*/
+
     foreach (const QByteArray &backend, QCanBus::instance()->plugins()) {
       if (backend == can_interface) {
         qDebug() << "Socketcan Found";
@@ -20,6 +32,12 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString can_interface) {
 
     qDebug() << "CAN Interface Init";
 
+    timer = new QTimer(this);
+
+    // Setup signal/slot mechanism
+    connect(timer, SIGNAL(timeout()),
+            this, SLOT(steerConnected()));
+
     connect(device, SIGNAL(framesReceived()),
             this, SLOT(parseSerial()));
 
@@ -28,6 +46,8 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString can_interface) {
 
     connect(carStatus, SIGNAL(CTRLEnabledChanged()),
             this, SLOT(toggleCar()));
+
+    timer->start(10);
 
     invLeftState = -1;
     invRightState = -1;
@@ -44,10 +64,17 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString can_interface) {
     m_lvVolt = 120;
     m_lvTemp = 30;
 
-    m_brakeVal = 6;
-    m_throttleVal = 8;
+    m_brakeVal = 10;
+    m_throttleVal = 10;
 
     m_actuatorRangePendingFlag = 0;
+}
+
+void Canbus::steerConnected() {
+   QByteArray connected;
+   connected.resize(8);
+   connected[0] = 1;
+   sendCanMessage(STEERING_WHEEL_ID,connected);
 }
 
 int Canbus::actuatorRangePendingFlag() const {
@@ -63,7 +90,7 @@ void Canbus::checkSensorsError() {
 
 void Canbus::checkCANCommunication(bool isOk = false) {
   QByteArray check;
-  check.resize(1);
+  check.resize(8);
     if (isOk) {
       check[0] = 1;
       sendCanMessage(CHECK_CAN_COM, check);//QString::number(1));
@@ -77,6 +104,11 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
     // State machine for parsing the CAN Msg and giving
     // back the correct signal
     switch (mid) {
+
+
+
+
+
         case GET_APPS_BSE_STATUS:
             qDebug() << "APPS State: ";
             qDebug() << "APPS: " << QString::number(msg.at(0));
@@ -90,7 +122,10 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                                     msg.at(2),
                                     msg.at(3));
             break;
-        case TH_BK_VALUE:
+
+
+
+        case STM_PEDALS:
             qDebug() << "Throttle: " << QString::number(msg.at(0));
             qDebug() << "Brake: " << QString::number(msg.at(1));
 
@@ -163,6 +198,10 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             }
             break;
 
+
+
+
+
         case GET_STEER_STATUS:
             qDebug() << "STEER State: ";
             qDebug() << "STEER: " << QString::number(msg.at(0));
@@ -172,42 +211,51 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                                     msg.at(1));
             break;
 
-        case GET_ERRORS_STATUS:
-            qDebug() << "Errors State:";
-            qDebug() << "err_apps: " << QString::number(msg.at(0));
-            qDebug() << "err_bse: " << QString::number(msg.at(1));
-            qDebug() << "err_steer: " << QString::number(msg.at(2));
-            qDebug() << "err_wheel_right: " << QString::number(msg.at(3));
-            qDebug() << "err_wheel_left: " << QString::number(msg.at(4));
-            qDebug() << "err_imu_front: " << QString::number(msg.at(5));
-            qDebug() << "err_imu_central: " << QString::number(msg.at(6));
-            qDebug() << "err_imu_rear: " << QString::number(msg.at(7));
 
-            carStatus->setERRStatus(msg.at(0),
-                                    msg.at(1),
-                                    msg.at(2),
-                                    msg.at(3),
-                                    msg.at(4),
-                                    msg.at(5),
-                                    msg.at(6),
-                                    msg.at(7));
-            break;
 
-        case GET_CAN_STATUS:
-            qDebug() << "Car CANBUS State: ";
-            qDebug() << "INV_RIGHT: " << QString::number(msg.at(0));
-            qDebug() << "INV_LEFT: " << QString::number(msg.at(1));
-            qDebug() << "FRONT: " << QString::number(msg.at(2));
-            qDebug() << "REAR: " << QString::number(msg.at(3));
-            qDebug() << "BMS_HV: " << QString::number(msg.at(4));
-            qDebug() << "BMS_LV: " << QString::number(msg.at(5));
+        case ECU_MSG:
+            if(msg.at(0) == ECU_WARNINGS){
+               qDebug() << "Errors State:";
+               qDebug() << "err_apps: " << QString::number((msg.at(1) >> 0) & 1);
+               qDebug() << "err_bse: " << QString::number((msg.at(1) >> 1) & 1);
+               qDebug() << "err_wheel_left: " << QString::number((msg.at(1) >> 2) & 1);
+               qDebug() << "err_wheel_right: " << QString::number((msg.at(1) >> 3) & 1);
+               qDebug() << "err_steer: " << QString::number((msg.at(1) >> 4) & 1);
+               qDebug() << "err_imu_front: " << QString::number((msg.at(1) >> 5) & 1);
+               qDebug() << "err_gps: " << QString::number((msg.at(1) >> 6) & 1);
+               qDebug() << "err_imu_central: " << QString::number((msg.at(1) >> 7) & 1);
+               qDebug() << "err_imu_rear: " << QString::number((msg.at(2) >> 0) & 1);
 
-            carStatus->setCANStatus(msg.at(0),
-                                    msg.at(1),
-                                    msg.at(2),
-                                    msg.at(3),
-                                    msg.at(4),
-                                    msg.at(5));
+               carStatus->setERRStatus((msg.at(1) >> 0) & 1,
+                                       (msg.at(1) >> 1) & 1,
+                                       (msg.at(1) >> 2) & 1,
+                                       (msg.at(1) >> 3) & 1,
+                                       (msg.at(1) >> 4) & 1,
+                                       (msg.at(1) >> 5) & 1,
+                                       (msg.at(1) >> 6) & 1,
+                                       (msg.at(1) >> 7) & 1,
+                                       (msg.at(2) >> 0) & 1);
+            }else if(msg.at(0) == ECU_ERRORS){
+                  qDebug() << "Car CANBUS State: ";
+                  qDebug() << "INV_RIGHT: " << QString::number(msg.at(0));
+                  qDebug() << "INV_LEFT: " << QString::number(msg.at(1));
+                  qDebug() << "FRONT: " << QString::number(msg.at(2));
+                  qDebug() << "CENTRAL: " << QString::number(msg.at(3));
+                  qDebug() << "PEDALS: " << QString::number(msg.at(4));
+                  qDebug() << "REAR: " << QString::number(msg.at(5));
+                  qDebug() << "BMS_HV: " << QString::number(msg.at(6));
+                  qDebug() << "BMS_LV: " << QString::number(msg.at(7));
+
+                  carStatus->setCANStatus((msg.at(1) >> 0) & 1,
+                                          (msg.at(1) >> 1) & 1,
+                                          (msg.at(1) >> 2) & 1,
+                                          (msg.at(1) >> 3) & 1,
+                                          (msg.at(1) >> 4) & 1,
+                                          (msg.at(1) >> 5) & 1,
+                                          (msg.at(1) >> 6) & 1,
+                                          (msg.at(1) >> 7) & 1);
+            }
+
             break;
 
         case GET_HV_STATE_ID:
@@ -216,9 +264,9 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
 
             if (msg.at(0) != 0xAF) {
                 // [INV_R, INV_L, PRE]
-                invRightState = msg.at(0);
-                invLeftState = msg.at(1);
-                preChargeState = msg.at(2);
+                preChargeState = msg.at(0);
+                invRightState = msg.at(1);
+                invLeftState = msg.at(2);
 
                 carStatus->setHVStatus(preChargeState, invRightState, invLeftState);
 

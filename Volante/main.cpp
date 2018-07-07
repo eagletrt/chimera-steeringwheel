@@ -34,16 +34,5 @@ int main(int argc, char* argv[])
     view->setSource(QUrl("qrc:///main.qml"));
     view->show();
 
-    /*
-    QObject::connect(&timer, &MyTimer::btnClicked,
-            &logger, &Console::onClicked);
-
-    QObject::connect(&timer, &MyTimer::btnPressed,
-            &logger, &Console::onPressed);
-
-    QObject::connect(&timer, &MyTimer::btnReleased,
-            &logger, &Console::onReleased);
-    */
-
     return app.exec();
 }

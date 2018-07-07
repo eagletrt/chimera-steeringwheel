@@ -62,8 +62,8 @@ Rectangle {
 
       anchors.horizontalCenter: parent.horizontalCenter
       anchors.verticalCenter: parent.verticalCenter
-      anchors.verticalCenterOffset: -125
-      anchors.horizontalCenterOffset: -162
+      anchors.verticalCenterOffset: -130
+      anchors.horizontalCenterOffset: -172
 
       onThrottleValChanged: function(){
          throttleValore = CAN.throttleVal;
@@ -283,7 +283,7 @@ Rectangle {
       font.family: blackops.name;
       anchors.horizontalCenter: parent.horizontalCenter
       anchors.verticalCenter: parent.verticalCenter
-      anchors.verticalCenterOffset: -5
+      anchors.verticalCenterOffset: -15
       color: "white"
    }
 
@@ -293,7 +293,7 @@ Rectangle {
       font.pointSize: 5
       anchors.horizontalCenter: parent.horizontalCenter
       anchors.verticalCenter: parent.verticalCenter
-      anchors.verticalCenterOffset: 37
+      anchors.verticalCenterOffset: 28
       color: "white"
    }
 
@@ -303,8 +303,8 @@ Rectangle {
 
       anchors.horizontalCenter: parent.horizontalCenter
       anchors.verticalCenter: parent.verticalCenter
-      anchors.verticalCenterOffset: -109
-      anchors.horizontalCenterOffset: -206
+      anchors.verticalCenterOffset: -119
+      anchors.horizontalCenterOffset: -207
 
       onBrakeValChanged: function(){
          brakeValore = CAN.brakeVal;

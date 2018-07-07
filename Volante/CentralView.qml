@@ -8,7 +8,7 @@ Rectangle {
     GridLayout {
         anchors.fill: parent
         flow: GridLayout.TopToBottom
-        Layout.margins: 0
+        Layout.margins: 1
 
         StatusLED {
             id: statusleds
@@ -25,7 +25,7 @@ Rectangle {
         }
 
         Presets {
-            height: 25
+            height: 20
             width: 365
         }
     }

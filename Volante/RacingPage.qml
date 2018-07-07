@@ -74,7 +74,6 @@ Rectangle {
 
             if (carIsGo) {
                 console.log("Sent Car Start command");
-                //StatusFrame.run.opacity = 1;
             } else {
                 console.log("Sent Car Stop command");
             }
@@ -85,13 +84,7 @@ Rectangle {
             if (carIsGo) {
                 // Stop the car
                 carIsGo = CarStatus.stopCar();
-            } else {
-                // IDLE STATE
-                mainwindow.changePage();
             }
-
-            /*
-            */
         }
 
         if (btnID == 2) {
@@ -99,26 +92,18 @@ Rectangle {
         }
 
         if (btnID == 3) {
+           /*
+               emit della funziona che ti permette di cambiare
+               hv lv throttle brake e velocity
 
+               un altro emit per poter far partire il timer
+               che dal tempo di adesso va a 0
+               sottraendo il valore di quando è
+               stato emesso
+           */
         }
     }
-/*
-    function carStatusChangedHandler(statusID) {
-        console.log("Car Status Changed: " + statusID);
-        if (statusID == 0) {
-            //carStatus.state = "idle";
-        }
 
-        if (statusID == 1) {
-            //carStatus.state = "run";
-            statusframe.statusfram.idle.opacity = 0;
-        }
-
-        if (statusID == 2) {
-            //carStatus.state = "stop";
-        }
-    }
-*/
     GridLayout {
         id: mainlayout
         rows: 2

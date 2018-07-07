@@ -7,12 +7,12 @@ Rectangle {
     FontLoader {id:blackops; source: "lib/blops.ttf"}
 
     property var statusHV: [
-        ["T. Max", "0", "° C"],
-        ["T. Avg", "0", "° C"],
-        ["T. Min", "0", "° C"],
-        ["V. Max", "0", "V"],
-        ["V. Avg", "0", "V"],
-        ["V. Min", "0", "V"]
+        ["T Max", "0", "° C"],
+        ["T Avg", "0", "° C"],
+        ["T Min", "0", "° C"],
+        ["V Max", "0", "V"],
+        ["V Avg", "0", "V"],
+        ["V Min", "0", "V"]
     ]
 
     property var statusLV: [
@@ -21,7 +21,7 @@ Rectangle {
         ["V3", "0", "V"],
         ["V4", "0", "V"],
         ["V5", "0", "V"],
-        ["Tot. E", "0", "J"]
+        ["Tot E", "0", "J"]
     ]
 
     GridLayout {

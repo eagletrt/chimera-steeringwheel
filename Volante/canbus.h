@@ -22,7 +22,6 @@
 #define GET_STEER_STATUS        0xE1
 #define BMS_STATUS_ID           0x7EB
 #define GET_ACTUATORS_RANGE_ACK 0xBC
-#define TH_BK_VALUE             0xB0
 
 // ID in Scrittura
 // Ask again to check the CAN communication of peripherals
@@ -32,7 +31,15 @@
 #define ASK_SENSORS_VALUE_ID    0xED
 #define ASK_BATTERY_STATUS      0xEE
 #define CHANGE_EXEC_MODE_ID     0xEF
+
+//NEW DEFINE FOR VARANO 2018
+#define STEERING_WHEEL_ID       0xA0
+#define ECU_ERRORS              0x01
+#define ECU_WARNINGS            0x02
+#define ECU_MSG                 0x55
+#define GET_ACTUATORS_RANGE_ACK 0xBC
 #define SET_ACTUATORS_RANGES    0xBB
+#define STM_PEDALS              0xB0
 
 class Canbus : public QObject
 {
@@ -88,7 +95,8 @@ class Canbus : public QObject
         CarStatus* carStatus;
 
     private:
-        QTimer timer;
+        QTimer *timer;
+
         qint64 canID;
         QByteArray canMSG;
         QString canMessage;
@@ -121,6 +129,7 @@ class Canbus : public QObject
         void setActuatorsRange(int, int);
         void checkCANCommunication(bool);
         void checkSensorsError();
+        void steerConnected();
 };
 
 #endif // CANBUS_H

@@ -33,19 +33,22 @@ Rectangle {
         // BSE
         newErrStatus[0][1][1] = ledStates[errstatus[1]];
         // STEER
-        newErrStatus[0][2][1] = ledStates[errstatus[2]];
+        newErrStatus[0][2][1] = ledStates[errstatus[4]];
 
         // WHEEL DX
-        newErrStatus[1][0][1] = ledStates[errstatus[3]];
+        newErrStatus[1][2][1] = ledStates[errstatus[3]];
         // WHEEL SX
-        newErrStatus[1][2][1] = ledStates[errstatus[4]];
+        newErrStatus[1][0][1] = ledStates[errstatus[2]];
+        // GPS
+        newErrStatus[1][1][1] = ledStates[errstatus[6]];
+
 
         // IMU FRONT
         newErrStatus[2][0][1] = ledStates[errstatus[5]];
         // IMU CENTRAL
-        newErrStatus[2][1][1] = ledStates[errstatus[6]];
+        newErrStatus[2][1][1] = ledStates[errstatus[7]];
         // IMU REAR
-        newErrStatus[2][2][1] = ledStates[errstatus[7]];
+        newErrStatus[2][2][1] = ledStates[errstatus[8]];
 
         errorsLEDS = newErrStatus;
     }
@@ -87,14 +90,14 @@ Rectangle {
             ["Steer", "DEFAULT"]
         ],
         [
-            ["Wheel Left", "DEFAULT"],
-            ["", ""],
-            ["Wheel Right", "DEFAULT"]
+            ["ENCOD L", "DEFAULT"],
+            ["GPS", "DEFAULT"],
+            ["ENCOD R", "DEFAULT"]
         ],
         [
-            ["IMU Front", "DEFAULT"],
-            ["IMU Center", "DEFAULT"],
-            ["IMU Rear", "DEFAULT"]
+            ["IMU FR", "DEFAULT"],
+            ["IMU CN", "DEFAULT"],
+            ["IMU RR", "DEFAULT"]
         ]
 	]
 
@@ -110,8 +113,8 @@ Rectangle {
             CANStatusLED {
                 text: modelData[0]
                 state: modelData[1]
-                Layout.preferredWidth: errors.width / 4
-                Layout.preferredHeight: errors.height / 5
+                Layout.preferredWidth: errors.width / 3
+                Layout.preferredHeight: errors.height / 4
             }
         }
 
@@ -137,7 +140,7 @@ Rectangle {
 
         Rectangle {
             Layout.preferredWidth: errors.width
-            Layout.preferredHeight: errors.height / 5
+            Layout.preferredHeight: errors.height / 6
             Layout.columnSpan: 3
             color: "#000000"
 
