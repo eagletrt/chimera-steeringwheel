@@ -252,8 +252,8 @@ void CarStatus::setCarStatus(int ctrlIsEnabled,
 
     m_ctrlIsEnabled = ctrlIsEnabled;
     m_ctrlIsOn = ctrlIsOn;
-    m_warning = warning;
-    m_error = error;
+    //m_warning = warning;
+    //m_error = error;
     m_car_status = driveModeEnabled;
     m_velocity = velocity;
 
@@ -268,6 +268,25 @@ void CarStatus::setCarStatus(int ctrlIsEnabled,
     emit velocityChanged();
     emit carStatusChanged();
 }
+
+int CarStatus::warning() const {
+    return m_warning;
+}
+int CarStatus::error() const {
+    return m_error;
+}
+
+void CarStatus::setWarning(int on) {
+    m_warning = on;
+    emit warningChanged();
+    qDebug() << "Warning: " << m_warning << endl;
+}
+
+void CarStatus::setError(int on) {
+    m_error = on;
+    emit errorChanged();
+}
+
 
 int CarStatus::carStatus() {
     qDebug() << "Asked carStatus";

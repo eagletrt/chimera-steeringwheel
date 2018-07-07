@@ -23,6 +23,9 @@ class CarStatus : public QObject
     Q_PROPERTY(int velocity READ velocity NOTIFY velocityChanged)
     Q_PROPERTY(int preset READ preset NOTIFY presetChanged)
 
+    Q_PROPERTY(int warning READ warning NOTIFY warningChanged)
+    Q_PROPERTY(int error READ error NOTIFY errorChanged)
+
     Q_PROPERTY(int carStatus READ carStatus NOTIFY carStatusChanged)
 
 
@@ -56,6 +59,11 @@ class CarStatus : public QObject
         int getMap();
 
         int carStatus();
+        void setWarning(int on);
+        void setError(int on);
+
+        int warning() const;
+        int error() const;
 
         void setTemperature(int temperature);
         void setStateOfCharge(int stateofcharge);
@@ -115,6 +123,8 @@ class CarStatus : public QObject
         void socChanged(int soc);
         void execModeChanged(int ctrlIsEnabled, int ctrlIsOn, int warning, int error);
         void carStatusChanged();
+        void warningChanged();
+        void errorChanged();
 
         void toggleCar();
 

@@ -3,10 +3,18 @@ import QtQuick.Layouts 1.3
 
 Rectangle {
     color: "transparent"
+    property var warning : CarStatus.warning;
+    property int warningVal : warning;
+    property var error : CarStatus.error;
+    property int errorVal : error;
 
-    Connections {
-        target: racingPage
-        onControlStateChanged: {
+        onWarningChanged: {
+            warningVal = CarStatus.warning;
+            if(warningVal == 1)
+                warnLED.state = 'on';
+            else
+                warnLED.state = 'off';
+            /*
             console.log("CtrlStateChanged");
 
             if (ctrlIsEnabled == 1) {
@@ -33,9 +41,16 @@ Rectangle {
                 errLED.state = 'on';
             } else {
                 errLED.state = 'off';
-            }
+            }*/
         }
-    }
+        onErrorChanged: {
+            errorVal = CarStatus.error;
+            if(errorVal == 1)
+                errLED.state = 'on';
+            else
+                errLED.state = 'off';
+        }
+
 
 
     GridLayout {

@@ -6,8 +6,8 @@ QCanBusDevice *device;
 
 Canbus::Canbus(CarStatus* m_carStatus, const QString can_interface) {
 
-/*
-   Right Can for 5.10.1 RPI
+
+   //Right Can for 5.10.1 RPI
 
    QString errorString;
    device = QCanBus::instance()->createDevice(
@@ -16,8 +16,8 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString can_interface) {
        qDebug() << errorString;
    else
        device->connectDevice();
-*/
 
+/*
     foreach (const QByteArray &backend, QCanBus::instance()->plugins()) {
       if (backend == can_interface) {
         qDebug() << "Socketcan Found";
@@ -27,7 +27,7 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString can_interface) {
 
     device = QCanBus::instance()->createDevice("socketcan", QStringLiteral("vcan0"));
     device->connectDevice();
-
+*/
     carStatus = m_carStatus;
 
     qDebug() << "CAN Interface Init";
@@ -226,34 +226,53 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                qDebug() << "err_imu_central: " << QString::number((msg.at(1) >> 7) & 1);
                qDebug() << "err_imu_rear: " << QString::number((msg.at(2) >> 0) & 1);
 
-               carStatus->setERRStatus((msg.at(1) >> 0) & 1,
-                                       (msg.at(1) >> 1) & 1,
-                                       (msg.at(1) >> 2) & 1,
-                                       (msg.at(1) >> 3) & 1,
-                                       (msg.at(1) >> 4) & 1,
-                                       (msg.at(1) >> 5) & 1,
+               carStatus->setERRStatus((msg.at(1) >> 7) & 1,
                                        (msg.at(1) >> 6) & 1,
-                                       (msg.at(1) >> 7) & 1,
-                                       (msg.at(2) >> 0) & 1);
+                                       (msg.at(1) >> 5) & 1,
+                                       (msg.at(1) >> 4) & 1,
+                                       (msg.at(1) >> 3) & 1,
+                                       (msg.at(1) >> 2) & 1,
+                                       (msg.at(1) >> 1) & 1,
+                                       (msg.at(1) >> 0) & 1,
+                                       (msg.at(2) >> 7) & 1);
+
+               qDebug() << (int)msg.at(1) << " " << (int)msg.at(2) << endl;
+               if((int)msg.at(1) == -1 && (int)msg.at(2) >= -128 && (int)msg.at(2) <= -1) // -1 = 255 e -128 = 128, ovvero se tutti i bit sono a 1. Usate il qDebug sopra per scoprire il vostro valore magico
+               {
+                   carStatus->setWarning(0);
+               }
+               else
+               {
+                   carStatus->setWarning(1);
+               }
+
             }else if(msg.at(0) == ECU_ERRORS){
                   qDebug() << "Car CANBUS State: ";
-                  qDebug() << "INV_RIGHT: " << QString::number(msg.at(0));
-                  qDebug() << "INV_LEFT: " << QString::number(msg.at(1));
-                  qDebug() << "FRONT: " << QString::number(msg.at(2));
-                  qDebug() << "CENTRAL: " << QString::number(msg.at(3));
-                  qDebug() << "PEDALS: " << QString::number(msg.at(4));
-                  qDebug() << "REAR: " << QString::number(msg.at(5));
-                  qDebug() << "BMS_HV: " << QString::number(msg.at(6));
-                  qDebug() << "BMS_LV: " << QString::number(msg.at(7));
+                  qDebug() << "INV_RIGHT: " << QString::number((msg.at(1) >> 0) & 1);
+                  qDebug() << "INV_LEFT: " << QString::number((msg.at(1) >> 1) & 1);
+                  qDebug() << "FRONT: " << QString::number((msg.at(1) >> 2) & 1);
+                  qDebug() << "CENTRAL: " << QString::number((msg.at(1) >> 3) & 1);
+                  qDebug() << "PEDALS: " << QString::number((msg.at(1) >> 4) & 1);
+                  qDebug() << "REAR: " << QString::number((msg.at(1) >> 5) & 1);
+                  qDebug() << "BMS_HV: " << QString::number((msg.at(1) >> 6) & 1);
+                  qDebug() << "BMS_LV: " << QString::number((msg.at(1) >> 7) & 1);
 
-                  carStatus->setCANStatus((msg.at(1) >> 0) & 1,
-                                          (msg.at(1) >> 1) & 1,
-                                          (msg.at(1) >> 2) & 1,
-                                          (msg.at(1) >> 3) & 1,
-                                          (msg.at(1) >> 4) & 1,
-                                          (msg.at(1) >> 5) & 1,
+                  carStatus->setCANStatus((msg.at(1) >> 7) & 1,
                                           (msg.at(1) >> 6) & 1,
-                                          (msg.at(1) >> 7) & 1);
+                                          (msg.at(1) >> 5) & 1,
+                                          (msg.at(1) >> 4) & 1,
+                                          (msg.at(1) >> 3) & 1,
+                                          (msg.at(1) >> 2) & 1,
+                                          (msg.at(1) >> 1) & 1,
+                                          (msg.at(1) >> 0) & 1);
+                  if((int)msg.at(1) == -1)
+                  {
+                      carStatus->setError(0);
+                  }
+                  else
+                  {
+                      carStatus->setError(1);
+                  }
             } else if(msg.at(0) == ECU_INV_LEFT){
                QString oldStatus = carStatus->HVStatus();
                carStatus->setHVStatus(1,oldStatus.mid(1,1).toInt(), oldStatus.mid(2,1).toInt());
