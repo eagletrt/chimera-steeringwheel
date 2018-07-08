@@ -32,7 +32,7 @@ Rectangle {
     Text {
         text: root.text
         anchors.centerIn: parent
-        color: "white"
+        color: "lightgray"
         font.family: blackops.name;
         font.pointSize: 7
     }

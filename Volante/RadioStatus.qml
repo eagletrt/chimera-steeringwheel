@@ -10,9 +10,8 @@ Rectangle {
         anchors.fill: parent
         anchors.verticalCenter: root.verticalCenter
         id: statusText
-        text: root.text 
+        text: root.text
         padding: 5
-        color: "white"
+        color: "lightgray"
     }
 }
-

@@ -14,7 +14,7 @@ Rectangle {
 
     Text {
         anchors.centerIn: parent
-        color: "white"
+        color: "lightgray"
         text: root.btnText
         font.pointSize: 7
         font.family: blackops.name;

@@ -1,11 +1,12 @@
 #ifndef CARSTATUS_H
 #define CARSTATUS_H
 
-#define CAR_STATUS_IDLE 0
-#define CAR_STATUS_GO   1
-#define CAR_STATUS_STOP 2
+#define CAR_STATUS_IDLE    0
+#define CAR_STATUS_SETUP   1
+#define CAR_STATUS_RUN     2
+#define CAR_STATUS_STOP    3
 
-#define PRESET_NUMBER   6
+#define PRESET_NUMBER      6
 
 #include <QDebug>
 
@@ -52,6 +53,8 @@ class CarStatus : public QObject
         void setERRStatus(int, int, int, int, int, int, int, int, int);
         void setAPPSBSEStatus(int, int, int, int);
         void setSTEERStatus(int, int);
+
+        void setCarMode(int mode);
 
         int getCtrlIsEnabled();
         int getCtrlIsOn();

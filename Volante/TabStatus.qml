@@ -6,7 +6,7 @@ Rectangle {
    property var btnClickable: false
    property var isStarted: false
    property var canstatus: CarStatus.CANStatus
-   property var ledStates: ['NO', 'OK', 'DEFAULT']
+   property var ledStates: ['OK', 'NO', 'DEFAULT']
    property var canLeds: [
    ["InvRight", 'CAN_DEFAULT'],
    ["InvLeft", 'CAN_DEFAULT'],

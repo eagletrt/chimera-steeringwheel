@@ -7,7 +7,6 @@ Rectangle {
     property var text
     property var barColor
     property var barValue
-    property var errorLEDCount
     property var selected
 
     FontLoader {id:blackops; source: "lib/blops.ttf"}
@@ -30,7 +29,7 @@ Rectangle {
                 text: root.text
                 font.family: blackops.name;
                 font.pointSize: 6
-                color: "white"
+                color: "lightgray"
                 anchors.centerIn: parent
             }
         }
@@ -43,11 +42,11 @@ Rectangle {
             color: "transparent"
 
             Rectangle {
-                width: parent.width
+                width: parent.width - 50
                 height: parent.height/3
                 anchors.centerIn: parent
                 border.width: 1
-                border.color: "white"
+                border.color: "lightgray"
                 color: menu.color
 
                 Rectangle {
@@ -60,31 +59,5 @@ Rectangle {
                 }
             }
         }
-
-        Rectangle {
-            id: errorsApps
-            Layout.preferredWidth: parent.width*4/8
-            Layout.preferredHeight: parent.height/3
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            color: "transparent"
-
-            RowLayout {
-                anchors.verticalCenter: parent.verticalCenter
-                spacing: 10
-
-                Repeater {
-                    model: root.errorLEDCount
-                    delegate: Rectangle {
-                        anchors.verticalCenter: parent.verticalCenter
-                        width: 25
-                        height: 25
-                        color: "lightgray"
-                        radius: 25 / 2
-                    }
-                }
-            }
-        }
     }
-
 }

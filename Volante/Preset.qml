@@ -24,7 +24,7 @@ Rectangle {
             name: 'active'
             PropertyChanges {
                 target: root
-                color: 'lightgrey'
+                color: 'lightgray'
             }
             PropertyChanges {
                 target: text

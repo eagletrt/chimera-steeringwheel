@@ -13,7 +13,7 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString can_interface) {
    device = QCanBus::instance()->createDevice(
        QStringLiteral("socketcan"), QStringLiteral("vcan0"), &errorString);
    if (!device)
-       qDebug() << errorString;
+       qDebug() << "NO CAN!";
    else
        device->connectDevice();
 
@@ -32,11 +32,15 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString can_interface) {
 
     qDebug() << "CAN Interface Init";
 
-    timer = new QTimer(this);
+    timerSteeringWheel = new QTimer(this);
+    timerStatus = new QTimer(this);
 
     // Setup signal/slot mechanism
-    connect(timer, SIGNAL(timeout()),
+    connect(timerSteeringWheel, SIGNAL(timeout()),
             this, SLOT(steerConnected()));
+
+    connect(timerStatus, SIGNAL(timeout()),
+            this, SLOT(askStatus()));
 
     connect(device, SIGNAL(framesReceived()),
             this, SLOT(parseSerial()));
@@ -47,7 +51,9 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString can_interface) {
     connect(carStatus, SIGNAL(CTRLEnabledChanged()),
             this, SLOT(toggleCar()));
 
-    timer->start(10);
+    timerSteeringWheel->start(10);
+    timerStatus->start(1000);
+
 
     invLeftState = -1;
     invRightState = -1;
@@ -77,6 +83,17 @@ void Canbus::steerConnected() {
    sendCanMessage(STEERING_WHEEL_ID,connected);
 }
 
+void Canbus::askStatus() {
+   QByteArray askErrors;
+   QByteArray askWarnings;
+   askErrors.resize(8);
+   askWarnings.resize(8);
+   askErrors[0] = ECU_ERRORS;
+   askWarnings[0] = ECU_WARNINGS;
+   sendCanMessage(ECU_MSG,askErrors);
+   sendCanMessage(ECU_MSG,askWarnings);
+}
+
 int Canbus::actuatorRangePendingFlag() const {
   qDebug() << m_actuatorRangePendingFlag << "Asked m_actuatorRangePendingFlag";
   return m_actuatorRangePendingFlag;
@@ -93,10 +110,10 @@ void Canbus::checkCANCommunication(bool isOk = false) {
   check.resize(8);
     if (isOk) {
       check[0] = 1;
-      sendCanMessage(CHECK_CAN_COM, check);//QString::number(1));
+      sendCanMessage(CHECK_CAN_COM, check);
     } else {
       check[0] = 0;
-      sendCanMessage(CHECK_CAN_COM, check);//QString::number(0));
+      sendCanMessage(CHECK_CAN_COM, check);
     }
 }
 
@@ -121,7 +138,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                                     msg.at(1),
                                     msg.at(2),
                                     msg.at(3));
-            break;
+        break;
 
 
 
@@ -265,23 +282,26 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                                           (msg.at(1) >> 2) & 1,
                                           (msg.at(1) >> 1) & 1,
                                           (msg.at(1) >> 0) & 1);
-                  if((int)msg.at(1) == -1)
+                  if((int)msg.at(1) <= 0)
                   {
+                      qDebug() << "error 0" << (int)msg.at(1);
                       carStatus->setError(0);
                   }
                   else
                   {
                       carStatus->setError(1);
+                      qDebug() << "error 1" << (int)msg.at(1);
+
                   }
             } else if(msg.at(0) == ECU_INV_LEFT){
                QString oldStatus = carStatus->HVStatus();
-               carStatus->setHVStatus(1,oldStatus.mid(1,1).toInt(), oldStatus.mid(2,1).toInt());
-               qDebug() << "Ricevuto Stato INV LEFT" << oldStatus.mid(1,1).toInt();
+               carStatus->setHVStatus(oldStatus.mid(0,1).toInt(), 1, oldStatus.mid(2,1).toInt());
+               qDebug() << "Ricevuto Stato INV LEFT" << oldStatus.mid(0,1).toInt();
                qDebug() << oldStatus;
             } else if(msg.at(0) == ECU_INV_RIGHT){
                QString oldStatus = carStatus->HVStatus();
-               carStatus->setHVStatus(oldStatus.mid(0,1).toInt(), 1, oldStatus.mid(2,1).toInt());
-               qDebug() << "Ricevuto Stato INV RIGHT" << oldStatus.mid(0,1).toInt();
+               carStatus->setHVStatus(oldStatus.mid(0,1).toInt(),oldStatus.mid(1,1).toInt(), 1);
+               qDebug() << "Ricevuto Stato INV RIGHT" << oldStatus.mid(1,1).toInt();
                qDebug() << oldStatus;
             }
 
@@ -294,19 +314,10 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             // Get stop message
             // Get current map
 
-            /*
-            // VERO FINO AL 20/02
-            warning = msg.at(0);
-            error = msg.at(1);
-            driveModeEnabled = msg.at(2);
-            velocity = (int) msg.at(4);*/
-
             // NUOVA VERSIONE, DAL 20/02
             driveModeEnabled = (msg.at(0) >> 0) & 1; //dovrebbe voler dire msg.at(0)[0], aka il bit piu a dx
             warning = (msg.at(0) >> 1) & 1;
             error = (msg.at(0) >> 2) & 1;
-            //HV_fault = (msg.at(0) >> 5) & 1;
-            //LV_fault = (msg.at(0) >> 6) & 1;
             velocity = ( (int) msg.at(1) ) / 2;
             m_hvTemp = ( (int) msg.at(2) ) / 2;
             m_hvVolt = ( (int) msg.at(3) ) / 2 + 400;
@@ -319,14 +330,10 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             qDebug() << "lvTemp: " << m_lvTemp;
             qDebug() << "lvVolt: " << m_lvVolt;
 
-            //emit delle property changed
-            //emit velocity???
             emit hvTempChanged();
             emit lvTempChanged();
             emit hvVoltChanged();
             emit lvVoltChanged();
-
-            // END NUOVA VERSIONE
 
             qDebug() << "Velocity: " << velocity;
 
@@ -335,7 +342,6 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             }
 
             if (error) {
-                // EXPLOOOOODE
                 // Stop the car
                 ctrlIsEnabled = 0;
             }
@@ -352,26 +358,10 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                                     warning,
                                     error);
 
-            // Send current Execution Mode
-            // [stop, go, ctrlIsOn, map], CHANGE_EXEC_MODE_ID
-            /*
-            canMessage = QString("%1:0%2%30\n")
-                                 .arg(QString::number(CHANGE_EXEC_MODE_ID),
-                                      QString::number(goIsOn),
-                                      QString::number(ctrlIsOn));
-
-            qDebug() << "EXEC_MODE_ID Answer: " << canMessage;
-
-            serial.write(canMessage.toStdString().c_str(), canMessage.size());
-            */
 
             break;
 
         case BMS_STATUS_ID:
-            // BMS CAN Message formatted this way:
-            // [0x4, 0x62, DATA_REG_1, DATA_REG_2, DATA_VALUE]
-            // DATA_REG_2 = 0x2A -> Temperature Message
-            // DATA_REG_2 = 0xF -> State of Charge Message
             qDebug() << "Stato BMS:";
 
             if (msg.at(3) == 0x2A) {
@@ -399,23 +389,15 @@ int Canbus::throttleVal() const {
 }
 
 int Canbus::hvTemp() const {
-    /*qDebug() << "Asked hvTemp";
-    qDebug() << m_hvTemp;*/
     return m_hvTemp;
 }
 int Canbus::lvTemp() const {
-    /*qDebug() << "Asked lvTemp";
-    qDebug() << m_lvTemp;*/
     return m_lvTemp;
 }
 int Canbus::hvVolt() const {
-    /*qDebug() << "Asked hvVolt";
-    qDebug() << m_hvVolt;*/
     return m_hvVolt;
 }
 int Canbus::lvVolt() const {
-    /*qDebug() << "Asked lvVolt";
-    qDebug() << m_lvVolt;*/
     return m_lvVolt;
 }
 
@@ -430,23 +412,35 @@ void Canbus::toggleCar() {
     qDebug() << "GoIsOn: " << goStatus;
     qDebug() << "Map:" << map;
 
-    /* CarStatus:
-     * 0    CAR_STATUS_IDLE
-     * 1    CAR_STATUS_GO
-     * 2    CAR_STATUS_STOP
-     * 3    CAR_STATUS_MAP
-     */
     if (goStatus == CAR_STATUS_STOP) {
-        //canMessage = QString("c%1:1000\n").arg(QString::number(CHANGE_EXEC_MODE_ID));
         toggleCAN[0] = 100;
-        toggleCAN.resize(1);
     } else {
         toggleCAN[0] = goStatus;
         toggleCAN[1] = ctrlIsOn;
-        toggleCAN[2] = map;//percentuale di tua madre puttana
-        toggleCAN.resize(3);
-        //questo era il messaggio QString("c%1:0%2%3%4\n").arg(QString::number(CHANGE_EXEC_MODE_ID),
+        switch (map) {
+           case 0:
+               toggleCAN[2] = -20;
+           break;
+           case 1:
+               toggleCAN[2] = 20;
+           break;
+           case 2:
+               toggleCAN[2] = 40;
+           break;
+           case 3:
+               toggleCAN[2] = 60;
+           break;
+           case 4:
+               toggleCAN[2] = 80;
+           break;
+           case 5:
+               toggleCAN[2] = 100;
+           break;
+
+        }
     }
+
+    toggleCAN.resize(8);
 
     qDebug() << canMessage;
 
@@ -486,7 +480,7 @@ void Canbus::setActuatorsRange(int actuatorID, int rangeSide) {
    */
 
    QByteArray actuator;
-   actuator.resize(2);
+   actuator.resize(8);
    actuator[0] = actuatorID;
    actuator[1] = rangeSide;
 

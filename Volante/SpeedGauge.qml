@@ -19,7 +19,7 @@ Rectangle {
       font.family: blackops.name;
       font.pointSize: 7
       y: 100
-      color: "white"
+      color: "lightgray"
    }
 
    Text {
@@ -28,7 +28,7 @@ Rectangle {
       font.family: blackops.name;
       font.pointSize: 7
       y: 120
-      color: "white"
+      color: "lightgray"
    }
 
    Text {
@@ -41,7 +41,7 @@ Rectangle {
       x: 290
       y: 100
       width: 70
-      color: "white"
+      color: "lightgray"
    }
 
    Text {
@@ -53,7 +53,7 @@ Rectangle {
       x: 290
       y: 120
       width: 70
-      color: "white"
+      color: "lightgray"
    }
 
    Item{
@@ -284,7 +284,7 @@ Rectangle {
       anchors.horizontalCenter: parent.horizontalCenter
       anchors.verticalCenter: parent.verticalCenter
       anchors.verticalCenterOffset: -15
-      color: "white"
+      color: "lightgray"
    }
 
    Text {
@@ -294,7 +294,7 @@ Rectangle {
       anchors.horizontalCenter: parent.horizontalCenter
       anchors.verticalCenter: parent.verticalCenter
       anchors.verticalCenterOffset: 28
-      color: "white"
+      color: "lightgray"
    }
 
    Item{

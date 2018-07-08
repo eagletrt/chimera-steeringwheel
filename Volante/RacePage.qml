@@ -22,7 +22,7 @@ Rectangle {
             color: "green"
             height: parent.height
             Column {
-                width: 50 
+                width: 50
                 spacing: 6
 
                 id: presets1
@@ -32,7 +32,7 @@ Rectangle {
 
                     Rectangle {
                         width: 50
-                        height: 40 
+                        height: 40
                         color: "grey"
 
                         Text {
@@ -51,8 +51,8 @@ Rectangle {
         }
 
         Column {
-            width: 50 
-            x: presets1.width + velocita.width  
+            width: 50
+            x: presets1.width + velocita.width
             spacing: 6
 
             Component.onCompleted: {
@@ -65,7 +65,7 @@ Rectangle {
 
                 Rectangle {
                     width: 50
-                    height: 40 
+                    height: 40
                     color: "grey"
 
                     Text {
@@ -92,14 +92,14 @@ Rectangle {
             id: minA
             width: tempo.width/8
             height: tempo.height
-            color: "white"
+            color: "lightgray"
         }
 
         Rectangle {
             id: minB
             width: minA.width
             height: tempo.height
-            color: "white"
+            color: "lightgray"
             x: minA.width*8/7
         }
 
@@ -113,7 +113,7 @@ Rectangle {
             Text {
                 text: ":"
                 anchors.centerIn: parent
-                color: "white"
+                color: "lightgray"
                 font.pointSize: 17
                 font.family: "BlackOpsOne"
             }
@@ -123,7 +123,7 @@ Rectangle {
             id: secA
             width: minA.width
             height: tempo.height
-            color: "white"
+            color: "lightgray"
             x: minB.x+minA.width*25/14
         }
 
@@ -131,7 +131,7 @@ Rectangle {
             id: secB
             width: minA.width
             height: tempo.height
-            color: "white"
+            color: "lightgray"
             x: secA.x+minA.width*8/7
         }
 
@@ -145,7 +145,7 @@ Rectangle {
             Text {
                 text: ":"
                 anchors.centerIn: parent
-                color: "white"
+                color: "lightgray"
                 font.pointSize: 17
                 font.family: "BlackOpsOne"
             }
@@ -155,7 +155,7 @@ Rectangle {
             id: msecA
             width: minA.width
             height: tempo.height
-            color: "white"
+            color: "lightgray"
             x: secB.x+minA.width*25/14
         }
 
@@ -163,7 +163,7 @@ Rectangle {
             id: msecB
             width: minA.width
             height: tempo.height
-            color: "white"
+            color: "lightgray"
             x: msecA.x+minA.width*8/7
         }
     }
@@ -220,7 +220,7 @@ Rectangle {
            id: hvVal
            width: hvTemp.width/2
            height: hvTemp.height
-           color: "white"
+           color: "lightgray"
         }
 
         Rectangle {
@@ -233,7 +233,7 @@ Rectangle {
             Text {
                 text: "°C"
                 anchors.centerIn: parent
-                color: "white"
+                color: "lightgray"
                 font.pointSize: 15
                 font.family: "BlackOpsOne"
             }
@@ -252,7 +252,7 @@ Rectangle {
            id: lvVal
            width: lvTemp.width/2
            height: lvTemp.height
-           color: "white"
+           color: "lightgray"
         }
 
         Rectangle {
@@ -265,7 +265,7 @@ Rectangle {
             Text {
                 text: "°C"
                 anchors.centerIn: parent
-                color: "white"
+                color: "lightgray"
                 font.pointSize: 15
                 font.family: "BlackOpsOne"
             }

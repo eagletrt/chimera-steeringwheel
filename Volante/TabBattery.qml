@@ -118,7 +118,7 @@ Rectangle {
                                             font.family: blackops.name;
                                             font.pointSize: 6
                                             text: modelData[0] + ":" + modelData[1] + " " + modelData[2]
-                                            color: "white"
+                                            color: "lightgray"
                                         }
                                     }
                                 }
@@ -158,7 +158,7 @@ Rectangle {
                                             font.family: blackops.name;
                                             font.pointSize: 6
                                             text: modelData[0] + ":" + modelData[1] + " " + modelData[2]
-                                            color: "white"
+                                            color: "lightgray"
                                         }
                                     }
                                 }

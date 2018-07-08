@@ -14,6 +14,6 @@ Rectangle {
         id: statusText
         text: root.text
         padding: 5
-        color: "white"
+        color: "lightgray"
     }
 }

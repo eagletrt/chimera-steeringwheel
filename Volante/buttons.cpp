@@ -2,12 +2,12 @@
 #include <QDebug>
 
 //wiringpi definition for GPIO
-#define BTN_TOP_LEFT       108
-#define BTN_TOP_RIGHT      109
-#define BTN_BOTTOM_LEFT    25
-#define BTN_BOTTOM_RIGHT   23
-#define PADDLE_LEFT        110
-#define PADDLE_RIGHT       111
+#define BTN_TOP_LEFT       110
+#define BTN_TOP_RIGHT      108
+#define BTN_BOTTOM_LEFT    111
+#define BTN_BOTTOM_RIGHT   25
+#define PADDLE_LEFT        109
+#define PADDLE_RIGHT       23
 
 #define MAP_1              7
 #define MAP_2              2
@@ -41,7 +41,7 @@ Buttons::Buttons(QGuiApplication *app)
    isBackFromMap3 = false;
    switchIsWrong = false;
    //
-   pinEnabled = {2,3,4,5,7,20,21,23,25,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115};
+   pinEnabled = {2,3,4,5,7,21,23,25,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115};
 
    /*
          Encoder 1-2

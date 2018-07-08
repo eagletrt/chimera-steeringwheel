@@ -13,14 +13,26 @@ Item{
       case 0:
          idle.opacity = 1;
          run.opacity = 0;
+         setup.opacity = 0;
+         stop.opacity = 0;
          break;
       case 1:
          idle.opacity = 0;
-         run.opacity = 1;
+         run.opacity = 0;
+         setup.opacity = 1;
+         stop.opacity = 0;
          break;
       case 2:
          idle.opacity = 0;
+         run.opacity = 1;
+         setup.opacity = 0;
+         stop.opacity = 0;
+         break;
+      case 3:
+         idle.opacity = 0;
          run.opacity = 0;
+         setup.opacity = 0;
+         stop.opacity = 1;
          break;
       }
 }
@@ -39,6 +51,19 @@ Image {
    opacity: 0
 }
 
+Image {
+   id: stop
+   objectName: "stop"
+   source: "img/stop.png"
+   opacity: 0
+}
+
+Image {
+   id: setup
+   objectName: "setup"
+   source: "img/setup.png"
+   opacity: 0
+}
 Image {
    id: radio
    objectName: "radio"

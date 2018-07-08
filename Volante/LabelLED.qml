@@ -66,7 +66,7 @@ Rectangle {
                 text: root.text
                 font.pointSize: 6
                 font.family: blackops.name;
-                color: "white"
+                color: "lightgray"
             }
         }
 

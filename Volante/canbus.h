@@ -9,9 +9,10 @@
 #include <QCanBus>
 
 // CarStatus Constants
-#define CAR_STATUS_IDLE 0
-#define CAR_STATUS_GO   1
-#define CAR_STATUS_STOP 2
+#define CAR_STATUS_IDLE    0
+#define CAR_STATUS_SETUP   1
+#define CAR_STATUS_RUN     2
+#define CAR_STATUS_STOP    3
 
 // ID in lettura
 #define GET_CAN_STATUS          0xDA
@@ -20,7 +21,7 @@
 #define EXEC_MODE_ID            0xDF
 #define GET_APPS_BSE_STATUS     0xDE
 #define GET_STEER_STATUS        0xE1
-#define BMS_STATUS_ID           0x7EB
+#define BMS_STATUS_ID           0xEB
 #define GET_ACTUATORS_RANGE_ACK 0xBC
 
 // ID in Scrittura
@@ -33,15 +34,15 @@
 #define CHANGE_EXEC_MODE_ID     0xEF
 
 //NEW DEFINE FOR VARANO 2018
+#define STEERING_WHEEL_ID       0xA0
+#define ECU_MSG                 0x55
 #define ECU_INV_LEFT            0x08
 #define ECU_INV_RIGHT           0x09
-#define STEERING_WHEEL_ID       0xA0
-#define ECU_ERRORS              0x01
 #define ECU_WARNINGS            0x02
-#define ECU_MSG                 0x55
+#define ECU_ERRORS              0x01
+#define STM_PEDALS              0xB0
 #define GET_ACTUATORS_RANGE_ACK 0xBC
 #define SET_ACTUATORS_RANGES    0xBB
-#define STM_PEDALS              0xB0
 
 class Canbus : public QObject
 {
@@ -86,7 +87,6 @@ class Canbus : public QObject
         int brakeVal() const;
         int throttleVal() const;
 
-
         int ctrlIsOn;
         int goStatus;
         int map;
@@ -97,7 +97,8 @@ class Canbus : public QObject
         CarStatus* carStatus;
 
     private:
-        QTimer *timer;
+        QTimer *timerSteeringWheel;
+        QTimer *timerStatus;
 
         qint64 canID;
         QByteArray canMSG;
@@ -132,6 +133,7 @@ class Canbus : public QObject
         void checkCANCommunication(bool);
         void checkSensorsError();
         void steerConnected();
+        void askStatus();
 };
 
 #endif // CANBUS_H

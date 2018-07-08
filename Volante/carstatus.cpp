@@ -5,7 +5,7 @@ CarStatus::CarStatus() {
 
     m_invRight = 2;
     m_invLeft = 2;
-    m_preCharge = 1;
+    m_preCharge = 2;
 
     m_ctrlIsEnabled = -1;
     // Set control activated by default
@@ -108,9 +108,9 @@ QString CarStatus::CANStatus() const {
 
 QString CarStatus::HVStatus() const {
     qDebug() << "Asked HVStatus";
-    return QString("%1%2%3").arg(QString::number(m_invLeft),
-                                 QString::number(m_invRight),
-                                 QString::number(m_preCharge));
+    return QString("%1%2%3").arg(QString::number(m_preCharge),
+                                 QString::number(m_invLeft),
+                                 QString::number(m_invRight));
 }
 
 QString CarStatus::ERRStatus() const {
@@ -225,9 +225,9 @@ void CarStatus::setCANStatus(int invr,
     emit CANStatusChanged();
 }
 
-void CarStatus::setHVStatus(int invLeft,
-                            int invRight,
-                            int preCharge) {
+void CarStatus::setHVStatus(int preCharge,
+                            int invLeft,
+                            int invRight) {
     m_invRight = invRight;
     m_invLeft = invLeft;
     m_preCharge = preCharge;
@@ -276,6 +276,11 @@ int CarStatus::error() const {
     return m_error;
 }
 
+void CarStatus::setCarMode(int mode){
+   m_car_status = mode;
+   emit carStatusChanged();
+}
+
 void CarStatus::setWarning(int on) {
     m_warning = on;
     emit warningChanged();
@@ -312,20 +317,30 @@ int CarStatus::stopCar() {
 }
 
 int CarStatus::toggleCarStatus() {
-    if (m_car_status == CAR_STATUS_IDLE) {
-        qDebug() << "CAR_STATUS_IDLE -> CAR_STATUS_GO";
+   switch(m_car_status){
+      case CAR_STATUS_IDLE:
+         qDebug() << "CAR_STATUS_IDLE -> CAR_STATUS_SETUP";
+         // Change the status of the car
+         m_car_status = CAR_STATUS_SETUP;
+         // Send CAN request to the CTRL
+         emit toggleCar();
+         break;
+      case CAR_STATUS_SETUP:
+         if (1/*QUALCOSA*/){}
+            //TORNA IN IDLE CAZZO
+        qDebug() << "CAR_STATUS_SETUP -> CAR_STATUS_RUN";
         // Change the status of the car
-        m_car_status = CAR_STATUS_GO;
-
+        m_car_status = CAR_STATUS_RUN;
         // Send CAN request to the CTRL
         emit toggleCar();
-    } else {
-        if (m_car_status == CAR_STATUS_GO) {
-            qDebug() << "CAR_STATUS_GO -> CAR_STATUS_IDLE";
-            m_car_status = CAR_STATUS_IDLE;
-
-            emit toggleCar();
-        }
+        break;
+      case CAR_STATUS_RUN:
+        qDebug() << "CAR_STATUS_RUN -> CAR_STATUS_SETUP";
+        // Change the status of the car
+        m_car_status = CAR_STATUS_SETUP;
+        // Send CAN request to the CTRL
+        emit toggleCar();
+        break;
     }
 
     // *************
@@ -351,7 +366,7 @@ void CarStatus::setTemperature(int temperature) {
 int CarStatus::toggleCtrl() {
     // If the car is in run mode, toggle CTRL
     //if (m_car_status == CAR_STATUS_GO) {
-    if (m_car_status == CAR_STATUS_GO) {
+    if (m_car_status == CAR_STATUS_RUN) {
         m_ctrlIsOn = m_ctrlIsOn ? 0 : 1;
         emit CTRLEnabledChanged();
         return m_ctrlIsOn;

@@ -30,7 +30,7 @@ Rectangle {
             name: "DEFAULT"
             PropertyChanges {
                 target: led
-                color: "lightgrey"
+                color: "lightgray"
             }
         }
     ]
@@ -41,7 +41,7 @@ Rectangle {
         spacing: 0
 
         Rectangle {
-            width: root.width * 3/6 //4/5
+            width: root.width * 3/6
             height: root.height
             color: "transparent"
 
@@ -50,13 +50,13 @@ Rectangle {
                 text: root.text
                 font.family: blackops.name;
                 font.pointSize: 5
-                color: "white"
+                color: "lightgray"
             }
         }
 
         Rectangle {
             color: "transparent"
-            width: root.width * 3/6 //1/5
+            width: root.width * 3/6
             height: root.height
 
             Rectangle {

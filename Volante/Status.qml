@@ -15,40 +15,40 @@ Rectangle {
         State {
             name: "run"
             PropertyChanges {
-                target: root 
-                color: "green" 
+                target: root
+                color: "green"
                 text: "RUN"
             }
         },
         State {
             name: "idle"
             PropertyChanges {
-                target: root 
-                color: "orange" 
+                target: root
+                color: "orange"
                 text: "IDLE"
             }
         },
         State {
             name: "stop"
             PropertyChanges {
-                target: root 
-                color: "red" 
+                target: root
+                color: "red"
                 text: "STOP"
             }
         },
         State {
             name: "off"
             PropertyChanges {
-                target: root 
-                color: "grey" 
+                target: root
+                color: "grey"
                 text: "RADIO"
             }
         },
         State {
             name: "on"
             PropertyChanges {
-                target: root 
-                color: "teal" 
+                target: root
+                color: "teal"
                 text: "RADIO"
             }
         }
@@ -58,8 +58,8 @@ Rectangle {
         anchors.centerIn: parent
         id: statusText
         font.pointSize: root.fontsize
-        text: root.text 
+        text: root.text
         padding: 5
-        color: "white"
+        color: "lightgray"
     }
 }

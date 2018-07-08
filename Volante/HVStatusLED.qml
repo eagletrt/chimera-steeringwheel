@@ -42,7 +42,7 @@ Rectangle {
             name: "DEFAULT"
             PropertyChanges {
                 target: led
-                color: "lightgrey"
+                color: "lightgray"
             }
         }
     ]
@@ -62,7 +62,7 @@ Rectangle {
                 font.family: blackops.name;
                 text: root.text
                 font.pixelSize: 10
-                color: "white"
+                color: "lightgray"
             }
         }
 
@@ -124,7 +124,7 @@ Rectangle {
                     font.pixelSize: 7
                     anchors.centerIn: parent
                     text: "RESET"
-                    color: "white"
+                    color: "lightgray"
                 }
             }
         }

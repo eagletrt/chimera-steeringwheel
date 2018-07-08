@@ -8,48 +8,20 @@ Rectangle {
     property var error : CarStatus.error;
     property int errorVal : error;
 
-        onWarningChanged: {
-            warningVal = CarStatus.warning;
-            if(warningVal == 1)
-                warnLED.state = 'on';
-            else
-                warnLED.state = 'off';
-            /*
-            console.log("CtrlStateChanged");
-
-            if (ctrlIsEnabled == 1) {
-                ctrlLED.enabled = true
-            } else {
-                ctrlLED.enabled = false
-            }
-
-            // When the user chooses not to abilitate the Ctrl
-            if (ctrlIsOn == 1) {
-                ctrlLED.active = true
-            } else {
-                ctrlLED.active = false
-            }
-
-            if (warning) {
-                warnLED.state = 'on';
-            } else {
-                console.log("Setting warning to off");
-                warnLED.state = 'off';
-            }
-
-            if (error) {
-                errLED.state = 'on';
-            } else {
-                errLED.state = 'off';
-            }*/
-        }
-        onErrorChanged: {
-            errorVal = CarStatus.error;
-            if(errorVal == 1)
-                errLED.state = 'on';
-            else
-                errLED.state = 'off';
-        }
+   onWarningChanged: {
+      warningVal = CarStatus.warning;
+      if(warningVal == 1)
+          warnLED.state = 'on';
+      else
+          warnLED.state = 'off';
+   }
+   onErrorChanged: {
+      errorVal = CarStatus.error;
+      if(errorVal == 1)
+          errLED.state = 'on';
+      else
+          errLED.state = 'off';
+   }
 
 
 

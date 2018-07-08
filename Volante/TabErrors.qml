@@ -9,7 +9,7 @@ Rectangle {
     property var isStarted: false
     property var btnClickable: false
     property var errstatus: CarStatus.ERRStatus
-    property var ledStates: ['NO', 'OK', 'DEFAULT'];
+    property var ledStates: ['OK', 'NO', 'DEFAULT'];
 
 	function connect() {
         console.log("Tab connessa - Errors");

@@ -23,7 +23,7 @@ Rectangle {
     Text {
         text: parent.value
         anchors.centerIn: parent
-        color: "white"
+        color: "lightgray"
         font.family: blackops.name;
         font.pointSize: 70
     }
