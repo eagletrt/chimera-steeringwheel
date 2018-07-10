@@ -8,6 +8,12 @@ Rectangle {
    property int hvVolt: CAN.hvVolt;
    property int lvTemp: CAN.lvTemp;
    property int lvVolt: CAN.lvVolt;
+   property int lvVoltVal: CAN.lvVoltVal;
+
+   /*
+      lvVoltVal al posto di lvVolt dovrebbe
+      mostrarti il valore del voltaggio
+   */
 
    property int velocity: CarStatus.velocity
 
@@ -68,8 +74,7 @@ Rectangle {
       onThrottleValChanged: function(){
          throttleValore = CAN.throttleVal;
          console.log("Throttle Changed: " + throttleValore);
-         switch (throttleValore){
-            case 0:
+         if(throttleValore<10){
                t10.opacity = 0;
                t9.opacity = 0;
                t8.opacity = 0;
@@ -80,8 +85,7 @@ Rectangle {
                t3.opacity = 0;
                t2.opacity = 0;
                t1.opacity = 0;
-               break;
-            case 1:
+         }else if(throttleValore>=10 && throttleValore<20){
                t10.opacity = 0;
                t9.opacity = 0;
                t8.opacity = 0;
@@ -92,20 +96,18 @@ Rectangle {
                t3.opacity = 0;
                t2.opacity = 0;
                t1.opacity = 1;
-               break;
-            case 2:
+         }else if(throttleValore>=20 && throttleValore<30){
                t10.opacity = 0;
                t9.opacity = 0;
                t8.opacity = 0;
                t7.opacity = 0;
-               b6.opacity = 0;
+               t6.opacity = 0;
                t5.opacity = 0;
                t4.opacity = 0;
                t3.opacity = 0;
                t2.opacity = 1;
                t1.opacity = 1;
-               break;
-            case 3:
+         }else if(throttleValore>=30 && throttleValore<40){
                t10.opacity = 0;
                t9.opacity = 0;
                t8.opacity = 0;
@@ -116,8 +118,7 @@ Rectangle {
                t3.opacity = 1;
                t2.opacity = 1;
                t1.opacity = 1;
-               break;
-            case 4:
+         }else if(throttleValore>=40 && throttleValore<50){
                t10.opacity = 0;
                t9.opacity = 0;
                t8.opacity = 0;
@@ -128,8 +129,7 @@ Rectangle {
                t3.opacity = 1;
                t2.opacity = 1;
                t1.opacity = 1;
-               break;
-            case 5:
+         }else if(throttleValore>=50 && throttleValore<60){
                t10.opacity = 0;
                t9.opacity = 0;
                t8.opacity = 0;
@@ -140,8 +140,7 @@ Rectangle {
                t3.opacity = 1;
                t2.opacity = 1;
                t1.opacity = 1;
-               break;
-            case 6:
+         }else if(throttleValore>=60 && throttleValore<70){
                t10.opacity = 0;
                t9.opacity = 0;
                t8.opacity = 0;
@@ -152,8 +151,7 @@ Rectangle {
                t3.opacity = 1;
                t2.opacity = 1;
                t1.opacity = 1;
-               break;
-            case 7:
+         }else if(throttleValore>=70 && throttleValore<80){
                t10.opacity = 0;
                t9.opacity = 0;
                t8.opacity = 0;
@@ -164,8 +162,7 @@ Rectangle {
                t3.opacity = 1;
                t2.opacity = 1;
                t1.opacity = 1;
-               break;
-            case 8:
+         }else if(throttleValore>=80 && throttleValore<90){
                t10.opacity = 0;
                t9.opacity = 0;
                t8.opacity = 1;
@@ -176,8 +173,7 @@ Rectangle {
                t3.opacity = 1;
                t2.opacity = 1;
                t1.opacity = 1;
-               break;
-            case 9:
+         }else if(throttleValore>=90 && throttleValore<100){
                t10.opacity = 0;
                t9.opacity = 1;
                t8.opacity = 1;
@@ -188,8 +184,7 @@ Rectangle {
                t3.opacity = 1;
                t2.opacity = 1;
                t1.opacity = 1;
-               break;
-            case 10:
+         }else if(throttleValore==100){
                t10.opacity = 1;
                t9.opacity = 1;
                t8.opacity = 1;
@@ -200,7 +195,6 @@ Rectangle {
                t3.opacity = 1;
                t2.opacity = 1;
                t1.opacity = 1;
-               break;
          }
       }
 
@@ -309,8 +303,7 @@ Rectangle {
       onBrakeValChanged: function(){
          brakeValore = CAN.brakeVal;
          console.log("Brake Changed: " + brakeValore);
-         switch (brakeValore){
-            case 0:
+         if(brakeValore<10){
                b10.opacity = 0;
                b9.opacity = 0;
                b8.opacity = 0;
@@ -321,8 +314,7 @@ Rectangle {
                b3.opacity = 0;
                b2.opacity = 0;
                b1.opacity = 0;
-               break;
-            case 1:
+         }else if(brakeValore>=10 && brakeValore<20){
                b10.opacity = 0;
                b9.opacity = 0;
                b8.opacity = 0;
@@ -333,8 +325,7 @@ Rectangle {
                b3.opacity = 0;
                b2.opacity = 0;
                b1.opacity = 1;
-               break;
-            case 2:
+         }else if(brakeValore>=20 && brakeValore<30){
                b10.opacity = 0;
                b9.opacity = 0;
                b8.opacity = 0;
@@ -345,8 +336,7 @@ Rectangle {
                b3.opacity = 0;
                b2.opacity = 1;
                b1.opacity = 1;
-               break;
-            case 3:
+         }else if(brakeValore>=30 && brakeValore<40){
                b10.opacity = 0;
                b9.opacity = 0;
                b8.opacity = 0;
@@ -357,8 +347,7 @@ Rectangle {
                b3.opacity = 1;
                b2.opacity = 1;
                b1.opacity = 1;
-               break;
-            case 4:
+         }else if(brakeValore>=40 && brakeValore<50){
                b10.opacity = 0;
                b9.opacity = 0;
                b8.opacity = 0;
@@ -369,8 +358,7 @@ Rectangle {
                b3.opacity = 1;
                b2.opacity = 1;
                b1.opacity = 1;
-               break;
-            case 5:
+         }else if(brakeValore>=50 && brakeValore<60){
                b10.opacity = 0;
                b9.opacity = 0;
                b8.opacity = 0;
@@ -381,8 +369,7 @@ Rectangle {
                b3.opacity = 1;
                b2.opacity = 1;
                b1.opacity = 1;
-               break;
-            case 6:
+         }else if(brakeValore>=60 && brakeValore<70){
                b10.opacity = 0;
                b9.opacity = 0;
                b8.opacity = 0;
@@ -393,8 +380,7 @@ Rectangle {
                b3.opacity = 1;
                b2.opacity = 1;
                b1.opacity = 1;
-               break;
-            case 7:
+         }else if(brakeValore>=70 && brakeValore<80){
                b10.opacity = 0;
                b9.opacity = 0;
                b8.opacity = 0;
@@ -405,8 +391,7 @@ Rectangle {
                b3.opacity = 1;
                b2.opacity = 1;
                b1.opacity = 1;
-               break;
-            case 8:
+         }else if(brakeValore>=80 && brakeValore<90){
                b10.opacity = 0;
                b9.opacity = 0;
                b8.opacity = 1;
@@ -417,8 +402,7 @@ Rectangle {
                b3.opacity = 1;
                b2.opacity = 1;
                b1.opacity = 1;
-               break;
-            case 9:
+         }else if(brakeValore>=90 && brakeValore<100){
                b10.opacity = 0;
                b9.opacity = 1;
                b8.opacity = 1;
@@ -429,8 +413,7 @@ Rectangle {
                b3.opacity = 1;
                b2.opacity = 1;
                b1.opacity = 1;
-               break;
-            case 10:
+         }else if(brakeValore==100){
                b10.opacity = 1;
                b9.opacity = 1;
                b8.opacity = 1;
@@ -441,7 +424,6 @@ Rectangle {
                b3.opacity = 1;
                b2.opacity = 1;
                b1.opacity = 1;
-               break;
          }
       }
 

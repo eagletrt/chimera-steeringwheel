@@ -40,15 +40,12 @@ CarStatus::CarStatus() {
     m_lv = 2;
     m_hv = 2;
 
-    m_velocity = 100;
+    m_velocity = 130;
     m_preset = 1;
 
     m_apps = 0;
-    m_num_err_apps = 0;
     m_bse = 0;
-    m_num_err_bse = 0;
     m_steer = 50;
-    m_num_err_steer = 0;
 }
 
 CarStatus::~CarStatus() {
@@ -91,6 +88,7 @@ int CarStatus::preset() const {
 
 int CarStatus::velocity() const {
     qDebug() << "Asked velocity";
+    //m_velocity = ((m_preset+1)*80)/10000;
     return m_velocity;
 }
 
@@ -161,22 +159,16 @@ QString CarStatus::CTRLEnabled() const {
     return QString::number(m_ctrlIsOn);
 }
 
-void CarStatus::setSTEERStatus(int steer,
-                                 int num_err_steer){
+void CarStatus::setSTEERStatus(int steer){
     m_steer = steer;
-    m_num_err_steer = num_err_steer;
 
     emit STEERStatusChanged();
 }
 
 void CarStatus::setAPPSBSEStatus(int apps,
-                                 int num_err_apps,
-                                 int bse,
-                                 int num_err_bse){
+                                 int bse){
     m_apps = apps;
-    m_num_err_apps = num_err_apps;
     m_bse = bse;
-    m_num_err_bse = num_err_bse;
 
     emit APPSStatusChanged();
     emit BSEStatusChanged();
@@ -326,8 +318,6 @@ int CarStatus::toggleCarStatus() {
          emit toggleCar();
          break;
       case CAR_STATUS_SETUP:
-         if (1/*QUALCOSA*/){}
-            //TORNA IN IDLE CAZZO
         qDebug() << "CAR_STATUS_SETUP -> CAR_STATUS_RUN";
         // Change the status of the car
         m_car_status = CAR_STATUS_RUN;

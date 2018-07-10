@@ -5,6 +5,7 @@ Rectangle {
    id: root
    property var btnClickable: false
    property var isStarted: false
+   property var isStopped: true
    property var canstatus: CarStatus.CANStatus
    property var ledStates: ['OK', 'NO', 'DEFAULT']
    property var canLeds: [
@@ -51,10 +52,12 @@ Rectangle {
             isStarted = true;
             console.log("Set communication OK");
             CAN.checkCANCommunication(true);
+         }else{
+            //CarStatus.toggleCarStatus();
          }
 
          // Set the button again to be not clickable
-         btnClickable = false;
+         //btnClickable = false;
 
          // Restore Button 0 initial handler
          tabView.stepIntoTab = false;
@@ -110,9 +113,10 @@ Rectangle {
             color: "#000000"
 
             Button {
+               id: startstop
                state: root.btnClickable & !isStarted ? 'SELECTED' : 'IDLE'
                activeColor: "green"
-               text: "START"
+               text: "START/STOP"
             }
          }
 
@@ -122,6 +126,7 @@ Rectangle {
             color: "#000000"
 
             Button {
+               id: ask
                state: root.btnClickable ? 'SELECTED' : 'IDLE'
                activeColor: "blue"
                text: "ASK AGAIN"

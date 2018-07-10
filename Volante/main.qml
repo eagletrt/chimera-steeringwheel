@@ -10,6 +10,7 @@ Rectangle {
   height: 272
   color: "black"
   id: frame
+  
 
   Timer {
       interval: 1; running: true; repeat: true

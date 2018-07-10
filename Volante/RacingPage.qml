@@ -47,22 +47,6 @@ Rectangle {
         controlStateChanged(ctrlIsEnabled, ctrlIsOn, warning, error);
     }
 
-    function btnPressedHandler(btnID) {
-        if (btnID == 3) {
-            radioStatus.state = 'on';
-            StatusFrame.radio.opacity = 1;
-            StatusFrame.radio_na.opacity = 0;
-        }
-    }
-
-    function btnReleasedHandler(btnID) {
-        if (btnID == 3) {
-            radioStatus.state = 'off';
-            StatusFrame.radio.opacity = 0;
-            StatusFrame.radio_na.opacity = 1;
-        }
-    }
-
     function btnClickedHandler(btnID) {
         /* BUTTONS MAP
          * 0 - 12 top left
@@ -75,7 +59,7 @@ Rectangle {
             if (carIsGo) {
                 console.log("Sent Car Start command");
             } else {
-                console.log("Sent Car Stop command");
+                console.log("Sent Car Setup command");
             }
         }
 

@@ -51,8 +51,8 @@ class CarStatus : public QObject
         void setCarStatus(int, int, int, int, int, int);
         void setCANStatus(int, int, int, int, int, int, int, int);
         void setERRStatus(int, int, int, int, int, int, int, int, int);
-        void setAPPSBSEStatus(int, int, int, int);
-        void setSTEERStatus(int, int);
+        void setAPPSBSEStatus(int, int);
+        void setSTEERStatus(int);
 
         void setCarMode(int mode);
 

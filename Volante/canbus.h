@@ -35,6 +35,8 @@
 
 //NEW DEFINE FOR VARANO 2018
 #define STEERING_WHEEL_ID       0xA0
+#define BMS_ID                  0xAA
+#define LV_ID                   0xFF
 #define ECU_MSG                 0x55
 #define ECU_INV_LEFT            0x08
 #define ECU_INV_RIGHT           0x09
@@ -73,6 +75,7 @@ class Canbus : public QObject
 
         int m_hvTemp;
         int m_hvVolt;
+        int m_lvVoltVal;
         int m_lvTemp;
         int m_lvVolt;
 
@@ -82,6 +85,7 @@ class Canbus : public QObject
         int hvTemp() const;
         int lvTemp() const;
         int hvVolt() const;
+        int lvVoltVal() const;
         int lvVolt() const;
 
         int brakeVal() const;
