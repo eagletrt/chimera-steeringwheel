@@ -40,7 +40,7 @@ CarStatus::CarStatus() {
     m_lv = 2;
     m_hv = 2;
 
-    m_velocity = 130;
+    m_velocity = 0;
     m_preset = 1;
 
     m_apps = 0;
@@ -284,6 +284,11 @@ void CarStatus::setError(int on) {
     emit errorChanged();
 }
 
+void CarStatus::setVelocity(int vel) {
+    m_velocity = vel;
+    emit velocityChanged();
+    //emit carStatusChanged();
+}
 
 int CarStatus::carStatus() {
     qDebug() << "Asked carStatus";
@@ -313,21 +318,21 @@ int CarStatus::toggleCarStatus() {
       case CAR_STATUS_IDLE:
          qDebug() << "CAR_STATUS_IDLE -> CAR_STATUS_SETUP";
          // Change the status of the car
-         m_car_status = CAR_STATUS_SETUP;
+         m_car_status = CAR_STATUS_IDLE;
          // Send CAN request to the CTRL
          emit toggleCar();
          break;
       case CAR_STATUS_SETUP:
         qDebug() << "CAR_STATUS_SETUP -> CAR_STATUS_RUN";
         // Change the status of the car
-        m_car_status = CAR_STATUS_RUN;
+        m_car_status = CAR_STATUS_SETUP;
         // Send CAN request to the CTRL
         emit toggleCar();
         break;
       case CAR_STATUS_RUN:
         qDebug() << "CAR_STATUS_RUN -> CAR_STATUS_SETUP";
         // Change the status of the car
-        m_car_status = CAR_STATUS_SETUP;
+        m_car_status = CAR_STATUS_RUN;
         // Send CAN request to the CTRL
         emit toggleCar();
         break;

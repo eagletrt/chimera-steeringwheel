@@ -8,7 +8,7 @@ Rectangle {
    property int hvVolt: CAN.hvVolt;
    property int lvTemp: CAN.lvTemp;
    property int lvVolt: CAN.lvVolt;
-   property int lvVoltVal: CAN.lvVoltVal;
+   //property int lvVoltVal: CAN.lvVoltVal;
 
    /*
       lvVoltVal al posto di lvVolt dovrebbe

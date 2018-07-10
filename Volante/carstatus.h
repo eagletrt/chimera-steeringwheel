@@ -64,6 +64,7 @@ class CarStatus : public QObject
         int carStatus();
         void setWarning(int on);
         void setError(int on);
+        void setVelocity(int vel);
 
         int warning() const;
         int error() const;

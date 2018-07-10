@@ -55,12 +55,12 @@ Rectangle {
          */
         if (btnID == 0) {
             carIsGo = CarStatus.toggleCarStatus();
-
+            /*
             if (carIsGo) {
                 console.log("Sent Car Start command");
             } else {
                 console.log("Sent Car Setup command");
-            }
+            }*/
         }
 
         if (btnID == 1) {

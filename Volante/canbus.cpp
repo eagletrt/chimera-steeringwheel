@@ -51,7 +51,7 @@ this, SLOT(toggleCar()));
 connect(carStatus, SIGNAL(CTRLEnabledChanged()),
 this, SLOT(toggleCar()));
 
-timerSteeringWheel->start(10);
+timerSteeringWheel->start(1000);
 timerStatus->start(1000);
 
 
@@ -86,13 +86,9 @@ void Canbus::steerConnected() {
 
 void Canbus::askStatus() {
    QByteArray askErrors;
-   QByteArray askWarnings;
    askErrors.resize(8);
-   askWarnings.resize(8);
-   askErrors[0] = ECU_ERRORS;
-   askWarnings[0] = ECU_WARNINGS;
-   sendCanMessage(ECU_MSG,askErrors);
-   sendCanMessage(ECU_MSG,askWarnings);
+   askErrors[0] = 0x02;
+   sendCanMessage(STEERING_WHEEL_ID,askErrors);
 }
 
 int Canbus::actuatorRangePendingFlag() const {
@@ -130,6 +126,20 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
          m_brakeVal = ( (int) msg.at(1) );
       }else{
          m_throttleVal = ( (int) msg.at(1));
+         int currPercMap = 0;
+         switch(carStatus->getMap() + 1)
+         {
+            case 1: currPercMap = -20; break;
+            case 2: currPercMap = 20; break;
+            case 3: currPercMap = 40; break;
+            case 4: currPercMap = 60; break;
+            case 5: currPercMap = 80; break;
+            case 6: currPercMap = 100; break;
+            default: currPercMap = -100; break;
+         }
+         velocity = (80.0 * currPercMap * m_throttleVal) / 10000.0;
+         qDebug() << "Vel: " << velocity << endl;
+         carStatus->setVelocity(velocity);
       }
 
       emit brakeValChanged();
@@ -278,10 +288,11 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
          // Get current map
 
          // NUOVA VERSIONE, DAL 20/02
-         driveModeEnabled = msg.at(0); //dovrebbe voler dire msg.at(0)[0], aka il bit piu a dx
-         warning = msg.at(2);
-         error = msg.at(1);
-         velocity = ( (int) msg.at(1) ) / 2;
+         driveModeEnabled = 1; //dovrebbe voler dire msg.at(0)[0], aka il bit piu a dx
+         //warning = msg.at(2);
+         //error = msg.at(1);
+         //velocity = ( (int) msg.at(1) ) / 2;
+
 
          if (!warning & !error & !ctrlIsEnabled) {
             ctrlIsEnabled = 1;
@@ -304,8 +315,49 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             warning,
             error);
 
-         }
-         break;
+     }
+       else if(msg.at(0) == 0x04) // idle
+      {
+          driveModeEnabled = 0;
+          ctrlIsEnabled = carStatus->getCtrlIsEnabled();
+          ctrlIsOn = carStatus->getCtrlIsOn();
+
+          carStatus->setCarStatus(ctrlIsEnabled,
+             ctrlIsOn,
+             driveModeEnabled,
+             0,
+             0,
+             0);
+
+      }
+
+      else if(msg.at(0) == 0x05) // go
+     {
+         driveModeEnabled = 2;
+         ctrlIsEnabled = carStatus->getCtrlIsEnabled();
+         ctrlIsOn = carStatus->getCtrlIsOn();
+
+         carStatus->setCarStatus(ctrlIsEnabled,
+            ctrlIsOn,
+            driveModeEnabled,
+            0,
+            0,
+            0);
+     }
+      else if(msg.at(0) == 0x06) // setup from run
+     {
+         driveModeEnabled = 1;
+         ctrlIsEnabled = carStatus->getCtrlIsEnabled();
+         ctrlIsOn = carStatus->getCtrlIsOn();
+
+         carStatus->setCarStatus(ctrlIsEnabled,
+            ctrlIsOn,
+            driveModeEnabled,
+            0,
+            0,
+            0);
+     }
+     break;
 
          case BMS_ID:
          switch (msg.at(0))
@@ -394,13 +446,31 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
       return m_lvVolt;
    }
 
+   void Canbus::askSetupOrIdle(int whatState) {
+       qDebug() << "pressed" << endl;
+       if(whatState == 0) //GO TO IDLE
+       {
+           QByteArray msg;
+           msg.resize(8);
+           msg[0] = 0x04;
+           sendCanMessage(0xA0, msg);
+       }
+       else if(whatState == 1) //GO TO SETUP
+       {
+           QByteArray msg;
+           msg.resize(8);
+           msg[0] = 0x03;
+           sendCanMessage(0xA0, msg);
+       }
+   }
+
    void Canbus::toggleCar() {
       ctrlIsOn = carStatus->getCtrlIsOn();
       goStatus = carStatus->getCurrentStatus();
       map = carStatus->getMap();
 
       QByteArray toggleCAN;
-
+      toggleCAN.resize(8);
       qDebug() << "CtrlIsOn: " << ctrlIsOn;
       qDebug() << "GoIsOn: " << goStatus;
       qDebug() << "Map:" << map;
@@ -408,35 +478,40 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
       if (goStatus == CAR_STATUS_STOP) {
          toggleCAN[0] = 0x07;
       } else {
-         toggleCAN[0] = goStatus;
-         toggleCAN[1] = ctrlIsOn;
+          if(goStatus == CAR_STATUS_SETUP)
+            toggleCAN[0] = 0x05;
+          else if(goStatus == CAR_STATUS_RUN)
+            toggleCAN[0] = 0x06;
+          else if(goStatus == CAR_STATUS_IDLE)
+            toggleCAN[0] = 0x16; // UBER TEMPORANEO
+
          switch (map) {
             case 0:
-            toggleCAN[2] = -20;
+            toggleCAN[1] = -20;
             break;
             case 1:
-            toggleCAN[2] = 20;
+            toggleCAN[1] = 20;
             break;
             case 2:
-            toggleCAN[2] = 40;
+            toggleCAN[1] = 40;
             break;
             case 3:
-            toggleCAN[2] = 60;
+            toggleCAN[1] = 60;
             break;
             case 4:
-            toggleCAN[2] = 80;
+            toggleCAN[1] = 80;
             break;
             case 5:
-            toggleCAN[2] = 100;
+            toggleCAN[1] = 100;
             break;
          }
       }
 
-      toggleCAN.resize(8);
+
 
       qDebug() << canMessage;
 
-      sendCanMessage(ECU_MSG, toggleCAN);
+      sendCanMessage(STEERING_WHEEL_ID, toggleCAN);
    }
 
    void Canbus::sendCanMessage(int id, QByteArray message) {

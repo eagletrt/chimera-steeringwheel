@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.3
 
 Rectangle {
    id: root
-   property var btnClickable: false
+   property var btnClickable: true
    property var isStarted: false
    property var isStopped: true
    property var canstatus: CarStatus.CANStatus
@@ -41,41 +41,47 @@ Rectangle {
    }
 
    function btnClickedHandler(btnID) {
+       tabView.stepIntoTab = true;
       if (btnID == 0) {
-         tabView.stepIntoTab = false;
-         btnClickable = false;
+         //tabView.stepIntoTab = false;
+         //btnClickable = false;
       }
       if (btnID == 1) {
+          CAN.askSetupOrIdle(1);
+          //isStarted = true;
          // Step into this tab and change the behaviour of btnID
-         if (!isStarted) {
+         //if (!isStarted) {
             // Set ok to the update!
-            isStarted = true;
-            console.log("Set communication OK");
-            CAN.checkCANCommunication(true);
-         }else{
+            //isStarted = true;
+            //console.log("Asking to go from Idle to Setup");
+            //CAN.checkCANCommunication(true);
+             //CAN.askSetupOrIdle(1);
+         //}else{
             //CarStatus.toggleCarStatus();
-         }
+         //}
 
          // Set the button again to be not clickable
          //btnClickable = false;
 
          // Restore Button 0 initial handler
-         tabView.stepIntoTab = false;
+         //tabView.stepIntoTab = false;
       }
 
       if (btnID == 2) {
          if (!tabView.stepIntoTab) {
             // Set the button clickable
-            btnClickable = true;
+            //btnClickable = true;
 
             // Prevent the button 0 to switch to Racing Page!
             tabView.stepIntoTab = true;
 
          } else {
-            console.log("CheckCANCommunication");
-            CAN.checkCANCommunication(false);
+            console.log("Asking to go from Setup to Idle");
+            //CAN.checkCANCommunication(false);
+             CAN.askSetupOrIdle(0);
          }
       }
+      tabView.stepIntoTab = false;
    }
 
    Component.onCompleted: {
@@ -116,7 +122,7 @@ Rectangle {
                id: startstop
                state: root.btnClickable & !isStarted ? 'SELECTED' : 'IDLE'
                activeColor: "green"
-               text: "START/STOP"
+               text: "START"
             }
          }
 
@@ -128,8 +134,8 @@ Rectangle {
             Button {
                id: ask
                state: root.btnClickable ? 'SELECTED' : 'IDLE'
-               activeColor: "blue"
-               text: "ASK AGAIN"
+               activeColor: "red"
+               text: "STOP"
             }
          }
 

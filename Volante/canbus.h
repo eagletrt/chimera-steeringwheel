@@ -138,6 +138,7 @@ class Canbus : public QObject
         void checkSensorsError();
         void steerConnected();
         void askStatus();
+        void askSetupOrIdle(int);
 };
 
 #endif // CANBUS_H
