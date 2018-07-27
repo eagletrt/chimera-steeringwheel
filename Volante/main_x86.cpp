@@ -29,6 +29,9 @@ int main(int argc, char* argv[])
     QObject::connect(&buttons, &Buttons::presetChanged,
                      &carStatus, &CarStatus::changePreset);
 
+    QObject::connect(&buttons, &Buttons::pumpChanged,
+                     &carStatus, &CarStatus::changePump);
+
     view->rootContext()->setContextProperty("Buttons", &buttons);
     view->rootContext()->setContextProperty("CAN", &canInterface);
     view->rootContext()->setContextProperty("CarStatus", &carStatus);

@@ -17,6 +17,7 @@ class Buttons : public QObject
         void btnPressed(int btnID);
         void btnReleased(int btnID);
         void presetChanged(int presetID);
+        void pumpChanged(int pumpID);
 
     public slots:
         void handleKeyboardPress(int btnID);
@@ -37,4 +38,3 @@ class Buttons : public QObject
 };
 
 #endif // BUTTONS_X86_H
-

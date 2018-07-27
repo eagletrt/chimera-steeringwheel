@@ -42,6 +42,7 @@ CarStatus::CarStatus() {
 
     m_velocity = 0;
     m_preset = 1;
+    m_pump = 1;
 
     m_apps = 0;
     m_bse = 0;
@@ -52,17 +53,26 @@ CarStatus::~CarStatus() {
     qDebug() << "Car Status Destroy";
 }
 
+void CarStatus::changePump(int pumpID) {
+
+    qDebug() << "Pump to change: " << pumpID;
+
+    if (pumpID != LOOP_THROUGH_PUMPS) {
+        m_pump = pumpID;
+    } else {
+        // Loop through presents from 1 to 8 --> Case Single Button for Preset change
+        m_pump += 1;
+        qDebug() << m_preset;
+        m_pump = m_pump > PUMP_NUMBER ? m_pump % PUMP_NUMBER : m_pump;
+        qDebug() << m_pump;
+    }
+
+    qDebug() << "New Pump: " << m_pump;
+
+    emit pumpChanged();
+}
+
 void CarStatus::changePreset(int presetID) {
-    /* Step for changing preset:
-     * (this needs to be done, now it sends the presetChanged signal directly from hardware)
-     * (Handle the case when you are in menu mode and you change preset)
-     *
-     * 1. Acknowledge change from hardware (the wiper has been moved from one position to another)
-     * 2. Send the ECU a request to change the preset (this involves editing some parameters on the software)
-     * 3. Wait for the ECU to ack and send back the result
-     * 4. Send the signal to the GUI to change the preset
-     *
-     */
 
     qDebug() << "Preset to change: " << presetID;
 
@@ -80,6 +90,10 @@ void CarStatus::changePreset(int presetID) {
     qDebug() << "New Preset: " << m_preset;
 
     emit presetChanged();
+}
+
+int CarStatus::pump() const {
+    return m_pump;
 }
 
 int CarStatus::preset() const {
@@ -298,6 +312,11 @@ int CarStatus::carStatus() {
 
 int CarStatus::getCurrentStatus() {
     return m_car_status;
+}
+
+
+int CarStatus::getPump() {
+    return m_pump - 1;
 }
 
 int CarStatus::getMap() {

@@ -24,6 +24,7 @@ class Buttons : public QObject
         void btnPressed(int btnID);
         void btnReleased(int btnID);
         void presetChanged(int presetID);
+        void pumpChanged(int pumpID);
 
     private:
         enum Constants {
@@ -34,7 +35,8 @@ class Buttons : public QObject
         int btnAction;
         int map;
         int oldMap;
-        int preOldMap;
+        int pump;
+        int oldPump;
 
         bool isBackFromMap6;
         bool isBackFromMap3;

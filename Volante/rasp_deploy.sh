@@ -25,5 +25,8 @@ cd $BUILD_DIR
 $RASP_PI_QMAKE -spec devices/linux-rasp-pi-g++ -o Makefile ../$RASP_PI_PROJECT
 make
 
+#new host
+#pi@eaglepi eaglepi
+
 # Upload executable on the Rasp
 scp EagleSteeringWheel root@$PI_ADDRESS:/

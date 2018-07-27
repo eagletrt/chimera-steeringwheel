@@ -40,7 +40,6 @@
 #define ECU_MSG                 0x55
 #define ECU_INV_LEFT            0x08
 #define ECU_INV_RIGHT           0x09
-#define ECU_WARNINGS            0x02
 #define ECU_ERRORS              0x01
 #define STM_PEDALS              0xB0
 #define GET_ACTUATORS_RANGE_ACK 0xBC
@@ -118,6 +117,7 @@ class Canbus : public QObject
     signals:
         void controlStateChanged(int ctrlState, int warn, int err);
         void presetChanged(int presetID);
+        void pumpChanged(int pumpID);
         void actuatorRangePendingFlagCleared();
 
         //signal per qml hv e lv temp volt

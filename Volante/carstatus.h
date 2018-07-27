@@ -7,6 +7,7 @@
 #define CAR_STATUS_STOP    3
 
 #define PRESET_NUMBER      6
+#define PUMP_NUMBER      6
 
 #include <QDebug>
 
@@ -23,6 +24,7 @@ class CarStatus : public QObject
     Q_PROPERTY(QList<int> STEERStatus READ STEERStatus NOTIFY STEERStatusChanged)
     Q_PROPERTY(int velocity READ velocity NOTIFY velocityChanged)
     Q_PROPERTY(int preset READ preset NOTIFY presetChanged)
+    Q_PROPERTY(int pump READ pump NOTIFY pumpChanged)
 
     Q_PROPERTY(int warning READ warning NOTIFY warningChanged)
     Q_PROPERTY(int error READ error NOTIFY errorChanged)
@@ -35,6 +37,7 @@ class CarStatus : public QObject
         ~CarStatus();
 
         const int LOOP_THROUGH_PRESETS = -1;
+        const int LOOP_THROUGH_PUMPS = -1;
 
         QString CANStatus() const;
         QString HVStatus() const;
@@ -46,6 +49,7 @@ class CarStatus : public QObject
 
         int velocity() const;
         int preset() const;
+        int pump() const;
 
         void setHVStatus(int invRight, int invLeft, int preCharge);
         void setCarStatus(int, int, int, int, int, int);
@@ -60,6 +64,7 @@ class CarStatus : public QObject
         int getCtrlIsOn();
         int getCurrentStatus();
         int getMap();
+        int getPump();
 
         int carStatus();
         void setWarning(int on);
@@ -77,6 +82,7 @@ class CarStatus : public QObject
         int toggleCarStatus();
         int stopCar();
         void changePreset(int presetID);
+        void changePump(int pumpID);
 
     private:
         static int getBit(unsigned char seq, int index);
@@ -95,6 +101,7 @@ class CarStatus : public QObject
         int m_temperature;
         int m_velocity;
         int m_preset;
+        int m_pump;
 
         int m_invr;
         int m_invl;
@@ -141,6 +148,7 @@ class CarStatus : public QObject
         void CTRLEnabledChanged();
         void velocityChanged();
         void presetChanged();
+        void pumpChanged();
 };
 
 #endif // CARSTATUS_H

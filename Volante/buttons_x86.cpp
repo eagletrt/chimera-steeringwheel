@@ -1,13 +1,13 @@
 #include "buttons_x86.h"
 #include <QDebug>
 
-Buttons::Buttons(QGuiApplication *app) 
+Buttons::Buttons(QGuiApplication *app)
 {
 
     filter = new KeyPressEventFilter(app);
 
     QObject::connect(filter, &KeyPressEventFilter::keyboardBtnClicked,
-                     this, &Buttons::handleKeyboardPress); 
+                     this, &Buttons::handleKeyboardPress);
 
     pinMap = QVector<int>();
     pinState = QVector<int>();
@@ -26,5 +26,6 @@ void Buttons::handleKeyboardPress(int btnID) {
         emit btnClicked(btnID);
     } else {
         emit presetChanged(btnID - 10);
+        emit pumpChanged(btnID -10);
     }
 }
