@@ -16,8 +16,7 @@ const QString CAN_INTERFACE = "socketcan";
 int main(int argc, char* argv[])
 {
     qDebug() << "Running in x86 mode";
-    qDebug() << "Start Core Application...";
-
+    
     QGuiApplication app(argc, argv);
     QQuickView* view = new QQuickView();
 

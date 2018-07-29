@@ -102,6 +102,7 @@ class Canbus : public QObject
     private:
         QTimer *timerSteeringWheel;
         QTimer *timerStatus;
+        QTimer *timerEnc;
 
         qint64 canID;
         QByteArray canMSG;
@@ -138,6 +139,7 @@ class Canbus : public QObject
         void checkSensorsError();
         void steerConnected();
         void askStatus();
+        void sendEncState();
         void askSetupOrIdle(int);
 };
 

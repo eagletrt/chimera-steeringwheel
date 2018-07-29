@@ -14,7 +14,6 @@ const QString CAN_INTERFACE = "socketcan";
 int main(int argc, char* argv[])
 {
     qDebug() << "Running in raspiARM mode";
-    qDebug() << "Start Core Application...";
 
     QGuiApplication app(argc, argv);
     QQuickView* view = new QQuickView();
@@ -26,6 +25,9 @@ int main(int argc, char* argv[])
 
     QObject::connect(&buttons, &Buttons::presetChanged,
                      &carStatus, &CarStatus::changePreset);
+
+    QObject::connect(&buttons, &Buttons::pumpChanged,
+                     &carStatus, &CarStatus::changePump);
 
     view->rootContext()->setContextProperty("Buttons", &buttons);
     view->rootContext()->setContextProperty("CAN", &canInterface);

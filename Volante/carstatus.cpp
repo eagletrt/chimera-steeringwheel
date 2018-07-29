@@ -55,7 +55,7 @@ CarStatus::~CarStatus() {
 
 void CarStatus::changePump(int pumpID) {
 
-    qDebug() << "Pump to change: " << pumpID;
+    //qDebug() << "Pump to change: " << pumpID;
 
     if (pumpID != LOOP_THROUGH_PUMPS) {
         m_pump = pumpID;
@@ -69,12 +69,12 @@ void CarStatus::changePump(int pumpID) {
 
     qDebug() << "New Pump: " << m_pump;
 
-    emit pumpChanged();
+    //emit pumpChanged();
 }
 
 void CarStatus::changePreset(int presetID) {
 
-    qDebug() << "Preset to change: " << presetID;
+    //qDebug() << "Preset to change: " << presetID;
 
     if (presetID != LOOP_THROUGH_PRESETS) {
         // Change preset to presetID --> Case Hardware Wiper

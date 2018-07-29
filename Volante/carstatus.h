@@ -7,7 +7,7 @@
 #define CAR_STATUS_STOP    3
 
 #define PRESET_NUMBER      6
-#define PUMP_NUMBER      6
+#define PUMP_NUMBER        6
 
 #include <QDebug>
 

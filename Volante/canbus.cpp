@@ -34,10 +34,14 @@ qDebug() << "CAN Interface Init";
 
 timerSteeringWheel = new QTimer(this);
 timerStatus = new QTimer(this);
+timerEnc = new QTimer(this);
 
 // Setup signal/slot mechanism
 connect(timerSteeringWheel, SIGNAL(timeout()),
 this, SLOT(steerConnected()));
+
+connect(timerEnc, SIGNAL(timeout()),
+this, SLOT(sendEncState()));
 
 connect(timerStatus, SIGNAL(timeout()),
 this, SLOT(askStatus()));
@@ -51,6 +55,7 @@ this, SLOT(toggleCar()));
 connect(carStatus, SIGNAL(CTRLEnabledChanged()),
 this, SLOT(toggleCar()));
 
+timerEnc->start(500);
 timerSteeringWheel->start(1000);
 timerStatus->start(1000);
 
@@ -81,6 +86,19 @@ void Canbus::steerConnected() {
   connected.resize(8);
   connected[0] = 1;
   sendCanMessage(STEERING_WHEEL_ID,connected);
+}
+
+/*
+   Bisogna scegliere ID e come strutturare il Msg
+   cosi da avere l'ECU che cambia solo in RUN e SETUP
+*/
+void Canbus::sendEncState() {
+  QByteArray state;
+  state.resize(8);
+  state[0] = 777;
+  state[1] = carStatus->getMap();
+  state[2] = carStatus->getPump();
+  sendCanMessage(STEERING_WHEEL_ID,state);
 }
 
 void Canbus::askStatus() {
