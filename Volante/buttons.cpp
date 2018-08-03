@@ -163,7 +163,7 @@ void Buttons::readGPIOState()
         pump = 5;
         break;
         case PUMP_6:
-        pump = 6;
+          pump = 6;
         break;
         case MAP_1:
         map = 1;
@@ -194,10 +194,16 @@ void Buttons::readGPIOState()
         }
 
         if (!switchIsWrong) {
-          presetChanged(map);
-          oldMap = map;
-          pumpChanged(pump);
-          oldPump = pump;
+            if(map != -1 && map != oldMap)
+            {
+                presetChanged(map);
+                oldMap = map;
+            }
+            if(pump != -1 && pump != oldPump)
+            {
+                pumpChanged(pump);
+                oldPump = pump;
+            }
         }
 
         switchIsWrong = false;

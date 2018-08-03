@@ -21,7 +21,7 @@ Rectangle {
 
    Text {
       id: texthvTemp
-      text: CAN.hvTemp +  " °C"
+      text: CAN.hvTemp / 10 +  " °C"
       font.family: blackops.name;
       font.pointSize: 7
       y: 100
@@ -30,7 +30,7 @@ Rectangle {
 
    Text {
       id: texthvVolt
-      text: CAN.hvVolt +  " V"
+      text: CAN.hvVolt / 10 +  " V"
       font.family: blackops.name;
       font.pointSize: 7
       y: 120
@@ -39,7 +39,7 @@ Rectangle {
 
    Text {
       id: textlvTemp
-      text: CAN.lvTemp + " °C"
+      text: CAN.lvTemp / 5 + " °C"
 
       horizontalAlignment: Text.AlignRight;
       font.pointSize: 7
@@ -52,7 +52,7 @@ Rectangle {
 
    Text {
       id: textlvVolt
-      text: CAN.lvVolt + " V"
+      text: CAN.lvVolt / 10 + " V"
       horizontalAlignment: Text.AlignRight;
       font.pointSize: 7
       font.family: blackops.name;
@@ -74,7 +74,7 @@ Rectangle {
       onThrottleValChanged: function(){
          throttleValore = CAN.throttleVal;
          console.log("Throttle Changed: " + throttleValore);
-         if(throttleValore<10){
+         if(throttleValore < 10){
                t10.opacity = 0;
                t9.opacity = 0;
                t8.opacity = 0;
@@ -303,7 +303,7 @@ Rectangle {
       onBrakeValChanged: function(){
          brakeValore = CAN.brakeVal;
          console.log("Brake Changed: " + brakeValore);
-         if(brakeValore<10){
+         if(brakeValore == 0){
                b10.opacity = 0;
                b9.opacity = 0;
                b8.opacity = 0;
@@ -314,7 +314,7 @@ Rectangle {
                b3.opacity = 0;
                b2.opacity = 0;
                b1.opacity = 0;
-         }else if(brakeValore>=10 && brakeValore<20){
+         }/*else if(brakeValore>=10 && brakeValore<20){
                b10.opacity = 0;
                b9.opacity = 0;
                b8.opacity = 0;
@@ -413,7 +413,7 @@ Rectangle {
                b3.opacity = 1;
                b2.opacity = 1;
                b1.opacity = 1;
-         }else if(brakeValore==100){
+         }*/else if(brakeValore==1){
                b10.opacity = 1;
                b9.opacity = 1;
                b8.opacity = 1;

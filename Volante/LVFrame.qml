@@ -6,7 +6,7 @@ Item{
    property int lvVal : lvVolt;
 
    onLvVoltChanged: function(){
-      if(lvVal<10){
+      if(lvVal<120) {
          lv14.opacity = 0;
          lv13.opacity = 0;
          lv12.opacity = 0;
@@ -20,7 +20,7 @@ Item{
          lv4.opacity = 0;
          lv3.opacity = 0;
          lv2.opacity = 1;
-      }else if(lvVal>=10 && lvVal<20){
+      }else if(lvVal>=120 && lvVal<125){
          lv14.opacity = 0;
          lv13.opacity = 0;
          lv12.opacity = 0;
@@ -34,7 +34,7 @@ Item{
          lv4.opacity = 0;
          lv3.opacity = 1;
          lv2.opacity = 1;
-      }else if(lvVal>=20 && lvVal<30){
+      }else if(lvVal>=125 && lvVal<130){
          lv14.opacity = 0;
          lv13.opacity = 0;
          lv12.opacity = 0;
@@ -48,7 +48,7 @@ Item{
          lv4.opacity = 1;
          lv3.opacity = 1;
          lv2.opacity = 1;
-      }else if(lvVal>=30 && lvVal<40){
+      }else if(lvVal>=130 && lvVal<135){
          lv14.opacity = 0;
          lv13.opacity = 0;
          lv12.opacity = 0;
@@ -62,7 +62,7 @@ Item{
          lv4.opacity = 1;
          lv3.opacity = 1;
          lv2.opacity = 1;
-      }else if(lvVal>=40 && lvVal<50){
+      }else if(lvVal>=135 && lvVal<140){
          lv14.opacity = 0;
          lv13.opacity = 0;
          lv12.opacity = 0;
@@ -76,7 +76,7 @@ Item{
          lv4.opacity = 1;
          lv3.opacity = 1;
          lv2.opacity = 1;
-      }else if(lvVal>=50 && lvVal<60){
+      }else if(lvVal>=140 && lvVal<145){
          lv14.opacity = 0;
          lv13.opacity = 0;
          lv12.opacity = 0;
@@ -90,7 +90,7 @@ Item{
          lv4.opacity = 1;
          lv3.opacity = 1;
          lv2.opacity = 1;
-      }else if(lvVal>=60 && lvVal<70){
+      }else if(lvVal>=145 && lvVal<150){
          lv14.opacity = 0;
          lv13.opacity = 0;
          lv12.opacity = 0;
@@ -104,7 +104,7 @@ Item{
          lv4.opacity = 1;
          lv3.opacity = 1;
          lv2.opacity = 1;
-      }else if(lvVal>=70 && lvVal<80){
+      }else if(lvVal>=150 && lvVal<155){
          lv14.opacity = 0;
          lv13.opacity = 0;
          lv12.opacity = 0;
@@ -118,7 +118,7 @@ Item{
          lv4.opacity = 1;
          lv3.opacity = 1;
          lv2.opacity = 1;
-      }else if(lvVal>=80 && lvVal<90){
+      }else if(lvVal>=155 && lvVal<160){
          lv14.opacity = 0;
          lv13.opacity = 0;
          lv12.opacity = 1;
@@ -132,7 +132,7 @@ Item{
          lv4.opacity = 1;
          lv3.opacity = 1;
          lv2.opacity = 1;
-      }else if(lvVal>=90 && lvVal<100){
+      }else if(lvVal>=160 && lvVal<165){
          lv14.opacity = 0;
          lv13.opacity = 1;
          lv12.opacity = 1;
@@ -146,7 +146,7 @@ Item{
          lv4.opacity = 1;
          lv3.opacity = 1;
          lv2.opacity = 1;
-      }else if(lvVal>=100){
+      }else if(lvVal>=165){
          lv14.opacity = 1;
          lv13.opacity = 1;
          lv12.opacity = 1;

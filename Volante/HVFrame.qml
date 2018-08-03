@@ -6,6 +6,7 @@ Item{
    property int hvVal : hvVolt;
 
    onHvVoltChanged: function(){
+      hvVal = CAN.hvVolt / 10;
       if(hvVal<340){
          hv14.opacity = 0;
          hv13.opacity = 0;

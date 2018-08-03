@@ -93,12 +93,49 @@ void Canbus::steerConnected() {
    cosi da avere l'ECU che cambia solo in RUN e SETUP
 */
 void Canbus::sendEncState() {
+    //only pump
   QByteArray state;
   state.resize(8);
-  state[0] = 777;
-  state[1] = carStatus->getMap();
-  state[2] = carStatus->getPump();
-  sendCanMessage(STEERING_WHEEL_ID,state);
+  int pump = carStatus->getPump() + 1;
+
+  switch(pump)
+  {
+    case 1:
+      state[0] = 0x02;
+      state[1] = 0x01;
+      state[2] = 0x00;
+      break;
+    case 2:
+      state[0] = 0x02;
+      state[1] = 0x01;
+      state[2] = 25;
+      break;
+    case 3:
+      state[0] = 0x02;
+      state[1] = 0x01;
+      state[2] = 50;
+      break;
+    case 4:
+      state[0] = 0x02;
+      state[1] = 0x01;
+      state[2] = 75;
+      break;
+    case 5:
+      state[0] = 0x02;
+      state[1] = 0x01;
+      state[2] = 100;
+      break;
+    case 6:
+      state[0] = 0x00;
+      state[1] = 0x00;
+      break;
+  }
+  //state[0] = 0x00;
+  //state[1] = 0x00; //carStatus->getMap();
+  //state[2] = carStatus->getPump();
+  qDebug() << "updating pump with value " << carStatus->getPump();
+  sendCanMessage(0xAF, state);
+
 }
 
 void Canbus::askStatus() {
@@ -332,6 +369,9 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
         warning,
         error);
 
+      QString oldStatus = carStatus->HVStatus();
+      carStatus->setHVStatus(1, oldStatus.mid(1,1).toInt(), oldStatus.mid(2,1).toInt());
+
       }
       else if(msg.at(0) == 0x04) // idle
       {
@@ -377,21 +417,21 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             break;
 
             case BMS_ID:
-            switch (msg.at(0))
-            case 0x01://BMS_VOLT
-            m_hvVolt = ((msg.at(1) << 8) & 16) + msg.at(2);
-            emit hvVoltChanged();
-            break;
-            case 0x06://BMS_TEMP
-            m_hvVolt = ((msg.at(1) << 8) & 16) + msg.at(2);
-            emit hvTempChanged();
-            break;
-            break;
+                if(msg.at(0) == 0x01)
+                {
+                    m_hvVolt = (((uint8_t)msg.at(1) << 16) + ((uint8_t)msg.at(2) << 8) + (uint8_t)msg.at(3) ) / 1000;
+                    qDebug() << m_hvVolt;
+                    emit hvVoltChanged();
+                    m_hvTemp = (((uint8_t)msg.at(4) << 8) + (uint8_t)msg.at(5) ) / 100;
+                    qDebug() << m_hvTemp;
+                    emit hvTempChanged();
+                }
+                break;
 
             case LV_ID:
-            m_lvVolt = msg.at(0);
-            m_lvVoltVal = (int(msg.at(1)))/10;
-            m_lvTemp = msg.at(2);
+            m_lvVolt = (uint8_t)msg.at(0);
+            m_lvVoltVal = (uint8_t)msg.at(1);
+            m_lvTemp = (uint8_t)msg.at(2);
             emit lvTempChanged();
             emit lvVoltChanged();
             break;
@@ -471,6 +511,8 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             msg.resize(8);
             msg[0] = 0x04;
             sendCanMessage(0xA0, msg);
+            //msg[0] = 0x00;
+            //sendCanMessage(0x01, msg);
           }
           else if(whatState == 1) //GO TO SETUP
           {
@@ -478,6 +520,8 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             msg.resize(8);
             msg[0] = 0x03;
             sendCanMessage(0xA0, msg);
+            //msg[0] = 0x01;
+            //sendCanMessage(0x01, msg);
           }
         }
 
@@ -571,7 +615,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
           arrayTarget[0] = ECU_INV_RIGHT;
 
           if(target != 2)
-          sendCanMessage(ECU_MSG, arrayTarget);
+          sendCanMessage(STEERING_WHEEL_ID, arrayTarget);
         }
 
         void Canbus::setActuatorsRange(int actuatorID, int rangeSide) {
