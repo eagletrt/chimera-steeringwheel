@@ -11,7 +11,7 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString can_interface) {
 
   QString errorString;
   device = QCanBus::instance()->createDevice(
-    QStringLiteral("socketcan"), QStringLiteral("vcan0"), &errorString);
+    QStringLiteral("socketcan"), QStringLiteral("can0"), &errorString);
     if (!device)
     qDebug() << "NO CAN!";
     else
@@ -143,6 +143,17 @@ void Canbus::askStatus() {
   askErrors.resize(8);
   askErrors[0] = 0x02;
   sendCanMessage(STEERING_WHEEL_ID,askErrors);
+}
+
+void Canbus::PWMCheck() {
+    QByteArray msg;
+    msg.resize(8);
+    msg[0] = 0x03;
+    msg[1] = 0x01;
+
+    goStatus = carStatus->getCurrentStatus();
+    if(goStatus != CAR_STATUS_RUN)
+        sendCanMessage(0xAF, msg);
 }
 
 int Canbus::actuatorRangePendingFlag() const {
@@ -422,7 +433,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                     m_hvVolt = (((uint8_t)msg.at(1) << 16) + ((uint8_t)msg.at(2) << 8) + (uint8_t)msg.at(3) ) / 1000;
                     qDebug() << m_hvVolt;
                     emit hvVoltChanged();
-                    m_hvTemp = (((uint8_t)msg.at(4) << 8) + (uint8_t)msg.at(5) ) / 100;
+                    m_hvTemp = (((uint8_t)msg.at(4) << 8) + (uint8_t)msg.at(5) ) / 10;
                     qDebug() << m_hvTemp;
                     emit hvTempChanged();
                 }
@@ -569,7 +580,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
               toggleCAN[1] = 100;
               break;
             }
-            switch (pump) {
+            /*switch (pump) {
               case 0:
               toggleCAN[2] = -100;
               break;
@@ -588,7 +599,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
               case 5:
               toggleCAN[2] = 5;
               break;
-            }
+            }*/
 
           }
 
@@ -609,12 +620,13 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
         void Canbus::askHVUpdate(int target) {
           QByteArray arrayTarget;
           arrayTarget.resize(8);
-          if(target == 0)
+          if(target == 1)
           arrayTarget[0] = ECU_INV_LEFT;
-          else if(target == 1)
+          else if(target == 2)
           arrayTarget[0] = ECU_INV_RIGHT;
+          //qDebug() << target << "TARGET";
 
-          if(target != 2)
+          if(target != 0)
           sendCanMessage(STEERING_WHEEL_ID, arrayTarget);
         }
 

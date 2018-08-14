@@ -35,7 +35,7 @@
 
 //NEW DEFINE FOR VARANO 2018
 #define STEERING_WHEEL_ID       0xA0
-#define BMS_ID                  0x02
+#define BMS_ID                  0xAA
 #define LV_ID                   0xFF
 #define ECU_MSG                 0x55
 #define ECU_INV_LEFT            0x08
@@ -141,6 +141,7 @@ class Canbus : public QObject
         void askStatus();
         void sendEncState();
         void askSetupOrIdle(int);
+        void PWMCheck();
 };
 
 #endif // CANBUS_H

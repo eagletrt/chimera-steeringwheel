@@ -42,7 +42,7 @@ CarStatus::CarStatus() {
 
     m_velocity = 0;
     m_preset = 1;
-    m_pump = 1;
+    m_pump = 6;
 
     m_apps = 0;
     m_bse = 0;

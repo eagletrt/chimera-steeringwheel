@@ -64,11 +64,11 @@ Rectangle {
         }
 
         if (btnID == 1) {
-            console.log("Car is Go == " + carIsGo)
+            /*console.log("Car is Go == " + carIsGo)
             if (carIsGo) {
                 // Stop the car
                 carIsGo = CarStatus.stopCar();
-            }
+            }*/
         }
 
         if (btnID == 2) {
@@ -76,7 +76,8 @@ Rectangle {
         }
 
         if (btnID == 3) {
-           /*
+            CAN.PWMCheck();
+            /*
                emit della funziona che ti permette di cambiare
                hv lv throttle brake e velocity
 

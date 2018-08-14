@@ -55,6 +55,7 @@ Rectangle {
 
     function btnClickedHandler(btnID) {
         if (btnID == 2) {
+            /*
             // Step into this tab and change the behaviour of btnID
             if (!tabView.stepIntoTab) {
                 // Set the button clickable
@@ -80,6 +81,7 @@ Rectangle {
                 mainwindow.canSwitchPage = true;
                 tabView.stepIntoTab = false;
             }
+            */
         }
     }
 
@@ -138,7 +140,7 @@ Rectangle {
             }
         }
 
-        Rectangle {
+        /*Rectangle {
             Layout.preferredWidth: errors.width
             Layout.preferredHeight: errors.height / 6
             Layout.columnSpan: 3
@@ -149,6 +151,6 @@ Rectangle {
                 activeColor: "blue"
                 text: "UPDATE"
             }
-        }
+        }*/
     }
 }
