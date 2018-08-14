@@ -8,6 +8,8 @@ Rectangle {
    property int hvVolt: CAN.hvVolt;
    property int lvTemp: CAN.lvTemp;
    property int lvVolt: CAN.lvVolt;
+   property int invSxTemp: CAN.invSxTemp;
+   property int invDxTemp: CAN.invDxTemp;
    //property int lvVoltVal: CAN.lvVoltVal;
 
    /*
@@ -17,7 +19,30 @@ Rectangle {
 
    property int velocity: CarStatus.velocity
 
+
+
    color: "transparent"
+
+   Text {
+      id: textInvSxTemp
+      text: invSxTemp / 10.0 + "°C"
+      font.family: blackops.name;
+      font.pointSize: 7
+      y: 60
+      color: "lightgray"
+   }
+
+   Text {
+      id: textInvDxTemp
+      text: invDxTemp / 10 + "°C"
+      horizontalAlignment: Text.AlignRight;
+      font.pointSize: 7
+      font.family: blackops.name;
+      x: 290
+      y: 60
+      width: 70
+      color: "lightgray"
+   }
 
    Text {
       id: texthvTemp

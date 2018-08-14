@@ -69,6 +69,9 @@ velocity = -1;
 
 idIsArrived = 0;
 
+m_invSxTemp = 0;
+m_invDxTemp = 0;
+
 m_hvTemp = 70;
 m_hvVolt = 440;
 m_lvVoltVal = 120;
@@ -183,6 +186,22 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
   // State machine for parsing the CAN Msg and giving
   // back the correct signal
   switch (mid) {
+    case 0x181:
+      if(msg.at(0) == 0x4a)
+      {
+          m_invSxTemp = ((((uint8_t)msg.at(1) + ((uint8_t)msg.at(2) * 256.0f) ) - 15797.0f ) / 112.1182f) * 10.0f;
+          emit invSxTempChanged();
+      }
+      break;
+
+    case 0x182:
+      if(msg.at(0) == 0x4a)
+      {
+          m_invDxTemp = ((((uint8_t)msg.at(1) + ((uint8_t)msg.at(2) * 256.0f) ) - 15797.0f ) / 112.1182f) * 10.0f;
+          emit invDxTempChanged();
+      }
+      break;
+
     case STM_PEDALS:
     qDebug() << "Throttle: " << QString::number(msg.at(0));
     qDebug() << "Brake: " << QString::number(msg.at(1));
@@ -496,6 +515,13 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
         }
         int Canbus::throttleVal() const {
           return m_throttleVal;
+        }
+
+        int Canbus::invSxTemp() const {
+          return m_invSxTemp;
+        }
+        int Canbus::invDxTemp() const {
+          return m_invDxTemp;
         }
 
         int Canbus::hvTemp() const {
