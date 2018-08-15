@@ -16,12 +16,12 @@
 #define MAP_5              5
 #define MAP_6              21
 
-#define PUMP_1             100
-#define PUMP_2             101
-#define PUMP_3             102
-#define PUMP_4             103
-#define PUMP_5             104
-#define PUMP_6             105
+#define PUMP_1             106 //100
+#define PUMP_2             107 //101
+#define PUMP_3             115 //102
+#define PUMP_4             113 //103
+#define PUMP_5             114 //104
+#define PUMP_6             112 //105
 
 
 Buttons::Buttons(QGuiApplication *app)

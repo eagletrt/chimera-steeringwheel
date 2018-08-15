@@ -35,10 +35,10 @@ Rectangle {
    Text {
       id: textInvDxTemp
       text: invDxTemp / 10 + "°C"
-      horizontalAlignment: Text.AlignRight;
+      horizontalAlignment: Text.AlignLeft;
       font.pointSize: 7
       font.family: blackops.name;
-      x: 290
+      x: 310
       y: 60
       width: 70
       color: "lightgray"
@@ -66,10 +66,10 @@ Rectangle {
       id: textlvTemp
       text: CAN.lvTemp / 5 + " °C"
 
-      horizontalAlignment: Text.AlignRight;
+      horizontalAlignment: Text.AlignLeft;
       font.pointSize: 7
       font.family: blackops.name;
-      x: 290
+      x: 310
       y: 100
       width: 70
       color: "lightgray"
@@ -78,10 +78,10 @@ Rectangle {
    Text {
       id: textlvVolt
       text: CAN.lvVolt / 10 + " V"
-      horizontalAlignment: Text.AlignRight;
+      horizontalAlignment: Text.AlignLeft;
       font.pointSize: 7
       font.family: blackops.name;
-      x: 290
+      x: 310
       y: 120
       width: 70
       color: "lightgray"
