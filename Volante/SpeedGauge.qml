@@ -4,6 +4,7 @@ Rectangle {
 
    FontLoader {id:blackops; source: "lib/blops.ttf"}
 
+   property int speed: CAN.speed;
    property int hvTemp: CAN.hvTemp;
    property int hvVolt: CAN.hvVolt;
    property int lvTemp: CAN.lvTemp;
@@ -22,6 +23,18 @@ Rectangle {
 
 
    color: "transparent"
+
+   Text {
+      id: carSpeed
+      text: speed + " KMH"
+      font.family: blackops.name;
+      font.pointSize: 7
+      y: 130
+      x: 85
+      width:200
+      horizontalAlignment: Text.AlignHCenter;
+      color: "lightgray"
+   }
 
    Text {
       id: textInvSxTemp

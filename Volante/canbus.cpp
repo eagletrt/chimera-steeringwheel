@@ -77,6 +77,7 @@ m_hvVolt = 440;
 m_lvVoltVal = 120;
 m_lvVolt = 120;
 m_lvTemp = 30;
+m_speed = 100;
 
 m_brakeVal = 100;
 m_throttleVal = 100;
@@ -186,6 +187,13 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
   // State machine for parsing the CAN Msg and giving
   // back the correct signal
   switch (mid) {
+    case 0xD0:
+      if(msg.at(0) == 0x03)
+      {
+          m_speed = ((uint8_t)msg.at(1) * 256 + (uint8_t)msg.at(2)) / 100;
+          emit speedChanged();
+      }
+      break;
     case 0x181:
       if(msg.at(0) == 0x4a)
       {
@@ -516,7 +524,9 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
         int Canbus::throttleVal() const {
           return m_throttleVal;
         }
-
+        int Canbus::speed() const {
+          return m_speed;
+        }
         int Canbus::invSxTemp() const {
           return m_invSxTemp;
         }

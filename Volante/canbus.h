@@ -57,6 +57,7 @@ class Canbus : public QObject
     Q_PROPERTY(int lvVolt READ lvVolt NOTIFY lvVoltChanged)
     Q_PROPERTY(int invSxTemp READ invSxTemp NOTIFY invSxTempChanged)
     Q_PROPERTY(int invDxTemp READ invDxTemp NOTIFY invDxTempChanged)
+    Q_PROPERTY(int speed READ speed NOTIFY speedChanged)
 
 
     Q_PROPERTY(int brakeVal READ brakeVal NOTIFY brakeValChanged)
@@ -75,7 +76,7 @@ class Canbus : public QObject
         int velocity;
         int ctrlIsEnabled;
 
-
+        uint16_t m_speed;
         uint16_t m_invSxTemp;
         uint16_t m_invDxTemp;
         uint32_t m_hvTemp;
@@ -87,6 +88,7 @@ class Canbus : public QObject
         int m_brakeVal;
         int m_throttleVal;
 
+        int speed() const;
         int invSxTemp() const;
         int invDxTemp() const;
         int hvTemp() const;
@@ -130,6 +132,7 @@ class Canbus : public QObject
         void actuatorRangePendingFlagCleared();
 
         //signal per qml hv e lv temp volt
+        void speedChanged();
         void hvTempChanged();
         void lvTempChanged();
         void hvVoltChanged();
