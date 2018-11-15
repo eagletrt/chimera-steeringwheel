@@ -1,4 +1,4 @@
-# Eagle Sensors Project 
+# Telemetry Project 
 
 ## Volante
 
