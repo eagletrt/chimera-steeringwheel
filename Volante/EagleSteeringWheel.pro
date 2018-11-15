@@ -10,16 +10,16 @@ INCLUDEPATH += . \
 QT += core gui qml quick serialbus
 
 # Input
-HEADERS += buttons.h \
-           console.h \
-           canbus.h \
-           carstatus.h
+HEADERS += header/buttons.h \
+           header/console.h \
+           header/canbus.h \
+           header/carstatus.h
 
-SOURCES += main.cpp \
-           buttons.cpp \
-           console.cpp \
-           canbus.cpp \
-           carstatus.cpp
+SOURCES += core/main.cpp \
+           core/buttons.cpp \
+           core/console.cpp \
+           core/canbus.cpp \
+           core/carstatus.cpp
 
 RESOURCES += qml.qrc
 
