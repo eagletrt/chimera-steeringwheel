@@ -54,18 +54,6 @@ class Canbus : public QObject
     Q_OBJECT
 
     Q_PROPERTY(int actuatorRangePendingFlag READ actuatorRangePendingFlag NOTIFY actuatorRangePendingFlagCleared)
-    //property volt e temperature
-    Q_PROPERTY(int hvTemp READ hvTemp NOTIFY hvTempChanged)
-    Q_PROPERTY(int lvTemp READ lvTemp NOTIFY lvTempChanged)
-    Q_PROPERTY(int hvVolt READ hvVolt NOTIFY hvVoltChanged)
-    Q_PROPERTY(int lvVolt READ lvVolt NOTIFY lvVoltChanged)
-    Q_PROPERTY(int invSxTemp READ invSxTemp NOTIFY invSxTempChanged)
-    Q_PROPERTY(int invDxTemp READ invDxTemp NOTIFY invDxTempChanged)
-    Q_PROPERTY(int speed READ speed NOTIFY speedChanged)
-
-
-    Q_PROPERTY(int brakeVal READ brakeVal NOTIFY brakeValChanged)
-    Q_PROPERTY(int throttleVal READ throttleVal NOTIFY throttleValChanged)
 
     public:
         Canbus(CarStatus* carStatus, const QString can_interface);
@@ -76,8 +64,7 @@ class Canbus : public QObject
         int preChargeState;
 
         int warning;
-        int error;
-        int velocity;
+        int error;        
         int ctrlIsEnabled;
 
         uint16_t m_speed;
@@ -91,7 +78,9 @@ class Canbus : public QObject
 
         int m_brakeVal;
         int m_throttleVal;
+        int m_velocity;
 
+        int velocity() const;
         int speed() const;
         int invSxTemp() const;
         int invDxTemp() const;

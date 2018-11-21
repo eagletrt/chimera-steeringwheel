@@ -4,13 +4,14 @@ Rectangle {
 
    FontLoader {id:blackops; source: "../lib/blops.ttf"}
 
-   property int speed: CAN.speed;
    property int hvTemp: CAN.hvTemp;
    property int hvVolt: CAN.hvVolt;
    property int lvTemp: CAN.lvTemp;
    property int lvVolt: CAN.lvVolt;
-   property int invSxTemp: CAN.invSxTemp;
-   property int invDxTemp: CAN.invDxTemp;
+   
+   property int speed: CarStatus.speed;
+   property int invSxTemp: CarStatus.invSxTemp;
+   property int invDxTemp: CarStatus.invDxTemp;
    //property int lvVoltVal: CAN.lvVoltVal;
 
    /*
@@ -99,7 +100,7 @@ Rectangle {
    }
 
    Item{
-      property var throttleVal: CAN.throttleVal;
+      property var throttleVal: CarStatus.throttleVal;
       property int throttleValore: throttleVal;
 
       anchors.horizontalCenter: parent.horizontalCenter
@@ -108,8 +109,7 @@ Rectangle {
       anchors.horizontalCenterOffset: -172
 
       onThrottleValChanged: function(){
-         throttleValore = CAN.throttleVal;
-         //console.log("Throttle Changed: " + throttleValore);
+         throttleValore = CarStatus.throttleVal;
          if(throttleValore < 10){
                t10.opacity = 0;
                t9.opacity = 0;
@@ -328,7 +328,7 @@ Rectangle {
    }
 
    Item{
-      property var brakeVal: CAN.brakeVal;
+      property var brakeVal: CarStatus.brakeVal;
       property int brakeValore: brakeVal;
 
       anchors.horizontalCenter: parent.horizontalCenter
@@ -337,7 +337,7 @@ Rectangle {
       anchors.horizontalCenterOffset: -207
 
       onBrakeValChanged: function(){
-         brakeValore = CAN.brakeVal;
+         brakeValore = CarStatus.brakeVal;
          //console.log("Brake Changed: " + brakeValore);
          if(brakeValore == 0){
                b10.opacity = 0;

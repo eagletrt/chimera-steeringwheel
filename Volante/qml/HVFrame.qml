@@ -2,11 +2,11 @@ import QtQuick 2.0
 
 Item{
 
-   property var hvVolt : CAN.hvVolt;
+   property var hvVolt : CarStatus.hvVolt;
    property int hvVal : hvVolt;
 
    onHvVoltChanged: function(){
-      hvVal = CAN.hvVolt / 10;
+      hvVal = CarStatus.hvVolt / 10;
       if(hvVal<340){
          hv14.opacity = 0;
          hv13.opacity = 0;

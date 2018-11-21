@@ -8,18 +8,13 @@ CarStatus::CarStatus() {
     m_preCharge = 2;
 
     m_ctrlIsEnabled = -1;
-    // Set control activated by default
+    
     m_ctrlIsOn = 0;
-    // Set car in IDLE at startup
+    
     m_car_status = CAR_STATUS_IDLE;
 
     m_stateofcharge = -1;
     m_temperature = -1;
-
-    // CAN Statuses
-    // 0. ERROR
-    // 1. OK
-    // 2. NOT RECEIVED
 
     m_err_apps = 2;
     m_err_bse = 2;
@@ -47,11 +42,117 @@ CarStatus::CarStatus() {
     m_apps = 0;
     m_bse = 0;
     m_steer = 50;
+
+    m_invSxTemp = 0;
+    m_invDxTemp = 0;
+
+    m_hvTemp = 70;
+    m_hvVolt = 440;
+    m_lvVoltVal = 120;
+    m_lvVolt = 120;
+    m_lvTemp = 30;
+    m_speed = 100;
+
+    m_brakeVal = 100;
+    m_throttleVal = 100;
+
+    speedPrescaler = 8;
+    pedalsPrescaler = 6;
+    counterSpeed = 0;
+    counterThrottle = 0;
+    counterBrake = 0;   
 }
 
-CarStatus::~CarStatus() {
-    //qDebug() << "Car Status Destroy";
+void CarStatus::setLeftInverterTemperature(int val1, int val2){
+    m_invSxTemp = (((val1 + (val2 * 256.0f) ) - 15797.0f ) / 112.1182f) * 10.0f;
+    emit invSxTempChanged();     
 }
+
+void CarStatus::setRightInverterTemperature(int val1, int val2){
+    m_invSxTemp = (((val1 + val2 * 256.0f ) - 15797.0f ) / 112.1182f) * 10.0f;
+    emit invDxTempChanged();     
+}
+
+void CarStatus::setSpeed(int id, int val1, int val2, int prescaler){
+    counterSpeed++;
+    speedPrescaler = prescaler;
+
+    if(id == 0x06){
+
+        if(counterSpeed >= pedalsPrescaler){
+            counterSpeed = 0;
+            
+            m_speed = ((uint8_t)val1 * 256 + (uint8_t)val2) / 10;
+            emit speedChanged();
+        }
+    }    
+
+}
+
+void CarStatus::setPedalsPrescaler(int prescaler){
+    pedalsPrescaler = prescaler;
+}
+
+void CarStatus::setBrake(int val){
+    counterBrake++;
+
+    if(counterBrake >= pedalsPrescaler){
+        counterBrake = 0;
+        m_brakeVal = ( (int) val );
+        emit brakeValChanged();
+    }    
+}
+
+void CarStatus::setThrottle(int val){
+    counterThrottle++;
+
+    if(counterThrottle >= pedalsPrescaler){
+
+        counterThrottle = 0;
+
+        m_throttleVal = ( (int) val);
+
+        int currPercMap = 0;
+       
+        switch(getMap() + 1){
+            
+            case 1: currPercMap = -20; break;
+            case 2: currPercMap = 20; break;
+            case 3: currPercMap = 40; break;
+            case 4: currPercMap = 60; break;
+            case 5: currPercMap = 80; break;
+            case 6: currPercMap = 100; break;
+            default: currPercMap = -100; break;
+        }
+        m_velocity = (80.0 * currPercMap * m_throttleVal) / 10000.0;
+        
+        emit velocityChanged();
+        emit throttleValChanged();
+    }    
+}
+
+void CarStatus::setLVStatus(uint8_t val1, uint8_t val2, uint8_t val3){
+
+    m_lvVolt = val1;
+    m_lvVoltVal = val2;
+    m_lvTemp = val3;
+
+    emit lvTempChanged();
+    emit lvVoltChanged();
+
+}
+
+void CarStatus::setHVStatus(uint8_t id, uint8_t valVolt1, uint8_t valVolt2, uint8_t valVolt3, uint8_t valTemp1, uint8_t valTemp2){
+    if(id == 0x01){
+        m_hvVolt = ((valVolt1 << 16) + (valVolt2 << 8) + valVolt3 ) / 1000;
+        emit hvVoltChanged();
+        m_hvTemp = ((valTemp1 << 8) + valTemp2 ) / 10;
+        
+        emit hvTempChanged();
+    }
+}
+
+
 
 void CarStatus::changePump(int pumpID) {
 
@@ -90,20 +191,6 @@ void CarStatus::changePreset(int presetID) {
     //qDebug() << "New Preset: " << m_preset;
 
     emit presetChanged();
-}
-
-int CarStatus::pump() const {
-    return m_pump;
-}
-
-int CarStatus::preset() const {
-    return m_preset;
-}
-
-int CarStatus::velocity() const {
-    //qDebug() << "Asked velocity";
-    //m_velocity = ((m_preset+1)*80)/10000;
-    return m_velocity;
 }
 
 QString CarStatus::CANStatus() const {
@@ -245,14 +332,11 @@ int CarStatus::getCtrlIsEnabled() {
     return m_ctrlIsEnabled;
 }
 
-int CarStatus::getCtrlIsOn() {
-    return m_ctrlIsOn;
-}
+
 
 void CarStatus::setCarStatus(int ctrlIsEnabled,
                              int ctrlIsOn,
                              int driveModeEnabled,
-                             int velocity,
                              int warning,
                              int error) {
 
@@ -261,25 +345,9 @@ void CarStatus::setCarStatus(int ctrlIsEnabled,
     //m_warning = warning;
     //m_error = error;
     m_car_status = driveModeEnabled;
-    m_velocity = velocity;
-
-    // qDebug() << "CtrlIsEnabled: " << ctrlIsEnabled;
-    // qDebug() << "CtrlIsOn: " << ctrlIsOn;
-    // qDebug() << "DriveModeEnabled: " << driveModeEnabled;
-    // qDebug() << "Velocity: " << velocity;
-    // qDebug() << "Warning: " << warning;
-    // qDebug() << "error: " << error;
-
+    
     emit execModeChanged(ctrlIsEnabled, ctrlIsOn, warning, error);
-    emit velocityChanged();
     emit carStatusChanged();
-}
-
-int CarStatus::warning() const {
-    return m_warning;
-}
-int CarStatus::error() const {
-    return m_error;
 }
 
 void CarStatus::setCarMode(int mode){
@@ -296,12 +364,6 @@ void CarStatus::setWarning(int on) {
 void CarStatus::setError(int on) {
     m_error = on;
     emit errorChanged();
-}
-
-void CarStatus::setVelocity(int vel) {
-    m_velocity = vel;
-    emit velocityChanged();
-    //emit carStatusChanged();
 }
 
 int CarStatus::carStatus() {
@@ -356,13 +418,6 @@ int CarStatus::toggleCarStatus() {
         break;
     }
 
-    // *************
-    // *************
-    // DEBUG ONLY!!!
-    // *************
-    // *************
-    //emit carStatusChanged(m_car_status);
-
     return m_car_status;
 }
 
@@ -377,8 +432,6 @@ void CarStatus::setTemperature(int temperature) {
 }
 
 int CarStatus::toggleCtrl() {
-    // If the car is in run mode, toggle CTRL
-    //if (m_car_status == CAR_STATUS_GO) {
     if (m_car_status == CAR_STATUS_RUN) {
         m_ctrlIsOn = m_ctrlIsOn ? 0 : 1;
         emit CTRLEnabledChanged();
@@ -386,3 +439,57 @@ int CarStatus::toggleCtrl() {
     }
     return -1;
 }
+
+int CarStatus::pump() const {
+    return m_pump;
+}
+int CarStatus::preset() const {
+    return m_preset;
+}
+int CarStatus::velocity() const {
+    return m_velocity;
+}
+int CarStatus::brakeVal() const {
+    return m_brakeVal;
+}
+int CarStatus::throttleVal() const {
+    return m_throttleVal;
+}
+int CarStatus::speed() const {
+    return m_speed;
+}
+int CarStatus::invSxTemp() const {
+    return m_invSxTemp;
+}
+int CarStatus::invDxTemp() const {
+    return m_invDxTemp;
+}
+uint8_t CarStatus::hvTemp() const {
+    return m_hvTemp;
+}
+uint8_t CarStatus::lvTemp() const {
+    return m_lvTemp;
+}
+uint8_t CarStatus::hvVolt() const {
+    return m_hvVolt;
+}
+uint8_t CarStatus::lvVoltVal() const {
+    return m_lvVoltVal;
+}
+uint8_t CarStatus::lvVolt() const {
+    return m_lvVolt;
+}
+int CarStatus::getCtrlIsOn() {
+    return m_ctrlIsOn;
+}
+int CarStatus::warning() const {
+    return m_warning;
+}
+int CarStatus::error() const {
+    return m_error;
+}
+
+CarStatus::~CarStatus() {
+    qDebug() << "Closing CarStatus...";
+}
+

@@ -2,7 +2,7 @@ import QtQuick 2.0
 
 Item{
    //valore da 0 a 100
-   property var lvVolt : CAN.lvVolt;
+   property var lvVolt : CarStatus.lvVolt;
    property int lvVal : lvVolt;
 
    onLvVoltChanged: function(){
