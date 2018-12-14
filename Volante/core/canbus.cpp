@@ -10,7 +10,7 @@ Canbus::Canbus(CarStatus* m_carStatus, const QString can_interface) {
 
    QString errorString;
    device = QCanBus::instance()->createDevice(
-      QStringLiteral("socketcan"), QStringLiteral("can0"), &errorString);
+      QStringLiteral("socketcan"), QStringLiteral("vcan0"), &errorString);
       if (!device)
       qDebug() << "NO CAN!";
       else
@@ -204,7 +204,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
       case ENCODERS: // 0xD0
 
          carStatus->setSpeed(msg.at(0),msg.at(1),msg.at(2),msg.at(7));
-        
+
       break;
 
       case GET_ACTUATORS_RANGE_ACK:
@@ -427,44 +427,44 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                                  (uint8_t)msg.at(3),
                                  (uint8_t)msg.at(4),
                                  (uint8_t)msg.at(5));
-      
+
       break;
 
       case LV_ID:
-     
+
          carStatus->setLVStatus( (uint8_t)msg.at(0),
                                  (uint8_t)msg.at(1),
                                  (uint8_t)msg.at(2));
-     
+
       break;
 
       case BMS_STATUS_ID:
 
          if (msg.at(3) == 0x2A) {
-            
+
             carStatus->setTemperature(msg.at(4));
 
          }
 
          if (msg.at(3) == 0xF) {
-            
+
             carStatus->setStateOfCharge(msg.at(4));
-            
+
          }
       break;
 
       // NON FUNZIONA BISOGNA FARLA NUOVA PRENDENDO DALLA STM FRONT
       case GET_STEER_STATUS:
-         
+
          carStatus->setSTEERStatus(msg.at(0));
-      
+
       break;
 
       // NON FUNZIONA BISOGNA FARLA NUOVA CON STM_PEDALS
       case GET_APPS_BSE_STATUS:
-      
+
          carStatus->setAPPSBSEStatus(msg.at(0),msg.at(2));
-      
+
       break;
 
    };
@@ -604,7 +604,7 @@ void Canbus::setActuatorsRange(int actuatorID, int rangeSide) {
 
    switch(actuatorID){
       case 0:
-      
+
          if(rangeSide == 1){
             m_actuatorRangePendingFlag = 2;
          }else{
@@ -612,33 +612,33 @@ void Canbus::setActuatorsRange(int actuatorID, int rangeSide) {
          }
          sendCanMessage(SET_ACTUATORS_RANGES, actuator);
       break;
-      
+
       case 1:
-      
+
          if(rangeSide == 1){
             m_actuatorRangePendingFlag = 5;
          }else{
             m_actuatorRangePendingFlag = 4;
          }
          sendCanMessage(SET_ACTUATORS_RANGES, actuator);
-      
+
       break;
-      
+
       case 2:
-      
+
          if(rangeSide == 1){
             m_actuatorRangePendingFlag = 8;
          }else{
             m_actuatorRangePendingFlag = 7;
          }
          sendCanMessage(SET_ACTUATORS_RANGES, actuator);
-      
+
       break;
-      
+
       case 777:
-        
+
          m_actuatorRangePendingFlag = 0;
-      
+
       break;
    }
 

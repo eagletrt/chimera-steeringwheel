@@ -6,7 +6,11 @@ Item{
    property int hvVal : hvVolt;
 
    onHvVoltChanged: function(){
+
+      //console.log("car status: ",CarStatus.hvVolt);
+      //console.log("hvVolt",hvVolt);
       hvVal = CarStatus.hvVolt / 10;
+      //console.log("hvVal",hvVal);
       if(hvVal<340){
          hv14.opacity = 0;
          hv13.opacity = 0;

@@ -34,14 +34,14 @@ class CarStatus : public QObject
     Q_PROPERTY(int invSxTemp READ invSxTemp NOTIFY invSxTempChanged)
     Q_PROPERTY(int invDxTemp READ invDxTemp NOTIFY invDxTempChanged)
 
-    Q_PROPERTY(uint8_t hvTemp READ hvTemp NOTIFY hvTempChanged)
-    Q_PROPERTY(uint8_t lvTemp READ lvTemp NOTIFY lvTempChanged)
-    Q_PROPERTY(uint8_t hvVolt READ hvVolt NOTIFY hvVoltChanged)
-    Q_PROPERTY(uint8_t lvVolt READ lvVolt NOTIFY lvVoltChanged)
+    Q_PROPERTY(int hvTemp READ hvTemp NOTIFY hvTempChanged)
+    Q_PROPERTY(int lvTemp READ lvTemp NOTIFY lvTempChanged)
+    Q_PROPERTY(int hvVolt READ hvVolt NOTIFY hvVoltChanged)
+    Q_PROPERTY(int lvVolt READ lvVolt NOTIFY lvVoltChanged)
     Q_PROPERTY(int speed READ speed NOTIFY speedChanged)
     Q_PROPERTY(int brakeVal READ brakeVal NOTIFY brakeValChanged)
     Q_PROPERTY(int throttleVal READ throttleVal NOTIFY throttleValChanged)
-   
+
 
     public:
         CarStatus();
@@ -106,8 +106,8 @@ class CarStatus : public QObject
         void changePreset(int presetID);
         void changePump(int pumpID);
 
-        void setLeftInverterTemperature(int val1, int val2);
-        void setRightInverterTemperature(int val1, int val2);        
+        void setLeftInverterTemperature(uint8_t val1, uint8_t val2);
+        void setRightInverterTemperature(uint8_t val1, uint8_t val2);
         void setSpeed(int id, int val1, int val2, int prescaler);
         void setPedalsPrescaler(int prescaler);
         void setThrottle(int val);
@@ -162,10 +162,10 @@ class CarStatus : public QObject
 
         uint16_t m_invSxTemp;
         uint16_t m_invDxTemp;
-        
+
         uint16_t m_speed;
-        uint8_t m_hvTemp;
-        uint8_t m_hvVolt;
+        int m_hvTemp;
+        int m_hvVolt;
         int m_lvVoltVal;
         int m_lvTemp;
         int m_lvVolt;
