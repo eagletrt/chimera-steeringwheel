@@ -4,20 +4,14 @@ Rectangle {
 
    FontLoader {id:blackops; source: "../lib/blops.ttf"}
 
-   property int hvTemp: CAN.hvTemp;
-   property int hvVolt: CAN.hvVolt;
-   property int lvTemp: CAN.lvTemp;
-   property int lvVolt: CAN.lvVolt;
-   
+   property int hvTemp: CarStatus.hvTemp;
+   property int hvVolt: CarStatus.hvVolt;
+   property int lvTemp: CarStatus.lvTemp;
+   property int lvVolt: CarStatus.lvVolt;
+
    property int speed: CarStatus.speed;
    property int invSxTemp: CarStatus.invSxTemp;
    property int invDxTemp: CarStatus.invDxTemp;
-   //property int lvVoltVal: CAN.lvVoltVal;
-
-   /*
-      lvVoltVal al posto di lvVolt dovrebbe
-      mostrarti il valore del voltaggio
-   */
 
    property int velocity: CarStatus.velocity
 
@@ -58,7 +52,7 @@ Rectangle {
 
    Text {
       id: texthvTemp
-      text: CAN.hvTemp / 10 +  " °C"
+      text: CarStatus.hvTemp / 10 +  " °C"
       font.family: blackops.name;
       font.pointSize: 7
       y: 100
@@ -67,7 +61,7 @@ Rectangle {
 
    Text {
       id: texthvVolt
-      text: CAN.hvVolt / 10 +  " V"
+      text: CarStatus.hvVolt / 10 +  " V"
       font.family: blackops.name;
       font.pointSize: 7
       y: 120
@@ -76,7 +70,7 @@ Rectangle {
 
    Text {
       id: textlvTemp
-      text: CAN.lvTemp / 5 + " °C"
+      text: CarStatus.lvTemp / 5 + " °C"
 
       horizontalAlignment: Text.AlignLeft;
       font.pointSize: 7
@@ -89,7 +83,7 @@ Rectangle {
 
    Text {
       id: textlvVolt
-      text: CAN.lvVolt / 10 + " V"
+      text: CarStatus.lvVolt / 10 + " V"
       horizontalAlignment: Text.AlignLeft;
       font.pointSize: 7
       font.family: blackops.name;
@@ -220,7 +214,7 @@ Rectangle {
                t3.opacity = 1;
                t2.opacity = 1;
                t1.opacity = 1;
-         }else if(throttleValore==100){
+         }else if(throttleValore>=100){
                t10.opacity = 1;
                t9.opacity = 1;
                t8.opacity = 1;
@@ -350,7 +344,7 @@ Rectangle {
                b3.opacity = 0;
                b2.opacity = 0;
                b1.opacity = 0;
-         }/*else if(brakeValore>=10 && brakeValore<20){
+         }else if(brakeValore>=10 && brakeValore<20){
                b10.opacity = 0;
                b9.opacity = 0;
                b8.opacity = 0;
@@ -449,7 +443,7 @@ Rectangle {
                b3.opacity = 1;
                b2.opacity = 1;
                b1.opacity = 1;
-         }*/else if(brakeValore==1){
+         }else if(brakeValore==1){
                b10.opacity = 1;
                b9.opacity = 1;
                b8.opacity = 1;

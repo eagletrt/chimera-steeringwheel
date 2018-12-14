@@ -2,9 +2,9 @@
 
 # QMAKE DAVIDE FARINA
 
-#QMAKE="/home/$USER/Qt/5.10.1/gcc_64/bin/qmake"
+QMAKE="/home/$USER/Qt/5.10.1/gcc_64/bin/qmake"
 
-QMAKE="/home/$USER/Qt5.10.1/5.10.1/gcc_64/bin/qmake"
+#QMAKE="/home/$USER/Qt5.10.1/5.10.1/gcc_64/bin/qmake"
 
 
 QT_PROJECT="EagleSteeringWheel_x86.pro"

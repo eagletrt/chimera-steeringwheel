@@ -6,6 +6,8 @@ Item{
    property int lvVal : lvVolt;
 
    onLvVoltChanged: function(){
+   lvVal = CarStatus.lvVolt / 10;
+   
       if(lvVal<120) {
          lv14.opacity = 0;
          lv13.opacity = 0;
