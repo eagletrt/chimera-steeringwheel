@@ -6,6 +6,9 @@
 #include <QHash>
 #include "carstatus.h"
 
+#include <fstream>
+#include <iostream>
+
 #include <QCanBus>
 
 // CarStatus Constants
@@ -64,7 +67,7 @@ class Canbus : public QObject
         int preChargeState;
 
         int warning;
-        int error;        
+        int error;
         int ctrlIsEnabled;
 
         uint16_t m_speed;
@@ -105,8 +108,9 @@ class Canbus : public QObject
         int counterSpeed;
         int pedalsPrescaler;
         int speedPrescaler;
-        
+
         CarStatus* carStatus;
+        std::ofstream csvfile;
 
     private:
         QTimer *timerSteeringWheel;

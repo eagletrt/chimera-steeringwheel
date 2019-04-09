@@ -170,6 +170,20 @@ void Canbus::checkCANCommunication(bool isOk = false) {
 }
 
 void Canbus::parseCANMessage(int mid, QByteArray msg) {
+
+    QString filename = "../candata.csv" ;
+    csvfile.open(filename.toStdString(),std::ios::app);
+    if (csvfile.is_open()){
+        csvfile << mid << ',';
+        for(int i=0;i<msg.size();i++){
+          csvfile << std::to_string(msg.at(i))<<',';
+        }
+        csvfile << '\n';
+        csvfile.close();
+    }
+    else
+      qDebug() << "Error in file opening.";
+
    switch (mid) {
       case 0x181:
          if(msg.at(0) == 0x4a)
