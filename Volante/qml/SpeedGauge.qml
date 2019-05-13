@@ -61,7 +61,11 @@ Rectangle {
 
    Text {
       id: texthvTemp
-      text: CAN.hvTemp / 10 +  " °C"
+
+      property int hvTemp: CarStatus.getHvTemp() / 10
+
+      text: hvTemp.toString() +  " °C"
+
       font.family: blackops.name;
       font.pointSize: 7
       y: 100
@@ -70,7 +74,11 @@ Rectangle {
 
    Text {
       id: texthvVolt
-      text: CAN.hvVolt / 10 +  " V"
+
+      property int hvVolt: CarStatus.getHvVolt() / 10
+      
+      text: hvVolt.toString() / 10 +  " V"
+
       font.family: blackops.name;
       font.pointSize: 7
       y: 120
@@ -79,7 +87,10 @@ Rectangle {
 
    Text {
       id: textlvTemp
-      text: CAN.lvTemp / 5 + " °C"
+
+      property int lvTemp: CarStatus.getLvTemp() / 5
+
+      text: lvTemp.toString() + " °C"
 
       horizontalAlignment: Text.AlignLeft;
       font.pointSize: 7
@@ -92,7 +103,10 @@ Rectangle {
 
    Text {
       id: textlvVolt
-      text: CAN.lvVolt / 10 + " V"
+
+      property int lvVolt: CarStatus.getLvVolt() / 10
+
+      text: lvVolt.toString() + " V"
       horizontalAlignment: Text.AlignLeft;
       font.pointSize: 7
       font.family: blackops.name;

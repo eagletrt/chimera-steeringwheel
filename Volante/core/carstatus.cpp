@@ -470,6 +470,18 @@ int CarStatus::hvTemp() const {
 int CarStatus::lvTemp() const {
     return m_lvTemp;
 }
+int CarStatus::getHvVolt(){
+    return m_hvVolt;
+}
+int CarStatus::getHvTemp(){
+    return m_hvTemp;
+}
+int CarStatus::getLvVolt(){
+    return m_lvVolt;
+}
+int CarStatus::getLvTemp(){
+    return m_lvTemp;
+}
 int CarStatus::hvVolt() const {
     return m_hvVolt;
 }

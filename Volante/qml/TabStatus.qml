@@ -48,6 +48,7 @@ Rectangle {
       }
       if (btnID == 1) {
           CAN.askSetupOrIdle(1);
+          console.log("Asking to go from ? to ?");
           //isStarted = true;
          // Step into this tab and change the behaviour of btnID
          //if (!isStarted) {

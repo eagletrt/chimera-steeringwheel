@@ -115,6 +115,11 @@ class CarStatus : public QObject
         void setHVStatus(uint8_t id, uint8_t valVolt1, uint8_t valVolt2, uint8_t valVolt3, uint8_t valTemp1, uint8_t valTemp2);
         void setLVStatus(uint8_t val1, uint8_t val2, uint8_t val3);
 
+        int getHvVolt();
+        int getLvVolt();
+        int getHvTemp();
+        int getLvTemp();
+
     private:
         static int getBit(unsigned char seq, int index);
         int m_invRight;
@@ -166,6 +171,7 @@ class CarStatus : public QObject
         uint16_t m_speed;
         uint8_t m_hvTemp;
         uint8_t m_hvVolt;
+
         int m_lvVoltVal;
         int m_lvTemp;
         int m_lvVolt;
