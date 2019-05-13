@@ -3,10 +3,10 @@
 RASP_PI_ROOT=/mnt/rasp-pi-rootfs
 RASP_PI_IMAGE=~/crosscompile-tools/raspbian.img
 RASP_PI_QMAKE=/mnt/rasp-pi-rootfs/usr/local/qt5pi/bin/qmake
-RASP_PI_PROJECT=EagleSteeringWheel.pro
+RASP_PI_PROJECT=chimeraSteeringWheel.pro
 BUILD_DIR=build-arm/
-PI_ADDRESS=192.168.43.244
-#PI_ADDRESS=root
+#PI_ADDRESS=192.168.43.244
+PI_ADDRESS=192.168.43.88
 DEPLOY_TARGET_DIR=/home/pi
 
 # Mount image needed for crosscompilation dependencies
@@ -29,4 +29,4 @@ make
 #pi@eaglepi eaglepi
 
 # Upload executable on the Rasp
-scp EagleSteeringWheel root@$PI_ADDRESS:/
+scp ChimeraSteeringWheel root@$PI_ADDRESS:/

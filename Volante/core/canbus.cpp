@@ -4,13 +4,13 @@
 
 QCanBusDevice *device;
 
-Canbus::Canbus(CarStatus* m_carStatus, const QString can_interface) {
+Canbus::Canbus(CarStatus* m_carStatus) {
 
    //Right Can for 5.10.1 RPI
 
    QString errorString;
    device = QCanBus::instance()->createDevice(
-      QStringLiteral("socketcan"), QStringLiteral("can0"), &errorString);
+      QStringLiteral("socketcan"), QStringLiteral("vcan0"), &errorString);
       if (!device)
       qDebug() << "NO CAN!";
       else
@@ -29,7 +29,7 @@ device->connectDevice();
 */
 carStatus = m_carStatus;
 
-qDebug() << "CAN Interface Init";
+// qDebug() << "CAN Interface Init";
 
 timerSteeringWheel = new QTimer(this);
 timerStatus = new QTimer(this);
@@ -124,7 +124,7 @@ void Canbus::sendEncState() {
    //state[0] = 0x00;
    //state[1] = 0x00; //carStatus->getMap();
    //state[2] = carStatus->getPump();
-   qDebug() << "updating pump with value " << carStatus->getPump();
+   // qDebug() << "updating pump with value " << carStatus->getPump();
    sendCanMessage(0xAF, state);
 }
 
@@ -147,13 +147,13 @@ void Canbus::PWMCheck() {
 }
 
 int Canbus::actuatorRangePendingFlag() const {
-   qDebug() << m_actuatorRangePendingFlag << "Asked m_actuatorRangePendingFlag";
+   // qDebug() << m_actuatorRangePendingFlag << "Asked m_actuatorRangePendingFlag";
    return m_actuatorRangePendingFlag;
 }
 
 void Canbus::checkSensorsError() {
    QByteArray vuoto;
-   qDebug() << "CheckSensorsError";
+   // qDebug() << "CheckSensorsError";
    sendCanMessage(CHECK_SENSOR_ERROR_ID, vuoto);
 }
 
@@ -212,18 +212,18 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             case 0:
                if (msg.at(1) == 0){
                   //APPS min
-                  qDebug() << "ACTUATORS_RANGE_ACK for APPS min";
+                  // qDebug() << "ACTUATORS_RANGE_ACK for APPS min";
 
                   m_actuatorRangePendingFlag = 3;
-                  qDebug() << "DONE APPS MIN now press A for MAX";
+                  // qDebug() << "DONE APPS MIN now press A for MAX";
                   emit actuatorRangePendingFlagCleared();
                }
                else if (msg.at(1) == 1){
                   //APPS max
-                  qDebug() << "ACTUATORS_RANGE_ACK for APPS max";
+                  // qDebug() << "ACTUATORS_RANGE_ACK for APPS max";
 
                   m_actuatorRangePendingFlag = 0;
-                  qDebug() << "DONE APPS MAX now press Q";
+                  // qDebug() << "DONE APPS MAX now press Q";
                   emit actuatorRangePendingFlagCleared();
                }
             break;
@@ -231,17 +231,17 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             case 1:
                if (msg.at(1) == 0){
                   //BSE min
-                  qDebug() << "ACTUATORS_RANGE_ACK for BSE min";
+                  // qDebug() << "ACTUATORS_RANGE_ACK for BSE min";
 
                   m_actuatorRangePendingFlag = 6;
-                  qDebug() << "DONE BSE MIN now press A for MAX";
+                  // qDebug() << "DONE BSE MIN now press A for MAX";
                   emit actuatorRangePendingFlagCleared();
                }
                else if (msg.at(1) == 1){
                   //BSE max
-                  qDebug() << "ACTUATORS_RANGE_ACK for BSE max";
+                  // qDebug() << "ACTUATORS_RANGE_ACK for BSE max";
                   m_actuatorRangePendingFlag = 0;
-                  qDebug() << "DONE BSE MAX now press Q";
+                  // qDebug() << "DONE BSE MAX now press Q";
                   emit actuatorRangePendingFlagCleared();
                }
             break;
@@ -249,16 +249,16 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             case 2:
                if (msg.at(1) == 0){
                   //STEER min
-                  qDebug() << "ACTUATORS_RANGE_ACK for STEER LEFT";
+                  // qDebug() << "ACTUATORS_RANGE_ACK for STEER LEFT";
                   m_actuatorRangePendingFlag = 9;
-                  qDebug() << "DONE STEER LEFT now press Q";
+                  // qDebug() << "DONE STEER LEFT now press Q";
                   emit actuatorRangePendingFlagCleared();
                }
                else if (msg.at(1) == 1){
                   //STEER max
-                  qDebug() << "ACTUATORS_RANGE_ACK for STEER RIGHT";
+                  // qDebug() << "ACTUATORS_RANGE_ACK for STEER RIGHT";
                   m_actuatorRangePendingFlag = 0;
-                  qDebug() << "DONE STEER RIGHT now press Q";
+                  // qDebug() << "DONE STEER RIGHT now press Q";
                   emit actuatorRangePendingFlagCleared();
                }
             break;
@@ -313,31 +313,31 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                                  0);//vanno ancora sistemati qui si aspettava un altro valore
 
          if((int)msg.at(1) <= 0){
-            qDebug() << "Error is 0" << (int)msg.at(1);
+            // qDebug() << "Error is 0" << (int)msg.at(1);
             carStatus->setError(0);
          }else{
             carStatus->setError(1);
-            qDebug() << "Error is 1" << (int)msg.at(1);
+            // qDebug() << "Error is 1" << (int)msg.at(1);
          }
 
          if((int)msg.at(2) <= 0){
-            qDebug() << "Warning is 0" << (int)msg.at(2);
+            // qDebug() << "Warning is 0" << (int)msg.at(2);
             carStatus->setWarning(0);
          }else{
             carStatus->setWarning(1);
-            qDebug() << "Warning is 1" << (int)msg.at(2);
+            // qDebug() << "Warning is 1" << (int)msg.at(2);
          }
 
       } else if(msg.at(0) == ECU_INV_LEFT){
          QString oldStatus = carStatus->HVStatus();
          carStatus->setHVStatus(oldStatus.mid(0,1).toInt(), 1, oldStatus.mid(2,1).toInt());
-         qDebug() << "Ricevuto Stato INV LEFT" << oldStatus.mid(0,1).toInt();
-         qDebug() << oldStatus;
+         // qDebug() << "Ricevuto Stato INV LEFT" << oldStatus.mid(0,1).toInt();
+         // qDebug() << oldStatus;
       } else if(msg.at(0) == ECU_INV_RIGHT){
          QString oldStatus = carStatus->HVStatus();
          carStatus->setHVStatus(oldStatus.mid(0,1).toInt(),oldStatus.mid(1,1).toInt(), 1);
-         qDebug() << "Ricevuto Stato INV RIGHT" << oldStatus.mid(1,1).toInt();
-         qDebug() << oldStatus;
+         // qDebug() << "Ricevuto Stato INV RIGHT" << oldStatus.mid(1,1).toInt();
+         // qDebug() << oldStatus;
       } else if(msg.at(0) == 0x03){
 
          //entro in start
@@ -471,7 +471,6 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
 }
 
 void Canbus::askSetupOrIdle(int whatState) {
-   qDebug() << "pressed" << endl;
    if(whatState == 0) //GO TO IDLE
    {
       QByteArray msg;
@@ -487,8 +486,6 @@ void Canbus::askSetupOrIdle(int whatState) {
       msg.resize(8);
       msg[0] = 0x03;
       sendCanMessage(0xA0, msg);
-      //msg[0] = 0x01;
-      //sendCanMessage(0x01, msg);
    }
 }
 
@@ -496,15 +493,10 @@ void Canbus::toggleCar() {
    ctrlIsOn = carStatus->getCtrlIsOn();
    goStatus = carStatus->getCurrentStatus();
    map = carStatus->getMap();
-   //int pump =  0;
-   int pump = carStatus->getPump();
+   // int pump = carStatus->getPump();
 
    QByteArray toggleCAN;
    toggleCAN.resize(8);
-   qDebug() << "CtrlIsOn: " << ctrlIsOn;
-   qDebug() << "GoIsOn: " << goStatus;
-   qDebug() << "Map:" << map;
-   qDebug() << "Pump:" << pump;
 
    if (goStatus == CAR_STATUS_STOP) {
       toggleCAN[0] = 0x07;
@@ -536,30 +528,7 @@ void Canbus::toggleCar() {
          toggleCAN[1] = 100;
          break;
       }
-      /*switch (pump) {
-      case 0:
-      toggleCAN[2] = -100;
-      break;
-      case 1:
-      toggleCAN[2] = 1;
-      break;
-      case 2:
-      toggleCAN[2] = 2;
-      break;
-      case 3:
-      toggleCAN[2] = 3;
-      break;
-      case 4:
-      toggleCAN[2] = 4;
-      break;
-      case 5:
-      toggleCAN[2] = 5;
-      break;
-       }*/
-
    }
-
-   qDebug() << canMessage;
 
    sendCanMessage(STEERING_WHEEL_ID, toggleCAN);
 }
@@ -600,7 +569,7 @@ void Canbus::setActuatorsRange(int actuatorID, int rangeSide) {
    actuator[0] = actuatorID;
    actuator[1] = rangeSide;
 
-   qDebug() << "setActuatorsRange for " << actuatorID << " for " << rangeSide;
+   // qDebug() << "setActuatorsRange for " << actuatorID << " for " << rangeSide;
 
    switch(actuatorID){
       case 0:

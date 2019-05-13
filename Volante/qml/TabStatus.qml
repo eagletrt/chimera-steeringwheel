@@ -20,7 +20,7 @@ Rectangle {
    ]
 
    onCanstatusChanged: {
-      console.log("Cambiato il CAN Status da Centralina");
+      // console.log("Cambiato il CAN Status da Centralina");
       var newCanLeds = canLeds;
 
       for (var i=0; i < canstatus.length; i++) {
@@ -31,12 +31,12 @@ Rectangle {
    }
 
    function connect() {
-      console.log("Tab connessa - Status");
+      // console.log("Tab connessa - Status");
       mainwindow.btnClicked.connect(btnClickedHandler);
    }
 
    function disconnect() {
-      console.log("Tab disconnessa - Status");
+      // console.log("Tab disconnessa - Status");
       mainwindow.btnClicked.disconnect(btnClickedHandler);
    }
 

@@ -1,7 +1,7 @@
 #include "../header/carstatus.h"
 
 CarStatus::CarStatus() {
-    qDebug() << "Car Status Init";
+    // qDebug() << "Car Status Init";
 
     m_invRight = 2;
     m_invLeft = 2;
@@ -194,7 +194,7 @@ void CarStatus::changePreset(int presetID) {
 }
 
 QString CarStatus::CANStatus() const {
-    qDebug() << "Asked CanStatus";
+    // qDebug() << "Asked CanStatus";
     return QString("%1%2%3%4%5%6%7%8").arg(QString::number(m_invr),
                                        QString::number(m_invl),
                                        QString::number(m_front),
@@ -206,14 +206,14 @@ QString CarStatus::CANStatus() const {
 }
 
 QString CarStatus::HVStatus() const {
-    qDebug() << "Asked HVStatus";
+    // qDebug() << "Asked HVStatus";
     return QString("%1%2%3").arg(QString::number(m_preCharge),
                                  QString::number(m_invLeft),
                                  QString::number(m_invRight));
 }
 
 QString CarStatus::ERRStatus() const {
-    qDebug() << "Asked ERRStatus";
+    // qDebug() << "Asked ERRStatus";
     return QString("%1%2%3%4%5%6%7%8%9")
         .arg(QString::number(m_err_apps),
              QString::number(m_err_bse),
@@ -358,7 +358,7 @@ void CarStatus::setCarMode(int mode){
 void CarStatus::setWarning(int on) {
     m_warning = on;
     emit warningChanged();
-    qDebug() << "Warning: " << m_warning << endl;
+    // qDebug() << "Warning: " << m_warning << endl;
 }
 
 void CarStatus::setError(int on) {
@@ -385,7 +385,7 @@ int CarStatus::getMap() {
 }
 
 int CarStatus::stopCar() {
-    qDebug() << "Yuuu! Stoppo la car!";
+    qDebug() << "Stoppo la car!";
     m_car_status = CAR_STATUS_STOP;
 
     emit toggleCar();
@@ -464,19 +464,19 @@ int CarStatus::invSxTemp() const {
 int CarStatus::invDxTemp() const {
     return m_invDxTemp;
 }
-uint8_t CarStatus::hvTemp() const {
+int CarStatus::hvTemp() const {
     return m_hvTemp;
 }
-uint8_t CarStatus::lvTemp() const {
+int CarStatus::lvTemp() const {
     return m_lvTemp;
 }
-uint8_t CarStatus::hvVolt() const {
+int CarStatus::hvVolt() const {
     return m_hvVolt;
 }
-uint8_t CarStatus::lvVoltVal() const {
+int CarStatus::lvVoltVal() const {
     return m_lvVoltVal;
 }
-uint8_t CarStatus::lvVolt() const {
+int CarStatus::lvVolt() const {
     return m_lvVolt;
 }
 int CarStatus::getCtrlIsOn() {

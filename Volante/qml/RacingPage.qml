@@ -18,7 +18,7 @@ Rectangle {
     signal controlStateChanged(int ctrlIsEnabled, int ctrlIsOn, int warning, int error)
 
     function disconnect() {
-        console.log("Disconnetto! Racing");
+        // console.log("Disconnetto! Racing");
         mainwindow.btnPressed.disconnect(btnPressedHandler);
         mainwindow.btnReleased.disconnect(btnReleasedHandler);
         mainwindow.btnClicked.disconnect(btnClickedHandler);
@@ -28,7 +28,7 @@ Rectangle {
     }
 
     function connect() {
-        console.log("Connetto! Racing");
+        // console.log("Connetto! Racing");
         mainwindow.btnPressed.connect(btnPressedHandler);
         mainwindow.btnReleased.connect(btnReleasedHandler);
         mainwindow.btnClicked.connect(btnClickedHandler);

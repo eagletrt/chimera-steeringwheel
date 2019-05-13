@@ -34,10 +34,10 @@ class CarStatus : public QObject
     Q_PROPERTY(int invSxTemp READ invSxTemp NOTIFY invSxTempChanged)
     Q_PROPERTY(int invDxTemp READ invDxTemp NOTIFY invDxTempChanged)
 
-    Q_PROPERTY(uint8_t hvTemp READ hvTemp NOTIFY hvTempChanged)
-    Q_PROPERTY(uint8_t lvTemp READ lvTemp NOTIFY lvTempChanged)
-    Q_PROPERTY(uint8_t hvVolt READ hvVolt NOTIFY hvVoltChanged)
-    Q_PROPERTY(uint8_t lvVolt READ lvVolt NOTIFY lvVoltChanged)
+    Q_PROPERTY(int hvTemp READ hvTemp NOTIFY hvTempChanged)//uint8
+    Q_PROPERTY(int lvTemp READ lvTemp NOTIFY lvTempChanged)//uint8
+    Q_PROPERTY(int hvVolt READ hvVolt NOTIFY hvVoltChanged)//uint8
+    Q_PROPERTY(int lvVolt READ lvVolt NOTIFY lvVoltChanged)//uint8
     Q_PROPERTY(int speed READ speed NOTIFY speedChanged)
     Q_PROPERTY(int brakeVal READ brakeVal NOTIFY brakeValChanged)
     Q_PROPERTY(int throttleVal READ throttleVal NOTIFY throttleValChanged)
@@ -90,11 +90,11 @@ class CarStatus : public QObject
         int speed() const;
         int invSxTemp() const;
         int invDxTemp() const;
-        uint8_t hvTemp() const;
-        uint8_t lvTemp() const;
-        uint8_t hvVolt() const;
-        uint8_t lvVoltVal() const;
-        uint8_t lvVolt() const;
+        int hvTemp() const;//uint8_t
+        int lvTemp() const;//uint8_t
+        int hvVolt() const;//uint8_t
+        int lvVoltVal() const;//uint8_t
+        int lvVolt() const;//uint8_t
 
         int brakeVal() const;
         int throttleVal() const;

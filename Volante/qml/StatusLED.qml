@@ -23,8 +23,6 @@ Rectangle {
           errLED.state = 'off';
    }
 
-
-
     GridLayout {
         anchors.fill: parent
         columns: 4

@@ -18,12 +18,12 @@ Rectangle {
 
 
     function connect() {
-        console.log("Tab connessa - Inverter");
+        // console.log("Tab connessa - Inverter");
         menu.btnClicked.connect(btnClickedHandler);
     }
 
     function disconnect() {
-        console.log("Tab disconnessa - Inverter");
+        // console.log("Tab disconnessa - Inverter");
         menu.btnClicked.disconnect(btnClickedHandler);
     }
 

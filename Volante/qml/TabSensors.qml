@@ -98,12 +98,12 @@ Rectangle {
    property var sensorSelectedIndex: -1
 
    function connect() {
-      console.log("Tab connessa - Sensors");
+      // console.log("Tab connessa - Sensors");
       menu.btnClicked.connect(btnClickedHandler);
    }
 
    function disconnect() {
-      console.log("Tab disconnessa - Sensors");
+      // console.log("Tab disconnessa - Sensors");
       menu.btnClicked.disconnect(btnClickedHandler);
 
    }

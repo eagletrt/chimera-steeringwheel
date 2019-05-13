@@ -12,21 +12,21 @@ Rectangle {
     property var ledStates: ['OK', 'NO', 'DEFAULT'];
 
 	function connect() {
-        console.log("Tab connessa - Errors");
+        // console.log("Tab connessa - Errors");
         mainwindow.btnClicked.connect(btnClickedHandler);
     }
 
     function disconnect() {
-        console.log("Tab disconnessa - Errors");
+        // console.log("Tab disconnessa - Errors");
         mainwindow.btnClicked.disconnect(btnClickedHandler);
     }
 
     onErrstatusChanged: {
-        console.log("Cambiato ERR Status da Centralina");
+        // console.log("Cambiato ERR Status da Centralina");
 
         var newErrStatus = errorsLEDS;
 
-        console.log(errorsLEDS);
+        // console.log(errorsLEDS);
 
         // APPS
         newErrStatus[0][0][1] = ledStates[errstatus[0]];

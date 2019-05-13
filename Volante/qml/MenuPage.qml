@@ -13,14 +13,12 @@ Rectangle {
 
 
   function connect() {
-    console.log("Connetto! Menu");
     mainwindow.btnPressed.connect(btnPressedHandler);
     mainwindow.btnReleased.connect(btnReleasedHandler);
     mainwindow.btnClicked.connect(btnClickedHandler);
   }
 
   function disconnect() {
-    console.log("Disconnetto! Menu");
     mainwindow.btnPressed.disconnect(btnPressedHandler);
     mainwindow.btnReleased.disconnect(btnReleasedHandler);
     mainwindow.btnClicked.disconnect(btnClickedHandler);
@@ -55,7 +53,6 @@ Rectangle {
       target: menu
       onBtnClicked: {
         if (btnID == 4) {
-          //console.log("Cliccato btn z");
           if (!tabView.stepIntoTab) {
             if (tabView.getTab(tabView.currentIndex).children[0].disconnect) {
               tabView.getTab(tabView.currentIndex).children[0].disconnect();
@@ -73,7 +70,6 @@ Rectangle {
           }
         }
         if (btnID == 5) {
-          //console.log("Cliccato btn x");
           if (!tabView.stepIntoTab) {
             if (tabView.getTab(tabView.currentIndex).children[0].disconnect) {
               tabView.getTab(tabView.currentIndex).children[0].disconnect();
