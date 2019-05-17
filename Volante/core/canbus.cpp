@@ -414,8 +414,6 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
          // -1 = 255 e -128 = 128, ovvero se tutti i bit sono a 1. Usate il qDebug sopra per scoprire il vostro valore magico
          //if((int)msg.at(1) == -1 && (int)msg.at(2) >= -128 && (int)msg.at(2) <= -1) // -1 = 255 e -128 = 128, ovvero se tutti i bit sono a 1. Usate il qDebug sopra per scoprire il vostro valore magico
 
-         //VERSIONE PER ANTONIO DA SISTEMARE L'ORDINE E COSA MOSTRARE ERROR=5 WARNING=8
-
          carStatus->setCANStatus((msg.at(1) >> 7) & 1,
                                  (msg.at(1) >> 6) & 1,
                                  (msg.at(1) >> 5) & 1,

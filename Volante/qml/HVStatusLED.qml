@@ -11,8 +11,6 @@ Rectangle {
 
     onSelectedChanged: {
         if (root.selected) {
-            //root.color = "#dddddd";
-            //root.opacity = 0.5
             button.state = "RESET"//START
         } else {
             root.color = "#000000";

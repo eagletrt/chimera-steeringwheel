@@ -46,6 +46,8 @@ Rectangle {
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    border.color: "black"
+                    border.width: 4
                     color: "green"
 
                     Text {
@@ -58,6 +60,8 @@ Rectangle {
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    border.color: "black"
+                    border.width: 4
                     color: "blue"
 
                     Text {
