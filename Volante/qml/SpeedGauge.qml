@@ -62,7 +62,7 @@ Rectangle {
    Text {
       id: texthvTemp
 
-      property int hvTemp: CarStatus.getHvTemp() / 10
+      property int hvTemp: CarStatus.hvTemp / 10
 
       text: hvTemp.toString() +  " °C"
 
@@ -75,7 +75,7 @@ Rectangle {
    Text {
       id: texthvVolt
 
-      property int hvVolt: CarStatus.getHvVolt() / 10
+      property int hvVolt: CarStatus.hvVolt / 10
       
       text: hvVolt.toString() / 10 +  " V"
 
@@ -88,7 +88,7 @@ Rectangle {
    Text {
       id: textlvTemp
 
-      property int lvTemp: CarStatus.getLvTemp() / 5
+      property int lvTemp: CarStatus.lvTemp / 5
 
       text: lvTemp.toString() + " °C"
 
@@ -104,7 +104,7 @@ Rectangle {
    Text {
       id: textlvVolt
 
-      property int lvVolt: CarStatus.getLvVolt() / 10
+      property int lvVolt: CarStatus.lvVolt / 10
 
       text: lvVolt.toString() + " V"
       horizontalAlignment: Text.AlignLeft;

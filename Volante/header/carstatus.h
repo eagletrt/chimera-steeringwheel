@@ -34,10 +34,10 @@ class CarStatus : public QObject
     Q_PROPERTY(int invSxTemp READ invSxTemp NOTIFY invSxTempChanged)
     Q_PROPERTY(int invDxTemp READ invDxTemp NOTIFY invDxTempChanged)
 
-    Q_PROPERTY(int hvTemp READ hvTemp NOTIFY hvTempChanged)//uint8
-    Q_PROPERTY(int lvTemp READ lvTemp NOTIFY lvTempChanged)//uint8
-    Q_PROPERTY(int hvVolt READ hvVolt NOTIFY hvVoltChanged)//uint8
-    Q_PROPERTY(int lvVolt READ lvVolt NOTIFY lvVoltChanged)//uint8
+    Q_PROPERTY(int hvTemp READ hvTemp NOTIFY hvTempChanged)
+    Q_PROPERTY(int lvTemp READ lvTemp NOTIFY lvTempChanged)
+    Q_PROPERTY(int hvVolt READ hvVolt NOTIFY hvVoltChanged)
+    Q_PROPERTY(int lvVolt READ lvVolt NOTIFY lvVoltChanged)
     Q_PROPERTY(int speed READ speed NOTIFY speedChanged)
     Q_PROPERTY(int brakeVal READ brakeVal NOTIFY brakeValChanged)
     Q_PROPERTY(int throttleVal READ throttleVal NOTIFY throttleValChanged)
@@ -90,11 +90,10 @@ class CarStatus : public QObject
         int speed() const;
         int invSxTemp() const;
         int invDxTemp() const;
-        int hvTemp() const;//uint8_t
-        int lvTemp() const;//uint8_t
-        int hvVolt() const;//uint8_t
-        int lvVoltVal() const;//uint8_t
-        int lvVolt() const;//uint8_t
+        int hvTemp() const;
+        int lvTemp() const;
+        int hvVolt() const;
+        int lvVolt() const;
 
         int brakeVal() const;
         int throttleVal() const;
@@ -113,12 +112,7 @@ class CarStatus : public QObject
         void setThrottle(int val);
         void setBrake(int val);
         void setHVStatus(uint8_t id, uint8_t valVolt1, uint8_t valVolt2, uint8_t valVolt3, uint8_t valTemp1, uint8_t valTemp2);
-        void setLVStatus(uint8_t val1, uint8_t val2, uint8_t val3);
-
-        int getHvVolt();
-        int getLvVolt();
-        int getHvTemp();
-        int getLvTemp();
+        void setLVStatus(uint8_t val1, uint8_t val3);
 
     private:
         static int getBit(unsigned char seq, int index);
@@ -165,14 +159,13 @@ class CarStatus : public QObject
         int m_steer;
         int m_num_err_steer;
 
-        uint16_t m_invSxTemp;
-        uint16_t m_invDxTemp;
+        int m_invSxTemp;
+        int m_invDxTemp;
         
-        uint16_t m_speed;
-        uint8_t m_hvTemp;
-        uint8_t m_hvVolt;
+        int m_speed;
+        int m_hvTemp;
+        int m_hvVolt;
 
-        int m_lvVoltVal;
         int m_lvTemp;
         int m_lvVolt;
         int m_brakeVal;

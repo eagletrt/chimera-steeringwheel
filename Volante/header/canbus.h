@@ -67,32 +67,6 @@ class Canbus : public QObject
         int error;        
         int ctrlIsEnabled;
 
-        uint16_t m_speed;
-        uint16_t m_invSxTemp;
-        uint16_t m_invDxTemp;
-        uint32_t m_hvTemp;
-        uint32_t m_hvVolt;
-        int m_lvVoltVal;
-        int m_lvTemp;
-        int m_lvVolt;
-
-        int m_brakeVal;
-        int m_throttleVal;
-        int m_velocity;
-
-        int velocity() const;
-        int speed() const;
-        int invSxTemp() const;
-        int invDxTemp() const;
-        int hvTemp() const;
-        int lvTemp() const;
-        int hvVolt() const;
-        int lvVoltVal() const;
-        int lvVolt() const;
-
-        int brakeVal() const;
-        int throttleVal() const;
-
         int ctrlIsOn;
         int goStatus;
         int map;
@@ -129,18 +103,6 @@ class Canbus : public QObject
         void presetChanged(int presetID);
         void pumpChanged(int pumpID);
         void actuatorRangePendingFlagCleared();
-
-        //signal per qml hv e lv temp volt
-        void speedChanged();
-        void hvTempChanged();
-        void lvTempChanged();
-        void hvVoltChanged();
-        void lvVoltChanged();
-        void invSxTempChanged();
-        void invDxTempChanged();
-
-        void brakeValChanged();
-        void throttleValChanged();
 
     public slots:
         void parseSerial();

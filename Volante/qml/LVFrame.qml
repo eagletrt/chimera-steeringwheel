@@ -3,15 +3,18 @@ import QtQuick 2.0
 Item{
    property var lvVolt : CarStatus.lvVolt;
    property int lvVal : lvVolt;
+   property int lvCounter : lvVal;
+
    property variant lvnames : ["../img/lv3.png","../img/lv4.png","../img/lv5.png","../img/lv6.png","../img/lv7.png",
-   "../img/lv8.png","../img/lv9.png","../img/lv10.png","../img/lv11.png","../img/lv12.png","../img/lv13.png","../img/lv14.png"];
+   "../img/lv8.png","../img/lv9.png","../img/lv10.png","../img/lv11.png","../img/lv12.png","../img/lv13.png"];//"../img/lv14.png"
 
    onLvVoltChanged: function(){
-      lvVal = CarStatus.lvVolt
-      lvVal = lvVal-120;
-      if(lvVal<0)
-      lvVal = 0
-      lvVal = Math.floor(lvVal/5);
+      lvCounter = CarStatus.lvVolt - 120;
+      if(lvCounter < 0){
+         lvVal = 0;
+      }else{
+         lvVal = Math.floor(lvCounter/10);
+      }
    }
 
    Repeater{

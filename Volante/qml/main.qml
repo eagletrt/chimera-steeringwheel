@@ -42,11 +42,11 @@ Rectangle {
                 hourInt[1] = 0
                 hourInt[0] ++
             }
-            timeString = hourInt[0].toString() + hourInt[1].toString() + " : " + minInt[0].toString() + minInt[1].toString() + " : " + secInt[0].toString() + secInt[1].toString() 
+            timeString = hourInt[0].toString() + hourInt[1].toString() + ":" + minInt[0].toString() + minInt[1].toString() + ":" + secInt[0].toString() + secInt[1].toString() 
             mainTime.text = timeString
         }
         Component.onCompleted: {
-            timeString = hourInt[0].toString() + hourInt[1].toString() + " : " + minInt[0].toString() + minInt[1].toString() + " : " + secInt[0].toString() + secInt[1].toString()
+            timeString = hourInt[0].toString() + hourInt[1].toString() + ":" + minInt[0].toString() + minInt[1].toString() + ":" + secInt[0].toString() + secInt[1].toString()
             mainTime.text = timeString
         }
     }

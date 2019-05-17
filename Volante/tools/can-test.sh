@@ -57,19 +57,21 @@ function CanTest {
 
     cansend vcan0 0FF#00
     sleep .5
-    cansend vcan0 0FF#88
+    cansend vcan0 0FF#11
     sleep .5
-    cansend vcan0 0FF#FF
+    cansend vcan0 0FF#1F
   fi
 
   if [ $1 = "HV" ]
   then
 
-    cansend vcan0 0AA#010000000000
+    cansend vcan0 0AA#01000000
     sleep .5
-    cansend vcan0 0AA#018888888888
+    cansend vcan0 0AA#01888888
     sleep .5
-    cansend vcan0 0AA#01FFFFFFFFFF
+    cansend vcan0 0AA#01FFFFFF
+    sleep .5
+    cansend vcan0 0AA#01
   fi
   if [ $1 = "INV" ]
   then

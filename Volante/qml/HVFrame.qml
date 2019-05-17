@@ -2,17 +2,27 @@ import QtQuick 2.0
 
 Item{
    property var hvVolt : CarStatus.hvVolt;
-   property int hvVal : hvVolt;
+   property int hvVal : hvVolt; 
+   property int hvCounter : hvVal;
 
    property variant hvnames : ["../img/hv3.png","../img/hv4.png","../img/hv5.png","../img/hv6.png","../img/hv7.png",
-   "../img/hv8.png","../img/hv9.png","../img/hv10.png","../img/hv11.png","../img/hv12.png","../img/hv13.png","../img/hv14.png"];
+   "../img/hv8.png","../img/hv9.png","../img/hv10.png","../img/hv11.png","../img/hv12.png","../img/hv13.png"];//"../img/hv14.png"
+
+/*
+   Il valore che viene preso da cpp + già diviso 1000
+   probabilmente basterà dividerlo per
+   esempio:
+         340 < x < 440
+      4200 volt -> 4200*1000 = 4200 000
+      
+*/
 
    onHvVoltChanged: function(){
-      hvVal = CarStatus.hvVolt / 10;
-      hvVal = hvVal-340;
-      if(hvVal<0){
+      hvCounter = CarStatus.hvVolt / 100;
+      if(hvCounter < 0){
          hvVal = 0
-         hvVal = Math.floor(hvVal/10);
+      }else{
+         hvVal = Math.floor((hvCounter-340)/10);
       }
    }
 

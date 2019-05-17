@@ -1,8 +1,7 @@
 #include "../header/carstatus.h"
 
 CarStatus::CarStatus() {
-    // qDebug() << "Car Status Init";
-
+    
     m_invRight = 2;
     m_invLeft = 2;
     m_preCharge = 2;
@@ -43,14 +42,14 @@ CarStatus::CarStatus() {
     m_bse = 0;
     m_steer = 50;
 
-    m_invSxTemp = 0;
-    m_invDxTemp = 0;
+    m_invSxTemp = 337;
+    m_invDxTemp = 342;
 
-    m_hvTemp = 70;
-    m_hvVolt = 440;
-    m_lvVoltVal = 120;
-    m_lvVolt = 120;
-    m_lvTemp = 30;
+    m_hvTemp = 300;
+    m_hvVolt = 45400;
+    // m_lvVoltVal = 120;
+    m_lvVolt = 230;
+    m_lvTemp = 130;
     m_speed = 100;
 
     m_brakeVal = 100;
@@ -63,55 +62,58 @@ CarStatus::CarStatus() {
     counterBrake = 0;   
 }
 
+// Set Left Inverter Temperature and emit Property
 void CarStatus::setLeftInverterTemperature(int val1, int val2){
     m_invSxTemp = (((val1 + (val2 * 256.0f) ) - 15797.0f ) / 112.1182f) * 10.0f;
     emit invSxTempChanged();     
 }
 
+// Set Right Inverter Temperature and emit Property
 void CarStatus::setRightInverterTemperature(int val1, int val2){
     m_invSxTemp = (((val1 + val2 * 256.0f ) - 15797.0f ) / 112.1182f) * 10.0f;
     emit invDxTempChanged();     
 }
 
+// Set Speed and emit Property
 void CarStatus::setSpeed(int id, int val1, int val2, int prescaler){
     counterSpeed++;
     speedPrescaler = prescaler;
-
+    //0x07 encoder sinistro in teoria
     if(id == 0x06){
-
         if(counterSpeed >= pedalsPrescaler){
             counterSpeed = 0;
-            
             m_speed = ((uint8_t)val1 * 256 + (uint8_t)val2) / 10;
+            
             emit speedChanged();
         }
     }    
 
 }
 
+// Set Pedals Prescaler to Slow Down 
 void CarStatus::setPedalsPrescaler(int prescaler){
     pedalsPrescaler = prescaler;
 }
 
+// Set Brake value and emit Property, it use prescaler
 void CarStatus::setBrake(int val){
     counterBrake++;
-
     if(counterBrake >= pedalsPrescaler){
         counterBrake = 0;
         m_brakeVal = ( (int) val );
+        
         emit brakeValChanged();
     }    
 }
 
+// Set Throttle value and emit Property, it use prescaler
 void CarStatus::setThrottle(int val){
     counterThrottle++;
 
     if(counterThrottle >= pedalsPrescaler){
 
         counterThrottle = 0;
-
         m_throttleVal = ( (int) val);
-
         int currPercMap = 0;
        
         switch(getMap() + 1){
@@ -131,17 +133,17 @@ void CarStatus::setThrottle(int val){
     }    
 }
 
-void CarStatus::setLVStatus(uint8_t val1, uint8_t val2, uint8_t val3){
-
+// Set LV temp,volt value and emit Property, without prescaler
+void CarStatus::setLVStatus(uint8_t val1, uint8_t val3){
+    //before uint8_t val2 as a m_lvVal
     m_lvVolt = val1;
-    m_lvVoltVal = val2;
     m_lvTemp = val3;
 
     emit lvTempChanged();
     emit lvVoltChanged();
-
 }
 
+// Set HV temp,volt value and emit Property, without prescaler
 void CarStatus::setHVStatus(uint8_t id, uint8_t valVolt1, uint8_t valVolt2, uint8_t valVolt3, uint8_t valTemp1, uint8_t valTemp2){
     if(id == 0x01){
         m_hvVolt = ((valVolt1 << 16) + (valVolt2 << 8) + valVolt3 ) / 1000;
@@ -152,30 +154,21 @@ void CarStatus::setHVStatus(uint8_t id, uint8_t valVolt1, uint8_t valVolt2, uint
     }
 }
 
-
-
+// Set the value for the Pump 
 void CarStatus::changePump(int pumpID) {
-
-    //qDebug() << "Pump to change: " << pumpID;
 
     if (pumpID != LOOP_THROUGH_PUMPS) {
         m_pump = pumpID;
     } else {
         // Loop through presents from 1 to 8 --> Case Single Button for Preset change
         m_pump += 1;
-        //qDebug() << m_preset;
         m_pump = m_pump > PUMP_NUMBER ? m_pump % PUMP_NUMBER : m_pump;
-        //qDebug() << m_pump;
     }
-
-    //qDebug() << "New Pump: " << m_pump;
-
     //emit pumpChanged();
 }
 
+// Set the value for the Map 
 void CarStatus::changePreset(int presetID) {
-
-    //qDebug() << "Preset to change: " << presetID;
 
     if (presetID != LOOP_THROUGH_PRESETS) {
         // Change preset to presetID --> Case Hardware Wiper
@@ -183,9 +176,7 @@ void CarStatus::changePreset(int presetID) {
     } else {
         // Loop through presents from 1 to 8 --> Case Single Button for Preset change
         m_preset += 1;
-        //qDebug() << m_preset;
         m_preset = m_preset > PRESET_NUMBER ? m_preset % PRESET_NUMBER : m_preset;
-        //qDebug() << m_preset;
     }
 
     //qDebug() << "New Preset: " << m_preset;
@@ -193,6 +184,7 @@ void CarStatus::changePreset(int presetID) {
     emit presetChanged();
 }
 
+// Return Can-bus Status value
 QString CarStatus::CANStatus() const {
     // qDebug() << "Asked CanStatus";
     return QString("%1%2%3%4%5%6%7%8").arg(QString::number(m_invr),
@@ -205,6 +197,7 @@ QString CarStatus::CANStatus() const {
                                        QString::number(m_hv));
 }
 
+// Return HV Status value
 QString CarStatus::HVStatus() const {
     // qDebug() << "Asked HVStatus";
     return QString("%1%2%3").arg(QString::number(m_preCharge),
@@ -212,6 +205,7 @@ QString CarStatus::HVStatus() const {
                                  QString::number(m_invRight));
 }
 
+// Return Error Status value
 QString CarStatus::ERRStatus() const {
     // qDebug() << "Asked ERRStatus";
     return QString("%1%2%3%4%5%6%7%8%9")
@@ -226,6 +220,11 @@ QString CarStatus::ERRStatus() const {
              QString::number(m_err_imu_rear));
 }
 
+// ???
+int CarStatus::getBit(unsigned char seq, int index){
+    return (int)(seq >> index) & 1U;
+}
+
 QList<int> CarStatus::APPSStatus() const {
     QList<int> appsStatusArr;
     appsStatusArr.append((int) m_apps);
@@ -233,10 +232,6 @@ QList<int> CarStatus::APPSStatus() const {
        appsStatusArr.append(CarStatus::getBit(m_num_err_apps,var));
     }
     return appsStatusArr;
-}
-
-int CarStatus::getBit(unsigned char seq, int index){
-    return (int)(seq >> index) & 1U;
 }
 
 QList<int> CarStatus::BSEStatus() const {
@@ -332,8 +327,6 @@ int CarStatus::getCtrlIsEnabled() {
     return m_ctrlIsEnabled;
 }
 
-
-
 void CarStatus::setCarStatus(int ctrlIsEnabled,
                              int ctrlIsOn,
                              int driveModeEnabled,
@@ -358,7 +351,6 @@ void CarStatus::setCarMode(int mode){
 void CarStatus::setWarning(int on) {
     m_warning = on;
     emit warningChanged();
-    // qDebug() << "Warning: " << m_warning << endl;
 }
 
 void CarStatus::setError(int on) {
@@ -367,8 +359,6 @@ void CarStatus::setError(int on) {
 }
 
 int CarStatus::carStatus() {
-    // qDebug() << "Asked carStatus";
-    // qDebug() << m_car_status;
     return m_car_status;
 }
 
@@ -440,6 +430,11 @@ int CarStatus::toggleCtrl() {
     return -1;
 }
 
+
+/*
+    Functions to return all the m_values
+*/
+
 int CarStatus::pump() const {
     return m_pump;
 }
@@ -470,23 +465,8 @@ int CarStatus::hvTemp() const {
 int CarStatus::lvTemp() const {
     return m_lvTemp;
 }
-int CarStatus::getHvVolt(){
-    return m_hvVolt;
-}
-int CarStatus::getHvTemp(){
-    return m_hvTemp;
-}
-int CarStatus::getLvVolt(){
-    return m_lvVolt;
-}
-int CarStatus::getLvTemp(){
-    return m_lvTemp;
-}
 int CarStatus::hvVolt() const {
     return m_hvVolt;
-}
-int CarStatus::lvVoltVal() const {
-    return m_lvVoltVal;
 }
 int CarStatus::lvVolt() const {
     return m_lvVolt;
@@ -500,7 +480,7 @@ int CarStatus::warning() const {
 int CarStatus::error() const {
     return m_error;
 }
-
+// Destroy, BOOM!
 CarStatus::~CarStatus() {
     qDebug() << "Closing CarStatus...";
 }
