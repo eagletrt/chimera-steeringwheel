@@ -84,7 +84,7 @@ Buttons::Buttons(QGuiApplication *app)
 }
 
 void Buttons::emitBtnEvent(int btnId, int btnAction) {
-  qDebug() << "Emitting " << btnAction << " on " << btnId;
+  // qDebug() << "Emitting " << btnAction << " on " << btnId;
   if (btnAction == BTN_PRESSED) {
     emit btnPressed(btnId);
   } else {
@@ -107,7 +107,7 @@ void Buttons::readGPIOState()
     if (pinState.at(i) != previusPinState.at(i)) {
       btnAction = -1;
 
-      qDebug() << "####### PIN " << pinEnabled[i] << "is " << pinState[i] << " #######";
+      // qDebug() << "####### PIN " << pinEnabled[i] << "is " << pinState[i] << " #######";
 
       switch (btnState.at(i)) {
         case BTN_NORMAL:

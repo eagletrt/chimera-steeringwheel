@@ -61,7 +61,7 @@ class CarStatus : public QObject
         int preset() const;
         int pump() const;
         int velocity() const;
-
+        
         void setHVStatus(int invRight, int invLeft, int preCharge);
         void setCarStatus(int, int, int, int, int);
         void setCANStatus(int, int, int, int, int, int, int, int);
@@ -111,6 +111,7 @@ class CarStatus : public QObject
         void setPedalsPrescaler(int prescaler);
         void setThrottle(int val);
         void setBrake(int val);
+        void stopMessage(int inverter);
         void setHVStatus(uint8_t id, uint8_t valVolt1, uint8_t valVolt2, uint8_t valVolt3, uint8_t valTemp1, uint8_t valTemp2);
         void setLVStatus(uint8_t val1, uint8_t val3);
 

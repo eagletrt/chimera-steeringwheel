@@ -188,6 +188,9 @@ Rectangle {
             }
          }
       }
+      if (btnID == 3){
+         CAN.sendMarker();
+      }
    }
 
    ColumnLayout {

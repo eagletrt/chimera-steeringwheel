@@ -10,7 +10,7 @@ Canbus::Canbus(CarStatus* m_carStatus) {
 
    QString errorString;
    device = QCanBus::instance()->createDevice(
-      QStringLiteral("socketcan"), QStringLiteral("vcan0"), &errorString);
+      QStringLiteral("socketcan"), QStringLiteral("can0"), &errorString);
       if (!device)
          qDebug() << "NO CAN!";
       else
@@ -62,6 +62,18 @@ void Canbus::steerConnected() {
    connected.resize(8);
    connected[0] = 1;
    sendCanMessage(STEERING_WHEEL_ID,connected);
+}
+
+void Canbus::sendMarker(){
+   QByteArray marker;
+   marker.resize(8);
+   // marker[0] = 1;
+   // marker[0] = mappa;
+   // marker[1] = pompe;
+   // marker[2] = controllo;
+   // marker[3] = status;
+
+   sendCanMessage(MARKER,marker);
 }
 
 // Send to ECU msg for pump state
@@ -505,6 +517,8 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             driveModeEnabled = 0;
             ctrlIsEnabled = carStatus->getCtrlIsEnabled();
             ctrlIsOn = carStatus->getCtrlIsOn();
+            // per sicurezza, così in teoria dovrebbero già essere spenti
+            carStatus->stopMessage(2);
 
             carStatus->setCarStatus(ctrlIsEnabled,
                ctrlIsOn,
@@ -537,7 +551,12 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                                           driveModeEnabled,
                                           0,
                                           0);
+         } else if(msg.at(0) == ECU_INV_LEFT_STOP){
+            carStatus -> stopMessage(0);
+         }else if(msg.at(0) == ECU_INV_RIGHT_STOP){
+            carStatus -> stopMessage(1);
          }
+
       break;
 
       case BMS_ID:

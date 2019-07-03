@@ -48,7 +48,7 @@ Rectangle {
       }
       if (btnID == 1) {
           CAN.askSetupOrIdle(1);
-          console.log("Asking to go from ? to ?");
+          console.log("Asking to go from IDLE to Setup");
           //isStarted = true;
          // Step into this tab and change the behaviour of btnID
          //if (!isStarted) {
@@ -79,9 +79,15 @@ Rectangle {
          } else {
             console.log("Asking to go from Setup to Idle");
             //CAN.checkCANCommunication(false);
-             CAN.askSetupOrIdle(0);
+            // CarStatus.stopMessage(2);
+            CAN.askSetupOrIdle(0);
+
          }
       }
+      if (btnID == 3){
+         CAN.sendMarker();
+      }
+
       tabView.stepIntoTab = false;
    }
 

@@ -32,6 +32,7 @@
 #define ASK_SENSORS_VALUE_ID    0xED
 #define ASK_BATTERY_STATUS      0xEE
 #define CHANGE_EXEC_MODE_ID     0xEF
+#define MARKER                  0xAB
 
 //NEW DEFINE FOR VARANO 2018
 #define STEERING_WHEEL_ID       0xA0
@@ -40,6 +41,8 @@
 #define ECU_MSG                 0x55
 #define ECU_INV_LEFT            0x08
 #define ECU_INV_RIGHT           0x09
+#define ECU_INV_LEFT_STOP       0x0C
+#define ECU_INV_RIGHT_STOP      0x0D
 #define ECU_ERRORS              0x01
 #define STM_PEDALS              0xB0
 #define GET_ACTUATORS_RANGE_ACK 0xBC
@@ -106,6 +109,7 @@ class Canbus : public QObject
 
     public slots:
         void parseSerial();
+        void sendMarker();
         void toggleCar();
         void askHVUpdate(int);
         void setActuatorsRange(int, int);

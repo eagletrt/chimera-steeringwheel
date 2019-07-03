@@ -4,7 +4,8 @@ import QtQuick.Layouts 1.3
 Rectangle {
     FontLoader {id:blackops; source: "../lib/blops.ttf"}
     id: root
-    color: "#000000"
+    color: "#008000"
+    radius: 20
     property var text
     property var selected
 
@@ -52,7 +53,7 @@ Rectangle {
 
         Rectangle {
             width: root.width * 5/9 //1/2
-            height: root.height
+            height: root.height 
             color: "transparent"
 
             Text {
@@ -95,7 +96,7 @@ Rectangle {
                         }
                         PropertyChanges {
                             target: text
-                            text: "Reset"
+                            text: "ASK"
                         }
                     },
                     State {
@@ -121,8 +122,8 @@ Rectangle {
                     font.family: blackops.name;
                     font.pixelSize: 7
                     anchors.centerIn: parent
-                    text: "RESET"
-                    color: "lightgray"
+                    text: "ASK"
+                    color: "lightgrey"
                 }
             }
         }

@@ -24,6 +24,22 @@ Rectangle {
         ["Tot E", "0", "J"]
     ]
 
+	function connect() {
+        // console.log("Tab connessa - Errors");
+        mainwindow.btnClicked.connect(btnClickedHandler);
+    }
+
+    function disconnect() {
+        // console.log("Tab disconnessa - Errors");
+        mainwindow.btnClicked.disconnect(btnClickedHandler);
+    }
+
+    function btnClickedHandler(btnID) {
+        if (btnID == 3){
+            CAN.sendMarker();
+        }
+    }
+
     GridLayout {
         anchors.fill: parent
         rows: 2

@@ -90,35 +90,29 @@ Rectangle {
     }
 
     Tab {
-      TabStatus {
-      }
-    }
-
-    Tab {
       TabErrors {
       }
     }
-
     Tab {
-      TabInverter {
+      TabStatus {
       }
     }
-
-   Tab {
-      RacingPage {
-      }
-    }
-
-    Tab {
-      TabBattery {
-      }
-    }
-
     Tab {
       TabSensors {
       }
     }
-
+    Tab {
+      TabInverter {
+      }
+    }
+   Tab {
+      RacingPage {
+      }
+    }
+    Tab {
+      TabBattery {
+      }
+    }
     style: TabViewStyle {
       frameOverlap: 0
       tab: Rectangle {

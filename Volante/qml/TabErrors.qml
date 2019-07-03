@@ -54,6 +54,9 @@ Rectangle {
     }
 
     function btnClickedHandler(btnID) {
+        if (btnID == 3){
+            CAN.sendMarker();
+        }
         if (btnID == 2) {
             /*
             // Step into this tab and change the behaviour of btnID

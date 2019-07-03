@@ -99,6 +99,10 @@ Rectangle {
                 tabView.stepIntoTab = false;
             }
         }
+
+        if (btnID == 3){
+            CAN.sendMarker();
+        }
     }
 
     GridLayout {

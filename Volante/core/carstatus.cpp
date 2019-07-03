@@ -313,6 +313,24 @@ void CarStatus::setCANStatus(int invr,
     emit CANStatusChanged();
 }
 
+void CarStatus::stopMessage(int inverter){
+
+    if (inverter == 0){
+        m_invLeft = 0; 
+    } 
+    if (inverter == 1) {
+        m_invRight = 0;
+    }
+    // Quando ricevo che sono in idle 
+    if (inverter == 2) {
+        m_invLeft = 0;
+        m_invRight = 0;
+        m_preCharge = 0;
+    }
+
+    emit HVStatusChanged();
+}
+
 void CarStatus::setHVStatus(int preCharge,
                             int invLeft,
                             int invRight) {
