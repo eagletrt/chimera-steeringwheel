@@ -238,7 +238,7 @@ Rectangle {
                Layout.fillWidth: true
                width: 50
                ChoiceButton {
-                  width: 150
+                  width: 135
                   height: 40
                   btnColor: "green"
                   btnText: mBtnSetText

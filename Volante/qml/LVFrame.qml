@@ -9,7 +9,7 @@ Item{
    "../img/lv8.png","../img/lv9.png","../img/lv10.png","../img/lv11.png","../img/lv12.png","../img/lv13.png"];//"../img/lv14.png"
 
    onLvVoltChanged: function(){
-      lvCounter = CarStatus.lvVolt - 120;
+      lvCounter = CarStatus.lvVolt - 80;
       if(lvCounter < 0){
          lvVal = 0;
       }else{

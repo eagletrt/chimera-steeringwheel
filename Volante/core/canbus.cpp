@@ -124,6 +124,30 @@ void Canbus::askStatus() {
    QByteArray askErrors;
    askErrors.resize(8);
    askErrors[0] = 0x02;
+
+   map = carStatus->getMap();
+
+   switch (map) {
+      case 0:
+         askErrors[1] = -20;
+         break;
+      case 1:
+         askErrors[1] = 20;
+         break;
+      case 2:
+         askErrors[1] = 40;
+         break;
+      case 3:
+         askErrors[1] = 60;
+         break;
+      case 4:
+         askErrors[1] = 80;
+         break;
+      case 5:
+         askErrors[1] = 100;
+         break;
+   }
+
    sendCanMessage(STEERING_WHEEL_ID,askErrors);
 }
 
@@ -185,6 +209,12 @@ void Canbus::askSetupOrIdle(int whatState) {
    } 
 }
 
+// Idle -> Setup     0x03   
+// Setup -> Idle     0x04
+// Setup -> Run      0x05
+// Run -> Setup      0x06
+
+
 void Canbus::toggleCar() {
    ctrlIsOn = carStatus->getCtrlIsOn();
    goStatus = carStatus->getCurrentStatus();
@@ -193,7 +223,8 @@ void Canbus::toggleCar() {
 
    QByteArray toggleCAN;
    toggleCAN.resize(8);
-
+   qDebug() << "Current Status is " << goStatus << " Map is: " << map;
+// NON Serve lo stato all'ECU controllare meglio, settare per Telemetria
    switch (goStatus) {
       case CAR_STATUS_STOP:
          toggleCAN[0] = 0x07;
@@ -358,8 +389,12 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
 
       case ENCODERS: // 0xD0
 
-         carStatus->setSpeed(msg.at(0),msg.at(1),msg.at(2),msg.at(7));
-        
+         if(msg.at(0) == 0x06){
+            carStatus->setSpeed(msg.at(0),msg.at(1),msg.at(2),msg.at(7));
+         }else if(msg.at(0) == 8){
+            carStatus->setKm(msg.at(1),msg.at(2));
+         }
+
       break;
 
       case GET_ACTUATORS_RANGE_ACK:
@@ -539,18 +574,18 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                                        driveModeEnabled,
                                        0,
                                        0);
-               }
-               else if(msg.at(0) == 0x06) // setup from run
-               {
-                  driveModeEnabled = 1;
-                  ctrlIsEnabled = carStatus->getCtrlIsEnabled();
-                  ctrlIsOn = carStatus->getCtrlIsOn();
+            }
+            else if(msg.at(0) == 0x06) // setup from run
+            {
+               driveModeEnabled = 1;
+               ctrlIsEnabled = carStatus->getCtrlIsEnabled();
+               ctrlIsOn = carStatus->getCtrlIsOn();
 
-                  carStatus->setCarStatus(ctrlIsEnabled,
-                                          ctrlIsOn,
-                                          driveModeEnabled,
-                                          0,
-                                          0);
+               carStatus->setCarStatus(ctrlIsEnabled,
+                                       ctrlIsOn,
+                                       driveModeEnabled,
+                                       0,
+                                       0);
          } else if(msg.at(0) == ECU_INV_LEFT_STOP){
             carStatus -> stopMessage(0);
          }else if(msg.at(0) == ECU_INV_RIGHT_STOP){
@@ -566,8 +601,9 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                                  (uint8_t)msg.at(2),
                                  (uint8_t)msg.at(3),
                                  (uint8_t)msg.at(4),
-                                 (uint8_t)msg.at(5));
-      
+                                 (uint8_t)msg.at(5),
+                                 (uint8_t)msg.at(6),
+                                 (uint8_t)msg.at(7));
       break;
 
       case LV_ID:
@@ -577,6 +613,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
      
       break;
 
+// non me lo manda quello stronzo di bonneee
       case BMS_STATUS_ID:
 
          if (msg.at(3) == 0x2A) {

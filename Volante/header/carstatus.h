@@ -39,6 +39,7 @@ class CarStatus : public QObject
     Q_PROPERTY(int hvVolt READ hvVolt NOTIFY hvVoltChanged)
     Q_PROPERTY(int lvVolt READ lvVolt NOTIFY lvVoltChanged)
     Q_PROPERTY(int speed READ speed NOTIFY speedChanged)
+    Q_PROPERTY(int km READ km NOTIFY kmChanged)
     Q_PROPERTY(int brakeVal READ brakeVal NOTIFY brakeValChanged)
     Q_PROPERTY(int throttleVal READ throttleVal NOTIFY throttleValChanged)
    
@@ -88,6 +89,7 @@ class CarStatus : public QObject
         void setStateOfCharge(int stateofcharge);
 
         int speed() const;
+        int km() const;
         int invSxTemp() const;
         int invDxTemp() const;
         int hvTemp() const;
@@ -108,11 +110,12 @@ class CarStatus : public QObject
         void setLeftInverterTemperature(int val1, int val2);
         void setRightInverterTemperature(int val1, int val2);        
         void setSpeed(int id, int val1, int val2, int prescaler);
+        void setKm(int meter1, int meter2);
         void setPedalsPrescaler(int prescaler);
         void setThrottle(int val);
         void setBrake(int val);
         void stopMessage(int inverter);
-        void setHVStatus(uint8_t id, uint8_t valVolt1, uint8_t valVolt2, uint8_t valVolt3, uint8_t valTemp1, uint8_t valTemp2);
+        void setHVStatus(uint8_t id,uint8_t val1,uint8_t val2,uint8_t val3,uint8_t val4,uint8_t val5,uint8_t val6,uint8_t val7);
         void setLVStatus(uint8_t val1, uint8_t val3);
 
     private:
@@ -131,6 +134,7 @@ class CarStatus : public QObject
         int m_stateofcharge;
         int m_temperature;
         int m_velocity;
+        int m_km;
         int m_preset;
         int m_pump;
 
@@ -178,6 +182,13 @@ class CarStatus : public QObject
         int counterThrottle;
         int counterBrake ;
 
+        int LVPrescaler;
+        int counterLV;
+        int invRightPrescaler;
+        int counterInvRight;
+        int invLeftPrescaler;
+        int counterInvLeft;
+
     signals:
         void tempChanged(int temperature);
         void socChanged(int soc);
@@ -202,6 +213,7 @@ class CarStatus : public QObject
 
         //signal per qml hv e lv temp volt
         void speedChanged();
+        void kmChanged();
         void hvTempChanged();
         void lvTempChanged();
         void hvVoltChanged();

@@ -18,7 +18,7 @@ Item{
 */
 
    onHvVoltChanged: function(){
-      hvCounter = CarStatus.hvVolt / 100;
+      hvCounter = CarStatus.hvVolt / 10;
       if(hvCounter < 0){
          hvVal = 0
       }else{

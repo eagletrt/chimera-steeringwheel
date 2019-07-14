@@ -73,9 +73,9 @@ Rectangle {
             Rectangle {
                 id: led
                 anchors.centerIn: parent
-                width: 40
-                height: 40
-                radius: 40
+                width: 30
+                height: 30
+                radius: 30
             }
         }
 
@@ -113,7 +113,7 @@ Rectangle {
                 ]
                 anchors.centerIn: parent
                 width: parent.width - 20
-                height: parent.height - 30
+                height: parent.height - 40
                 color: "#888888"
                 radius: 5
 

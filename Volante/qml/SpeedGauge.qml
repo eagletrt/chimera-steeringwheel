@@ -9,7 +9,10 @@ Rectangle {
    property int lvTemp: CarStatus.lvTemp;
    property int lvVolt: CarStatus.lvVolt;
    
+   property int velocity: CarStatus.velocity
    property int speed: CarStatus.speed;
+   property int km: CarStatus.km;
+
    property int invSxTemp: CarStatus.invSxTemp;
    property int invDxTemp: CarStatus.invDxTemp;
 
@@ -22,17 +25,27 @@ Rectangle {
    property int brakeidx :0;
    property int throttleidx : 0;
 
-   property int velocity: CarStatus.velocity
-
    color: "transparent"
 
    Text {
-      id: carSpeed
-      text: speed + " KMH"
+      id: textVelocity
+      text: velocity + " KW"
       font.family: blackops.name;
       font.pointSize: 7
-      y: 130
-      x: 85
+      y: 135
+      x: 25
+      width:200
+      horizontalAlignment: Text.AlignHCenter;
+      color: "lightgray"
+   }
+
+   Text {
+      id: textKm
+      text: km + " m"
+      font.family: blackops.name;
+      font.pointSize: 7
+      y: 135
+      x: 145
       width:200
       horizontalAlignment: Text.AlignHCenter;
       color: "lightgray"
@@ -62,9 +75,9 @@ Rectangle {
    Text {
       id: texthvTemp
 
-      property int hvTemp: CarStatus.hvTemp / 10
+      // property int hvTemp: CarStatus.hvTemp
 
-      text: hvTemp.toString() +  " °C"
+      text: hvTemp/10 +  " °C"
 
       font.family: blackops.name;
       font.pointSize: 7
@@ -75,9 +88,9 @@ Rectangle {
    Text {
       id: texthvVolt
 
-      property int hvVolt: CarStatus.hvVolt / 10
+      // property int hvVolt: CarStatus.hvVolt / 10
       
-      text: hvVolt.toString() / 10 +  " V"
+      text: hvVolt/10 +  " V"
 
       font.family: blackops.name;
       font.pointSize: 7
@@ -88,9 +101,9 @@ Rectangle {
    Text {
       id: textlvTemp
 
-      property int lvTemp: CarStatus.lvTemp / 5
+      // property int lvTemp: CarStatus.lvTemp
 
-      text: lvTemp.toString() + " °C"
+      text: lvTemp/5 + " °C"
 
       horizontalAlignment: Text.AlignLeft;
       font.pointSize: 7
@@ -104,9 +117,9 @@ Rectangle {
    Text {
       id: textlvVolt
 
-      property int lvVolt: CarStatus.lvVolt / 10
+      // property int lvVolt: CarStatus.lvVolt 
 
-      text: lvVolt.toString() + " V"
+      text: lvVolt/10 + " V"
       horizontalAlignment: Text.AlignLeft;
       font.pointSize: 7
       font.family: blackops.name;
@@ -140,8 +153,8 @@ Rectangle {
    }
 
    Text {
-      id: textVelocity
-      text: velocity
+      id: carSpeed
+      text: speed
       font.pointSize: 35
       font.family: blackops.name;
       anchors.horizontalCenter: parent.horizontalCenter
@@ -151,7 +164,7 @@ Rectangle {
    }
 
    Text {
-      text: "kw"
+      text: "km/h"
       font.family: blackops.name;
       font.pointSize: 5
       anchors.horizontalCenter: parent.horizontalCenter

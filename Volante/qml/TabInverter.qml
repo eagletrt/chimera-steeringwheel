@@ -16,7 +16,6 @@ Rectangle {
         ["Inverter Right", "DEFAULT", false]
     ]
 
-
     function connect() {
         // console.log("Tab connessa - Inverter");
         menu.btnClicked.connect(btnClickedHandler);

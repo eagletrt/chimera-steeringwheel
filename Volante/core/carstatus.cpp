@@ -34,6 +34,7 @@ CarStatus::CarStatus() {
     m_lv = 2;
     m_hv = 2;
 
+    m_km = 999;
     m_velocity = 0;
     m_preset = 1;
     m_pump = 6;
@@ -42,14 +43,14 @@ CarStatus::CarStatus() {
     m_bse = 0;
     m_steer = 50;
 
-    m_invSxTemp = 337;
-    m_invDxTemp = 342;
+    m_invSxTemp = 0;
+    m_invDxTemp = 0;
 
-    m_hvTemp = 300;
-    m_hvVolt = 45400;
+    m_hvTemp = 0;
+    m_hvVolt = 0;
     // m_lvVoltVal = 120;
-    m_lvVolt = 230;
-    m_lvTemp = 130;
+    m_lvVolt = 0; 
+    m_lvTemp = 0; 
     m_speed = 100;
 
     m_brakeVal = 100;
@@ -60,18 +61,36 @@ CarStatus::CarStatus() {
     counterSpeed = 0;
     counterThrottle = 0;
     counterBrake = 0;   
+
+    LVPrescaler = 10;
+    counterLV = 0;
+    invRightPrescaler = 10;
+    counterInvRight = 0;
+    invLeftPrescaler = 10;
+    counterInvLeft = 0;
+
 }
 
 // Set Left Inverter Temperature and emit Property
 void CarStatus::setLeftInverterTemperature(int val1, int val2){
-    m_invSxTemp = (((val1 + (val2 * 256.0f) ) - 15797.0f ) / 112.1182f) * 10.0f;
-    emit invSxTempChanged();     
+    counterInvLeft++;
+    if(counterInvLeft >= invLeftPrescaler){
+        m_invSxTemp = (((val1 + (val2 * 256.0f) ) - 15797.0f ) / 112.1182f) * 10.0f;
+        counterInvLeft = 0;
+
+        emit invSxTempChanged();     
+    }
 }
 
 // Set Right Inverter Temperature and emit Property
 void CarStatus::setRightInverterTemperature(int val1, int val2){
-    m_invSxTemp = (((val1 + val2 * 256.0f ) - 15797.0f ) / 112.1182f) * 10.0f;
-    emit invDxTempChanged();     
+    counterInvRight++;
+    if(counterInvRight >= invRightPrescaler){
+        m_invDxTemp = (((val1 + (val2 * 256.0f) ) - 15797.0f ) / 112.1182f) * 10.0f;
+        counterInvRight = 0;
+
+        emit invDxTempChanged();     
+    }
 }
 
 // Set Speed and emit Property
@@ -82,12 +101,20 @@ void CarStatus::setSpeed(int id, int val1, int val2, int prescaler){
     if(id == 0x06){
         if(counterSpeed >= pedalsPrescaler){
             counterSpeed = 0;
-            m_speed = ((uint8_t)val1 * 256 + (uint8_t)val2) / 10;
+            m_speed = ((uint8_t)val1 * 256 + (uint8_t)val2);
             
             emit speedChanged();
         }
     }    
 
+}
+
+// Set Km and emit Property
+void CarStatus::setKm(int meter1, int meter2){
+    m_km = (((uint8_t)meter1 << 8 ) + (uint8_t)meter2);
+
+    emit kmChanged();
+    
 }
 
 // Set Pedals Prescaler to Slow Down 
@@ -115,7 +142,7 @@ void CarStatus::setThrottle(int val){
         counterThrottle = 0;
         m_throttleVal = ( (int) val);
         int currPercMap = 0;
-       
+        
         switch(getMap() + 1){
             
             case 1: currPercMap = -20; break;
@@ -126,34 +153,45 @@ void CarStatus::setThrottle(int val){
             case 6: currPercMap = 100; break;
             default: currPercMap = -100; break;
         }
-        m_velocity = (80.0 * currPercMap * m_throttleVal) / 10000.0;
+        // m_velocity = (80.0 * currPercMap * m_throttleVal) / 10000.0;
         
-        emit velocityChanged();
+        // emit velocityChanged();
         emit throttleValChanged();
     }    
 }
 
 // Set LV temp,volt value and emit Property, without prescaler
 void CarStatus::setLVStatus(uint8_t val1, uint8_t val3){
+    
+    counterLV++;
     //before uint8_t val2 as a m_lvVal
     m_lvVolt = val1;
     m_lvTemp = val3;
-
-    emit lvTempChanged();
-    emit lvVoltChanged();
-}
-
-// Set HV temp,volt value and emit Property, without prescaler
-void CarStatus::setHVStatus(uint8_t id, uint8_t valVolt1, uint8_t valVolt2, uint8_t valVolt3, uint8_t valTemp1, uint8_t valTemp2){
-    if(id == 0x01){
-        m_hvVolt = ((valVolt1 << 16) + (valVolt2 << 8) + valVolt3 ) / 1000;
-        emit hvVoltChanged();
-        m_hvTemp = ((valTemp1 << 8) + valTemp2 ) / 10;
-        
-        emit hvTempChanged();
+    
+    if(counterLV >= LVPrescaler){
+        counterLV = 0;
+        emit lvTempChanged();
+        emit lvVoltChanged();
     }
 }
 
+// Set HV temp,volt value and emit Property, without prescaler
+void CarStatus::setHVStatus(uint8_t id, uint8_t val1, uint8_t val2, uint8_t val3, uint8_t val4, uint8_t val5, uint8_t val6, uint8_t val7){
+    if(id == 0x01){
+        m_hvVolt = ((val1 << 16) + (val2 << 8) + val3 ) / 1000;
+        // i due byte dopo sono max e min
+        emit hvVoltChanged();
+    }
+    if(id == 0x0A){
+        m_hvTemp = ((val1 << 8) + val2 ) / 10;
+        // i due byte dopo sono max e min
+        emit hvTempChanged();
+    }
+    if(id == 0x05){
+        m_velocity = ((val4 << 8) + val5) / 1000;        
+        emit velocityChanged();        
+    }
+}
 // Set the value for the Pump 
 void CarStatus::changePump(int pumpID) {
 
@@ -470,6 +508,9 @@ int CarStatus::throttleVal() const {
 }
 int CarStatus::speed() const {
     return m_speed;
+}
+int CarStatus::km() const {
+    return m_km;
 }
 int CarStatus::invSxTemp() const {
     return m_invSxTemp;
