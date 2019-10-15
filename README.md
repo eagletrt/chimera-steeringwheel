@@ -1,38 +1,29 @@
-# Telemetry Project 
+# Steering Wheel Project 
 
-## Volante
+## Repository Description 
 
-### Descrizione del Repository 
+In this repository you can find the source code of our steering wheel.
 
-In questa cartella sono contenuti tutti i file per far girare l'interfaccia del volante. 
-Questa funziona in due modalità:
+The project is divided in 2 version: 
 
-* **Desktop**: compilata per PC Desktop (architettura x86), serve per il debug, per il testing e per la prototipazione veloce, anche quando non dovesse essere disponibile il Raspberry. 
-* **Embedded**: cross-compilata per Raspberry Pi 3/Zero W, viene compilata sul PC Host (il desktop) e poi mandata al Raspberry via SCP dove viene lanciato l'eseguibile (per piattaforma ARM). 
+* **Desktop**: is compiled for Desktop (Linux x86), and is used to the development part, to test and introduce new feature. This version used different `.cpp` files that you can find in the `.pro` file. In order to work without wiringpi we mapped the input and use the keyboard also for the inteface to comunicate with the car through can-utils we virtualized the interface.
 
-**ATTENZIONE**: L'eseguibile compilato per ARM ***non funziona*** su macchina Intel/AMD x86, è necessario inviarla alla scheda e quindi eseguirla in quel contesto.
+* **Embedded**: is compiled for arm using this [guide](https://eagletrt.github.io/volanteCrosscompilazione.html) and is sended via SSH to the target device. 
+
+## Cross Compile for Taget Device
+
+### Stop the process
 
 ```sh
 $ ssh root@eaglepi
 $ kill -9 "pid"
 ```
 
-Infine per compilare e mandare l'eseguibile
+### Compile for the Steering Wheel
 
 ```sh
-$ ./rasp_deploy.sh
+$ ./chimera-deploy.sh
 ```
 
-### Descrizione Tecnica 
 
-### Usage Simulatore Sensori
 
-Assicurarsi di avere entrambe le cartelle SimulatoreSensori e Volante nella stessa directory. Sia SimulatoreSensori che Volante devono contenere una cartella build.
-Entrare nella cartella SimulatoreSensori ed eseguire `deploy.sh`
-```sh
-$ cd SimulatoreSensori
-$ ./deploy.sh
-```
-Dopo la compilazione si aprirá l'interfaccia del simulatore sensori. Per impostare i valori dei sensori utilizzare la parte sinistra dell'applicazione. Per navigare l'interfaccia del volante utilizzare i bottoni che si trovano nella parte destra dell'applicazione.
-
-## Muretto
