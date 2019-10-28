@@ -118,8 +118,7 @@ class CarStatus : public QObject
         void setHVStatus(uint8_t id,uint8_t val1,uint8_t val2,uint8_t val3,uint8_t val4,uint8_t val5,uint8_t val6,uint8_t val7);
         void setLVStatus(uint8_t val1, uint8_t val3);
 
-        bool enableTelemetry(int index);
-        bool disableTelemetry(int index);
+        bool setTelemetry(int index, bool value);
 
     private:
         static int getBit(unsigned char seq, int index);
@@ -192,16 +191,7 @@ class CarStatus : public QObject
         int invLeftPrescaler;
         int counterInvLeft;
 
-        //Telemetry variables
-        bool bms_hv;
-        bool bms_lv;
-        bool gps;
-        bool imu_gyro;
-        bool imu_axel;
-        bool front_wheel_encoder;
-        bool steering_wheel_encoder;
-        bool throttle;
-        bool brake;
+        bool telemetry[12];
 
     signals:
         void tempChanged(int temperature);

@@ -3,7 +3,6 @@ import QtQuick.Layouts 1.3
 
 Rectangle{
     id: root
-    color: "transparent"
 
     property var text
     property var selected
@@ -12,40 +11,45 @@ Rectangle{
 
     FontLoader {id:blackops; source: "../lib/blops.ttf"}
 
-    border.color: root.selected == 1 ? "green" : "#000000"
+    //border.color: root.selected == 1 ? "lightgrey" : "#000000"
     radius: root.selected == 1 ? "10" : "0"
+    color: root.selected == 1 ? "lightgrey" : "transparent"
 
-    ColumnLayout{
-        spacing: 0
-        anchors.fill: parent
-
-        Rectangle{
+            Rectangle{
             color: "transparent"
             width: parent.width
-            height: parent.height/2
+            height: parent.height
+            anchors.centerIn: parent
 
             Rectangle{
                 color: activated == 1 ? "green" : "lightgrey"
                 radius: 100
                 anchors.centerIn: parent
-                height: parent.height
-                width: parent.height
+                height: parent.height-10
+                width: parent.height-10
             }
-        }
-
-        Rectangle{
-            color: "transparent"
-            width: parent.width
-            height: parent.height/2
-
+            
             Text {
                 text: root.text
                 anchors.centerIn: parent
                 font.family: blackops.name
                 font.pointSize: 4.5
-                color: "#ffffff"
+                color: "#000000"
             }
         }
-    }
+
+        // Rectangle{
+        //     color: "transparent"
+        //     width: parent.width
+        //     height: parent.height/2
+
+        //     Text {
+        //         text: root.text
+        //         anchors.centerIn: parent
+        //         font.family: blackops.name
+        //         font.pointSize: 4.5
+        //         color: "#ffffff"
+        //     }
+        // }
 
 }

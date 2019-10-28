@@ -12,12 +12,10 @@ Rectangle{
     property var btnClickable: false
 
     function connect() {
-       // console.log("Tab connessa - Telemetry");
        menu.btnClicked.connect(btnClickedHandler);
     }
 
     function disconnect() {
-       // console.log("Tab disconnessa - Telemetry");
        menu.btnClicked.disconnect(btnClickedHandler);
     }
 
@@ -39,14 +37,8 @@ Rectangle{
         telemetrySelectedIndex = index;
     }
 
-    function enableTelemetry(index) {
-      telemetry.setProperty(index, "mactivated", 1);
-      //console.log("Tring activating index: " + index);
-      //console.log("activated----> " + isActivated(index))
-    }
-
-    function disableTelemetry(index) {
-      telemetry.setProperty(index, "mactivated", 0);
+    function setTelemetry(index, value) {
+        telemetry.setProperty(index, "mactivated",value);
     }
 
     function isEnabled(index) {
@@ -66,12 +58,12 @@ Rectangle{
           if(tabView.stepIntoTab) {
             //console.log(telemetrySelectedIndex);
             if(!isEnabled(telemetrySelectedIndex)) {
-              if(CarStatus.enableTelemetry(telemetrySelectedIndex)){
-                enableTelemetry(telemetrySelectedIndex);
+              if(CarStatus.setTelemetry(telemetrySelectedIndex,1)){
+                setTelemetry(telemetrySelectedIndex,1);
               }
             } else {
-              if(CarStatus.disableTelemetry(telemetrySelectedIndex)){
-                disableTelemetry(telemetrySelectedIndex);
+              if(CarStatus.setTelemetry(telemetrySelectedIndex,0)){
+                setTelemetry(telemetrySelectedIndex,0);
               }
             }
           }           
@@ -116,13 +108,13 @@ Rectangle{
         id: telemetry
 
         ListElement{
-            mtext: qsTr("bms hv")
+            mtext: qsTr("hv")
             mindex:0
             mselected: 0
             mactivated: 0
         }
         ListElement{
-            mtext: qsTr("bms lv")
+            mtext: qsTr("lv")
             mindex:1
             mselected: 0
             mactivated: 0
@@ -134,55 +126,55 @@ Rectangle{
             mactivated: 0
         }
         ListElement{
-            mtext: qsTr("imu gyro")
+            mtext: qsTr("imugy")
             mindex:3
             mselected: 0
             mactivated: 0
         }
         ListElement{
-            mtext: qsTr("imu axel")
+            mtext: qsTr("imuax")
             mindex:4
             mselected: 0
             mactivated: 0
         }
         ListElement{
-            mtext: qsTr("front w e")
+            mtext: qsTr("frntw")
             mindex:5
             mselected: 0
             mactivated: 0
         }
         ListElement{
-            mtext: qsTr("steering w e")
+            mtext: qsTr("str")
             mindex:6
             mselected: 0
             mactivated: 0
         }
         ListElement{
-            mtext: qsTr("throttle")
+            mtext: qsTr("thr")
             mindex:7
             mselected: 0
             mactivated: 0
         }
         ListElement{
-            mtext: qsTr("brake")
+            mtext: qsTr("brk")
             mindex:8
             mselected: 0
             mactivated: 0
         }
         ListElement{
-            mtext: qsTr("Elemento")
+            mtext: qsTr("DB")
             mindex:9
             mselected: 0
             mactivated: 0
         }
         ListElement{
-            mtext: qsTr("Elemento")
+            mtext: qsTr("mqtt")
             mindex:10
             mselected: 0
             mactivated: 0
         }
         ListElement{
-            mtext: qsTr("Elemento")
+            mtext: qsTr("")
             mindex:11
             mselected: 0
             mactivated: 0

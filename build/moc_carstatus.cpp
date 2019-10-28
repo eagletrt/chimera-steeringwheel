@@ -23,7 +23,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_CarStatus_t {
     QByteArrayData data[91];
-    char stringdata0[1008];
+    char stringdata0[994];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -98,31 +98,31 @@ QT_MOC_LITERAL(62, 748, 4), // "val5"
 QT_MOC_LITERAL(63, 753, 4), // "val6"
 QT_MOC_LITERAL(64, 758, 4), // "val7"
 QT_MOC_LITERAL(65, 763, 11), // "setLVStatus"
-QT_MOC_LITERAL(66, 775, 15), // "enableTelemetry"
-QT_MOC_LITERAL(67, 791, 5), // "index"
-QT_MOC_LITERAL(68, 797, 16), // "disableTelemetry"
-QT_MOC_LITERAL(69, 814, 9), // "CANStatus"
-QT_MOC_LITERAL(70, 824, 8), // "HVStatus"
-QT_MOC_LITERAL(71, 833, 9), // "ERRStatus"
-QT_MOC_LITERAL(72, 843, 11), // "CTRLEnabled"
-QT_MOC_LITERAL(73, 855, 10), // "APPSStatus"
-QT_MOC_LITERAL(74, 866, 10), // "QList<int>"
-QT_MOC_LITERAL(75, 877, 9), // "BSEStatus"
-QT_MOC_LITERAL(76, 887, 11), // "STEERStatus"
-QT_MOC_LITERAL(77, 899, 8), // "velocity"
-QT_MOC_LITERAL(78, 908, 6), // "preset"
-QT_MOC_LITERAL(79, 915, 4), // "pump"
-QT_MOC_LITERAL(80, 920, 9), // "carStatus"
-QT_MOC_LITERAL(81, 930, 9), // "invSxTemp"
-QT_MOC_LITERAL(82, 940, 9), // "invDxTemp"
-QT_MOC_LITERAL(83, 950, 6), // "hvTemp"
-QT_MOC_LITERAL(84, 957, 6), // "lvTemp"
-QT_MOC_LITERAL(85, 964, 6), // "hvVolt"
-QT_MOC_LITERAL(86, 971, 6), // "lvVolt"
-QT_MOC_LITERAL(87, 978, 5), // "speed"
-QT_MOC_LITERAL(88, 984, 2), // "km"
-QT_MOC_LITERAL(89, 987, 8), // "brakeVal"
-QT_MOC_LITERAL(90, 996, 11) // "throttleVal"
+QT_MOC_LITERAL(66, 775, 12), // "setTelemetry"
+QT_MOC_LITERAL(67, 788, 5), // "index"
+QT_MOC_LITERAL(68, 794, 5), // "value"
+QT_MOC_LITERAL(69, 800, 9), // "CANStatus"
+QT_MOC_LITERAL(70, 810, 8), // "HVStatus"
+QT_MOC_LITERAL(71, 819, 9), // "ERRStatus"
+QT_MOC_LITERAL(72, 829, 11), // "CTRLEnabled"
+QT_MOC_LITERAL(73, 841, 10), // "APPSStatus"
+QT_MOC_LITERAL(74, 852, 10), // "QList<int>"
+QT_MOC_LITERAL(75, 863, 9), // "BSEStatus"
+QT_MOC_LITERAL(76, 873, 11), // "STEERStatus"
+QT_MOC_LITERAL(77, 885, 8), // "velocity"
+QT_MOC_LITERAL(78, 894, 6), // "preset"
+QT_MOC_LITERAL(79, 901, 4), // "pump"
+QT_MOC_LITERAL(80, 906, 9), // "carStatus"
+QT_MOC_LITERAL(81, 916, 9), // "invSxTemp"
+QT_MOC_LITERAL(82, 926, 9), // "invDxTemp"
+QT_MOC_LITERAL(83, 936, 6), // "hvTemp"
+QT_MOC_LITERAL(84, 943, 6), // "lvTemp"
+QT_MOC_LITERAL(85, 950, 6), // "hvVolt"
+QT_MOC_LITERAL(86, 957, 6), // "lvVolt"
+QT_MOC_LITERAL(87, 964, 5), // "speed"
+QT_MOC_LITERAL(88, 970, 2), // "km"
+QT_MOC_LITERAL(89, 973, 8), // "brakeVal"
+QT_MOC_LITERAL(90, 982, 11) // "throttleVal"
 
     },
     "CarStatus\0tempChanged\0\0temperature\0"
@@ -146,14 +146,13 @@ QT_MOC_LITERAL(90, 996, 11) // "throttleVal"
     "meter2\0setPedalsPrescaler\0setThrottle\0"
     "val\0setBrake\0stopMessage\0inverter\0"
     "setHVStatus\0uint8_t\0val3\0val4\0val5\0"
-    "val6\0val7\0setLVStatus\0enableTelemetry\0"
-    "index\0disableTelemetry\0CANStatus\0"
-    "HVStatus\0ERRStatus\0CTRLEnabled\0"
-    "APPSStatus\0QList<int>\0BSEStatus\0"
-    "STEERStatus\0velocity\0preset\0pump\0"
-    "carStatus\0invSxTemp\0invDxTemp\0hvTemp\0"
-    "lvTemp\0hvVolt\0lvVolt\0speed\0km\0brakeVal\0"
-    "throttleVal"
+    "val6\0val7\0setLVStatus\0setTelemetry\0"
+    "index\0value\0CANStatus\0HVStatus\0ERRStatus\0"
+    "CTRLEnabled\0APPSStatus\0QList<int>\0"
+    "BSEStatus\0STEERStatus\0velocity\0preset\0"
+    "pump\0carStatus\0invSxTemp\0invDxTemp\0"
+    "hvTemp\0lvTemp\0hvVolt\0lvVolt\0speed\0km\0"
+    "brakeVal\0throttleVal"
 };
 #undef QT_MOC_LITERAL
 
@@ -163,60 +162,59 @@ static const uint qt_meta_data_CarStatus[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      44,   14, // methods
-      23,  346, // properties
+      43,   14, // methods
+      23,  340, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
       27,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,  234,    2, 0x06 /* Public */,
-       4,    1,  237,    2, 0x06 /* Public */,
-       6,    4,  240,    2, 0x06 /* Public */,
-      11,    0,  249,    2, 0x06 /* Public */,
-      12,    0,  250,    2, 0x06 /* Public */,
-      13,    0,  251,    2, 0x06 /* Public */,
-      14,    0,  252,    2, 0x06 /* Public */,
-      15,    0,  253,    2, 0x06 /* Public */,
-      16,    0,  254,    2, 0x06 /* Public */,
-      17,    0,  255,    2, 0x06 /* Public */,
-      18,    0,  256,    2, 0x06 /* Public */,
-      19,    0,  257,    2, 0x06 /* Public */,
-      20,    0,  258,    2, 0x06 /* Public */,
-      21,    0,  259,    2, 0x06 /* Public */,
-      22,    0,  260,    2, 0x06 /* Public */,
-      23,    0,  261,    2, 0x06 /* Public */,
-      24,    0,  262,    2, 0x06 /* Public */,
-      25,    0,  263,    2, 0x06 /* Public */,
-      26,    0,  264,    2, 0x06 /* Public */,
-      27,    0,  265,    2, 0x06 /* Public */,
-      28,    0,  266,    2, 0x06 /* Public */,
-      29,    0,  267,    2, 0x06 /* Public */,
-      30,    0,  268,    2, 0x06 /* Public */,
-      31,    0,  269,    2, 0x06 /* Public */,
-      32,    0,  270,    2, 0x06 /* Public */,
-      33,    0,  271,    2, 0x06 /* Public */,
-      34,    0,  272,    2, 0x06 /* Public */,
+       1,    1,  229,    2, 0x06 /* Public */,
+       4,    1,  232,    2, 0x06 /* Public */,
+       6,    4,  235,    2, 0x06 /* Public */,
+      11,    0,  244,    2, 0x06 /* Public */,
+      12,    0,  245,    2, 0x06 /* Public */,
+      13,    0,  246,    2, 0x06 /* Public */,
+      14,    0,  247,    2, 0x06 /* Public */,
+      15,    0,  248,    2, 0x06 /* Public */,
+      16,    0,  249,    2, 0x06 /* Public */,
+      17,    0,  250,    2, 0x06 /* Public */,
+      18,    0,  251,    2, 0x06 /* Public */,
+      19,    0,  252,    2, 0x06 /* Public */,
+      20,    0,  253,    2, 0x06 /* Public */,
+      21,    0,  254,    2, 0x06 /* Public */,
+      22,    0,  255,    2, 0x06 /* Public */,
+      23,    0,  256,    2, 0x06 /* Public */,
+      24,    0,  257,    2, 0x06 /* Public */,
+      25,    0,  258,    2, 0x06 /* Public */,
+      26,    0,  259,    2, 0x06 /* Public */,
+      27,    0,  260,    2, 0x06 /* Public */,
+      28,    0,  261,    2, 0x06 /* Public */,
+      29,    0,  262,    2, 0x06 /* Public */,
+      30,    0,  263,    2, 0x06 /* Public */,
+      31,    0,  264,    2, 0x06 /* Public */,
+      32,    0,  265,    2, 0x06 /* Public */,
+      33,    0,  266,    2, 0x06 /* Public */,
+      34,    0,  267,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      35,    0,  273,    2, 0x0a /* Public */,
-      36,    0,  274,    2, 0x0a /* Public */,
-      37,    0,  275,    2, 0x0a /* Public */,
-      38,    1,  276,    2, 0x0a /* Public */,
-      40,    1,  279,    2, 0x0a /* Public */,
-      42,    2,  282,    2, 0x0a /* Public */,
-      45,    2,  287,    2, 0x0a /* Public */,
-      46,    4,  292,    2, 0x0a /* Public */,
-      49,    2,  301,    2, 0x0a /* Public */,
-      52,    1,  306,    2, 0x0a /* Public */,
-      53,    1,  309,    2, 0x0a /* Public */,
-      55,    1,  312,    2, 0x0a /* Public */,
-      56,    1,  315,    2, 0x0a /* Public */,
-      58,    8,  318,    2, 0x0a /* Public */,
-      65,    2,  335,    2, 0x0a /* Public */,
-      66,    1,  340,    2, 0x0a /* Public */,
-      68,    1,  343,    2, 0x0a /* Public */,
+      35,    0,  268,    2, 0x0a /* Public */,
+      36,    0,  269,    2, 0x0a /* Public */,
+      37,    0,  270,    2, 0x0a /* Public */,
+      38,    1,  271,    2, 0x0a /* Public */,
+      40,    1,  274,    2, 0x0a /* Public */,
+      42,    2,  277,    2, 0x0a /* Public */,
+      45,    2,  282,    2, 0x0a /* Public */,
+      46,    4,  287,    2, 0x0a /* Public */,
+      49,    2,  296,    2, 0x0a /* Public */,
+      52,    1,  301,    2, 0x0a /* Public */,
+      53,    1,  304,    2, 0x0a /* Public */,
+      55,    1,  307,    2, 0x0a /* Public */,
+      56,    1,  310,    2, 0x0a /* Public */,
+      58,    8,  313,    2, 0x0a /* Public */,
+      65,    2,  330,    2, 0x0a /* Public */,
+      66,    2,  335,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Int,    3,
@@ -263,8 +261,7 @@ static const uint qt_meta_data_CarStatus[] = {
     QMetaType::Void, QMetaType::Int,   57,
     QMetaType::Void, 0x80000000 | 59, 0x80000000 | 59, 0x80000000 | 59, 0x80000000 | 59, 0x80000000 | 59, 0x80000000 | 59, 0x80000000 | 59, 0x80000000 | 59,   47,   43,   44,   60,   61,   62,   63,   64,
     QMetaType::Void, 0x80000000 | 59, 0x80000000 | 59,   43,   60,
-    QMetaType::Bool, QMetaType::Int,   67,
-    QMetaType::Bool, QMetaType::Int,   67,
+    QMetaType::Bool, QMetaType::Int, QMetaType::Bool,   67,   68,
 
  // properties: name, type, flags
       69, QMetaType::QString, 0x00495001,
@@ -370,9 +367,7 @@ void CarStatus::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         case 39: _t->stopMessage((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 40: _t->setHVStatus((*reinterpret_cast< uint8_t(*)>(_a[1])),(*reinterpret_cast< uint8_t(*)>(_a[2])),(*reinterpret_cast< uint8_t(*)>(_a[3])),(*reinterpret_cast< uint8_t(*)>(_a[4])),(*reinterpret_cast< uint8_t(*)>(_a[5])),(*reinterpret_cast< uint8_t(*)>(_a[6])),(*reinterpret_cast< uint8_t(*)>(_a[7])),(*reinterpret_cast< uint8_t(*)>(_a[8]))); break;
         case 41: _t->setLVStatus((*reinterpret_cast< uint8_t(*)>(_a[1])),(*reinterpret_cast< uint8_t(*)>(_a[2]))); break;
-        case 42: { bool _r = _t->enableTelemetry((*reinterpret_cast< int(*)>(_a[1])));
-            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
-        case 43: { bool _r = _t->disableTelemetry((*reinterpret_cast< int(*)>(_a[1])));
+        case 42: { bool _r = _t->setTelemetry((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
         default: ;
         }
@@ -643,13 +638,13 @@ int CarStatus::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 44)
+        if (_id < 43)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 44;
+        _id -= 43;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 44)
+        if (_id < 43)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 44;
+        _id -= 43;
     }
 #ifndef QT_NO_PROPERTIES
     else if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty
