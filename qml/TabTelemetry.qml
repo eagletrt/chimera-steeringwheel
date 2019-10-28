@@ -6,39 +6,77 @@ Rectangle{
     anchors.fill: parent
     color: "#000000"
 
-    Component{
-        id: telemetryDelegate
+    FontLoader {id:blackops; source: "../lib/blops.ttf"}
 
-        ColumnLayout{
-            spacing: 0
-            width: root.width/4
-            height: root.height/3
+    property var telemetrySelectedIndex: -1
+    property var btnClickable: false
 
-            Rectangle{
-                color: "transparent"
-                width: parent.width
-                height: parent.height/2
+    function connect() {
+       // console.log("Tab connessa - Telemetry");
+       menu.btnClicked.connect(btnClickedHandler);
+    }
 
-                Rectangle{
-                    color: "lightgrey"
-                    radius: 100
-                    anchors.centerIn: parent
-                    height: parent.height
-                    width: parent.height //makes it a circle
-                }
-            }
+    function disconnect() {
+       // console.log("Tab disconnessa - Telemetry");
+       menu.btnClicked.disconnect(btnClickedHandler);
+    }
 
-            Rectangle{
-                color: "transparent"
-                width: parent.width
-                height: parent.height/2
+    function unSelectTelemetry() {
+        if (telemetrySelectedIndex != -1) {
+            telemetry.setProperty(telemetrySelectedIndex, "mselected", 0);
+        }
+    }
 
-                Text {
-                    text: name
-                    anchors.centerIn: parent
-                    color: "#ffffff"
-                }
-            }
+   function selectTelemetry(index) {
+        if (telemetrySelectedIndex != -1) {
+            telemetry.setProperty(telemetrySelectedIndex, "mselected", 0);
+        }
+
+        index = index % 12;
+
+        telemetry.setProperty(index, "mselected", 1);
+        console.log("-----> SELECT TELEMETRY INDEX" + index);
+        telemetrySelectedIndex = index;
+    }
+
+    function btnClickedHandler(btnID) {
+        if (btnID == 0) {
+           if (tabView.stepIntoTab) {
+              mainwindow.canSwitchPage = true;
+              tabView.stepIntoTab = false;
+           }
+        }
+        if (btnID == 2) {
+           // Step into this tab and change the behaviour of btnID
+           if (!tabView.stepIntoTab) {
+              // Set the button clickable
+              btnClickable = true;
+
+              // Select the first entry of the SensorsList
+              selectTelemetry(0);
+              // Prevent the button 0 to switch to Racing Page!
+              tabView.stepIntoTab = true;
+              mainwindow.canSwitchPage = false;
+
+           } else {
+               // Loop through sensors
+               selectTelemetry(telemetrySelectedIndex + 1);
+           }
+        }
+    }
+
+    GridView{
+        id: grid
+        anchors.fill: parent
+        cellWidth: root.width/4
+        cellHeight: root.height/3
+        model: telemetry
+        delegate: TelemetryStatus {
+            text: mtext
+            index: mindex
+            selected: mselected
+            height: parent.height/3
+            width: parent.width/4
         }
     }
 
@@ -46,48 +84,64 @@ Rectangle{
         id: telemetry
 
         ListElement{
-            name: qsTr("Elemento")
+            mtext: qsTr("Elemento")
+            mindex:0
+            mselected: 0
         }
         ListElement{
-            name: qsTr("Elemento")
+            mtext: qsTr("Elemento")
+            mindex:1
+            mselected: 0
         }
         ListElement{
-            name: qsTr("Elemento")
+            mtext: qsTr("Elemento")
+            mindex:2
+            mselected: 0
         }
         ListElement{
-            name: qsTr("Elemento")
+            mtext: qsTr("Elemento")
+            mindex:3
+            mselected: 0
         }
         ListElement{
-            name: qsTr("Elemento")
+            mtext: qsTr("Elemento")
+            mindex:4
+            mselected: 0
         }
         ListElement{
-            name: qsTr("Elemento")
+            mtext: qsTr("Elemento")
+            mindex:5
+            mselected: 0
         }
         ListElement{
-            name: qsTr("Elemento")
+            mtext: qsTr("Elemento")
+            mindex:6
+            mselected: 0
         }
         ListElement{
-            name: qsTr("Elemento")
+            mtext: qsTr("Elemento")
+            mindex:7
+            mselected: 0
         }
         ListElement{
-            name: qsTr("Elemento")
+            mtext: qsTr("Elemento")
+            mindex:8
+            mselected: 0
         }
         ListElement{
-            name: qsTr("Elemento")
+            mtext: qsTr("Elemento")
+            mindex:9
+            mselected: 0
         }
         ListElement{
-            name: qsTr("Elemento")
+            mtext: qsTr("Elemento")
+            mindex:10
+            mselected: 0
         }
         ListElement{
-            name: qsTr("Elemento")
+            mtext: qsTr("Elemento")
+            mindex:11
+            mselected: 0
         }
-    }
-
-    GridView{
-        anchors.fill: parent
-        cellWidth: root.width/4
-        cellHeight: root.height/3
-        model: telemetry
-        delegate: telemetryDelegate
     }
 }

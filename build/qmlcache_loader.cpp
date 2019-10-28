@@ -5,7 +5,7 @@
 static const unsigned char qt_resource_tree[] = {
 0,
 0,0,0,0,2,0,0,0,1,0,0,0,1,0,0,0,
-8,0,2,0,0,0,26,0,0,0,2,0,0,2,240,0,
+8,0,2,0,0,0,28,0,0,0,2,0,0,3,22,0,
 0,0,0,0,1,0,0,0,0,0,0,2,144,0,0,0,
 0,0,1,0,0,0,0,0,0,0,248,0,0,0,0,0,
 1,0,0,0,0,0,0,1,24,0,0,0,0,0,1,0,
@@ -15,20 +15,22 @@ static const unsigned char qt_resource_tree[] = {
 82,0,0,0,0,0,1,0,0,0,0,0,0,0,190,0,
 0,0,0,0,1,0,0,0,0,0,0,1,244,0,0,0,
 0,0,1,0,0,0,0,0,0,1,62,0,0,0,0,0,
-1,0,0,0,0,0,0,0,226,0,0,0,0,0,1,0,
-0,0,0,0,0,2,62,0,0,0,0,0,1,0,0,0,
-0,0,0,1,124,0,0,0,0,0,1,0,0,0,0,0,
-0,1,96,0,0,0,0,0,1,0,0,0,0,0,0,3,
-4,0,0,0,0,0,1,0,0,0,0,0,0,1,216,0,
+1,0,0,0,0,0,0,3,76,0,0,0,0,0,1,0,
+0,0,0,0,0,0,226,0,0,0,0,0,1,0,0,0,
+0,0,0,2,62,0,0,0,0,0,1,0,0,0,0,0,
+0,1,124,0,0,0,0,0,1,0,0,0,0,0,0,1,
+96,0,0,0,0,0,1,0,0,0,0,0,0,3,42,0,
+0,0,0,0,1,0,0,0,0,0,0,1,216,0,0,0,
+0,0,1,0,0,0,0,0,0,2,242,0,0,0,0,0,
+1,0,0,0,0,0,0,2,178,0,0,0,0,0,1,0,
+0,0,0,0,0,2,114,0,0,0,0,0,1,0,0,0,
+0,0,0,2,88,0,0,0,0,0,1,0,0,0,0,0,
+0,0,56,0,0,0,0,0,1,0,0,0,0,0,0,1,
+188,0,0,0,0,0,1,0,0,0,0,0,0,1,158,0,
 0,0,0,0,1,0,0,0,0,0,0,2,204,0,0,0,
-0,0,1,0,0,0,0,0,0,2,178,0,0,0,0,0,
-1,0,0,0,0,0,0,2,114,0,0,0,0,0,1,0,
-0,0,0,0,0,2,88,0,0,0,0,0,1,0,0,0,
-0,0,0,0,56,0,0,0,0,0,1,0,0,0,0,0,
-0,1,188,0,0,0,0,0,1,0,0,0,0,0,0,1,
-158,0,0,0,0,0,1,0,0,0,0,0,0,0,152,0,
-0,0,0,0,1,0,0,0,0,0,0,3,38,0,0,0,
-0,0,1,0,0,0,0};
+0,0,1,0,0,0,0,0,0,0,152,0,0,0,0,0,
+1,0,0,0,0,0,0,3,120,0,0,0,0,0,1,0,
+0,0,0};
 static const unsigned char qt_resource_names[] = {
 0,
 1,0,0,0,47,0,47,0,3,0,0,120,60,0,113,0,
@@ -75,21 +77,32 @@ static const unsigned char qt_resource_names[] = {
 14,2,77,89,252,0,84,0,97,0,98,0,66,0,97,0,
 116,0,116,0,101,0,114,0,121,0,46,0,113,0,109,0,
 108,0,10,9,205,169,188,0,80,0,114,0,101,0,115,0,
-101,0,116,0,46,0,113,0,109,0,108,0,15,9,81,201,
-156,0,83,0,116,0,97,0,116,0,117,0,115,0,70,0,
-114,0,97,0,109,0,101,0,46,0,113,0,109,0,108,0,
-7,0,151,88,156,0,76,0,69,0,68,0,46,0,113,0,
-109,0,108,0,14,8,152,218,252,0,82,0,97,0,99,0,
-105,0,110,0,103,0,80,0,97,0,103,0,101,0,46,0,
-113,0,109,0,108,0,13,15,45,4,92,0,84,0,97,0,
-98,0,83,0,116,0,97,0,116,0,117,0,115,0,46,0,
-113,0,109,0,108};
+101,0,116,0,46,0,113,0,109,0,108,0,16,14,16,78,
+92,0,84,0,97,0,98,0,84,0,101,0,108,0,101,0,
+109,0,101,0,116,0,114,0,121,0,46,0,113,0,109,0,
+108,0,15,9,81,201,156,0,83,0,116,0,97,0,116,0,
+117,0,115,0,70,0,114,0,97,0,109,0,101,0,46,0,
+113,0,109,0,108,0,7,0,151,88,156,0,76,0,69,0,
+68,0,46,0,113,0,109,0,108,0,14,8,152,218,252,0,
+82,0,97,0,99,0,105,0,110,0,103,0,80,0,97,0,
+103,0,101,0,46,0,113,0,109,0,108,0,19,7,244,16,
+220,0,84,0,101,0,108,0,101,0,109,0,101,0,116,0,
+114,0,121,0,83,0,116,0,97,0,116,0,117,0,115,0,
+46,0,113,0,109,0,108,0,13,15,45,4,92,0,84,0,
+97,0,98,0,83,0,116,0,97,0,116,0,117,0,115,0,
+46,0,113,0,109,0,108};
 static const unsigned char qt_resource_empty_payout[] = { 0, 0, 0, 0, 0 };
 QT_BEGIN_NAMESPACE
 extern Q_CORE_EXPORT bool qRegisterResourceData(int, const unsigned char *, const unsigned char *, const unsigned char *);
 QT_END_NAMESPACE
 namespace QmlCacheGeneratedCode {
 namespace _qml_TabStatus_qml { 
+    extern const unsigned char qmlData[];
+    const QQmlPrivate::CachedQmlUnit unit = {
+        reinterpret_cast<const QV4::CompiledData::Unit*>(&qmlData), nullptr, nullptr
+    };
+}
+namespace _qml_TelemetryStatus_qml { 
     extern const unsigned char qmlData[];
     const QQmlPrivate::CachedQmlUnit unit = {
         reinterpret_cast<const QV4::CompiledData::Unit*>(&qmlData), nullptr, nullptr
@@ -108,6 +121,12 @@ namespace _qml_LED_qml {
     };
 }
 namespace _qml_StatusFrame_qml { 
+    extern const unsigned char qmlData[];
+    const QQmlPrivate::CachedQmlUnit unit = {
+        reinterpret_cast<const QV4::CompiledData::Unit*>(&qmlData), nullptr, nullptr
+    };
+}
+namespace _qml_TabTelemetry_qml { 
     extern const unsigned char qmlData[];
     const QQmlPrivate::CachedQmlUnit unit = {
         reinterpret_cast<const QV4::CompiledData::Unit*>(&qmlData), nullptr, nullptr
@@ -260,9 +279,11 @@ Q_GLOBAL_STATIC(Registry, unitRegistry)
 
 Registry::Registry() {
         resourcePathToCachedUnit.insert(QStringLiteral("/qml/TabStatus.qml"), &QmlCacheGeneratedCode::_qml_TabStatus_qml::unit);
+        resourcePathToCachedUnit.insert(QStringLiteral("/qml/TelemetryStatus.qml"), &QmlCacheGeneratedCode::_qml_TelemetryStatus_qml::unit);
         resourcePathToCachedUnit.insert(QStringLiteral("/qml/RacingPage.qml"), &QmlCacheGeneratedCode::_qml_RacingPage_qml::unit);
         resourcePathToCachedUnit.insert(QStringLiteral("/qml/LED.qml"), &QmlCacheGeneratedCode::_qml_LED_qml::unit);
         resourcePathToCachedUnit.insert(QStringLiteral("/qml/StatusFrame.qml"), &QmlCacheGeneratedCode::_qml_StatusFrame_qml::unit);
+        resourcePathToCachedUnit.insert(QStringLiteral("/qml/TabTelemetry.qml"), &QmlCacheGeneratedCode::_qml_TabTelemetry_qml::unit);
         resourcePathToCachedUnit.insert(QStringLiteral("/qml/Preset.qml"), &QmlCacheGeneratedCode::_qml_Preset_qml::unit);
         resourcePathToCachedUnit.insert(QStringLiteral("/qml/TabBattery.qml"), &QmlCacheGeneratedCode::_qml_TabBattery_qml::unit);
         resourcePathToCachedUnit.insert(QStringLiteral("/qml/LabelLED.qml"), &QmlCacheGeneratedCode::_qml_LabelLED_qml::unit);
