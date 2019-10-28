@@ -1,9 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>qml/main.qml</file>
-
         <file>lib/blops.ttf</file>
-
         <file>qml/RacingPage.qml</file>
         <file>qml/Pedali.qml</file>
         <file>qml/SpeedGauge.qml</file>
@@ -17,7 +15,6 @@
         <file>qml/MenuPage.qml</file>
         <file>qml/CANStatusLED.qml</file>
         <file>qml/HVStatusLED.qml</file>
-
         <file>qml/HVFrame.qml</file>
         <file>qml/LVFrame.qml</file>
         <file>qml/StatusFrame.qml</file>
@@ -30,17 +27,14 @@
         <file>qml/TabBattery.qml</file>
         <file>qml/TabErrors.qml</file>
         <file>qml/LED.qml</file>
-
         <file>img/HV.png</file>
         <file>img/LV.png</file>
-
         <file>img/radio_na.png</file>
         <file>img/radio.png</file>
         <file>img/run.png</file>
         <file>img/idle.png</file>
         <file>img/stop.png</file>
         <file>img/setup.png</file>
-
         <file>img/hv0.png</file>
         <file>img/hv1.png</file>
         <file>img/hv2.png</file>
@@ -57,7 +51,6 @@
         <file>img/hv13.png</file>
         <file>img/hv14.png</file>
         <file>img/hv15.png</file>
-
         <file>img/lv0.png</file>
         <file>img/lv1.png</file>
         <file>img/lv2.png</file>
@@ -74,7 +67,6 @@
         <file>img/lv13.png</file>
         <file>img/lv14.png</file>
         <file>img/lv15.png</file>
-
         <file>img/t1.png</file>
         <file>img/t2.png</file>
         <file>img/t3.png</file>
@@ -85,7 +77,6 @@
         <file>img/t8.png</file>
         <file>img/t9.png</file>
         <file>img/t10.png</file>
-
         <file>img/b1.png</file>
         <file>img/b2.png</file>
         <file>img/b3.png</file>
@@ -96,5 +87,6 @@
         <file>img/b8.png</file>
         <file>img/b9.png</file>
         <file>img/b10.png</file>
+        <file>qml/TabTelemetry.qml</file>
     </qresource>
 </RCC>

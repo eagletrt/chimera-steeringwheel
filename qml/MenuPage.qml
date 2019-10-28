@@ -59,7 +59,7 @@ Rectangle {
             }
 
             if (tabView.currentIndex == 0) {
-              tabView.currentIndex = 5;
+              tabView.currentIndex = 6;
             } else {
               tabView.currentIndex--;
             }
@@ -75,7 +75,7 @@ Rectangle {
               tabView.getTab(tabView.currentIndex).children[0].disconnect();
             }
 
-            if (tabView.currentIndex == 5) {
+            if (tabView.currentIndex == 6) {
               tabView.currentIndex = 0;
             } else {
               tabView.currentIndex++;
@@ -92,6 +92,10 @@ Rectangle {
     Tab {
       TabErrors {
       }
+    }
+    Tab{
+        TabTelemetry{
+        }
     }
     Tab {
       TabStatus {
@@ -119,7 +123,7 @@ Rectangle {
         color: styleData.selected ? "lightgray" : "black" //#2266FF
         border.color: styleData.selected ? "black" : "lightgray"
         border.width:  0.5
-        implicitWidth: tabView.width/6
+        implicitWidth: tabView.width/7
         implicitHeight:  5
         y: 0
         Text {
