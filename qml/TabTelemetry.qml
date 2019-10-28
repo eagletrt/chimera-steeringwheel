@@ -35,8 +35,22 @@ Rectangle{
         index = index % 12;
 
         telemetry.setProperty(index, "mselected", 1);
-        console.log("-----> SELECT TELEMETRY INDEX" + index);
+        //console.log("-----> SELECT TELEMETRY INDEX" + index);
         telemetrySelectedIndex = index;
+    }
+
+    function enableTelemetry(index) {
+      telemetry.setProperty(index, "mactivated", 1);
+      //console.log("Tring activating index: " + index);
+      //console.log("activated----> " + isActivated(index))
+    }
+
+    function disableTelemetry(index) {
+      telemetry.setProperty(index, "mactivated", 0);
+    }
+
+    function isEnabled(index) {
+      return telemetry.get(index).mactivated
     }
 
     function btnClickedHandler(btnID) {
@@ -44,8 +58,25 @@ Rectangle{
            if (tabView.stepIntoTab) {
               mainwindow.canSwitchPage = true;
               tabView.stepIntoTab = false;
+              unSelectTelemetry();
            }
         }
+
+        if (btnID == 1) {
+          if(tabView.stepIntoTab) {
+            //console.log(telemetrySelectedIndex);
+            if(!isEnabled(telemetrySelectedIndex)) {
+              if(CarStatus.enableTelemetry(telemetrySelectedIndex)){
+                enableTelemetry(telemetrySelectedIndex);
+              }
+            } else {
+              if(CarStatus.disableTelemetry(telemetrySelectedIndex)){
+                disableTelemetry(telemetrySelectedIndex);
+              }
+            }
+          }           
+        }
+
         if (btnID == 2) {
            // Step into this tab and change the behaviour of btnID
            if (!tabView.stepIntoTab) {
@@ -75,6 +106,7 @@ Rectangle{
             text: mtext
             index: mindex
             selected: mselected
+            activated: mactivated
             height: parent.height/3
             width: parent.width/4
         }
@@ -84,64 +116,76 @@ Rectangle{
         id: telemetry
 
         ListElement{
-            mtext: qsTr("Elemento")
+            mtext: qsTr("bms hv")
             mindex:0
             mselected: 0
+            mactivated: 0
         }
         ListElement{
-            mtext: qsTr("Elemento")
+            mtext: qsTr("bms lv")
             mindex:1
             mselected: 0
+            mactivated: 0
         }
         ListElement{
-            mtext: qsTr("Elemento")
+            mtext: qsTr("gps")
             mindex:2
             mselected: 0
+            mactivated: 0
         }
         ListElement{
-            mtext: qsTr("Elemento")
+            mtext: qsTr("imu gyro")
             mindex:3
             mselected: 0
+            mactivated: 0
         }
         ListElement{
-            mtext: qsTr("Elemento")
+            mtext: qsTr("imu axel")
             mindex:4
             mselected: 0
+            mactivated: 0
         }
         ListElement{
-            mtext: qsTr("Elemento")
+            mtext: qsTr("front w e")
             mindex:5
             mselected: 0
+            mactivated: 0
         }
         ListElement{
-            mtext: qsTr("Elemento")
+            mtext: qsTr("steering w e")
             mindex:6
             mselected: 0
+            mactivated: 0
         }
         ListElement{
-            mtext: qsTr("Elemento")
+            mtext: qsTr("throttle")
             mindex:7
             mselected: 0
+            mactivated: 0
         }
         ListElement{
-            mtext: qsTr("Elemento")
+            mtext: qsTr("brake")
             mindex:8
             mselected: 0
+            mactivated: 0
         }
         ListElement{
             mtext: qsTr("Elemento")
             mindex:9
             mselected: 0
+            mactivated: 0
         }
         ListElement{
             mtext: qsTr("Elemento")
             mindex:10
             mselected: 0
+            mactivated: 0
         }
         ListElement{
             mtext: qsTr("Elemento")
             mindex:11
             mselected: 0
+            mactivated: 0
         }
     }
 }

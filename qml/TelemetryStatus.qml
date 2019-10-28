@@ -8,11 +8,12 @@ Rectangle{
     property var text
     property var selected
     property var index
+    property var activated
 
     FontLoader {id:blackops; source: "../lib/blops.ttf"}
 
     border.color: root.selected == 1 ? "green" : "#000000"
-    radius: root.selected == 1 ? "20" : "0"
+    radius: root.selected == 1 ? "10" : "0"
 
     ColumnLayout{
         spacing: 0
@@ -24,7 +25,7 @@ Rectangle{
             height: parent.height/2
 
             Rectangle{
-                color: selected == 1 ? "green" : "lightgrey"
+                color: activated == 1 ? "green" : "lightgrey"
                 radius: 100
                 anchors.centerIn: parent
                 height: parent.height

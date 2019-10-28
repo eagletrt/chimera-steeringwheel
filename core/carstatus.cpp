@@ -544,3 +544,106 @@ CarStatus::~CarStatus() {
     qDebug() << "Closing CarStatus...";
 }
 
+bool CarStatus::enableTelemetry(int index) {
+    bool ret = false;
+    switch(index){
+        case 0: {
+            bms_hv = true; 
+            ret = true;
+            break;
+        }
+        case 1: {
+            bms_lv = true; 
+            ret = true;
+            break;
+        }
+        case 2: {
+            gps = true;
+            ret = true; 
+            break;
+        }
+        case 3: {
+            imu_gyro = true;
+            ret = true; 
+            break;
+        }
+        case 4: {
+            imu_axel = true;
+            ret = true; 
+            break;
+        }
+        case 5: {
+            front_wheel_encoder = true; 
+            ret = true;
+            break;
+        }
+        case 6: {
+            steering_wheel_encoder = true; 
+            ret = true;
+            break;
+        }
+        case 7: {
+            throttle = true; 
+            ret = true;
+            break;
+        }
+        case 8: {
+            brake = true; 
+            ret = true;
+            break;
+        }
+    }
+    return ret;
+}
+
+bool CarStatus::disableTelemetry(int index) {
+    bool ret = false;
+    switch(index){
+        case 0: {
+            bms_hv = false; 
+            ret = true;
+            break;
+        }
+        case 1: {
+            bms_lv = false; 
+            ret = true;
+            break;
+        }
+        case 2: {
+            gps = false;
+            ret = true; 
+            break;
+        }
+        case 3: {
+            imu_gyro = false;
+            ret = true; 
+            break;
+        }
+        case 4: {
+            imu_axel = false;
+            ret = true; 
+            break;
+        }
+        case 5: {
+            front_wheel_encoder = false; 
+            ret = true;
+            break;
+        }
+        case 6: {
+            steering_wheel_encoder = false; 
+            ret = true;
+            break;
+        }
+        case 7: {
+            throttle = false; 
+            ret = true;
+            break;
+        }
+        case 8: {
+            brake = false; 
+            ret = true;
+            break;
+        }
+    }
+    return ret;
+}
