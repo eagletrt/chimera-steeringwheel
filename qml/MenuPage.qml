@@ -93,10 +93,6 @@ Rectangle {
       TabErrors {
       }
     }
-    Tab{
-        TabTelemetry{
-        }
-    }
     Tab {
       TabStatus {
       }
@@ -117,6 +113,11 @@ Rectangle {
       TabBattery {
       }
     }
+    Tab{
+      TabTelemetry{
+      }
+    }
+    
     style: TabViewStyle {
       frameOverlap: 0
       tab: Rectangle {
