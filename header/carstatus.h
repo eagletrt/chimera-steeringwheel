@@ -121,7 +121,7 @@ class CarStatus : public QObject
         void setHVStatus(uint8_t id,uint8_t val1,uint8_t val2,uint8_t val3,uint8_t val4,uint8_t val5,uint8_t val6,uint8_t val7);
         void setLVStatus(uint8_t val1, uint8_t val3);
 
-        bool setTelemetry(int index, bool value);
+        bool setTelemetry(int index);
 
     private:
         static int getBit(unsigned char seq, int index);

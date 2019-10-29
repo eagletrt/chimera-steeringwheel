@@ -72,12 +72,11 @@ CarStatus::CarStatus() {
     for(int i = 0 ; i < 12; i++){
         telemetry[i] = 2;
     }
+
+    //Here only for example
     telemetry[0] = 0;
     telemetry[1] = 1;
     telemetry[2] = 2;
-    telemetry[3] = 3;
-
-
 
 }
 
@@ -537,10 +536,10 @@ int CarStatus::toggleCtrl() {
     return -1;
 }
 
-bool CarStatus::setTelemetry(int index, bool value) {
+bool CarStatus::setTelemetry(int index) {
     bool ret = false;
-    if(index >= 0 && index < 12){
-        telemetry[index] = value;
+    if(index >= 0 && index < 11){
+        telemetry[index] = (telemetry[index]++) % 3;
         ret = true;
     }
     return ret;

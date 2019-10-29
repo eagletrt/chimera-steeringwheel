@@ -5,15 +5,18 @@ Rectangle {
     id: root
     color: "#000000"
 
-    state: "DEFAULT"
+    state: "2" //DEFAULT
 
     FontLoader {id:blackops; source: "../lib/blops.ttf"}
 
     property var text
+    property var selected
     
     Rectangle{
         id: row
         color: "transparent"
+        border.color: selected == 1 ? "lightgrey" : "transparent"
+        radius: selected == 1 ? "5" : "0"
         width: parent.width
         height: parent.height
         anchors.centerIn: parent
@@ -39,21 +42,21 @@ Rectangle {
 
     states: [
         State {
-            name: "OFFLINE"
+            name: "0" //OFFLINE
             PropertyChanges {
                 target: led
                 color: "red"
             }
         },
         State {
-            name: "ONLINE"
+            name: "1" //ONLINE
             PropertyChanges {
                 target: led
                 color: "green"
             }
         },
         State {
-            name: "DEFAULT"
+            name: "2" //DEFAULT
             PropertyChanges {
                 target: led;
                 color: "transparent";
@@ -61,18 +64,6 @@ Rectangle {
             PropertyChanges {
                 target: sensor;
                 color: "lightgrey";
-            }
-        },     
-        State {
-            name: "SELECTED"
-            PropertyChanges {
-                target: led;
-                border.color: "green"
-                color: "trasnparent";
-            }   
-            PropertyChanges {
-                target: sensor;
-                color: "green";
             }
         }
     ]
