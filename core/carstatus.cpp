@@ -70,8 +70,15 @@ CarStatus::CarStatus() {
     counterInvLeft = 0;
     
     for(int i = 0 ; i < 12; i++){
-        telemetry[i] = true;
+        telemetry[i] = 2;
     }
+    telemetry[0] = 0;
+    telemetry[1] = 1;
+    telemetry[2] = 2;
+    telemetry[3] = 3;
+
+
+
 }
 
 // Set Left Inverter Temperature and emit Property
@@ -237,6 +244,22 @@ QString CarStatus::CANStatus() const {
                                        QString::number(m_lv),
                                        QString::number(m_hv));
 }
+// Return Telemetry Status value
+QString CarStatus::TelemetryStatus() const {
+    qDebug() << "Asked Telemetry Status";
+    QString telemetryText =  QString::number(telemetry[0])+
+                    QString::number(telemetry[1])+
+                    QString::number(telemetry[2])+
+                    QString::number(telemetry[3])+
+                    QString::number(telemetry[4])+
+                    QString::number(telemetry[5])+
+                    QString::number(telemetry[6])+
+                    QString::number(telemetry[7])+
+                    QString::number(telemetry[8])+
+                    QString::number(telemetry[9])+
+                    QString::number(telemetry[10]);
+    return telemetryText;
+}
 
 // Return HV Status value
 QString CarStatus::HVStatus() const {
@@ -352,6 +375,31 @@ void CarStatus::setCANStatus(int invr,
     m_pedals = pedals;
 
     emit CANStatusChanged();
+}
+void CarStatus::setTelemetryStatus(int bms_hv,
+                                    int bms_lv,
+                                    int gps,
+                                    int imu_gyro,
+                                    int imu_axel,
+                                    int front_wheel_encoder,
+                                    int steering,
+                                    int throttle,
+                                    int brake,
+                                    int db,
+                                    int mqtt) {
+    telemetry[0] = bms_hv;
+    telemetry[1] = bms_lv;
+    telemetry[2] = gps;
+    telemetry[3] = imu_gyro;
+    telemetry[4] = imu_axel;
+    telemetry[5] = front_wheel_encoder;
+    telemetry[6] = steering;
+    telemetry[7] = throttle;
+    telemetry[8] = brake;
+    telemetry[9] = db;
+    telemetry[10]= mqtt;
+
+    emit TelemetryStatusChanged();
 }
 
 void CarStatus::stopMessage(int inverter){
@@ -489,6 +537,14 @@ int CarStatus::toggleCtrl() {
     return -1;
 }
 
+bool CarStatus::setTelemetry(int index, bool value) {
+    bool ret = false;
+    if(index >= 0 && index < 12){
+        telemetry[index] = value;
+        ret = true;
+    }
+    return ret;
+}
 
 /*
     Functions to return all the m_values
@@ -541,15 +597,6 @@ int CarStatus::warning() const {
 }
 int CarStatus::error() const {
     return m_error;
-}
-
-bool CarStatus::setTelemetry(int index, bool value) {
-    bool ret = false;
-    if(index >= 0 && index < 12){
-        telemetry[index] = value;
-        ret = true;
-    }
-    return ret;
 }
 
 // Destroy, BOOM!

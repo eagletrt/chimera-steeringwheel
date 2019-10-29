@@ -643,6 +643,22 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
       
       break;
 
+      case TELEMETRY:
+         if(msg.at(1) == 0xF){
+            carStatus->setTelemetryStatus((msg.at(2) >> 7) & 1,
+                           (msg.at(2) >> 6) & 1,
+                           (msg.at(2) >> 5) & 1,
+                           (msg.at(2) >> 4) & 1,
+                           (msg.at(2) >> 3) & 1,
+                           (msg.at(2) >> 2) & 1,
+                           (msg.at(2) >> 1) & 1,
+                           (msg.at(2) >> 0) & 1,
+                           (msg.at(3) >> 7) & 1,
+                           (msg.at(3) >> 6) & 1,
+                           (msg.at(3) >> 5) & 1);
+         }
+      break;
+
    };
 }
 

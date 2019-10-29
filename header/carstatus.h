@@ -16,6 +16,7 @@ class CarStatus : public QObject
     Q_OBJECT
 
     Q_PROPERTY(QString CANStatus READ CANStatus NOTIFY CANStatusChanged)
+    Q_PROPERTY(QString TelemetryStatus READ TelemetryStatus NOTIFY TelemetryStatusChanged)
     Q_PROPERTY(QString HVStatus READ HVStatus NOTIFY HVStatusChanged)
     Q_PROPERTY(QString ERRStatus READ ERRStatus NOTIFY ERRStatusChanged)
     Q_PROPERTY(QString CTRLEnabled READ CTRLEnabled NOTIFY CTRLEnabledChanged)
@@ -52,6 +53,7 @@ class CarStatus : public QObject
         const int LOOP_THROUGH_PUMPS = -1;
 
         QString CANStatus() const;
+        QString TelemetryStatus() const;
         QString HVStatus() const;
         QString ERRStatus() const;
         QList<int> APPSStatus() const;
@@ -66,6 +68,7 @@ class CarStatus : public QObject
         void setHVStatus(int invRight, int invLeft, int preCharge);
         void setCarStatus(int, int, int, int, int);
         void setCANStatus(int, int, int, int, int, int, int, int);
+        void setTelemetryStatus(int, int, int, int, int, int, int, int, int, int, int);
         void setERRStatus(int, int, int, int, int, int, int, int, int);
         void setAPPSBSEStatus(int, int);
         void setSTEERStatus(int);
@@ -178,6 +181,9 @@ class CarStatus : public QObject
         int m_brakeVal;
         int m_throttleVal;
 
+        QString firstTelemetry;
+        QString secondTelemetry;
+
         int speedPrescaler;
         int pedalsPrescaler;
         int counterSpeed;
@@ -191,7 +197,7 @@ class CarStatus : public QObject
         int invLeftPrescaler;
         int counterInvLeft;
 
-        bool telemetry[12];
+        int telemetry[12];
 
     signals:
         void tempChanged(int temperature);
@@ -205,6 +211,7 @@ class CarStatus : public QObject
 
         void HVStatusChanged();
         void CANStatusChanged();
+        void TelemetryStatusChanged();
         void ERRStatusChanged();
         void APPSStatusChanged();
         void BSEStatusChanged();

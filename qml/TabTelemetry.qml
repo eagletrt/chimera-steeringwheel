@@ -10,6 +10,32 @@ Rectangle{
 
     property var telemetrySelectedIndex: -1
     property var btnClickable: false
+    property var telemetrystatus: CarStatus.TelemetryStatus
+    property var ledStates: ['OFFLINE','ONLINE', 'DEFAULT', 'SELECTED']
+    property var telemetryLeds: [
+    ["HV", 'DEFAULT'],
+    ["LV", 'DEFAULT'],
+    ["GPS", 'DEFAULT'],
+    ["IMUGY", 'DEFAULT'],
+    ["IMUAX", 'DEFAULT'],
+    ["FRNTW", 'DEFAULT'],
+    ["STR", 'DEFAULT'],
+    ["THR", 'DEFAULT'],
+    ["BRK", 'DEFAULT'],
+    ["DB", 'DEFAULT'],
+    ["MQTT", 'DEFAULT']
+    ] 
+   
+    onTelemetrystatusChanged: {
+      // console.log("Cambiato lo stato di Telemetry da CAN");
+      var newTelemetryLeds = telemetryLeds;
+
+      for (var i=0; i < telemetrystatus.length; i++) {
+         newTelemetryLeds[i][1] = ledStates[telemetrystatus[i]];
+      }
+
+      telemetryLeds = newTelemetryLeds;
+    }
 
     function connect() {
        menu.btnClicked.connect(btnClickedHandler);
@@ -25,7 +51,7 @@ Rectangle{
         }
     }
 
-   function selectTelemetry(index) {
+    function selectTelemetry(index) {
         if (telemetrySelectedIndex != -1) {
             telemetry.setProperty(telemetrySelectedIndex, "mselected", 0);
         }
@@ -88,96 +114,23 @@ Rectangle{
         }
     }
 
-    GridView{
+    GridLayout{
         id: grid
+        columns: 4
+        rows: 4         
+        columnSpacing: 2
+        rowSpacing: 1
         anchors.fill: parent
-        cellWidth: root.width/4
-        cellHeight: root.height/3
-        model: telemetry
-        delegate: TelemetryStatus {
-            text: mtext
-            index: mindex
-            selected: mselected
-            activated: mactivated
-            height: parent.height/3
-            width: parent.width/4
+        
+        Repeater{
+            model: telemetryLeds
+            delegate: TelemetryStatusLED {
+                text: modelData[0]
+                state: modelData[1]
+                height: parent.height/3
+                width: parent.width/4
+            }
         }
-    }
-
-    ListModel{
-        id: telemetry
-
-        ListElement{
-            mtext: qsTr("hv")
-            mindex:0
-            mselected: 0
-            mactivated: 0
-        }
-        ListElement{
-            mtext: qsTr("lv")
-            mindex:1
-            mselected: 0
-            mactivated: 0
-        }
-        ListElement{
-            mtext: qsTr("gps")
-            mindex:2
-            mselected: 0
-            mactivated: 0
-        }
-        ListElement{
-            mtext: qsTr("imugy")
-            mindex:3
-            mselected: 0
-            mactivated: 0
-        }
-        ListElement{
-            mtext: qsTr("imuax")
-            mindex:4
-            mselected: 0
-            mactivated: 0
-        }
-        ListElement{
-            mtext: qsTr("frntw")
-            mindex:5
-            mselected: 0
-            mactivated: 0
-        }
-        ListElement{
-            mtext: qsTr("str")
-            mindex:6
-            mselected: 0
-            mactivated: 0
-        }
-        ListElement{
-            mtext: qsTr("thr")
-            mindex:7
-            mselected: 0
-            mactivated: 0
-        }
-        ListElement{
-            mtext: qsTr("brk")
-            mindex:8
-            mselected: 0
-            mactivated: 0
-        }
-        ListElement{
-            mtext: qsTr("DB")
-            mindex:9
-            mselected: 0
-            mactivated: 0
-        }
-        ListElement{
-            mtext: qsTr("mqtt")
-            mindex:10
-            mselected: 0
-            mactivated: 0
-        }
-        ListElement{
-            mtext: qsTr("")
-            mindex:11
-            mselected: 0
-            mactivated: 0
-        }
-    }
+        
+    }    
 }

@@ -15,28 +15,28 @@ Rectangle{
     radius: root.selected == 1 ? "10" : "0"
     color: root.selected == 1 ? "lightgrey" : "transparent"
 
-            Rectangle{
-            color: "transparent"
-            width: parent.width
-            height: parent.height
-            anchors.centerIn: parent
+    Rectangle{
+        color: "transparent"
+        width: parent.width
+        height: parent.height
+        anchors.centerIn: parent
 
-            Rectangle{
-                color: activated == 1 ? "green" : "lightgrey"
-                radius: 100
-                anchors.centerIn: parent
-                height: parent.height-10
-                width: parent.height-10
-            }
-            
-            Text {
-                text: root.text
-                anchors.centerIn: parent
-                font.family: blackops.name
-                font.pointSize: 4.5
-                color: "#000000"
-            }
+        Rectangle{
+            color: activated == 1 ? "green" : "lightgrey"
+            radius: 100
+            anchors.centerIn: parent
+            height: parent.height-10
+            width: parent.height-10
         }
+        
+        Text {
+            text: root.text
+            anchors.centerIn: parent
+            font.family: blackops.name
+            font.pointSize: 4.5
+            color: "#000000"
+        }
+    }
 
         // Rectangle{
         //     color: "transparent"

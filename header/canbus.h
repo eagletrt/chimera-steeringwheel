@@ -33,6 +33,7 @@
 #define ASK_BATTERY_STATUS      0xEE
 #define CHANGE_EXEC_MODE_ID     0xEF
 #define MARKER                  0xAB
+#define TELEMETRY               0xAB
 
 //NEW DEFINE FOR VARANO 2018
 #define STEERING_WHEEL_ID       0xA0
