@@ -119,6 +119,7 @@ class Canbus : public QObject
         void steerConnected();
         void askStatus();
         void sendEncState();
+        void sendTelemetry();
         void askSetupOrIdle(int);
         void PWMCheck();
 };

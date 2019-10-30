@@ -120,7 +120,8 @@ class CarStatus : public QObject
         void stopMessage(int inverter);
         void setHVStatus(uint8_t id,uint8_t val1,uint8_t val2,uint8_t val3,uint8_t val4,uint8_t val5,uint8_t val6,uint8_t val7);
         void setLVStatus(uint8_t val1, uint8_t val3);
-
+        
+        QByteArray getTelemetryStatus();
         bool setTelemetry(int index);
 
     private:

@@ -72,7 +72,6 @@ CarStatus::CarStatus() {
     for(int i = 0 ; i < 12; i++){
         telemetry[i] = 2;
     }
-
 }
 
 // Set Left Inverter Temperature and emit Property
@@ -239,6 +238,7 @@ QString CarStatus::CANStatus() const {
                                        QString::number(m_hv));
 }
 // Return Telemetry Status value
+
 QString CarStatus::TelemetryStatus() const {
     qDebug() << "Asked Telemetry Status";
     QString telemetryText =  QString::number(telemetry[0])+
@@ -253,6 +253,24 @@ QString CarStatus::TelemetryStatus() const {
                     QString::number(telemetry[9])+
                     QString::number(telemetry[10]);
     return telemetryText;
+}
+
+QByteArray CarStatus::getTelemetryStatus() {
+    qDebug() << "--> getTelemetryStatus";
+    QByteArray t;
+    t.resize(8);
+    t[1] = telemetry[0] + 
+            (telemetry[1] << 1) + 
+            (telemetry[3] << 2) +
+            (telemetry[4] << 3) +
+            (telemetry[5] << 4) +
+            (telemetry[6] << 5) +
+            (telemetry[7] << 6);
+    t[2] = telemetry[8] +
+            (telemetry[9] << 1) + 
+            (telemetry[10] << 2);
+    qDebug() << "t[1] = " << t[1] << "t[2] = " << t[2];    
+    return t;
 }
 
 // Return HV Status value

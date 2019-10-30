@@ -10,7 +10,7 @@ Canbus::Canbus(CarStatus* m_carStatus) {
 
    QString errorString;
    device = QCanBus::instance()->createDevice(
-      QStringLiteral("socketcan"), QStringLiteral("can0"), &errorString);
+      QStringLiteral("socketcan"), QStringLiteral("vcan0"), &errorString);
       if (!device)
          qDebug() << "NO CAN!";
       else
@@ -67,13 +67,19 @@ void Canbus::steerConnected() {
 void Canbus::sendMarker(){
    QByteArray marker;
    marker.resize(8);
-   // marker[0] = 1;
-   // marker[0] = mappa;
-   // marker[1] = pompe;
-   // marker[2] = controllo;
-   // marker[3] = status;
 
    sendCanMessage(MARKER,marker);
+}
+
+// Send Status to Telemetry
+void Canbus::sendTelemetry(){
+   qDebug() << "-> sendTelemetry";
+   QByteArray telemetry;
+   telemetry.resize(8);
+   telemetry = carStatus->getTelemetryStatus();
+   qDebug() << "---> sendingTelemetryStatus";
+   qDebug() << "telemetry[1] = " << telemetry[1] << "telemetry[2] = " << telemetry[2];    
+   sendCanMessage(TELEMETRY,telemetry);
 }
 
 // Send to ECU msg for pump state
@@ -380,6 +386,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
          if (msg.at(0) == 0x02){
 
             carStatus->setBrake(msg.at(1));
+            qDebug() << "------>Brake received" << msg.at(1);
          
          }else{//0x01 probabilmente
             
@@ -625,7 +632,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
          if (msg.at(3) == 0xF) {
             
             carStatus->setStateOfCharge(msg.at(4));
-            
+         
          }
       break;
 
@@ -644,18 +651,18 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
       break;
 
       case TELEMETRY:
-         if(msg.at(1) == 0xF){
-            carStatus->setTelemetryStatus((msg.at(2) >> 7) & 1,
+         if(msg.at(0) == 0xF){
+            carStatus->setTelemetryStatus((msg.at(1) >> 7) & 1,
+                           (msg.at(1) >> 6) & 1,
+                           (msg.at(1) >> 5) & 1,
+                           (msg.at(1) >> 4) & 1,
+                           (msg.at(1) >> 3) & 1,
+                           (msg.at(1) >> 2) & 1,
+                           (msg.at(1) >> 1) & 1,
+                           (msg.at(1) >> 0) & 1,
+                           (msg.at(2) >> 7) & 1,
                            (msg.at(2) >> 6) & 1,
-                           (msg.at(2) >> 5) & 1,
-                           (msg.at(2) >> 4) & 1,
-                           (msg.at(2) >> 3) & 1,
-                           (msg.at(2) >> 2) & 1,
-                           (msg.at(2) >> 1) & 1,
-                           (msg.at(2) >> 0) & 1,
-                           (msg.at(3) >> 7) & 1,
-                           (msg.at(3) >> 6) & 1,
-                           (msg.at(3) >> 5) & 1);
+                           (msg.at(2) >> 5) & 1);
          }
       break;
 

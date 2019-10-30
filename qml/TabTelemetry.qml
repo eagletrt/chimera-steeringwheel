@@ -103,9 +103,14 @@ Rectangle{
               mainwindow.canSwitchPage = false;
 
            } else {
-               // Loop through sensors
-               selectTelemetry(telemetrySelectedIndex + 1);
+              // Loop through sensors
+              selectTelemetry(telemetrySelectedIndex + 1);
            }
+        }
+        if (btnID == 3){
+          // Send config to Telemetry
+          console.log("sendTelemetry")
+          CAN.sendTelemetry();
         }
     }
 
