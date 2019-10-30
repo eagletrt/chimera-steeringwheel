@@ -73,11 +73,6 @@ CarStatus::CarStatus() {
         telemetry[i] = 2;
     }
 
-    //Here only for example
-    telemetry[0] = 0;
-    telemetry[1] = 1;
-    telemetry[2] = 2;
-
 }
 
 // Set Left Inverter Temperature and emit Property
@@ -544,6 +539,7 @@ bool CarStatus::setTelemetry(int index) {
     }
     return ret;
 }
+
 
 /*
     Functions to return all the m_values

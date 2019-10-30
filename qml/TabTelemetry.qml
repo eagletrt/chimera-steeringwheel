@@ -80,12 +80,12 @@ Rectangle{
            }
         }
 
+        //Change status of the selected item
         if (btnID == 1) {
           if(tabView.stepIntoTab) {
-            //console.log(telemetrySelectedIndex);            
+            //If status of the selected item changed then change qml interface too             
             if(CarStatus.setTelemetry(telemetrySelectedIndex)){
-              setTelemetry(telemetrySelectedIndex);
-              //console.log("Settata " + telemetrySelectedIndex);              
+              setTelemetry(telemetrySelectedIndex);           
             }
           }            
         }           
