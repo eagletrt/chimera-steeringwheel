@@ -261,14 +261,15 @@ QByteArray CarStatus::getTelemetryStatus() {
     t.resize(8);
     t[1] = telemetry[0] + 
             (telemetry[1] << 1) + 
-            (telemetry[3] << 2) +
-            (telemetry[4] << 3) +
-            (telemetry[5] << 4) +
-            (telemetry[6] << 5) +
-            (telemetry[7] << 6);
-    t[2] = telemetry[8] +
-            (telemetry[9] << 1) + 
-            (telemetry[10] << 2);
+            (telemetry[2] << 2) +
+            (telemetry[3] << 3) +
+            (telemetry[4] << 4) +
+            (telemetry[5] << 5) +
+            (telemetry[6] << 6);
+    t[2] = telemetry[7] +
+            (telemetry[8] << 1) + 
+            (telemetry[9] << 2) +
+            (telemetry[10] << 3);
     qDebug() << "t[1] = " << t[1] << "t[2] = " << t[2];    
     return t;
 }
@@ -552,7 +553,7 @@ int CarStatus::toggleCtrl() {
 bool CarStatus::setTelemetry(int index) {
     bool ret = false;
     if(index >= 0 && index < 11){
-        telemetry[index] = (telemetry[index]++) % 3;
+        telemetry[index] = (telemetry[index] + 1) % 3;
         ret = true;
     }
     return ret;
