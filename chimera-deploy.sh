@@ -13,7 +13,12 @@ DEPLOY_TARGET_DIR=/home/pi
 if [ ! "$(ls -A $RASP_PI_ROOT )" ]; then
     echo "E' Vuota!"
     #94208 98304 è variabile
-    sudo mount -o loop,offset=$((512 * 94208)) $RASP_PI_IMAGE $RASP_PI_ROOT
+    #Da parametrizzare usando gli array con $USER e block size (maggiore scalabilità)
+    if ["$USER" == "lucagump"]; then
+        sudo mount -o loop,offset=$((512 * 94208)) $RASP_PI_IMAGE $RASP_PI_ROOT
+    else 
+        sudo mount -o loop,offset=$((512 * 532480)) $RASP_PI_IMAGE $RASP_PI_ROOT
+    fi
 fi
 
 if [ ! "$( ls -A $BUILD_DIR)" ]; then
