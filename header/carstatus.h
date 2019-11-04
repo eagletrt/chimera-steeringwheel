@@ -103,6 +103,8 @@ class CarStatus : public QObject
         int brakeVal() const;
         int throttleVal() const;
 
+        bool getSender();
+
     public slots:
         int toggleCtrl();
         int toggleCarStatus();
@@ -123,6 +125,7 @@ class CarStatus : public QObject
         
         QByteArray getTelemetryStatus();
         bool setTelemetry(int index);
+        void setSender();
 
     private:
         static int getBit(unsigned char seq, int index);
@@ -199,6 +202,7 @@ class CarStatus : public QObject
         int counterInvLeft;
 
         int telemetry[12];
+        bool sender;
 
     signals:
         void tempChanged(int temperature);

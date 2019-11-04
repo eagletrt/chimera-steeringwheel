@@ -107,10 +107,10 @@ Rectangle{
               selectTelemetry(telemetrySelectedIndex + 1);
            }
         }
+
+        //Enable/Disable sendTelemetry
         if (btnID == 3){
-          // Send config to Telemetry
-          console.log("sendTelemetry")
-          CAN.sendTelemetry();
+          CarStatus.setSender();
         }
     }
 

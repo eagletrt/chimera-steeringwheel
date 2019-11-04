@@ -78,13 +78,15 @@ void Canbus::sendMarker(){
 
 // Send Status to Telemetry
 void Canbus::sendTelemetry(){
-   qDebug() << "-> sendTelemetry";
-   QByteArray telemetry;
-   telemetry.resize(8);
-   telemetry = carStatus->getTelemetryStatus();
-   qDebug() << "---> sendingTelemetryStatus";
-   qDebug() << "telemetry[1] = " << telemetry[1] << "telemetry[2] = " << telemetry[2];
-   sendCanMessage(TELEMETRY,telemetry);
+   if(carStatus->getSender()) {
+      qDebug() << "-> sendTelemetry";
+      QByteArray telemetry;
+      telemetry.resize(8);
+      telemetry = carStatus->getTelemetryStatus();
+      qDebug() << "---> sendingTelemetryStatus";
+      qDebug() << "telemetry[1] = " << telemetry[1] << "telemetry[2] = " << telemetry[2];
+      sendCanMessage(TELEMETRY,telemetry);
+   }
 }
 
 // Send to ECU msg for pump state

@@ -72,6 +72,7 @@ CarStatus::CarStatus() {
     for(int i = 0 ; i < 12; i++){
         telemetry[i] = 2;
     }
+    sender = false;
 }
 
 // Set Left Inverter Temperature and emit Property
@@ -272,6 +273,14 @@ QByteArray CarStatus::getTelemetryStatus() {
             (telemetry[10] << 3);
     qDebug() << "t[1] = " << t[1] << "t[2] = " << t[2];    
     return t;
+}
+
+bool CarStatus::getSender() {
+    return sender;
+}
+
+void CarStatus::setSender() {
+    sender == false ? sender = true : sender = false;
 }
 
 // Return HV Status value
