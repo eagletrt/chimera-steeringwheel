@@ -55,7 +55,7 @@ Rectangle{
     function selectTelemetry(index) {
         unSelectTelemetry();
 
-        index = index % 11; //In order to change this, remember to change the
+        index = index % 12; //In order to change this, remember to change the
                             //value in CarStatus::setTelemetry too
 
         //console.log("-----> SELECT TELEMETRY INDEX" + index);

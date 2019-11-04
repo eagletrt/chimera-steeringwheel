@@ -79,12 +79,12 @@ void Canbus::sendMarker(){
 // Send Status to Telemetry
 void Canbus::sendTelemetry(){
    if(carStatus->getSender()) {
-      qDebug() << "-> sendTelemetry";
+      //qDebug() << "-> sendTelemetry";
       QByteArray telemetry;
       telemetry.resize(8);
       telemetry = carStatus->getTelemetryStatus();
-      qDebug() << "---> sendingTelemetryStatus";
-      qDebug() << "telemetry[1] = " << telemetry[1] << "telemetry[2] = " << telemetry[2];
+      //qDebug() << "---> sendingTelemetryStatus";
+      //qDebug() << "telemetry[1] = " << telemetry[1] << "telemetry[2] = " << telemetry[2];
       sendCanMessage(TELEMETRY,telemetry);
    }
 }

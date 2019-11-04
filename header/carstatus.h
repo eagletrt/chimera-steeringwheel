@@ -201,7 +201,7 @@ class CarStatus : public QObject
         int invLeftPrescaler;
         int counterInvLeft;
 
-        int telemetry[12];
+        int telemetry[11];
         bool sender;
 
     signals:
