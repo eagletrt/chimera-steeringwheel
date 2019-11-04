@@ -21,6 +21,7 @@ Canbus::Canbus(CarStatus* m_carStatus) {
    timerSteeringWheel = new QTimer(this);
    timerStatus = new QTimer(this);
    timerEnc = new QTimer(this);
+   timerTelemetry = new QTimer(this);
 
    connect(timerSteeringWheel, SIGNAL(timeout()),
    this, SLOT(steerConnected()));
@@ -30,6 +31,9 @@ Canbus::Canbus(CarStatus* m_carStatus) {
 
    connect(timerStatus, SIGNAL(timeout()),
    this, SLOT(askStatus()));
+
+   connect(timerTelemetry, SIGNAL(timeout()),
+   this, SLOT(sendTelemetry()));
 
    connect(device, SIGNAL(framesReceived()),
    this, SLOT(parseSerial()));
@@ -43,6 +47,7 @@ Canbus::Canbus(CarStatus* m_carStatus) {
    timerEnc->start(500);
    timerSteeringWheel->start(1000);
    timerStatus->start(1000);
+   timerTelemetry->start(33);
 
    invLeftState = -1;
    invRightState = -1;
@@ -78,7 +83,7 @@ void Canbus::sendTelemetry(){
    telemetry.resize(8);
    telemetry = carStatus->getTelemetryStatus();
    qDebug() << "---> sendingTelemetryStatus";
-   qDebug() << "telemetry[1] = " << telemetry[1] << "telemetry[2] = " << telemetry[2];    
+   qDebug() << "telemetry[1] = " << telemetry[1] << "telemetry[2] = " << telemetry[2];
    sendCanMessage(TELEMETRY,telemetry);
 }
 

@@ -90,6 +90,7 @@ class Canbus : public QObject
         QTimer *timerSteeringWheel;
         QTimer *timerStatus;
         QTimer *timerEnc;
+        QTimer *timerTelemetry;
 
         qint64 canID;
         QByteArray canMSG;
