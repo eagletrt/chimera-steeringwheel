@@ -349,6 +349,7 @@ void Canbus::sendCanMessage(int id, QByteArray message) {
    QCanBusFrame frame;
    frame.setFrameId(id);
    frame.setPayload(message);
+   if(id == TELEMETRY) qDebug() << frame.toString();
    device->writeFrame(frame);
 }
 

@@ -257,33 +257,20 @@ QString CarStatus::TelemetryStatus() const {
 }
 
 QByteArray CarStatus::getTelemetryStatus() {
-    qDebug() << "--> getTelemetryStatus";
     QByteArray t;
     t.resize(8);
-    t[1] = (telemetry[0] & 0x00000003) << 6 + 
-           (telemetry[1] & 0x00000003) << 4 +
-           (telemetry[2] & 0x00000003) << 2 +
-           (telemetry[3] & 0x00000003);
-    t[2] = (telemetry[4] & 0x00000003) << 6 + 
-           (telemetry[5] & 0x00000003) << 4 +
-           (telemetry[6] & 0x00000003) << 2 +
-           (telemetry[7] & 0x00000003);
-    t[3] = (telemetry[8] & 0x00000003) << 6 + 
-           (telemetry[9] & 0x00000003) << 4 +
-           (telemetry[10] & 0x00000003) << 2;
-    /*t[1] = telemetry[0] + 
-            (telemetry[1] << 1) + 
-            (telemetry[2] << 2) +
-            (telemetry[3] << 3) +
-            (telemetry[4] << 4) +
-            (telemetry[5] << 5) +
-            (telemetry[6] << 6);
-    t[2] = telemetry[7] +
-            (telemetry[8] << 1) + 
-            (telemetry[9] << 2) +
-            (telemetry[10] << 3);*/
-    //qDebug() << "t[1] = " << t[1] << "t[2] = " << t[2];
-    qDebug() << "test: "<< QString::number(t[1]) << QString::number(telemetry[0]);
+    qDebug() << TelemetryStatus();
+    t[1] = (telemetry[0] << 6) + 
+           (telemetry[1] << 4) +
+           (telemetry[2] << 2) +
+           (telemetry[3]);
+    t[2] = (telemetry[4] << 6) + 
+           (telemetry[5] << 4) +
+           (telemetry[6] << 2) +
+           (telemetry[7]);
+    t[3] = (telemetry[8] << 6) + 
+           (telemetry[9] << 4) +
+           (telemetry[10] << 2);
     return t;
 }
 
@@ -293,6 +280,7 @@ bool CarStatus::getSender() {
 
 void CarStatus::setSender() {
     sender == false ? sender = true : sender = false;
+    qDebug() << "Invio:" << sender;
 }
 
 // Return HV Status value
