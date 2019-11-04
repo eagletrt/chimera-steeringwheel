@@ -53,9 +53,7 @@ Rectangle{
     }
 
     function selectTelemetry(index) {
-        if (telemetrySelectedIndex != -1) {
-            telemetryRepeater.itemAt(telemetrySelectedIndex).selected = 0;
-        }
+        unSelectTelemetry();
 
         index = index % 11; //In order to change this, remember to change the
                             //value in CarStatus::setTelemetry too

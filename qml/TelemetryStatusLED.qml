@@ -61,10 +61,6 @@ Rectangle {
                 target: led;
                 color: "transparent";
             }   
-            PropertyChanges {
-                target: sensor;
-                color: "lightgrey";
-            }
         }
     ]
 }
