@@ -267,6 +267,7 @@ QByteArray CarStatus::getTelemetryStatus() {
     QByteArray t;
     t.resize(8);
     qDebug() << TelemetryStatus();
+    t[0] = 0xF;
     t[1] = (telemetry[0] << 6) + 
            (telemetry[1] << 4) +
            (telemetry[2] << 2) +
@@ -278,6 +279,15 @@ QByteArray CarStatus::getTelemetryStatus() {
     t[3] = (telemetry[8] << 6) + 
            (telemetry[9] << 4) +
            (telemetry[10] << 2);
+    return t;
+}
+
+QByteArray CarStatus::getTelemetryEnabledStatus() {
+    QByteArray t;
+    t.resize(8);
+    qDebug() << "Asking telemetry to set up";
+    t[0] = 0x1;
+    t[1] = telemetryEnStatus << 6;
     return t;
 }
 

@@ -129,6 +129,7 @@ class CarStatus : public QObject
         QByteArray getTelemetryStatus();
         bool setTelemetry(int index);
         void setSender();
+        QByteArray getTelemetryEnabledStatus();
 
     private:
         static int getBit(unsigned char seq, int index);

@@ -89,6 +89,15 @@ void Canbus::sendTelemetry(){
    }
 }
 
+void Canbus::asktelemetry(){
+   if(!carStatus->TelemetryEnabledStatus()){
+      QByteArray telemetry;
+      telemetry.resize(8);
+      telemetry = carStatus->getTelemetryEnabledStatus();
+      sendCanMessage(TELEMETRY, telemetry);
+   }
+}
+
 // Send to ECU msg for pump state
 void Canbus::sendEncState() {
    QByteArray state;

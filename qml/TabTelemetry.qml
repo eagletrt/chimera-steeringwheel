@@ -108,7 +108,7 @@ Rectangle{
 
         //Enable/Disable sendTelemetry
         if (btnID == 3){
-          CarStatus.setSender();
+           CAN.asktelemetry();           
         }
     }
 

@@ -123,6 +123,7 @@ class Canbus : public QObject
         void sendTelemetry();
         void askSetupOrIdle(int);
         void PWMCheck();
+        void asktelemetry();
 };
 
 #endif // CANBUS_H
