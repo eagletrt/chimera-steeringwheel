@@ -73,6 +73,9 @@ CarStatus::CarStatus() {
         telemetry[i] = 2;
     }
     sender = false;
+    // telemetryIsOn = true; 0 1 (2 is setting
+    telemetryEnStatus = 0;
+
 }
 
 // Set Left Inverter Temperature and emit Property
@@ -256,6 +259,10 @@ QString CarStatus::TelemetryStatus() const {
     return telemetryText;
 }
 
+int CarStatus::TelemetryEnabledStatus() const {
+    return telemetryEnStatus;
+}
+
 QByteArray CarStatus::getTelemetryStatus() {
     QByteArray t;
     t.resize(8);
@@ -422,6 +429,11 @@ void CarStatus::setTelemetryStatus(int bms_hv,
     telemetry[10]= mqtt;
 
     emit TelemetryStatusChanged();
+}
+
+void CarStatus::setTelemetryEnabledStatus(int status){
+    telemetryEnStatus = status;
+    emit TelemetryEnabledStatusChanged(status);
 }
 
 void CarStatus::stopMessage(int inverter){

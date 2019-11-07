@@ -4,6 +4,7 @@ Item{
    id: statusframe
 
    property var carStatus : CarStatus.carStatus;
+   property var telemetryenabledstatus: CarStatus.TelemetryEnabledStatus;
    property int statusID: carStatus;
 
    onCarStatusChanged: function() {
@@ -35,6 +36,11 @@ Item{
             stop.opacity = 1;
             break;
       }
+   }
+
+   onTelemetryenabledstatusChanged: {
+      radio.opacity = telemetryenabledstatus;
+      radio_na.opacity= !telemetryenabledstatus;
    }
 
    Image {
