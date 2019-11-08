@@ -38,9 +38,25 @@ Item{
       }
    }
 
-   onTelemetryenabledstatusChanged: {
-      radio.opacity = telemetryenabledstatus;
-      radio_na.opacity= !telemetryenabledstatus;
+   onTelemetryenabledstatusChanged: {  
+      switch(telemetryenabledstatus){
+         case 0: 
+            radio.opacity = 0;
+            radio_na = 1;
+            break;
+         case 1:
+            radio.opacity = 1;
+            radio_na = 0;
+            break;
+         case 2:
+            console.log("LAMPEGGIA");
+            //radio.transitions.star
+            
+            radio.state = "ACTIVE";
+            radio_na.state = "INACTIVE";
+            //radio.state = "INACTIVE";
+            break;
+      }
    }
 
    Image {
@@ -83,5 +99,32 @@ Item{
       source: "../img/radio_na.png"
       opacity: 1
    }
+
+   states: [
+        State {
+            name: "ACTIVE"
+            PropertyChanges { target: radio; opacity: 1}
+            PropertyChanges { target: radio_na; opacity: 1}            
+        },
+        State {
+            name: "INACTIVE"
+            PropertyChanges { target: radio; opacity: 0}
+            PropertyChanges { target: radio_na; opacity: 0}
+        }
+   ]
+   transitions: [
+        Transition {
+            from: "ACTIVE"
+            to: "INACTIVE"
+            ColorAnimation { target: radio; duration: 100}
+            ColorAnimation { target: radio_na; duration: 100}
+        },
+        Transition {
+            from: "INACTIVE"
+            to: "ACTIVE"
+            ColorAnimation { target: radio; duration: 100}
+            ColorAnimation { target: radio_na; duration: 100}
+        }
+   ]
 
 }
