@@ -47,7 +47,7 @@ Item{
             radio_na.opacity = 1;
             break;
          case 1:
-            radio_na.opacity = 1; //for avoiding a bug passing from 1 to 2
+            radio_na.opacity = 0; //for avoiding a bug passing from 1 to 2
             radioAnimation.start();         
             break;
          case 2:
@@ -87,20 +87,18 @@ Item{
    }
 
    Image {
+      id: radio
+      objectName: "radio"
+      source: "../img/radio.png"
+      opacity: 0
+   } 
+
+   Image {
       id: radio_na
       objectName: "radio_na"
       source: "../img/radio_na.png"
       opacity: 1
    }
-
-   Image {
-      id: radio
-      objectName: "radio"
-      source: "../img/radio.png"
-      opacity: 0
-   }   
-
-
 
     SequentialAnimation {
          id: radioAnimation
