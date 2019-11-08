@@ -28,14 +28,11 @@ Rectangle{
     ] 
    
     onTelemetrystatusChanged: {
-      // console.log("Cambiato lo stato di Telemetry da CAN");
-      var newTelemetryLeds = telemetryLeds;
-
-      for (var i=0; i < telemetrystatus.length; i++) {
-         newTelemetryLeds[i][1] = ledStates[telemetrystatus[i]];
+      console.log(telemetrystatus.length);
+      for(var i = 0; i < telemetrystatus.length; i++){
+         telemetryRepeater.itemAt(i).state = telemetrystatus[i];
+         console.log(telemetryRepeater.itemAt(i).state);
       }
-
-      telemetryLeds = newTelemetryLeds;
     }
 
     function connect() {
