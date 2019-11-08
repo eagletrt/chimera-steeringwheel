@@ -39,22 +39,20 @@ Item{
    }
 
    onTelemetryenabledstatusChanged: {  
+      console.log(telemetryenabledstatus);
       switch(telemetryenabledstatus){
-         case 0: 
+         case 0:
+            radioAnimation.stop();
             radio.opacity = 0;
-            radio_na = 1;
+            radio_na.opacity = 1;
             break;
          case 1:
+            radioAnimation.stop();
             radio.opacity = 1;
-            radio_na = 0;
+            radio_na.opacity = 0;
             break;
          case 2:
-            console.log("LAMPEGGIA");
-            //radio.transitions.star
-            
-            radio.state = "ACTIVE";
-            radio_na.state = "INACTIVE";
-            //radio.state = "INACTIVE";
+            radioAnimation.start();         
             break;
       }
    }
@@ -86,12 +84,6 @@ Item{
       source: "../img/setup.png"
       opacity: 0
    }
-   Image {
-      id: radio
-      objectName: "radio"
-      source: "../img/radio.png"
-      opacity: 0
-   }
 
    Image {
       id: radio_na
@@ -100,31 +92,35 @@ Item{
       opacity: 1
    }
 
-   states: [
-        State {
-            name: "ACTIVE"
-            PropertyChanges { target: radio; opacity: 1}
-            PropertyChanges { target: radio_na; opacity: 1}            
-        },
-        State {
-            name: "INACTIVE"
-            PropertyChanges { target: radio; opacity: 0}
-            PropertyChanges { target: radio_na; opacity: 0}
-        }
-   ]
-   transitions: [
-        Transition {
-            from: "ACTIVE"
-            to: "INACTIVE"
-            ColorAnimation { target: radio; duration: 100}
-            ColorAnimation { target: radio_na; duration: 100}
-        },
-        Transition {
-            from: "INACTIVE"
-            to: "ACTIVE"
-            ColorAnimation { target: radio; duration: 100}
-            ColorAnimation { target: radio_na; duration: 100}
-        }
-   ]
+   Image {
+      id: radio
+      objectName: "radio"
+      source: "../img/radio.png"
+      opacity: 0
+   }   
+
+
+
+    SequentialAnimation {
+         id: radioAnimation
+         running: false
+         loops: Animation.Infinite
+         PropertyAnimation {
+            id: radioEnabled; 
+            target: radio; 
+            properties: "opacity"; 
+            from: 0;
+            to: 1; 
+            duration: 1000
+         }
+         PropertyAnimation {
+            id: radioDisabled; 
+            target: radio; 
+            properties: "opacity"; 
+            from: 1;
+            to: 0; 
+            duration: 1000
+         }
+    }
 
 }
