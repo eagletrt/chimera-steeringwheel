@@ -47,13 +47,14 @@ Item{
             radio_na.opacity = 1;
             break;
          case 1:
+            radio_na.opacity = 1; //for avoiding a bug passing from 1 to 2
+            radioAnimation.start();         
+            break;
+         case 2:
             radioAnimation.stop();
             radio.opacity = 1;
             radio_na.opacity = 0;
-            break;
-         case 2:
-            radioAnimation.start();         
-            break;
+            break;         
       }
    }
 

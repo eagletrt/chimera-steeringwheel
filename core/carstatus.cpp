@@ -73,8 +73,7 @@ CarStatus::CarStatus() {
         telemetry[i] = 2;
     }
     sender = false;
-    // telemetryIsOn = true; 0 1 (2 is setting
-    telemetryEnStatus = 0;
+    telemetryEnStatus = 0; //0 off, 1 is setting up, 2 setted
 
 }
 
