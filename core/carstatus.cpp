@@ -287,7 +287,7 @@ QByteArray CarStatus::getTelemetryEnabledStatus() {
     t.resize(8);
     qDebug() << "Asking telemetry to set up";
     t[0] = 0x1;
-    t[1] = telemetryEnStatus << 6;
+    t[1] = telemetryEnStatus;
     return t;
 }
 
