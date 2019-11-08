@@ -41,6 +41,7 @@ Item{
    onTelemetryenabledstatusChanged: {
       radio.opacity = telemetryenabledstatus;
       radio_na.opacity= !telemetryenabledstatus;
+      console.log(telemetryenabledstatus);
    }
 
    Image {

@@ -683,7 +683,8 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                            (msg.at(3) >> 2));
          }
          if(msg.at(0) == 0x1) {
-            carStatus -> setTelemetryEnabledStatus(msg.at(1) >> 6);
+            qDebug() << msg.at(1);
+            carStatus -> setTelemetryEnabledStatus(msg.at(1));
          }
       break;
 
