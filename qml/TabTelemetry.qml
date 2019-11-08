@@ -11,7 +11,8 @@ Rectangle{
     property var telemetrySelectedIndex: -1
     property var btnClickable: false
     property var telemetrystatus: CarStatus.TelemetryStatus
-    //I used number instead of strings in order to make a more readable code
+    property var firstCheck: true //When the tab is opened for the first time, it tries to load the telemetry repeater but isn't already filled.
+                                  //So, this variable is used in order to avoid errors the first time the window is opened. Better ideas required :)
     property var ledStates: ['0', '1', '2'] //OFFLINE, ONLINE, DEFAULT
     property var telemetryLeds: [
     ["HV", '2'],
@@ -28,11 +29,13 @@ Rectangle{
     ] 
    
     onTelemetrystatusChanged: {
-      console.log(telemetrystatus.length);
-      for(var i = 0; i < telemetrystatus.length; i++){
+       if(!firstCheck) {
+         for(var i = 0; i < telemetrystatus.length; i++){
          telemetryRepeater.itemAt(i).state = telemetrystatus[i];
-         console.log(telemetryRepeater.itemAt(i).state);
-      }
+         } 
+       } else {
+          firstCheck = false;
+       }
     }
 
     function connect() {
@@ -115,7 +118,9 @@ Rectangle{
         rows: 4         
         columnSpacing: 2
         rowSpacing: 1
-        anchors.fill: parent
+        width: parent.width
+        height: parent.height - 5
+        anchors.top: parent.top
         
           Repeater{
               id: telemetryRepeater
@@ -124,7 +129,7 @@ Rectangle{
                   text: modelData[0]
                   state: modelData[1]
                   selected: 0
-                  height: parent.height/3 - 5
+                  height: parent.height/3
                   width: parent.width/4
               }
           }
