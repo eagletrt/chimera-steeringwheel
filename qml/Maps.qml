@@ -5,8 +5,8 @@ Rectangle {
     id: root
     color: "transparent"
 
-    property int currentPreset: CarStatus.preset
-    property var presets: [
+    property int currentMap: CarStatus.map
+    property var maps: [
         [1, 1],
         [2, 0],
         [3, 0],
@@ -21,10 +21,10 @@ Rectangle {
         columnSpacing: 5
 
         Repeater {
-            model: presets
-            Preset {
+            model: maps
+            Map {
                 index: modelData[0]
-                currentIndex: currentPreset
+                currentIndex: currentMap
                 Layout.fillHeight: true
                 Layout.fillWidth: true
             }

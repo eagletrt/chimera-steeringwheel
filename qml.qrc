@@ -6,8 +6,8 @@
         <file>qml/Pedali.qml</file>
         <file>qml/SpeedGauge.qml</file>
         <file>qml/Status.qml</file>
-        <file>qml/Preset.qml</file>
-        <file>qml/Presets.qml</file>
+        <file>qml/Map.qml</file>
+        <file>qml/Maps.qml</file>
         <file>qml/StatusLED.qml</file>
         <file>qml/CentralView.qml</file>
         <file>qml/LabelLED.qml</file>

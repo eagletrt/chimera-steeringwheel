@@ -24,7 +24,7 @@ Rectangle {
             width: parent.width
         }
 
-        Presets {
+        Maps {
             height: 20
             width: 365
         }

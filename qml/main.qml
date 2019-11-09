@@ -87,7 +87,7 @@ Rectangle {
 
       // CAN Signals
       signal carStatusChanged(int statusID)
-      signal presetChanged(int presetID)
+      signal mapChanged(int mapID)
       signal controlStateChanged(int ctrlIsEnabled, int ctrlIsOn, int warning, int error);
       signal hvStatusChanged(int invRight, int invLeft, int preCharge)
 

@@ -105,8 +105,9 @@ class Canbus : public QObject
 
     signals:
         void controlStateChanged(int ctrlState, int warn, int err);
-        void presetChanged(int presetID);
+        void mapChanged(int mapID);
         void pumpChanged(int pumpID);
+        void tcChanged(int tcID);
         void actuatorRangePendingFlagCleared();
 
     public slots:

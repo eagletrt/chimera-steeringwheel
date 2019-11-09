@@ -36,8 +36,9 @@ CarStatus::CarStatus() {
 
     m_km = 999;
     m_velocity = 0;
-    m_preset = 1;
+    m_map = 1;
     m_pump = 6;
+    m_tc = 1;
 
     m_apps = 0;
     m_bse = 0;
@@ -198,34 +199,43 @@ void CarStatus::setHVStatus(uint8_t id, uint8_t val1, uint8_t val2, uint8_t val3
         emit velocityChanged();        
     }
 }
+
+// Set the value for the Map 
+void CarStatus::changeMap(int mapID) {
+
+    if (mapID != LOOP_THROUGH_MAPS) {
+        m_map = mapID;
+    } else {
+         m_map += 1;
+        m_map = m_map > MAP_NUMBER ? m_map % MAP_NUMBER : m_map;
+    }
+
+    emit mapChanged();
+}
+
 // Set the value for the Pump 
 void CarStatus::changePump(int pumpID) {
 
     if (pumpID != LOOP_THROUGH_PUMPS) {
         m_pump = pumpID;
     } else {
-        // Loop through presents from 1 to 8 --> Case Single Button for Preset change
         m_pump += 1;
         m_pump = m_pump > PUMP_NUMBER ? m_pump % PUMP_NUMBER : m_pump;
     }
     //emit pumpChanged();
 }
 
-// Set the value for the Map 
-void CarStatus::changePreset(int presetID) {
+// Set the value for the Pump 
+void CarStatus::changeTc(int tcID) {
 
-    if (presetID != LOOP_THROUGH_PRESETS) {
-        // Change preset to presetID --> Case Hardware Wiper
-        m_preset = presetID;
+    if (tcID != LOOP_THROUGH_TCS) {
+        m_tc = tcID;
     } else {
-        // Loop through presents from 1 to 8 --> Case Single Button for Preset change
-        m_preset += 1;
-        m_preset = m_preset > PRESET_NUMBER ? m_preset % PRESET_NUMBER : m_preset;
+        m_tc += 1;
+        m_tc = m_tc > TC_NUMBER ? m_tc % TC_NUMBER : m_tc;
     }
 
-    //qDebug() << "New Preset: " << m_preset;
-
-    emit presetChanged();
+    emit tcChanged();
 }
 
 // Return Can-bus Status value
@@ -521,7 +531,7 @@ int CarStatus::getPump() {
 }
 
 int CarStatus::getMap() {
-    return m_preset - 1;
+    return m_map - 1;
 }
 
 int CarStatus::stopCar() {
@@ -597,8 +607,11 @@ bool CarStatus::setTelemetry(int index) {
 int CarStatus::pump() const {
     return m_pump;
 }
-int CarStatus::preset() const {
-    return m_preset;
+int CarStatus::map() const {
+    return m_map;
+}
+int CarStatus::tc() const {
+    return m_tc;
 }
 int CarStatus::velocity() const {
     return m_velocity;

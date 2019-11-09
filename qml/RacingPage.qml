@@ -5,7 +5,7 @@ Rectangle {
     id: racingPage
     color: "#000000"
 
-    property int loopThroughPresets: -1
+    property int loopThroughMaps: -1
 
     property int currentCharge: 10
     property int currentTemperature: 8
@@ -14,7 +14,7 @@ Rectangle {
 
     property int carIsGo: 0
 
-    signal presetChanged(int presetID)
+    signal mapChanged(int mapID)
     signal controlStateChanged(int ctrlIsEnabled, int ctrlIsOn, int warning, int error)
 
     function disconnect() {
@@ -24,7 +24,7 @@ Rectangle {
         mainwindow.btnClicked.disconnect(btnClickedHandler);
 
         mainwindow.controlStateChanged.disconnect(controlStateChangedHandler);
-        mainwindow.presetChanged.disconnect(presetChangedHandler);
+        mainwindow.mapChanged.disconnect(mapChangedHandler);
     }
 
     function connect() {
@@ -34,12 +34,12 @@ Rectangle {
         mainwindow.btnClicked.connect(btnClickedHandler);
 
         mainwindow.controlStateChanged.connect(controlStateChangedHandler);
-        mainwindow.presetChanged.connect(presetChangedHandler);
+        mainwindow.mapChanged.connect(mapChangedHandler);
     }
 
 
-    function presetChangedHandler(presetID) {
-        presetChanged(presetID);
+    function mapChangedHandler(mapID) {
+        mapChanged(mapID);
     }
 
 

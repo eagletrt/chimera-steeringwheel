@@ -3,9 +3,7 @@
 #include <QDebug>
 #include <QKeyEvent>
 
-KeyPressEventFilter::KeyPressEventFilter(QObject * parent)
-    : QObject(parent)
-{
+KeyPressEventFilter::KeyPressEventFilter(QObject * parent): QObject(parent){
     parent->installEventFilter(this);
 }
 
@@ -35,6 +33,15 @@ bool KeyPressEventFilter::eventFilter(QObject *obj, QEvent *event) {
             break;
         case (Qt::Key_X):
             btnID = 5;
+           break;
+        case (Qt::Key_C):
+            btnID = 6;
+            break;
+        case (Qt::Key_V):
+            btnID = 7;
+           break;
+        case (Qt::Key_S):
+            btnID = 8;
            break;
         case (Qt::Key_1):
             btnID = 11;

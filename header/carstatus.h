@@ -6,8 +6,9 @@
 #define CAR_STATUS_RUN     2
 #define CAR_STATUS_STOP    3
 
-#define PRESET_NUMBER      6
+#define MAP_NUMBER         6
 #define PUMP_NUMBER        6
+#define TC_NUMBER          6
 
 #include <QDebug>
 
@@ -25,7 +26,8 @@ class CarStatus : public QObject
     Q_PROPERTY(QList<int> BSEStatus READ BSEStatus NOTIFY BSEStatusChanged)
     Q_PROPERTY(QList<int> STEERStatus READ STEERStatus NOTIFY STEERStatusChanged)
     Q_PROPERTY(int velocity READ velocity NOTIFY velocityChanged)
-    Q_PROPERTY(int preset READ preset NOTIFY presetChanged)
+    Q_PROPERTY(int map READ map NOTIFY mapChanged)
+    Q_PROPERTY(int tc READ tc NOTIFY tcChanged)
     Q_PROPERTY(int pump READ pump NOTIFY pumpChanged)
 
     Q_PROPERTY(int warning READ warning NOTIFY warningChanged)
@@ -50,8 +52,9 @@ class CarStatus : public QObject
         CarStatus();
         ~CarStatus();
 
-        const int LOOP_THROUGH_PRESETS = -1;
+        const int LOOP_THROUGH_MAPS = -1;
         const int LOOP_THROUGH_PUMPS = -1;
+        const int LOOP_THROUGH_TCS = -1;
 
         QString CANStatus() const;
         QString TelemetryStatus() const;
@@ -63,8 +66,9 @@ class CarStatus : public QObject
         QList<int> STEERStatus() const;
         QString CTRLEnabled() const;
 
-        int preset() const;
+        int map() const;
         int pump() const;
+        int tc() const;
         int velocity() const;
         
         void setHVStatus(int invRight, int invLeft, int preCharge);
@@ -112,8 +116,9 @@ class CarStatus : public QObject
         int toggleCtrl();
         int toggleCarStatus();
         int stopCar();
-        void changePreset(int presetID);
+        void changeMap(int mapID);
         void changePump(int pumpID);
+        void changeTc(int tcID);
 
         void setLeftInverterTemperature(int val1, int val2);
         void setRightInverterTemperature(int val1, int val2);        
@@ -148,7 +153,8 @@ class CarStatus : public QObject
         int m_temperature;
         int m_velocity;
         int m_km;
-        int m_preset;
+        int m_map;
+        int m_tc;
         int m_pump;
 
         int m_invr;
@@ -229,9 +235,9 @@ class CarStatus : public QObject
         void STEERStatusChanged();
         void CTRLEnabledChanged();
         void velocityChanged();
-        void presetChanged();
+        void mapChanged();
+        void tcChanged();
         void pumpChanged();
-
 
         //signal per qml hv e lv temp volt
         void speedChanged();
