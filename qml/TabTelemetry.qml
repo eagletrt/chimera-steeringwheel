@@ -11,33 +11,29 @@ Rectangle{
     property var telemetrySelectedIndex: -1
     property var btnClickable: false
     property var telemetrystatus: CarStatus.TelemetryStatus
-    property var firstCheck: true //When the tab is opened for the first time, it tries to load the telemetry repeater but isn't already filled.
-                                  //So, this variable is used in order to avoid errors the first time the window is opened. Better ideas required :)
-    property var ledStates: ['0', '1', '2'] //OFFLINE, ONLINE, DEFAULT
-    property var telemetryLeds: [
-    ["HV"],
-    ["LV"],
-    ["GPS"],
-    ["IMUGY"],
-    ["IMUAX"],
-    ["FRNTW"],
-    ["STR"],
-    ["THR"],
-    ["BRK"],
-    ["DB"],
-    ["MQTT"]
+    property var telemetryLeds: [ //0 OFFLINE, 1 ONLINE, 2 DEFAULT
+    ["HV"   , '2'],
+    ["LV"   , '2'],
+    ["GPS"  , '2'],
+    ["IMUGY", '2'],
+    ["IMUAX", '2'],
+    ["FRNTW", '2'],
+    ["STR"  , '2'],
+    ["THR"  , '2'],
+    ["BRK"  , '2'],
+    ["DB"   , '2'],
+    ["MQTT" , '2']
     ] 
    
     onTelemetrystatusChanged: {
-       if(!firstCheck) {
-         for(var i = 0; i < telemetrystatus.length; i++){
-            telemetryRepeater.itemAt(i).state = telemetrystatus[i];
-         } 
-       } else {
-          firstCheck = false;
+       var newTelemetryStatus = telemetryLeds;
+       for(var i = 0; i < telemetrystatus.length; i++) {
+          newTelemetryStatus[i][1] = telemetrystatus[i];
        }
-    }
 
+       telemetryLeds = newTelemetryStatus;
+    }
+    
     function connect() {
        menu.btnClicked.connect(btnClickedHandler);
     }
@@ -126,7 +122,7 @@ Rectangle{
               model: telemetryLeds
               delegate: TelemetryStatusLED {
                   text: modelData[0]
-                  state: '2'
+                  state: modelData[1]
                   selected: 0
                   height: parent.height/3
                   width: parent.width/4
