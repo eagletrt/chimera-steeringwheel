@@ -37,7 +37,11 @@ Rectangle{
     }
 
     function setTelemetry(index) {
-      telemetryRepeater.itemAt(index).state = (telemetryRepeater.itemAt(index).state + 1) % 3;
+      if(telemetryRepeater.itemAt(index).state == 2){
+         telemetryRepeater.itemAt(index).state = 0;
+      }else{
+         telemetryRepeater.itemAt(index).state == 0 ? telemetryRepeater.itemAt(index).state = 1 : telemetryRepeater.itemAt(index).state = 0;
+      }      
       //console.log(telemetryRepeater.itemAt(index).state);
     }
 
@@ -115,7 +119,7 @@ Rectangle{
     ["MQTT" , '2']
     ] 
 
-    GridLayout{
+    Grid{
         id: grid
         columns: 4
         rows: 3       

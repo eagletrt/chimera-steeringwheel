@@ -602,7 +602,7 @@ int CarStatus::toggleCtrl() {
 bool CarStatus::setTelemetry(int index) {
     bool ret = false;
     if(index >= 0 && index < 11){
-        telemetry[index] = (telemetry[index] + 1) % 3;
+        telemetry[index] = (telemetry[index] + 1) % 2;
         ret = true;
     }
     return ret;
