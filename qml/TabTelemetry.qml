@@ -31,7 +31,7 @@ Rectangle{
     onTelemetrystatusChanged: {
        if(!firstCheck) {
          for(var i = 0; i < telemetrystatus.length; i++){
-         telemetryRepeater.itemAt(i).state = telemetrystatus[i];
+            telemetryRepeater.itemAt(i).state = telemetrystatus[i];
          } 
        } else {
           firstCheck = false;

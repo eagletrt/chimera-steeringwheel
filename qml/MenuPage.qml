@@ -6,7 +6,8 @@ import QtQuick.Controls.Styles 1.4
 Rectangle {
   id: menu
   color: "#000000"
-
+  property var varVisible: true
+  property var telemetrypopup: CarStatus.TelemetryPopup;
   signal btnPressed(int btnID)
   signal btnReleased(int btnID)
   signal btnClicked(int btnID)
@@ -45,15 +46,26 @@ Rectangle {
     menu.btnClicked(btnID);
   }
 
+  onTelemetrypopupChanged: {
+    popUp = true;
+    tabView = false;
+  }
+
+  Timer {
+        interval: 3000; running: true; repeat: true
+        onTriggered: time.text = Date().toString()
+  }
+
+
   //This will popup messages over the Tabview
   Rectangle {
     id: popup
     anchors.fill: parent
     color: "transparent"
-    visible: false
+    visible: !varVisible
 
     Text {
-      text: qsTr("Prova")
+      text: qsTr(telemetrypopup)
       anchors.centerIn: parent
       font.family: blackops.name
       font.pointSize: 25
@@ -66,7 +78,7 @@ Rectangle {
     anchors.fill: parent
     tabPosition: Qt.BottomEdge
     property var stepIntoTab: false
-    visible: true
+    visible: varVisible
 
     Connections {
       target: menu
