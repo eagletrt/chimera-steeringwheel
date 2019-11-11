@@ -272,7 +272,7 @@ int CarStatus::TelemetryEnabledStatus() const {
     return telemetryEnStatus;
 }
 
-QString CarStatus::TelemetryPopup() const {
+QString CarStatus::SteeringWheelPopup() const {
     return this->popup;
 }
 
@@ -459,9 +459,9 @@ void CarStatus::setTelemetryEnabledStatus(int status){
     emit TelemetryEnabledStatusChanged();
 }
 
-void CarStatus::setTelemetryPopup(QString msg) {
+void CarStatus::setSteeringWheelPopup(int msg) {
     this->popup = msg;
-    emit TelemetryPopupChanged();
+    emit SteeringWheelPopupChanged();
 }
 
 void CarStatus::stopMessage(int inverter){

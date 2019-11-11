@@ -688,7 +688,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
          }
          
          if(msg.at(0) == 0x02) {
-            //carStatus -> setTelemetryPopup(msg.at(1)); ///setTelemetryPopup to be writed
+            //carStatus -> setSteeringWheelPopup(msg.at(1)); ///setsetSteeringWheelPopup to be writed
          }
       break;
 
