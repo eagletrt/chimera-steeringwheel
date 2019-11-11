@@ -15,17 +15,17 @@ Rectangle{
                                   //So, this variable is used in order to avoid errors the first time the window is opened. Better ideas required :)
     property var ledStates: ['0', '1', '2'] //OFFLINE, ONLINE, DEFAULT
     property var telemetryLeds: [
-    ["HV", telemetrystatus[0]],
-    ["LV", telemetrystatus[1]],
-    ["GPS", telemetrystatus[2]],
-    ["IMUGY", telemetrystatus[3]],
-    ["IMUAX", telemetrystatus[4]],
-    ["FRNTW", telemetrystatus[5]],
-    ["STR", telemetrystatus[6]],
-    ["THR", telemetrystatus[7]],
-    ["BRK", telemetrystatus[8]],
-    ["DB", telemetrystatus[9]],
-    ["MQTT", telemetrystatus[10]]
+    ["HV"],
+    ["LV"],
+    ["GPS"],
+    ["IMUGY"],
+    ["IMUAX"],
+    ["FRNTW"],
+    ["STR"],
+    ["THR"],
+    ["BRK"],
+    ["DB"],
+    ["MQTT"]
     ] 
    
     onTelemetrystatusChanged: {
@@ -99,7 +99,6 @@ Rectangle{
               // Prevent the button 0 to switch to Racing Page!
               tabView.stepIntoTab = true;
               mainwindow.canSwitchPage = false;
-
            } else {
               // Loop through sensors
               selectTelemetry(telemetrySelectedIndex + 1);
@@ -115,7 +114,7 @@ Rectangle{
     GridLayout{
         id: grid
         columns: 4
-        rows: 4         
+        rows: 3       
         columnSpacing: 2
         rowSpacing: 1
         width: parent.width
@@ -127,7 +126,7 @@ Rectangle{
               model: telemetryLeds
               delegate: TelemetryStatusLED {
                   text: modelData[0]
-                  state: modelData[1]
+                  state: '2'
                   selected: 0
                   height: parent.height/3
                   width: parent.width/4
