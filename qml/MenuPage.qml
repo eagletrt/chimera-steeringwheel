@@ -6,7 +6,7 @@ import QtQuick.Controls.Styles 1.4
 Rectangle {
   id: menu
   color: "#000000"
-  property var telemetrypopup: CarStatus.TelemetryPopup;
+  property var steeringWheelPopup: CarStatus.SteeringWheelPopup;
   property var animationDuration: 2500;
   signal btnPressed(int btnID)
   signal btnReleased(int btnID)
@@ -46,7 +46,7 @@ Rectangle {
     menu.btnClicked(btnID);
   }
 
-  onTelemetrypopupChanged: {
+  onSteeringWheelPopupChanged: {
     popup.visible = true;
     tabView.visible = false;
     popupAnimation.start(); 
@@ -80,7 +80,7 @@ Rectangle {
     visible: false
 
     Text {
-      text: qsTr(telemetrypopup)
+      text: qsTr(steeringWheelPopup)
       anchors.centerIn: parent
       font.family: blackops.name
       font.pointSize: 20

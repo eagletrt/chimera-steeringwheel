@@ -30,7 +30,6 @@ Rectangle{
        for(var i = 0; i < telemetrystatus.length; i++) {
           newTelemetryStatus[i][1] = telemetrystatus[i];
        }
-
        telemetryLeds = newTelemetryStatus;
     }
     
