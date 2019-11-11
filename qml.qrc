@@ -3,7 +3,6 @@
         <file>qml/main.qml</file>
         <file>lib/blops.ttf</file>
         <file>qml/RacingPage.qml</file>
-        <file>qml/Pedali.qml</file>
         <file>qml/SpeedGauge.qml</file>
         <file>qml/Status.qml</file>
         <file>qml/Map.qml</file>
