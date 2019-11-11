@@ -6,8 +6,8 @@ import QtQuick.Controls.Styles 1.4
 Rectangle {
   id: menu
   color: "#000000"
-  property var varVisible: true
   property var telemetrypopup: CarStatus.TelemetryPopup;
+  property var firstCheck: true;
   signal btnPressed(int btnID)
   signal btnReleased(int btnID)
   signal btnClicked(int btnID)
@@ -47,14 +47,33 @@ Rectangle {
   }
 
   onTelemetrypopupChanged: {
-    popUp = true;
-    tabView = false;
+    if(!firstCheck){
+      popup.visible = true;
+      tabView.visible = false;
+      popupAnimation.start();
+    }else{
+      firstCheck = false;
+    }    
   }
 
-  Timer {
-        interval: 3000; running: true; repeat: true
-        onTriggered: time.text = Date().toString()
-  }
+  ParallelAnimation {
+         id: popupAnimation
+         running: false
+         PropertyAnimation {
+            target: popup; 
+            properties: "visible"; 
+            from: true;
+            to: false; 
+            duration: 2000
+         }
+         PropertyAnimation {
+            target: tabView; 
+            properties: "visible"; 
+            from: false;
+            to: true; 
+            duration: 2000
+         }
+    }
 
 
   //This will popup messages over the Tabview
@@ -62,7 +81,7 @@ Rectangle {
     id: popup
     anchors.fill: parent
     color: "transparent"
-    visible: !varVisible
+    visible: false
 
     Text {
       text: qsTr(telemetrypopup)
@@ -78,7 +97,7 @@ Rectangle {
     anchors.fill: parent
     tabPosition: Qt.BottomEdge
     property var stepIntoTab: false
-    visible: varVisible
+    visible: true
 
     Connections {
       target: menu
