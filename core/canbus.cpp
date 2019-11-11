@@ -668,7 +668,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
       break;
 
       case TELEMETRY:
-         if(msg.at(0) == 0xF){
+         if(msg.at(0) == 0x0F){
             carStatus -> setTelemetryStatus(
                            (msg.at(1) >> 7) & 1,
                            (msg.at(1) >> 6) & 1,
@@ -683,11 +683,13 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                            (msg.at(2) >> 5) & 1);
          }
          
-         if(msg.at(0) == 0x1) {
-            qDebug() << msg.at(1);
+         if(msg.at(0) == 0x01) {
             carStatus -> setTelemetryEnabledStatus(msg.at(1));
          }
-         //Messaggio popup
+         
+         if(msg.at(0) == 0x02) {
+            //carStatus -> setTelemetryPopup(); setTelemetryPopup to be writed
+         }
       break;
 
    };

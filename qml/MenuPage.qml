@@ -7,7 +7,8 @@ Rectangle {
   id: menu
   color: "#000000"
   property var telemetrypopup: CarStatus.TelemetryPopup;
-  property var firstCheck: true;
+  property var firstCheck: false;
+  property var animationDuration: 2500;
   signal btnPressed(int btnID)
   signal btnReleased(int btnID)
   signal btnClicked(int btnID)
@@ -64,14 +65,14 @@ Rectangle {
             properties: "visible"; 
             from: true;
             to: false; 
-            duration: 2000
+            duration: animationDuration
          }
          PropertyAnimation {
             target: tabView; 
             properties: "visible"; 
             from: false;
             to: true; 
-            duration: 2000
+            duration: animationDuration
          }
     }
 
@@ -102,7 +103,7 @@ Rectangle {
     Connections {
       target: menu
       onBtnClicked: {
-        if (btnID == 4) {
+        if (btnID == 4 && !popup.visible) {
           if (!tabView.stepIntoTab) {
             if (tabView.getTab(tabView.currentIndex).children[0].disconnect) {
               tabView.getTab(tabView.currentIndex).children[0].disconnect();
@@ -119,7 +120,7 @@ Rectangle {
             }
           }
         }
-        if (btnID == 5) {
+        if (btnID == 5 && !popup.visible) {
           if (!tabView.stepIntoTab) {
             if (tabView.getTab(tabView.currentIndex).children[0].disconnect) {
               tabView.getTab(tabView.currentIndex).children[0].disconnect();
