@@ -11,6 +11,8 @@ Rectangle {
   signal btnReleased(int btnID)
   signal btnClicked(int btnID)
 
+  FontLoader {id:blackops; source: "../lib/blops.ttf"}
+
 
   function connect() {
     mainwindow.btnPressed.connect(btnPressedHandler);
@@ -43,11 +45,28 @@ Rectangle {
     menu.btnClicked(btnID);
   }
 
+  //This will popup messages over the Tabview
+  Rectangle {
+    id: popup
+    anchors.fill: parent
+    color: "transparent"
+    visible: false
+
+    Text {
+      text: qsTr("Prova")
+      anchors.centerIn: parent
+      font.family: blackops.name
+      font.pointSize: 25
+      color: "#ffffff"
+    }
+  }
+
   TabView {
     id: tabView
     anchors.fill: parent
     tabPosition: Qt.BottomEdge
     property var stepIntoTab: false
+    visible: true
 
     Connections {
       target: menu
