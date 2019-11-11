@@ -19,7 +19,7 @@ class CarStatus : public QObject
     Q_PROPERTY(QString CANStatus READ CANStatus NOTIFY CANStatusChanged)
     Q_PROPERTY(QString TelemetryStatus READ TelemetryStatus NOTIFY TelemetryStatusChanged)
     Q_PROPERTY(int TelemetryEnabledStatus READ TelemetryEnabledStatus NOTIFY TelemetryEnabledStatusChanged)
-    Q_PROPERTY(QString TelemetryPopup READ TelemetryPopup NOTIFY TelemetryPopup)
+    Q_PROPERTY(QString TelemetryPopup READ TelemetryPopup NOTIFY TelemetryPopupChanged)
     Q_PROPERTY(QString HVStatus READ HVStatus NOTIFY HVStatusChanged)
     Q_PROPERTY(QString ERRStatus READ ERRStatus NOTIFY ERRStatusChanged)
     Q_PROPERTY(QString CTRLEnabled READ CTRLEnabled NOTIFY CTRLEnabledChanged)
@@ -233,6 +233,7 @@ class CarStatus : public QObject
         void CANStatusChanged();
         void TelemetryStatusChanged();
         void TelemetryEnabledStatusChanged();
+        void TelemetryPopupChanged();
         void ERRStatusChanged();
         void APPSStatusChanged();
         void BSEStatusChanged();

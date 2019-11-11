@@ -462,6 +462,7 @@ void CarStatus::setTelemetryEnabledStatus(int status){
 
 void CarStatus::setTelemetryPopup(QString msg) {
     this->popup = msg;
+    emit TelemetryPopupChanged();
 }
 
 void CarStatus::stopMessage(int inverter){
