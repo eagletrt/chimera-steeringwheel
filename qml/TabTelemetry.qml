@@ -6,33 +6,9 @@ Rectangle{
     anchors.fill: parent
     color: "#000000"
 
-    FontLoader {id:blackops; source: "../lib/blops.ttf"}
-
     property var telemetrySelectedIndex: -1
     property var btnClickable: false
     property var telemetrystatus: CarStatus.TelemetryStatus
-    property var telemetryLeds: [ //0 OFFLINE, 1 ONLINE, 2 DEFAULT
-    ["HV"   , '2'],
-    ["LV"   , '2'],
-    ["GPS"  , '2'],
-    ["IMUGY", '2'],
-    ["IMUAX", '2'],
-    ["FRNTW", '2'],
-    ["STR"  , '2'],
-    ["THR"  , '2'],
-    ["BRK"  , '2'],
-    ["DB"   , '2'],
-    ["MQTT" , '2']
-    ] 
-   
-    onTelemetrystatusChanged: {
-       var newTelemetryStatus = telemetryLeds;
-       for(var i = 0; i < telemetrystatus.length; i++) {
-          newTelemetryStatus[i][1] = telemetrystatus[i];
-       }
-
-       telemetryLeds = newTelemetryStatus;
-    }
     
     function connect() {
        menu.btnClicked.connect(btnClickedHandler);
@@ -63,6 +39,24 @@ Rectangle{
     function setTelemetry(index) {
       telemetryRepeater.itemAt(index).state = (telemetryRepeater.itemAt(index).state + 1) % 3;
       //console.log(telemetryRepeater.itemAt(index).state);
+    }
+
+    onTelemetrystatusChanged: {
+      var newTelemetryStatus = telemetryLeds;
+
+      newTelemetryStatus[0] [1] = telemetrystatus[0] 
+      newTelemetryStatus[1] [1] = telemetrystatus[1] 
+      newTelemetryStatus[2] [1] = telemetrystatus[2] 
+      newTelemetryStatus[3] [1] = telemetrystatus[3] 
+      newTelemetryStatus[4] [1] = telemetrystatus[4] 
+      newTelemetryStatus[5] [1] = telemetrystatus[5] 
+      newTelemetryStatus[6] [1] = telemetrystatus[6] 
+      newTelemetryStatus[7] [1] = telemetrystatus[7] 
+      newTelemetryStatus[8] [1] = telemetrystatus[8] 
+      newTelemetryStatus[9] [1] = telemetrystatus[9] 
+      newTelemetryStatus[10][1] = telemetrystatus[10]
+
+      telemetryLeds = newTelemetryStatus;
     }
 
     function btnClickedHandler(btnID) {
@@ -107,6 +101,20 @@ Rectangle{
         }
     }
 
+    property var telemetryLeds: [ //0 OFFLINE, 1 ONLINE, 2 DEFAULT
+    ["HV"   , '2'],
+    ["LV"   , '2'],
+    ["GPS"  , '2'],
+    ["IMUGY", '2'],
+    ["IMUAX", '2'],
+    ["FRNTW", '2'],
+    ["STR"  , '2'],
+    ["THR"  , '2'],
+    ["BRK"  , '2'],
+    ["DB"   , '2'],
+    ["MQTT" , '2']
+    ] 
+
     GridLayout{
         id: grid
         columns: 4
@@ -120,7 +128,7 @@ Rectangle{
           Repeater{
               id: telemetryRepeater
               model: telemetryLeds
-              delegate: TelemetryStatusLED {
+              TelemetryStatusLED {
                   text: modelData[0]
                   state: modelData[1]
                   selected: 0

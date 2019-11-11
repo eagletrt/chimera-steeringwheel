@@ -255,18 +255,17 @@ QString CarStatus::CANStatus() const {
 
 QString CarStatus::TelemetryStatus() const {
     qDebug() << "Asked Telemetry Status";
-    QString telemetryText =  QString::number(telemetry[0])+
-                    QString::number(telemetry[1])+
-                    QString::number(telemetry[2])+
-                    QString::number(telemetry[3])+
-                    QString::number(telemetry[4])+
-                    QString::number(telemetry[5])+
-                    QString::number(telemetry[6])+
-                    QString::number(telemetry[7])+
-                    QString::number(telemetry[8])+
-                    QString::number(telemetry[9])+
-                    QString::number(telemetry[10]);
-    return telemetryText;
+    return QString::number(telemetry[0])+
+           QString::number(telemetry[1])+
+           QString::number(telemetry[2])+
+           QString::number(telemetry[3])+
+           QString::number(telemetry[4])+
+           QString::number(telemetry[5])+
+           QString::number(telemetry[6])+
+           QString::number(telemetry[7])+
+           QString::number(telemetry[8])+
+           QString::number(telemetry[9])+
+           QString::number(telemetry[10]);
 }
 
 int CarStatus::TelemetryEnabledStatus() const {
