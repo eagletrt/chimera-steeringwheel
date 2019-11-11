@@ -687,6 +687,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             qDebug() << msg.at(1);
             carStatus -> setTelemetryEnabledStatus(msg.at(1));
          }
+         //Messaggio popup
       break;
 
    };

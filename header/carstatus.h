@@ -19,6 +19,7 @@ class CarStatus : public QObject
     Q_PROPERTY(QString CANStatus READ CANStatus NOTIFY CANStatusChanged)
     Q_PROPERTY(QString TelemetryStatus READ TelemetryStatus NOTIFY TelemetryStatusChanged)
     Q_PROPERTY(int TelemetryEnabledStatus READ TelemetryEnabledStatus NOTIFY TelemetryEnabledStatusChanged)
+    Q_PROPERTY(QString TelemetryPopup READ TelemetryPopup NOTIFY TelemetryPopup)
     Q_PROPERTY(QString HVStatus READ HVStatus NOTIFY HVStatusChanged)
     Q_PROPERTY(QString ERRStatus READ ERRStatus NOTIFY ERRStatusChanged)
     Q_PROPERTY(QString CTRLEnabled READ CTRLEnabled NOTIFY CTRLEnabledChanged)
@@ -59,6 +60,7 @@ class CarStatus : public QObject
         QString CANStatus() const;
         QString TelemetryStatus() const;
         int TelemetryEnabledStatus() const;
+        QString TelemetryPopup() const;
         QString HVStatus() const;
         QString ERRStatus() const;
         QList<int> APPSStatus() const;
@@ -76,6 +78,7 @@ class CarStatus : public QObject
         void setCANStatus(int, int, int, int, int, int, int, int);
         void setTelemetryStatus(int, int, int, int, int, int, int, int, int, int, int);
         void setTelemetryEnabledStatus(int);
+        void setTelemetryPopup(QString);
         void setERRStatus(int, int, int, int, int, int, int, int, int);
         void setAPPSBSEStatus(int, int);
         void setSTEERStatus(int);
@@ -214,6 +217,7 @@ class CarStatus : public QObject
         int telemetry[12];
         bool sender;
         int telemetryEnStatus;
+        QString popup;
 
     signals:
         void tempChanged(int temperature);
@@ -228,7 +232,7 @@ class CarStatus : public QObject
         void HVStatusChanged();
         void CANStatusChanged();
         void TelemetryStatusChanged();
-        void TelemetryEnabledStatusChanged(int);
+        void TelemetryEnabledStatusChanged();
         void ERRStatusChanged();
         void APPSStatusChanged();
         void BSEStatusChanged();

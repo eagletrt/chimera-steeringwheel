@@ -75,6 +75,7 @@ CarStatus::CarStatus() {
     }
     sender = false;
     telemetryEnStatus = 0; //0 off, 1 is setting up, 2 setted
+    popup = "";
 
 }
 
@@ -272,6 +273,10 @@ int CarStatus::TelemetryEnabledStatus() const {
     return telemetryEnStatus;
 }
 
+QString CarStatus::TelemetryPopup() const {
+    return this->popup;
+}
+
 QByteArray CarStatus::getTelemetryStatus() {
     QByteArray t;
     t.resize(8);
@@ -452,7 +457,11 @@ void CarStatus::setTelemetryStatus(int bms_hv,
 
 void CarStatus::setTelemetryEnabledStatus(int status){
     telemetryEnStatus = status;
-    emit TelemetryEnabledStatusChanged(status);
+    emit TelemetryEnabledStatusChanged();
+}
+
+void CarStatus::setTelemetryPopup(QString msg) {
+    this->popup = msg;
 }
 
 void CarStatus::stopMessage(int inverter){
