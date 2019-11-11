@@ -75,7 +75,7 @@ CarStatus::CarStatus() {
     }
     sender = false;
     telemetryEnStatus = 0; //0 off, 1 is setting up, 2 setted
-    popup = "";
+    popup = "Sborat";
 
 }
 

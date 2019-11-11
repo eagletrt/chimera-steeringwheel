@@ -7,7 +7,6 @@ Rectangle {
   id: menu
   color: "#000000"
   property var telemetrypopup: CarStatus.TelemetryPopup;
-  property var firstCheck: false;
   property var animationDuration: 2500;
   signal btnPressed(int btnID)
   signal btnReleased(int btnID)
@@ -48,13 +47,9 @@ Rectangle {
   }
 
   onTelemetrypopupChanged: {
-    if(!firstCheck){
-      popup.visible = true;
-      tabView.visible = false;
-      popupAnimation.start();
-    }else{
-      firstCheck = false;
-    }    
+    popup.visible = true;
+    tabView.visible = false;
+    popupAnimation.start(); 
   }
 
   ParallelAnimation {
@@ -88,7 +83,7 @@ Rectangle {
       text: qsTr(telemetrypopup)
       anchors.centerIn: parent
       font.family: blackops.name
-      font.pointSize: 25
+      font.pointSize: 20
       color: "#ffffff"
     }
   }
