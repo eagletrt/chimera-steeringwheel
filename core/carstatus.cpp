@@ -70,12 +70,12 @@ CarStatus::CarStatus() {
     invLeftPrescaler = 10;
     counterInvLeft = 0;
     
-    for(int i = 0 ; i < 12; i++){
+    for(int i = 0 ; i < 11; i++){
         telemetry[i] = 2;
     }
     sender = false;
     telemetryEnStatus = 0; //0 off, 1 is setting up, 2 setted
-    popup = "Sborat";
+    popup = "WELCOME";
 
 }
 
