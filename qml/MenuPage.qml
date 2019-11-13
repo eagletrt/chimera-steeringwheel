@@ -8,6 +8,7 @@ Rectangle {
   color: "#000000"
   property var steeringWheelPopup: CarStatus.SteeringWheelPopup;
   property var animationDuration: 2500;
+  property var buttonsClick: true;
   signal btnPressed(int btnID)
   signal btnReleased(int btnID)
   signal btnClicked(int btnID)
@@ -49,42 +50,31 @@ Rectangle {
   onSteeringWheelPopupChanged: {
     popup.visible = true;
     tabView.visible = false;
-    popupAnimation.start(); 
+    buttonsClick = false;
+    popupStatic.start(); 
   }
 
   ParallelAnimation {
-         id: popupAnimation
-         running: false
-         PropertyAnimation {
-            target: popup; 
-            properties: "visible"; 
-            from: true;
-            to: false; 
-            duration: animationDuration
-         }
-         PropertyAnimation {
-            target: tabView; 
-            properties: "visible"; 
-            from: false;
-            to: true; 
-            duration: animationDuration
-         }
+    id: popupStatic
+    running: false
+    PropertyAnimation {
+       target: popup; 
+       properties: "visible"; 
+       from: true;
+       to: false; 
+       duration: animationDuration
+    }
+    PropertyAnimation {
+       target: tabView; 
+       properties: "visible"; 
+       from: false;
+       to: true; 
+       duration: animationDuration
     }
 
-
-  //This will popup messages over the Tabview
-  Rectangle {
-    id: popup
-    anchors.fill: parent
-    color: "transparent"
-    visible: false
-
-    Text {
-      text: qsTr(steeringWheelPopup)
-      anchors.centerIn: parent
-      font.family: blackops.name
-      font.pointSize: 20
-      color: "#ffffff"
+    //When animation stops, enables the buttons again
+    onStopped: {
+      buttonsClick = true;
     }
   }
 
@@ -98,7 +88,7 @@ Rectangle {
     Connections {
       target: menu
       onBtnClicked: {
-        if (btnID == 4 && !popup.visible) {
+        if (btnID == 4 && buttonsClick) {
           if (!tabView.stepIntoTab) {
             if (tabView.getTab(tabView.currentIndex).children[0].disconnect) {
               tabView.getTab(tabView.currentIndex).children[0].disconnect();
@@ -115,7 +105,7 @@ Rectangle {
             }
           }
         }
-        if (btnID == 5 && !popup.visible) {
+        if (btnID == 5 && buttonsClick) {
           if (!tabView.stepIntoTab) {
             if (tabView.getTab(tabView.currentIndex).children[0].disconnect) {
               tabView.getTab(tabView.currentIndex).children[0].disconnect();
@@ -183,4 +173,21 @@ Rectangle {
       }
     }
   }
+
+  //This will popup messages over the Tabview
+  Rectangle {
+    id: popup
+    anchors.fill: parent
+    color: "transparent"
+    visible: false
+
+    Text {
+      text: qsTr(steeringWheelPopup)
+      anchors.centerIn: parent
+      font.family: blackops.name
+      font.pointSize: 20
+      color: "#ffffff"
+    }
+  }
+
 }
