@@ -75,7 +75,7 @@ CarStatus::CarStatus() {
     }
     sender = false;
     telemetryEnStatus = 0; //0 off, 1 is setting up, 2 setted
-    popup = "WELCOME";
+    popup = 3; //Welcome
 
 }
 
@@ -272,7 +272,7 @@ int CarStatus::TelemetryEnabledStatus() const {
     return telemetryEnStatus;
 }
 
-QString CarStatus::SteeringWheelPopup() const {
+int CarStatus::SteeringWheelPopup() const {
     return this->popup;
 }
 
@@ -459,8 +459,10 @@ void CarStatus::setTelemetryEnabledStatus(int status){
     emit TelemetryEnabledStatusChanged();
 }
 
-void CarStatus::setSteeringWheelPopup(int msg) {
+void CarStatus::setSteeringWheelPopup(int msg) { //Value to be showned
+
     this->popup = msg;
+
     emit SteeringWheelPopupChanged();
 }
 

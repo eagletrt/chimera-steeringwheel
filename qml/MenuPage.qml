@@ -7,8 +7,19 @@ Rectangle {
   id: menu
   color: "#000000"
   property var steeringWheelPopup: CarStatus.SteeringWheelPopup;
-  property var animationDuration: 2500;
+  property var animationDuration: 0;
   property var buttonsClick: true;
+  property var decoder: [
+    CarStatus.map, //0 - BLUE
+    CarStatus.pump, //1 - GREEN
+    CarStatus.tc, //2 - YELLOW
+    "WELCOME", //3
+    "MARKER", //4
+    "INV SX", //5
+    "INV DX", //6
+    "HV BATT TMP", //7
+    "LV BATT LOW" //8
+  ];
   signal btnPressed(int btnID)
   signal btnReleased(int btnID)
   signal btnClicked(int btnID)
@@ -48,10 +59,32 @@ Rectangle {
   }
 
   onSteeringWheelPopupChanged: {
-    popup.visible = true;
-    tabView.visible = false;
-    buttonsClick = false;
-    popupStatic.start(); 
+    popupText.text = decoder[steeringWheelPopup];
+
+    if(steeringWheelPopup >= 0 && steeringWheelPopup <= 2) {
+      
+      if(steeringWheelPopup == 0) popupText.color = "blue";
+      if(steeringWheelPopup == 1) popupText.color = "green";
+      if(steeringWheelPopup == 2) popupText.color = "yellow";
+
+      animationDuration = 500
+      popup.visible = true;
+      popupStatic.start();
+    }
+
+    else if(steeringWheelPopup == 3 || steeringWheelPopup == 4) {
+      popup.visible = true;
+      tabView.visible = false;
+      buttonsClick = false
+      animationDuration = 2500
+      popupStatic.start();
+    }
+
+    else {
+      popup.visible = true;
+      tabView.visible = false;
+      buttonsClick = false;
+    }
   }
 
   ParallelAnimation {
@@ -75,6 +108,7 @@ Rectangle {
     //When animation stops, enables the buttons again
     onStopped: {
       buttonsClick = true;
+      popupText.color = "lightgrey";
     }
   }
 
@@ -121,6 +155,12 @@ Rectangle {
               tabView.getTab(tabView.currentIndex).children[0].connect();
             }
           }
+        }
+        if (btnID == 0 && !buttonsClick) {
+          popupStatic.stop();
+          popup.visible = false;
+          tabView.visible = true;
+          buttonsClick = true;
         }
       }
     }
@@ -182,11 +222,11 @@ Rectangle {
     visible: false
 
     Text {
-      text: qsTr(steeringWheelPopup)
+      id: popupText
       anchors.centerIn: parent
       font.family: blackops.name
       font.pointSize: 20
-      color: "#ffffff"
+      color: "lightgrey"
     }
   }
 
