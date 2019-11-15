@@ -10,7 +10,10 @@
 #define PUMP_NUMBER        6
 #define TC_NUMBER          6
 
+#define GRAPHICTIMER       100
+
 #include <QDebug>
+#include <QTimer>
 
 class CarStatus : public QObject
 {
@@ -125,9 +128,8 @@ class CarStatus : public QObject
 
         void setLeftInverterTemperature(int val1, int val2);
         void setRightInverterTemperature(int val1, int val2);        
-        void setSpeed(int id, int val1, int val2, int prescaler);
+        void setSpeed(int val1, int val2);
         void setKm(int meter1, int meter2);
-        void setPedalsPrescaler(int prescaler);
         void setThrottle(int val);
         void setBrake(int val);
         void stopMessage(int inverter);
@@ -138,6 +140,8 @@ class CarStatus : public QObject
         bool setTelemetry(int index);
         void setSender();
         QByteArray getTelemetryEnabledStatus();
+
+        void processingTimeout();
 
     private:
         static int getBit(unsigned char seq, int index);
@@ -200,19 +204,6 @@ class CarStatus : public QObject
 
         QString firstTelemetry;
         QString secondTelemetry;
-
-        int speedPrescaler;
-        int pedalsPrescaler;
-        int counterSpeed;
-        int counterThrottle;
-        int counterBrake ;
-
-        int LVPrescaler;
-        int counterLV;
-        int invRightPrescaler;
-        int counterInvRight;
-        int invLeftPrescaler;
-        int counterInvLeft;
 
         int telemetry[12];
         bool sender;

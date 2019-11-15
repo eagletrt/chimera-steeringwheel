@@ -398,8 +398,6 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
 
       case STM_PEDALS:
 
-         carStatus->setPedalsPrescaler(msg.at(4));
-
          if (msg.at(0) == 0x02){
 
             carStatus->setBrake(msg.at(1));
@@ -414,7 +412,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
       case ENCODERS: // 0xD0
 
          if(msg.at(0) == 0x06){
-            carStatus->setSpeed(msg.at(0),msg.at(1),msg.at(2),msg.at(7));
+            carStatus->setSpeed(msg.at(1),msg.at(2));
          }else if(msg.at(0) == 8){
             carStatus->setKm(msg.at(1),msg.at(2));
          }

@@ -49,26 +49,12 @@ CarStatus::CarStatus() {
 
     m_hvTemp = 0;
     m_hvVolt = 0;
-    // m_lvVoltVal = 120;
     m_lvVolt = 0; 
     m_lvTemp = 0; 
     m_speed = 100;
 
     m_brakeVal = 100;
     m_throttleVal = 100;
-
-    speedPrescaler = 8;
-    pedalsPrescaler = 6;
-    counterSpeed = 0;
-    counterThrottle = 0;
-    counterBrake = 0;   
-
-    LVPrescaler = 10;
-    counterLV = 0;
-    invRightPrescaler = 10;
-    counterInvRight = 0;
-    invLeftPrescaler = 10;
-    counterInvLeft = 0;
     
     for(int i = 0 ; i < 11; i++){
         telemetry[i] = 2;
@@ -76,114 +62,76 @@ CarStatus::CarStatus() {
     sender = false;
     telemetryEnStatus = 0; //0 off, 1 is setting up, 2 setted
     popup = 3; //Welcome
+    
+    QTimer *graphicTimer = new QTimer(this);
+    connect(graphicTimer, SIGNAL(timeout()), this, SLOT(processingTimeout()));
+    graphicTimer->start(GRAPHICTIMER);
+}
 
+void CarStatus::processingTimeout(){
+    emit invSxTempChanged();
+    emit invDxTempChanged();
+    emit speedChanged();
+    emit brakeValChanged();
+    emit throttleValChanged();
+    //emit velocityChanged();
+    emit lvTempChanged();
+    emit lvVoltChanged();
 }
 
 // Set Left Inverter Temperature and emit Property
 void CarStatus::setLeftInverterTemperature(int val1, int val2){
-    counterInvLeft++;
-    if(counterInvLeft >= invLeftPrescaler){
-        m_invSxTemp = (((val1 + (val2 * 256.0f) ) - 15797.0f ) / 112.1182f) * 10.0f;
-        counterInvLeft = 0;
-
-        emit invSxTempChanged();     
-    }
+    m_invSxTemp = (((val1 + (val2 * 256.0f) ) - 15797.0f ) / 112.1182f) * 10.0f;
 }
 
 // Set Right Inverter Temperature and emit Property
 void CarStatus::setRightInverterTemperature(int val1, int val2){
-    counterInvRight++;
-    if(counterInvRight >= invRightPrescaler){
-        m_invDxTemp = (((val1 + (val2 * 256.0f) ) - 15797.0f ) / 112.1182f) * 10.0f;
-        counterInvRight = 0;
-
-        emit invDxTempChanged();     
-    }
+    m_invDxTemp = (((val1 + (val2 * 256.0f) ) - 15797.0f ) / 112.1182f) * 10.0f;
 }
 
 // Set Speed and emit Property
-void CarStatus::setSpeed(int id, int val1, int val2, int prescaler){
-    counterSpeed++;
-    speedPrescaler = prescaler;
+void CarStatus::setSpeed(int val1, int val2){
     //0x07 encoder sinistro in teoria
-    if(id == 0x06){
-        if(counterSpeed >= pedalsPrescaler){
-            counterSpeed = 0;
-            m_speed = ((uint8_t)val1 * 256 + (uint8_t)val2);
-            
-            emit speedChanged();
-        }
-    }    
+    m_speed = ((uint8_t)val1 * 256 + (uint8_t)val2); 
 
 }
 
 // Set Km and emit Property
 void CarStatus::setKm(int meter1, int meter2){
     m_km = (((uint8_t)meter1 << 8 ) + (uint8_t)meter2);
-
-    emit kmChanged();
-    
+    emit kmChanged();    
 }
 
-// Set Pedals Prescaler to Slow Down 
-void CarStatus::setPedalsPrescaler(int prescaler){
-    pedalsPrescaler = prescaler;
-}
-
-// Set Brake value and emit Property, it use prescaler
+// Set Brake value 
 void CarStatus::setBrake(int val){
-    counterBrake++;
-    if(counterBrake >= pedalsPrescaler){
-        counterBrake = 0;
-        m_brakeVal = ( (int) val );
-        
-        emit brakeValChanged();
-    }    
+    m_brakeVal = ( (int) val );
 }
 
-// Set Throttle value and emit Property, it use prescaler
-void CarStatus::setThrottle(int val){
-    counterThrottle++;
+// Set Throttle value 
+void CarStatus::setThrottle(int val){    
+    m_throttleVal = ( (int) val);
+    //m_velocity = (80.0 * currPercMap * m_throttleVal) / 10000.0;   //remember to uncomment the velocityChanged emit on processingTimeout in order
+    int currPercMap = 0;    
+    switch(getMap() + 1){
+        case 1: currPercMap = -20; break;
+        case 2: currPercMap = 20; break;
+        case 3: currPercMap = 40; break;
+        case 4: currPercMap = 60; break;
+        case 5: currPercMap = 80; break;
+        case 6: currPercMap = 100; break;
+        default: currPercMap = -100; break;
+    }
 
-    if(counterThrottle >= pedalsPrescaler){
-
-        counterThrottle = 0;
-        m_throttleVal = ( (int) val);
-        int currPercMap = 0;
-        
-        switch(getMap() + 1){
-            
-            case 1: currPercMap = -20; break;
-            case 2: currPercMap = 20; break;
-            case 3: currPercMap = 40; break;
-            case 4: currPercMap = 60; break;
-            case 5: currPercMap = 80; break;
-            case 6: currPercMap = 100; break;
-            default: currPercMap = -100; break;
-        }
-        // m_velocity = (80.0 * currPercMap * m_throttleVal) / 10000.0;
-        
-        // emit velocityChanged();
-        emit throttleValChanged();
-    }    
 }
 
-// Set LV temp,volt value and emit Property, without prescaler
+// Set LV temp,volt value
 void CarStatus::setLVStatus(uint8_t val1, uint8_t val3){
-    
-    counterLV++;
     //before uint8_t val2 as a m_lvVal
     m_lvVolt = val1;
     m_lvTemp = val3;
-    
-    if(counterLV >= LVPrescaler){
-        counterLV = 0;
-        emit lvTempChanged();
-        emit lvVoltChanged();
-    }
 }
 
-// Set HV temp,volt value and emit Property, without prescaler
+// Set HV temp,volt value
 void CarStatus::setHVStatus(uint8_t id, uint8_t val1, uint8_t val2, uint8_t val3, uint8_t val4, uint8_t val5, uint8_t val6, uint8_t val7){
     if(id == 0x01){
         m_hvVolt = ((val1 << 16) + (val2 << 8) + val3 ) / 1000;
@@ -610,7 +558,6 @@ bool CarStatus::setTelemetry(int index) {
     return ret;
 }
 
-
 /*
     Functions to return all the m_values
 */
@@ -671,5 +618,3 @@ int CarStatus::error() const {
 CarStatus::~CarStatus() {
     qDebug() << "Closing CarStatus...";
 }
-
-
