@@ -17,6 +17,7 @@ CONFIG += qtquickcompiler
 
 # Input
 HEADERS += header/buttons_x86.h \
+           header/inverters.h \
            header/keypresseventfilter.h \
            header/console.h \
            header/canbus.h \
@@ -28,6 +29,7 @@ SOURCES += core/main_x86.cpp \
            core/keypresseventfilter.cpp \
            core/console.cpp \
            core/canbus.cpp \
-           core/carstatus.cpp
+           core/carstatus.cpp \
+           core/inverters.cpp
 
 RESOURCES += qml.qrc

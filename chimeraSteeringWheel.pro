@@ -19,13 +19,15 @@ CONFIG += qtquickcompiler
 HEADERS += header/buttons.h \
            header/console.h \
            header/canbus.h \
-           header/carstatus.h
+           header/carstatus.h \
+           header/inverters.h
 
 SOURCES += core/main.cpp \
            core/buttons.cpp \
            core/console.cpp \
            core/canbus.cpp \
            core/carstatus.cpp
+           core/inverters.cpp \
 
 RESOURCES += qml.qrc
 

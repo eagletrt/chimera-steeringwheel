@@ -2,9 +2,10 @@
 
 CarStatus::CarStatus() {
     
-    m_invRight = 2;
-    m_invLeft = 2;
-    m_preCharge = 2;
+    //m_invRight = 2; moved into inverters
+    //m_invLeft = 2; moved into inverters
+    //m_preCharge = 2; moved into inverters
+    Inverters inverters;
 
     m_ctrlIsEnabled = -1;
     
@@ -44,8 +45,8 @@ CarStatus::CarStatus() {
     m_bse = 0;
     m_steer = 50;
 
-    m_invSxTemp = 0;
-    m_invDxTemp = 0;
+    //m_invSxTemp = 0; moved into inverters
+    //m_invDxTemp = 0; moved into inverters
 
     m_hvTemp = 0;
     m_hvVolt = 0;
@@ -81,12 +82,12 @@ void CarStatus::processingTimeout(){
 
 // Set Left Inverter Temperature and emit Property
 void CarStatus::setLeftInverterTemperature(int val1, int val2){
-    m_invSxTemp = (((val1 + (val2 * 256.0f) ) - 15797.0f ) / 112.1182f) * 10.0f;
+    inverters.setLeftInverterTemperature(val1, val2);
 }
 
 // Set Right Inverter Temperature and emit Property
 void CarStatus::setRightInverterTemperature(int val1, int val2){
-    m_invDxTemp = (((val1 + (val2 * 256.0f) ) - 15797.0f ) / 112.1182f) * 10.0f;
+    inverters.setRightInverterTemperature(val1, val2);
 }
 
 // Set Speed and emit Property
@@ -264,9 +265,9 @@ void CarStatus::setSender() {
 // Return HV Status value
 QString CarStatus::HVStatus() const {
     // qDebug() << "Asked HVStatus";
-    return QString("%1%2%3").arg(QString::number(m_preCharge),
-                                 QString::number(m_invLeft),
-                                 QString::number(m_invRight));
+    return QString("%1%2%3").arg(QString::number(inverters.getPreCharge()),
+                                 QString::number(inverters.getLeftInverter()),
+                                 QString::number(inverters.getRightInverter()));
 }
 
 // Return Error Status value
@@ -417,16 +418,16 @@ void CarStatus::setSteeringWheelPopup(int msg) { //Value to be showned
 void CarStatus::stopMessage(int inverter){
 
     if (inverter == 0){
-        m_invLeft = 0; 
+        inverters.setLeftInverter(0); 
     } 
     if (inverter == 1) {
-        m_invRight = 0;
+        inverters.setRightInverter(0);
     }
     // Quando ricevo che sono in idle 
     if (inverter == 2) {
-        m_invLeft = 0;
-        m_invRight = 0;
-        m_preCharge = 0;
+        inverters.setLeftInverter(0); 
+        inverters.setRightInverter(0);
+        inverters.setPreCharge(0);
     }
 
     emit HVStatusChanged();
@@ -435,9 +436,10 @@ void CarStatus::stopMessage(int inverter){
 void CarStatus::setHVStatus(int preCharge,
                             int invLeft,
                             int invRight) {
-    m_invRight = invRight;
-    m_invLeft = invLeft;
-    m_preCharge = preCharge;
+
+    inverters.setLeftInverter(invLeft); 
+    inverters.setRightInverter(invRight);
+    inverters.setPreCharge(preCharge);
 
     emit HVStatusChanged();
 }
@@ -587,10 +589,10 @@ int CarStatus::km() const {
     return m_km;
 }
 int CarStatus::invSxTemp() const {
-    return m_invSxTemp;
+    return inverters.getLeftInverterTemperature();
 }
 int CarStatus::invDxTemp() const {
-    return m_invDxTemp;
+    return inverters.getRightInverterTemperature();
 }
 int CarStatus::hvTemp() const {
     return m_hvTemp;

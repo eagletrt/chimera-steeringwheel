@@ -14,6 +14,7 @@
 
 #include <QDebug>
 #include <QTimer>
+#include "inverters.h"
 
 class CarStatus : public QObject
 {
@@ -145,9 +146,10 @@ class CarStatus : public QObject
 
     private:
         static int getBit(unsigned char seq, int index);
-        int m_invRight;
-        int m_invLeft;
-        int m_preCharge;
+        //int m_invRight; moved into inverters
+        //int m_invLeft; moved into inverters
+        //int m_preCharge; moved into inverters
+        Inverters inverters;
 
         int m_ctrlIsEnabled;
         int m_ctrlIsOn;
@@ -190,8 +192,8 @@ class CarStatus : public QObject
         int m_steer;
         int m_num_err_steer;
 
-        int m_invSxTemp;
-        int m_invDxTemp;
+        //int m_invSxTemp; moved into inverters
+        //int m_invDxTemp; moved into inverters
         
         int m_speed;
         int m_hvTemp;
