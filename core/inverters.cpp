@@ -2,11 +2,11 @@
 
 Inverters::Inverters()
 {
-    invLeft = 2;
-    invRight = 2;
-    preCharge = 2;
-    invLeftTemp = 0;
-    invRightTemp = 0;
+    this->invLeft = 2;
+    this->invRight = 2;
+    this->preCharge = 2;
+    this->invLeftTemp = 0;
+    this->invRightTemp = 0;
 }
 
 void Inverters::setLeftInverter(int val) {
@@ -30,21 +30,21 @@ void Inverters::setRightInverterTemperature(int val1, int val2) {
 }
 
 int Inverters::getLeftInverter() const{
-    return invLeft;
+    return this->invLeft;
 }
 
 int Inverters::getRightInverter() const{
-    return invRight;
+    return this->invRight;
 }
 
 int Inverters::getPreCharge() const{
-    return preCharge;
+    return this->preCharge;
 }
 
 int Inverters::getLeftInverterTemperature() const{
-    return invLeftTemp;
+    return this->invLeftTemp;
 }
 
 int Inverters::getRightInverterTemperature() const{
-    return invRightTemp;
+    return this->invRightTemp;
 }

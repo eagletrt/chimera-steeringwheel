@@ -39,7 +39,7 @@ Item{
    }
 
    onTelemetryenabledstatusChanged: {  
-      console.log(telemetryenabledstatus);
+      //console.log(telemetryenabledstatus);
       switch(telemetryenabledstatus){
          case 0:
             radioAnimation.stop();

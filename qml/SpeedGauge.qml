@@ -184,7 +184,7 @@ Rectangle {
       onBrakeValChanged: function(){
          brakeValore = CarStatus.brakeVal;
          brakeidx = brakeValore/10;
-         console.log(brakeidx)
+         //console.log(brakeidx)
        }
        Repeater{
          model: brakeidx

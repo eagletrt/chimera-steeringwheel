@@ -17,31 +17,50 @@
 \begin{flushleft}
 
 \section{Introduction}
-	The SteeringWheel UI needs a lot of variables in order to works properly. In the past those variables were all putted toghether in one place, "carstatus". This class was created to store them and to collect methods associated to them. To date "carstatus" contains over 50 variables. At this point there is a lot of confusion and the code is difficult to be read.
+	The SteeringWheel UI needs a lot of variables in order to works properly. In the past those variables were all putted toghether in one place, "Carstatus". This class was created to store them and to collect methods associated to them. To date "Carstatus" contains over 50 variables. At this point there is a lot of confusion and the code is difficult to be read.
 \newline
 \newline
 \includegraphics[scale=1.5]{code.png}
 \newline
 \newline
-	The ideal solution is to store variables and methods associated in different classes and use them from "carstatus" using a "has a" for each class.\\
+	The ideal solution is to store variables and methods associated in different classes and use them from "Carstatus" using a "has a" for each class.\\
 	---------------------------------------------INSERT CLASS DIAGRAM HERE-------------------------------------------------------
 
 \section{Implementation issues}
-	These changes will make code finally readable but some methods require to remain into "carstatus". These methods are thoose that deal with sendind changed data after emits.\\
-	The only possible solution is to make some getters inside the new classes and call them from "carstatus.cpp". Therefore there will still be functions in this class but there will be much less.\\
-	Another side effect of this implementation is the needs to create a ".h" (and ".cpp") file for each new class. There will be more or less 10 new classes, that means 10 new header files. So, in order to avoid too many duplications the refactor will limitate itself to implement only ".h" files and not ".cpp".
+	These changes will make code finally readable but some methods require to remain into "Carstatus". These methods are thoose that deal with sending changed data after emits.\\
+	The only possible solution is to make some getters inside the new classes and call them from "Carstatus". Therefore there will still be functions in this class but there will be much less.\\
+	Another side effect of this implementation is the needs to create a ".h" (and ".cpp") file for each new class. There will be more or less 10 new classes, that means 10 new header and source files.
 
 \section{Refactor}
 \subsection{Inverter}
 \begin{verbatim}
-	int m_invRight;
-	int m_invLeft;
-	int m_preCharge;
-	void setLeftInverterTemperature(int, int);
-	void setRightInverterTemperature(int, int);
-	QString HVStatus() const;
-	void stopMessage(int);
-	void setHVStatus(int, int, int)
+int m_invRight;
+int m_invLeft;
+int m_preCharge;
+int m_invSxTemp;
+int m_invDxTemp;
+\end{verbatim}
+These 5 variables has been moved into a new Class called Inverters. Now Carstatus' functions use getter and setter of this class in order to maintain an object oriented paradigm. Variables' names are also changed to keep a certain standard.\\
+So, the class now looks like this:
+\begin{verbatim}
+public:
+    Inverters();
+    void setLeftInverter(int);
+    void setRightInverter(int);
+    void setPreCharge(int);
+    void setLeftInverterTemperature(int, int);
+    void setRightInverterTemperature(int, int);
+    int getLeftInverter() const;
+    int getRightInverter() const;
+    int getPreCharge() const;
+    int getLeftInverterTemperature() const;
+    int getRightInverterTemperature() const;
+private:
+    int invLeft;
+    int invRight;
+    int preCharge;
+    int invLeftTemp;
+    int invRightTemp;
 \end{verbatim}
 
 \end{flushleft}
