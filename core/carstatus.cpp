@@ -1,20 +1,9 @@
 #include "../header/carstatus.h"
 
 CarStatus::CarStatus() {
-    
-    //m_invRight = 2; moved into inverters
-    //m_invLeft = 2; moved into inverters
-    //m_preCharge = 2; moved into inverters
-    Inverters inverters;
 
-    m_ctrlIsEnabled = -1;
-    
-    m_ctrlIsOn = 0;
-    
-    m_car_status = CAR_STATUS_IDLE;
-
-    m_stateofcharge = -1;
-    m_temperature = -1;
+    //m_stateofcharge = -1; not used
+    //m_temperature = -1; not used
 
     m_err_apps = 2;
     m_err_bse = 2;
@@ -317,7 +306,7 @@ QList<int> CarStatus::STEERStatus() const {
 
 QString CarStatus::CTRLEnabled() const {
     //qDebug() << "Asked CTRLEnabled";
-    return QString::number(m_ctrlIsOn);
+    return QString::number(control.getCtrlIsEnabled());
 }
 
 void CarStatus::setSTEERStatus(int steer){
@@ -445,7 +434,7 @@ void CarStatus::setHVStatus(int preCharge,
 }
 
 int CarStatus::getCtrlIsEnabled() {
-    return m_ctrlIsEnabled;
+    return this->control.getCtrlIsEnabled();
 }
 
 void CarStatus::setCarStatus(int ctrlIsEnabled,
@@ -454,18 +443,18 @@ void CarStatus::setCarStatus(int ctrlIsEnabled,
                              int warning,
                              int error) {
 
-    m_ctrlIsEnabled = ctrlIsEnabled;
-    m_ctrlIsOn = ctrlIsOn;
+    this->control.setCtrlIsEnabled(ctrlIsEnabled);
+    this->control.setCtrlIsOn(ctrlIsOn);
     //m_warning = warning;
     //m_error = error;
-    m_car_status = driveModeEnabled;
+    this->control.setCarStatus(driveModeEnabled);
     
     emit execModeChanged(ctrlIsEnabled, ctrlIsOn, warning, error);
     emit carStatusChanged();
 }
 
 void CarStatus::setCarMode(int mode){
-   m_car_status = mode;
+   this->control.setCarStatus(mode);
    emit carStatusChanged();
 }
 
@@ -480,11 +469,7 @@ void CarStatus::setError(int on) {
 }
 
 int CarStatus::carStatus() {
-    return m_car_status;
-}
-
-int CarStatus::getCurrentStatus() {
-    return m_car_status;
+    return this->control.getCarStatus();
 }
 
 int CarStatus::getPump() {
@@ -497,56 +482,59 @@ int CarStatus::getMap() {
 
 int CarStatus::stopCar() {
     qDebug() << "Stoppo la car!";
-    m_car_status = CAR_STATUS_STOP;
+    this->control.setCarStatus(CAR_STATUS_STOP);
 
     emit toggleCar();
 
-    return m_car_status;
+    return this->control.getCarStatus();;
 }
 
 int CarStatus::toggleCarStatus() {
-   switch(m_car_status){
+   switch(this->control.getCarStatus()){
       case CAR_STATUS_IDLE:
          qDebug() << "CAR_STATUS_IDLE -> CAR_STATUS_SETUP";
          // Change the status of the car
-         m_car_status = CAR_STATUS_IDLE;
+         this->control.setCarStatus(CAR_STATUS_IDLE);
          // Send CAN request to the CTRL
          emit toggleCar();
          break;
       case CAR_STATUS_SETUP:
         qDebug() << "CAR_STATUS_SETUP -> CAR_STATUS_RUN";
         // Change the status of the car
-        m_car_status = CAR_STATUS_SETUP;
+        this->control.setCarStatus(CAR_STATUS_SETUP);
         // Send CAN request to the CTRL
         emit toggleCar();
         break;
       case CAR_STATUS_RUN:
         qDebug() << "CAR_STATUS_RUN -> CAR_STATUS_SETUP";
         // Change the status of the car
-        m_car_status = CAR_STATUS_RUN;
+        this->control.setCarStatus(CAR_STATUS_RUN);
         // Send CAN request to the CTRL
         emit toggleCar();
         break;
     }
 
-    return m_car_status;
+    return control.getCarStatus();
 }
+// Is not used
+//void CarStatus::setStateOfCharge(int stateofcharge) {
+//    m_stateofcharge = stateofcharge;
+//    emit socChanged(stateofcharge);
+//}
 
-void CarStatus::setStateOfCharge(int stateofcharge) {
-    m_stateofcharge = stateofcharge;
-    emit socChanged(stateofcharge);
-}
+//Is not used
+//void CarStatus::setTemperature(int temperature) {
+//    m_temperature = temperature;
+//    emit tempChanged(temperature);
+//}
 
-void CarStatus::setTemperature(int temperature) {
-    m_temperature = temperature;
-    emit tempChanged(temperature);
-}
-
+//This is not used
 int CarStatus::toggleCtrl() {
-    if (m_car_status == CAR_STATUS_RUN) {
-        m_ctrlIsOn = m_ctrlIsOn ? 0 : 1;
+    if (this->control.setCarStatus(CAR_STATUS_RUN)) {
+        this->control.setCtrlIsOn(!this->control.getCtrlIsOn());
+        
         emit CTRLEnabledChanged();
-        return m_ctrlIsOn;
+        return this->control.getCtrlIsOn();
     }
     return -1;
 }
@@ -607,7 +595,7 @@ int CarStatus::lvVolt() const {
     return m_lvVolt;
 }
 int CarStatus::getCtrlIsOn() {
-    return m_ctrlIsOn;
+    return this->control.getCtrlIsOn();
 }
 int CarStatus::warning() const {
     return m_warning;

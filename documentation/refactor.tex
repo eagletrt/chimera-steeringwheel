@@ -63,6 +63,29 @@ private:
     int invRightTemp;
 \end{verbatim}
 
+\subsection{Control}
+\begin{verbatim}
+int m_ctrlIsEnabled;
+int m_ctrlIsOn;
+int m_car_status;
+\end{verbatim}
+These 3 has been moved into Control class with respective getters and setters
+\begin{verbatim}
+public:
+    Control();
+    void setCtrlIsEnabled(bool);
+    void setCtrlIsOn(bool);
+    bool setCarStatus(int);
+    bool getCtrlIsEnabled() const;
+    bool getCtrlIsOn() const;
+    int getCarStatus() const;
+private:
+    bool ctrlIsEnabled;
+    bool ctrlIsOn;
+    int carStatus;
+\end{verbatim}
+As you could notice \begin{verbatim}ctrlIsEnabled\end{verbatim} and \begin{verbatim}ctrlIsOn\end{verbatim} now are boolean. This decision was taken because these variables rappresent boolean values and two integers were a waste of resources.
+
 \end{flushleft}
 
 \end{document}

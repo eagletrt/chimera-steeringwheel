@@ -180,7 +180,7 @@ void Canbus::PWMCheck() {
    msg[0] = 0x03;
    msg[1] = 0x01;
 
-   goStatus = carStatus->getCurrentStatus();
+   goStatus = carStatus->carStatus();
    if(goStatus != CAR_STATUS_RUN)
    sendCanMessage(0xAF, msg);
 }
@@ -239,7 +239,7 @@ void Canbus::askSetupOrIdle(int whatState) {
 
 void Canbus::toggleCar() {
    ctrlIsOn = carStatus->getCtrlIsOn();
-   goStatus = carStatus->getCurrentStatus();
+   goStatus = carStatus->carStatus();
    map = carStatus->getMap();
    // int pump = carStatus->getPump();
 
@@ -534,7 +534,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
 
          ctrlIsEnabled = carStatus->getCtrlIsEnabled();
          ctrlIsOn = carStatus->getCtrlIsOn();
-         goStatus = carStatus->getCurrentStatus();
+         goStatus = carStatus->carStatus();
          // Get stop message
          // Get current map
 
@@ -640,13 +640,15 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
 
          if (msg.at(3) == 0x2A) {
             
-            carStatus->setTemperature(msg.at(4));
+            //carStatus->setTemperature(msg.at(4));
+            qDebug() << "Actually setTemperature is not used, to enable it remove comments";
 
          }
 
          if (msg.at(3) == 0xF) {
             
-            carStatus->setStateOfCharge(msg.at(4));
+            //carStatus->setStateOfCharge(msg.at(4));
+            qDebug() << "Actually setStateOfCharge is not used, to enable it remove comments";
          
          }
       break;

@@ -15,6 +15,7 @@
 #include <QDebug>
 #include <QTimer>
 #include "inverters.h"
+#include "control.h"
 
 class CarStatus : public QObject
 {
@@ -91,7 +92,6 @@ class CarStatus : public QObject
 
         int getCtrlIsEnabled();
         int getCtrlIsOn();
-        int getCurrentStatus();
         int getMap();
         int getPump();
 
@@ -102,8 +102,8 @@ class CarStatus : public QObject
         int warning() const;
         int error() const;
 
-        void setTemperature(int temperature);
-        void setStateOfCharge(int stateofcharge);
+        //void setTemperature(int temperature);
+        //void setStateOfCharge(int stateofcharge);
 
         int speed() const;
         int km() const;
@@ -149,23 +149,27 @@ class CarStatus : public QObject
         //int m_invRight; moved into inverters
         //int m_invLeft; moved into inverters
         //int m_preCharge; moved into inverters
+        //int m_invSxTemp; moved into inverters
+        //int m_invDxTemp; moved into inverters
         Inverters inverters;
 
-        int m_ctrlIsEnabled;
-        int m_ctrlIsOn;
-        int m_car_status;
+        Control control;
 
-        int m_warning;
-        int m_error;
+        // not used
+        //int m_stateofcharge;
+        //int m_temperature;
 
-        int m_stateofcharge;
-        int m_temperature;
+        // Racing Page
+        int m_speed;
         int m_velocity;
         int m_km;
+
+        // manettini
         int m_map;
         int m_tc;
         int m_pump;
 
+        // warnings
         int m_invr;
         int m_invl;
         int m_front;
@@ -174,7 +178,9 @@ class CarStatus : public QObject
         int m_hv;
         int m_central;
         int m_pedals;
+        int m_warning;
 
+        // errors
         int m_err_apps;
         int m_err_bse;
         int m_err_steer;
@@ -184,28 +190,28 @@ class CarStatus : public QObject
         int m_err_imu_front;
         int m_err_imu_central;
         int m_err_imu_rear;
-
-        int m_apps;
-        int m_num_err_apps;
-        int m_bse;
-        int m_num_err_bse;
-        int m_steer;
-        int m_num_err_steer;
-
-        //int m_invSxTemp; moved into inverters
-        //int m_invDxTemp; moved into inverters
+        int m_error;
         
-        int m_speed;
-        int m_hvTemp;
-        int m_hvVolt;
-
-        int m_lvTemp;
-        int m_lvVolt;
+        // tab sensors
         int m_brakeVal;
         int m_throttleVal;
+        int m_apps;
+        int m_bse;
+        int m_steer;
+        int m_num_err_apps;
+        int m_num_err_bse;
+        int m_num_err_steer;
 
-        QString firstTelemetry;
-        QString secondTelemetry;
+        
+        // hv
+        int m_hvTemp;
+        int m_hvVolt;
+        // lv
+        int m_lvTemp;
+        int m_lvVolt;
+
+        //QString firstTelemetry; Useless, who put these please delete them
+        //QString secondTelemetry; Useless, who put these please delete them
 
         int telemetry[12];
         bool sender;

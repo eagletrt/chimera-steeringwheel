@@ -20,14 +20,16 @@ HEADERS += header/buttons.h \
            header/console.h \
            header/canbus.h \
            header/carstatus.h \
-           header/inverters.h
+           header/inverters.h \
+           header/control.h
 
 SOURCES += core/main.cpp \
            core/buttons.cpp \
            core/console.cpp \
            core/canbus.cpp \
-           core/carstatus.cpp
+           core/carstatus.cpp \
            core/inverters.cpp \
+           core/control.cpp
 
 RESOURCES += qml.qrc
 
