@@ -15,17 +15,17 @@ CarStatus::CarStatus() {
     m_err_imu_central = 2;
     m_err_imu_rear = 2;
 
-    m_invr = 2;
-    m_invl = 2;
-    m_front = 2;
-    m_central = 2;
-    m_pedals = 2;
-    m_rear = 2;
-    m_lv = 2;
-    m_hv = 2;
+    //m_invr = 2; moved into warning
+    //m_invl = 2; moved into warning
+    //m_front = 2; moved into warning
+    //m_central = 2; moved into warning
+    //m_pedals = 2; moved into warning
+    //m_rear = 2; moved into warning
+    //m_lv = 2; moved into warning
+    //m_hv = 2; moved into warning
 
-    m_km = 999;
-    m_velocity = 0;
+    //m_km = 999; moved into race
+    //m_velocity = 0; moved into race
     m_map = 1;
     m_pump = 6;
     m_tc = 1;
@@ -41,7 +41,7 @@ CarStatus::CarStatus() {
     m_hvVolt = 0;
     m_lvVolt = 0; 
     m_lvTemp = 0; 
-    m_speed = 100;
+    //m_speed = 100; moved into race
 
     m_brakeVal = 100;
     m_throttleVal = 100;
@@ -82,13 +82,12 @@ void CarStatus::setRightInverterTemperature(int val1, int val2){
 // Set Speed and emit Property
 void CarStatus::setSpeed(int val1, int val2){
     //0x07 encoder sinistro in teoria
-    m_speed = ((uint8_t)val1 * 256 + (uint8_t)val2); 
-
+    race.setSpeed(val1, val2);
 }
 
 // Set Km and emit Property
 void CarStatus::setKm(int meter1, int meter2){
-    m_km = (((uint8_t)meter1 << 8 ) + (uint8_t)meter2);
+    race.setKm(meter1, meter2);
     emit kmChanged();    
 }
 
@@ -100,7 +99,6 @@ void CarStatus::setBrake(int val){
 // Set Throttle value 
 void CarStatus::setThrottle(int val){    
     m_throttleVal = ( (int) val);
-    //m_velocity = (80.0 * currPercMap * m_throttleVal) / 10000.0;   //remember to uncomment the velocityChanged emit on processingTimeout in order
     int currPercMap = 0;    
     switch(getMap() + 1){
         case 1: currPercMap = -20; break;
@@ -111,7 +109,7 @@ void CarStatus::setThrottle(int val){
         case 6: currPercMap = 100; break;
         default: currPercMap = -100; break;
     }
-
+    //race.setVelocity(((80.0 * currPercMap * m_throttleVal) / 10000.0)); //remember to uncomment the velocityChanged emit on processingTimeout in order to emit the velocity
 }
 
 // Set LV temp,volt value
@@ -134,7 +132,7 @@ void CarStatus::setHVStatus(uint8_t id, uint8_t val1, uint8_t val2, uint8_t val3
         emit hvTempChanged();
     }
     if(id == 0x05){
-        m_velocity = ((val4 << 8) + val5) / 1000;        
+        race.setVelocity(((val4 << 8) + val5) / 1000); 
         emit velocityChanged();        
     }
 }
@@ -180,14 +178,14 @@ void CarStatus::changeTc(int tcID) {
 // Return Can-bus Status value
 QString CarStatus::CANStatus() const {
     // qDebug() << "Asked CanStatus";
-    return QString("%1%2%3%4%5%6%7%8").arg(QString::number(m_invr),
-                                       QString::number(m_invl),
-                                       QString::number(m_front),
-                                       QString::number(m_central),
-                                       QString::number(m_pedals),
-                                       QString::number(m_rear),
-                                       QString::number(m_lv),
-                                       QString::number(m_hv));
+    return QString("%1%2%3%4%5%6%7%8").arg(QString::number(warning.getInvRight()),
+                                       QString::number(warning.getInvLeft()),
+                                       QString::number(warning.getFront()),
+                                       QString::number(warning.getCentral()),
+                                       QString::number(warning.getPedals()),
+                                       QString::number(warning.getRear()),
+                                       QString::number(warning.getLv()),
+                                       QString::number(warning.getHv()));
 }
 // Return Telemetry Status value
 
@@ -355,14 +353,14 @@ void CarStatus::setCANStatus(int invr,
                              int rear,
                              int hv,
                              int lv) {
-    m_invr = invr;
-    m_invl = invl;
-    m_front = front;
-    m_rear = rear;
-    m_lv = lv;
-    m_hv = hv;
-    m_central = central;
-    m_pedals = pedals;
+    warning.setInvRight(invr);    
+    warning.setInvLeft(invl);     
+    warning.setFront(front);  
+    warning.setRear(rear);
+    warning.setLv(lv);
+    warning.setHv(hv);
+    warning.setCentral(central);
+    warning.setPedals(pedals);
 
     emit CANStatusChanged();
 }
@@ -445,7 +443,7 @@ void CarStatus::setCarStatus(int ctrlIsEnabled,
 
     this->control.setCtrlIsEnabled(ctrlIsEnabled);
     this->control.setCtrlIsOn(ctrlIsOn);
-    //m_warning = warning;
+    //this->warning.setWarning(warning);
     //m_error = error;
     this->control.setCarStatus(driveModeEnabled);
     
@@ -459,7 +457,7 @@ void CarStatus::setCarMode(int mode){
 }
 
 void CarStatus::setWarning(int on) {
-    m_warning = on;
+    warning.setWarning(on);
     emit warningChanged();
 }
 
@@ -562,7 +560,7 @@ int CarStatus::tc() const {
     return m_tc;
 }
 int CarStatus::velocity() const {
-    return m_velocity;
+    return race.getVelocity();
 }
 int CarStatus::brakeVal() const {
     return m_brakeVal;
@@ -571,10 +569,10 @@ int CarStatus::throttleVal() const {
     return m_throttleVal;
 }
 int CarStatus::speed() const {
-    return m_speed;
+    return race.getSpeed();
 }
 int CarStatus::km() const {
-    return m_km;
+    return race.getKm();
 }
 int CarStatus::invSxTemp() const {
     return inverters.getLeftInverterTemperature();
@@ -597,8 +595,8 @@ int CarStatus::lvVolt() const {
 int CarStatus::getCtrlIsOn() {
     return this->control.getCtrlIsOn();
 }
-int CarStatus::warning() const {
-    return m_warning;
+int CarStatus::getWarning() const {
+    return warning.getWarning();
 }
 int CarStatus::error() const {
     return m_error;

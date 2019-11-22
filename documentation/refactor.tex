@@ -20,7 +20,10 @@
 	The SteeringWheel UI needs a lot of variables in order to works properly. In the past those variables were all putted toghether in one place, "Carstatus". This class was created to store them and to collect methods associated to them. To date "Carstatus" contains over 50 variables. At this point there is a lot of confusion and the code is difficult to be read.
 \newline
 \newline
-\includegraphics[scale=1.5]{code.png}
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=1.5]{code.png}
+\end{figure}
 \newline
 \newline
 	The ideal solution is to store variables and methods associated in different classes and use them from "Carstatus" using a "has a" for each class.\\
@@ -88,4 +91,101 @@ As you could notice \begin{verbatim}ctrlIsEnabled\end{verbatim} and \begin{verba
 
 \end{flushleft}
 
+\subsection{Race}
+\begin{verbatim}
+int m_speed;
+int m_velocity;
+int m_km;
+\end{verbatim}
+These 3 have been moved into the new Race class with respective getters and setters.\newline
+The new Race class looks like:
+\begin{verbatim}
+class Race
+{
+public:
+    Race();
+    void setSpeed(int, int);
+    void setVelocity(int);
+    void setKm(int, int);
+    int getSpeed() const;
+    int getVelocity() const;
+    int getKm() const;
+private:
+    int speed;
+    int velocity;
+    int km;
+};
+\end{verbatim}
+In order to maintain the new standard the formulas to calcolate speed and km has been inserted into setSpeed and setKm functions, this could not be done for setVelocity function because in carStatus.cpp there are 2 different formulas to calcolate the velocity, so it is easier to maintain that formulas into carStatus.
+
+\subsection{Warning}
+\begin{verbatim}
+int m_invr;
+int m_invl;
+int m_front;
+int m_rear;
+int m_lv;
+int m_hv;
+int m_central;
+int m_pedals;
+int m_warning;
+\end{verbatim}
+These old variables have been moved to Warning, the new class; as always the new class has all getters and setters required.\newline
+The new Warning class looks like:
+\begin{verbatim}
+public:
+    Warning();
+    void setInvRight(int);
+    void setInvLeft(int);
+    void setFront(int);
+    void setRear(int);
+    void setLv(int);
+    void setHv(int);
+    void setCentral(int);
+    void setPedals(int);
+    void setWarning(int);
+    int getInvRight() const;
+    int getInvLeft() const;
+    int getFront() const;
+    int getRear() const;
+    int getLv() const;
+    int getHv() const;
+    int getCentral() const;
+    int getPedals() const;
+    int getWarning() const;
+private:
+    int invRight;
+    int invLeft;
+    int front;
+    int rear;
+    int lv;
+    int hv;
+    int central;
+    int pedals;
+    int warning;
+\end{verbatim}
+The \textbf{Q\_PROPERTY} called warning in carStatus.h has been modified to getWarning (and valWarning for the variable name) in order to free the warning instace and to give it to the new Warning class instace. This means that all the references in qml to the older warning \textbf{Q\_PROPERTY} has been modified to getWarning or valWarning. The file in question is StatusLED.qml. In this way it has been possible to maintain our new standard.\newline
+Schematically:
+\begin{itemize}
+    \item Older \textbf{Q\_PROPERTY} in carStatus:
+    \begin{verbatim}
+    Q_PROPERTY(int warning READ warning NOTIFY warningChanged);
+    \end{verbatim}
+    \item New \textbf{Q\_PROPERTY} in carStatus:
+    \begin{verbatim}
+    Q_PROPERTY(int varWarning READ getWarning NOTIFY warningChanged);
+    \end{verbatim}
+    \item Older \textbf{StatusLED.qml}:
+    \begin{verbatim}
+    property var warning : CarStatus.warning;
+    ...
+    warningVal = CarStatus.warning;
+    \end{verbatim}
+    \item New \textbf{StatusLED.qml}:
+    \begin{verbatim}
+    property var warning : CarStatus.getWarning;
+    ...
+    warningVal = CarStatus.varWarning;
+    \end{verbatim}
+\end{itemize}
 \end{document}

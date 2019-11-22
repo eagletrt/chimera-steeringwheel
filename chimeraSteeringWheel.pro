@@ -21,7 +21,9 @@ HEADERS += header/buttons.h \
            header/canbus.h \
            header/carstatus.h \
            header/inverters.h \
-           header/control.h
+           header/control.h \
+           header/race.h \
+           header/warning.h
 
 SOURCES += core/main.cpp \
            core/buttons.cpp \
@@ -29,7 +31,9 @@ SOURCES += core/main.cpp \
            core/canbus.cpp \
            core/carstatus.cpp \
            core/inverters.cpp \
-           core/control.cpp
+           core/control.cpp \
+           core/race.cpp \
+           core/warning.cpp
 
 RESOURCES += qml.qrc
 

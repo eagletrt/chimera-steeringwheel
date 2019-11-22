@@ -22,7 +22,9 @@ HEADERS += header/buttons_x86.h \
            header/keypresseventfilter.h \
            header/console.h \
            header/canbus.h \
-           header/carstatus.h
+           header/carstatus.h \
+           header/race.h \
+           header/warning.h
 
 
 SOURCES += core/main_x86.cpp \
@@ -32,6 +34,8 @@ SOURCES += core/main_x86.cpp \
            core/canbus.cpp \
            core/carstatus.cpp \
            core/inverters.cpp \
-           core/control.cpp
+           core/control.cpp \
+           core/race.cpp \
+           core/warning.cpp
 
 RESOURCES += qml.qrc

@@ -403,7 +403,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
             carStatus->setBrake(msg.at(1));
             qDebug() << "------>Brake received" << msg.at(1);
          
-         }else{//0x01 probabilmente
+         }else if(msg.at(0) == 0x01){//0x01 probabilmente
             
             carStatus->setThrottle(msg.at(1));
          }

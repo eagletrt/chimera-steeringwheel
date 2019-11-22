@@ -16,6 +16,8 @@
 #include <QTimer>
 #include "inverters.h"
 #include "control.h"
+#include "race.h"
+#include "warning.h"
 
 class CarStatus : public QObject
 {
@@ -36,7 +38,7 @@ class CarStatus : public QObject
     Q_PROPERTY(int tc READ tc NOTIFY tcChanged)
     Q_PROPERTY(int pump READ pump NOTIFY pumpChanged)
 
-    Q_PROPERTY(int warning READ warning NOTIFY warningChanged)
+    Q_PROPERTY(int varWarning READ getWarning NOTIFY warningChanged)
     Q_PROPERTY(int error READ error NOTIFY errorChanged)
 
     Q_PROPERTY(int carStatus READ carStatus NOTIFY carStatusChanged)
@@ -99,7 +101,7 @@ class CarStatus : public QObject
         void setWarning(int on);
         void setError(int on);
 
-        int warning() const;
+        int getWarning() const;
         int error() const;
 
         //void setTemperature(int temperature);
@@ -160,9 +162,11 @@ class CarStatus : public QObject
         //int m_temperature;
 
         // Racing Page
-        int m_speed;
-        int m_velocity;
-        int m_km;
+        //int m_speed; moved into race
+        //int m_velocity; moved into race
+        //int m_km; moved into race
+
+        Race race;
 
         // manettini
         int m_map;
@@ -170,15 +174,17 @@ class CarStatus : public QObject
         int m_pump;
 
         // warnings
-        int m_invr;
-        int m_invl;
-        int m_front;
-        int m_rear;
-        int m_lv;
-        int m_hv;
-        int m_central;
-        int m_pedals;
-        int m_warning;
+        //int m_invr;  moved into warning
+        //int m_invl;  moved into warning
+        //int m_front; moved into warning
+        //int m_rear; moved into warning
+        //int m_lv; moved into warning
+        //int m_hv; moved into warning
+        //int m_central; moved into warning
+        //int m_pedals; moved into warning
+        //int m_warning; moved into warning
+
+        Warning warning;
 
         // errors
         int m_err_apps;
