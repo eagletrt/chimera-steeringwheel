@@ -214,4 +214,59 @@ As can be seen besides getters, setters and the class costructor, it has been al
 \begin{verbatim}incMap incPump incTc.\end{verbatim}
 Their task is to increment the value of each manettino by one, if this value exceeds a certain amount it runs a modulus in order to reset the variable.
 
+\subsection{Errors}
+\begin{verbatim}
+int m_err_apps;
+int m_err_bse;
+int m_err_steer;
+int m_err_wheel_left;
+int m_err_wheel_right;
+int m_err_gps;
+int m_err_imu_front;
+int m_err_imu_central;
+int m_err_imu_rear;
+int m_error;
+\end{verbatim}
+These 10 variables have been moved into Errors class. This also implements getters and setters.
+\begin{verbatim}
+public:
+    Errors();
+    void setErrApps(int);
+    void setErrBse(int);
+    void setErrSteer(int);
+    void setErrLeftWheel(int);
+    void setErrRightWheel(int);
+    void setErrGps(int);
+    void setErrFrontIMU(int);
+    void setErrCentralIMU(int);
+    void setErrRearIMU(int);
+    void setError(int);
+    void setAll(int, int, int, int, int, int, int, int, int);
+    int getErrApps()const;
+    int getErrBse()const;
+    int getErrSteer()const;
+    int getErrLeftWheel()const;
+    int getErrRightWheel()const;
+    int getErrGPS()const;
+    int getErrFrontIMU()const;
+    int getErrCentralIMU()const;
+    int getErrRearIMU()const;
+    int getError()const;
+private:
+    int err_apps;
+    int err_bse;
+    int err_steer;
+    int err_wheel_left;
+    int err_wheel_right;
+    int err_gps;
+    int err_imu_front;
+    int err_imu_central;
+    int err_imu_rear;
+    int error;
+\end{verbatim}
+As can be seen, there also is a method named
+\begin{verbatim}setAll.\end{verbatim}
+This has been implement in order to simplify the readability of
+\begin{verbatim}CarStatus::setErrStatus\end{verbatim}
+
 \end{document}

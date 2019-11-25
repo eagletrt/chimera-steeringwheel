@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2019.11.15)  25 NOV 2019 09:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2019.11.15)  25 NOV 2019 10:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -168,7 +168,7 @@ Overfull \hbox (65.4499pt too wide) in paragraph at lines 174--174
 gChanged);[] 
  []
 
-[6] [7] (./refactor.aux) ) 
+[6] [7] [8] [9] (./refactor.aux) ) 
 Here is how much of TeX's memory you used:
  1462 strings out of 494553
  21152 string characters out of 6177376
@@ -177,15 +177,16 @@ Here is how much of TeX's memory you used:
  6796 words of font info for 25 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  41i,7n,25p,486b,306s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr1
-7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on refactor.pdf (8 pages, 98025 bytes).
+</usr/share/texlive/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cms
+y10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pf
+b>
+Output written on refactor.pdf (10 pages, 99917 bytes).
 PDF statistics:
- 54 PDF objects out of 1000 (max. 8388607)
- 36 compressed objects within 1 object stream
+ 60 PDF objects out of 1000 (max. 8388607)
+ 40 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

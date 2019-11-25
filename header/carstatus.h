@@ -19,6 +19,7 @@
 #include "race.h"
 #include "warning.h"
 #include "manettini.h"
+#include "errors.h"
 
 class CarStatus : public QObject
 {
@@ -189,16 +190,18 @@ class CarStatus : public QObject
         Warning warning;
 
         // errors
-        int m_err_apps;
-        int m_err_bse;
-        int m_err_steer;
-        int m_err_wheel_left;
-        int m_err_wheel_right;
-        int m_err_gps;
-        int m_err_imu_front;
-        int m_err_imu_central;
-        int m_err_imu_rear;
-        int m_error;
+        //int m_err_apps;
+        //int m_err_bse;
+        //int m_err_steer;
+        //int m_err_wheel_left;
+        //int m_err_wheel_right;
+        //int m_err_gps;
+        //int m_err_imu_front;
+        //int m_err_imu_central;
+        //int m_err_imu_rear;
+        //int m_error;
+
+        Errors errors;
         
         // tab sensors
         int m_brakeVal;

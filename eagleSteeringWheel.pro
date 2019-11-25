@@ -18,6 +18,7 @@ CONFIG += qtquickcompiler
 # Input
 HEADERS += header/buttons_x86.h \
            header/control.h \
+           header/errors.h \
            header/inverters.h \
            header/keypresseventfilter.h \
            header/console.h \
@@ -38,6 +39,7 @@ SOURCES += core/main_x86.cpp \
            core/control.cpp \
            core/race.cpp \
            core/warning.cpp \
-           core/manettini.cpp
+           core/manettini.cpp \
+           core/errors.cpp
 
 RESOURCES += qml.qrc

@@ -2,16 +2,6 @@
 
 CarStatus::CarStatus() {
 
-    m_err_apps = 2;
-    m_err_bse = 2;
-    m_err_steer = 2;
-    m_err_wheel_left = 2;
-    m_err_wheel_right = 2;
-    m_err_gps = 2;
-    m_err_imu_front = 2;
-    m_err_imu_central = 2;
-    m_err_imu_rear = 2;
-
     m_apps = 0;
     m_bse = 0;
     m_steer = 50;
@@ -238,15 +228,15 @@ QString CarStatus::HVStatus() const {
 QString CarStatus::ERRStatus() const {
     // qDebug() << "Asked ERRStatus";
     return QString("%1%2%3%4%5%6%7%8%9")
-        .arg(QString::number(m_err_apps),
-             QString::number(m_err_bse),
-             QString::number(m_err_wheel_left),
-             QString::number(m_err_wheel_right),
-             QString::number(m_err_steer),
-             QString::number(m_err_imu_front),
-             QString::number(m_err_gps),
-             QString::number(m_err_imu_central),
-             QString::number(m_err_imu_rear));
+        .arg(QString::number(errors.getErrApps()),
+             QString::number(errors.getErrBse()),
+             QString::number(errors.getErrLeftWheel()),
+             QString::number(errors.getErrRightWheel()),
+             QString::number(errors.getErrSteer()),
+             QString::number(errors.getErrFrontIMU()),
+             QString::number(errors.getErrGPS()),
+             QString::number(errors.getErrCentralIMU()),
+             QString::number(errors.getErrRearIMU()));
 }
 
 // ???
@@ -309,15 +299,9 @@ void CarStatus::setERRStatus(int err_apps,
                              int err_imu_central,
                              int err_imu_rear) {
 
-    m_err_apps = err_apps;
-    m_err_bse = err_bse;
-    m_err_steer = err_steer;
-    m_err_gps = err_gps;
-    m_err_wheel_right = err_wheel_left;
-    m_err_wheel_left = err_wheel_right;
-    m_err_imu_front = err_imu_front;
-    m_err_imu_central = err_imu_central;
-    m_err_imu_rear = err_imu_rear;
+    errors.setAll(err_apps, err_bse, err_steer, err_wheel_left,
+                  err_wheel_right, err_gps, err_imu_front,
+                  err_imu_central, err_imu_rear);
 
     emit ERRStatusChanged();
 }
@@ -439,7 +423,7 @@ void CarStatus::setWarning(int on) {
 }
 
 void CarStatus::setError(int on) {
-    m_error = on;
+    errors.setError(on);
     emit errorChanged();
 }
 
@@ -578,7 +562,7 @@ int CarStatus::getWarning() const {
     return warning.getWarning();
 }
 int CarStatus::error() const {
-    return m_error;
+    return errors.getError();
 }
 
 // Destroy, BOOM!
