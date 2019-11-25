@@ -18,6 +18,7 @@
 #include "control.h"
 #include "race.h"
 #include "warning.h"
+#include "manettini.h"
 
 class CarStatus : public QObject
 {
@@ -169,9 +170,10 @@ class CarStatus : public QObject
         Race race;
 
         // manettini
-        int m_map;
-        int m_tc;
-        int m_pump;
+        //int m_map;
+        //int m_tc;
+        //int m_pump;
+        Manettini manettini;
 
         // warnings
         //int m_invr;  moved into warning

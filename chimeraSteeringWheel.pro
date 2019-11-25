@@ -23,7 +23,8 @@ HEADERS += header/buttons.h \
            header/inverters.h \
            header/control.h \
            header/race.h \
-           header/warning.h
+           header/warning.h \
+           header/manettini.h
 
 SOURCES += core/main.cpp \
            core/buttons.cpp \
@@ -33,7 +34,8 @@ SOURCES += core/main.cpp \
            core/inverters.cpp \
            core/control.cpp \
            core/race.cpp \
-           core/warning.cpp
+           core/warning.cpp \
+           core/manettini.cpp
 
 RESOURCES += qml.qrc
 

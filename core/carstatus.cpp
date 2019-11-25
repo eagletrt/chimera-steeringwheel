@@ -2,9 +2,6 @@
 
 CarStatus::CarStatus() {
 
-    //m_stateofcharge = -1; not used
-    //m_temperature = -1; not used
-
     m_err_apps = 2;
     m_err_bse = 2;
     m_err_steer = 2;
@@ -15,27 +12,9 @@ CarStatus::CarStatus() {
     m_err_imu_central = 2;
     m_err_imu_rear = 2;
 
-    //m_invr = 2; moved into warning
-    //m_invl = 2; moved into warning
-    //m_front = 2; moved into warning
-    //m_central = 2; moved into warning
-    //m_pedals = 2; moved into warning
-    //m_rear = 2; moved into warning
-    //m_lv = 2; moved into warning
-    //m_hv = 2; moved into warning
-
-    //m_km = 999; moved into race
-    //m_velocity = 0; moved into race
-    m_map = 1;
-    m_pump = 6;
-    m_tc = 1;
-
     m_apps = 0;
     m_bse = 0;
     m_steer = 50;
-
-    //m_invSxTemp = 0; moved into inverters
-    //m_invDxTemp = 0; moved into inverters
 
     m_hvTemp = 0;
     m_hvVolt = 0;
@@ -141,10 +120,10 @@ void CarStatus::setHVStatus(uint8_t id, uint8_t val1, uint8_t val2, uint8_t val3
 void CarStatus::changeMap(int mapID) {
 
     if (mapID != LOOP_THROUGH_MAPS) {
-        m_map = mapID;
+        manettini.setMap(mapID);
     } else {
-         m_map += 1;
-        m_map = m_map > MAP_NUMBER ? m_map % MAP_NUMBER : m_map;
+        //m_map = m_map > MAP_NUMBER ? m_map % MAP_NUMBER : m_map;
+        manettini.incMap(MAP_NUMBER);
     }
 
     emit mapChanged();
@@ -154,10 +133,9 @@ void CarStatus::changeMap(int mapID) {
 void CarStatus::changePump(int pumpID) {
 
     if (pumpID != LOOP_THROUGH_PUMPS) {
-        m_pump = pumpID;
+        manettini.setPump(pumpID);
     } else {
-        m_pump += 1;
-        m_pump = m_pump > PUMP_NUMBER ? m_pump % PUMP_NUMBER : m_pump;
+        manettini.incPump(PUMP_NUMBER);
     }
     //emit pumpChanged();
 }
@@ -166,10 +144,9 @@ void CarStatus::changePump(int pumpID) {
 void CarStatus::changeTc(int tcID) {
 
     if (tcID != LOOP_THROUGH_TCS) {
-        m_tc = tcID;
+        manettini.setTc(tcID);
     } else {
-        m_tc += 1;
-        m_tc = m_tc > TC_NUMBER ? m_tc % TC_NUMBER : m_tc;
+        manettini.incTc(TC_NUMBER);
     }
 
     emit tcChanged();
@@ -397,7 +374,7 @@ void CarStatus::setTelemetryEnabledStatus(int status){
 
 void CarStatus::setSteeringWheelPopup(int msg) { //Value to be showned
 
-    this->popup = msg;
+    popup = msg;
 
     emit SteeringWheelPopupChanged();
 }
@@ -432,7 +409,7 @@ void CarStatus::setHVStatus(int preCharge,
 }
 
 int CarStatus::getCtrlIsEnabled() {
-    return this->control.getCtrlIsEnabled();
+    return control.getCtrlIsEnabled();
 }
 
 void CarStatus::setCarStatus(int ctrlIsEnabled,
@@ -441,18 +418,18 @@ void CarStatus::setCarStatus(int ctrlIsEnabled,
                              int warning,
                              int error) {
 
-    this->control.setCtrlIsEnabled(ctrlIsEnabled);
-    this->control.setCtrlIsOn(ctrlIsOn);
+    control.setCtrlIsEnabled(ctrlIsEnabled);
+    control.setCtrlIsOn(ctrlIsOn);
     //this->warning.setWarning(warning);
     //m_error = error;
-    this->control.setCarStatus(driveModeEnabled);
+    control.setCarStatus(driveModeEnabled);
     
     emit execModeChanged(ctrlIsEnabled, ctrlIsOn, warning, error);
     emit carStatusChanged();
 }
 
 void CarStatus::setCarMode(int mode){
-   this->control.setCarStatus(mode);
+   control.setCarStatus(mode);
    emit carStatusChanged();
 }
 
@@ -467,46 +444,48 @@ void CarStatus::setError(int on) {
 }
 
 int CarStatus::carStatus() {
-    return this->control.getCarStatus();
+    return control.getCarStatus();
 }
 
 int CarStatus::getPump() {
-    return m_pump - 1;
+    manettini.setPump(manettini.getPump() - 1);    
+    return manettini.getPump();
 }
 
 int CarStatus::getMap() {
-    return m_map - 1;
+    manettini.setMap(manettini.getMap() - 1);
+    return manettini.getMap();
 }
 
 int CarStatus::stopCar() {
     qDebug() << "Stoppo la car!";
-    this->control.setCarStatus(CAR_STATUS_STOP);
+    control.setCarStatus(CAR_STATUS_STOP);
 
     emit toggleCar();
 
-    return this->control.getCarStatus();;
+    return control.getCarStatus();;
 }
 
 int CarStatus::toggleCarStatus() {
-   switch(this->control.getCarStatus()){
+   switch(control.getCarStatus()){
       case CAR_STATUS_IDLE:
          qDebug() << "CAR_STATUS_IDLE -> CAR_STATUS_SETUP";
          // Change the status of the car
-         this->control.setCarStatus(CAR_STATUS_IDLE);
+         control.setCarStatus(CAR_STATUS_IDLE);
          // Send CAN request to the CTRL
          emit toggleCar();
          break;
       case CAR_STATUS_SETUP:
         qDebug() << "CAR_STATUS_SETUP -> CAR_STATUS_RUN";
         // Change the status of the car
-        this->control.setCarStatus(CAR_STATUS_SETUP);
+        control.setCarStatus(CAR_STATUS_SETUP);
         // Send CAN request to the CTRL
         emit toggleCar();
         break;
       case CAR_STATUS_RUN:
         qDebug() << "CAR_STATUS_RUN -> CAR_STATUS_SETUP";
         // Change the status of the car
-        this->control.setCarStatus(CAR_STATUS_RUN);
+        control.setCarStatus(CAR_STATUS_RUN);
         // Send CAN request to the CTRL
         emit toggleCar();
         break;
@@ -528,11 +507,11 @@ int CarStatus::toggleCarStatus() {
 
 //This is not used
 int CarStatus::toggleCtrl() {
-    if (this->control.setCarStatus(CAR_STATUS_RUN)) {
-        this->control.setCtrlIsOn(!this->control.getCtrlIsOn());
+    if (control.setCarStatus(CAR_STATUS_RUN)) {
+        control.setCtrlIsOn(!control.getCtrlIsOn());
         
         emit CTRLEnabledChanged();
-        return this->control.getCtrlIsOn();
+        return control.getCtrlIsOn();
     }
     return -1;
 }
@@ -551,13 +530,13 @@ bool CarStatus::setTelemetry(int index) {
 */
 
 int CarStatus::pump() const {
-    return m_pump;
+    return manettini.getPump();
 }
 int CarStatus::map() const {
-    return m_map;
+    return manettini.getMap();
 }
 int CarStatus::tc() const {
-    return m_tc;
+    return manettini.getTc();
 }
 int CarStatus::velocity() const {
     return race.getVelocity();

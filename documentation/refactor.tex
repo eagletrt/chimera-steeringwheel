@@ -100,8 +100,6 @@ int m_km;
 These 3 have been moved into the new Race class with respective getters and setters.\newline
 The new Race class looks like:
 \begin{verbatim}
-class Race
-{
 public:
     Race();
     void setSpeed(int, int);
@@ -114,7 +112,6 @@ private:
     int speed;
     int velocity;
     int km;
-};
 \end{verbatim}
 In order to maintain the new standard the formulas to calcolate speed and km has been inserted into setSpeed and setKm functions, this could not be done for setVelocity function because in carStatus.cpp there are 2 different formulas to calcolate the velocity, so it is easier to maintain that formulas into carStatus.
 
@@ -188,4 +185,33 @@ Schematically:
     warningVal = CarStatus.varWarning;
     \end{verbatim}
 \end{itemize}
+
+\subsection{Manettini}
+\begin{verbatim}
+int m_map;
+int m_tc;
+int m_pump;
+\end{verbatim}
+These 3 variables belong to Steering Wheel's physical manettini which control respectively car's power delivery, traction control and cooling. These are now moved into Manettini class.
+\begin{verbatim}
+public:
+    Manettini();
+    void setMap(int);
+    void setTc(int);
+    void setPump(int);
+    int getMap() const;
+    int getTc() const;
+    int getPump() const;
+    void incMap(const int);
+    void incPump(const int);
+    void incTc(const int);
+private:
+    int map;
+    int tc;
+    int pump;
+\end{verbatim}
+As can be seen besides getters, setters and the class costructor, it has been also added 
+\begin{verbatim}incMap incPump incTc.\end{verbatim}
+Their task is to increment the value of each manettino by one, if this value exceeds a certain amount it runs a modulus in order to reset the variable.
+
 \end{document}
