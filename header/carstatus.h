@@ -23,6 +23,7 @@
 #include "hv.h"
 #include "sensors.h"
 #include "telemetry.h"
+#include "lv.h"
 
 class CarStatus : public QObject
 {
@@ -224,8 +225,9 @@ class CarStatus : public QObject
         Hv hv;
 
         // lv
-        int m_lvTemp;
-        int m_lvVolt;
+        //int m_lvTemp;
+        //int m_lvVolt;
+        Lv lv;
 
         //QString firstTelemetry; Useless, who put these please delete them
         //QString secondTelemetry; Useless, who put these please delete them

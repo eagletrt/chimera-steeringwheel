@@ -2,11 +2,6 @@
 
 CarStatus::CarStatus() {
 
-    //m_hvTemp = 0; moved into Hv
-    //m_hvVolt = 0; moved into Hv
-
-    m_lvVolt = 0; 
-    m_lvTemp = 0; 
     //m_speed = 100; moved into race
     
     QTimer *graphicTimer = new QTimer(this);
@@ -71,8 +66,8 @@ void CarStatus::setThrottle(int val){
 // Set LV temp,volt value
 void CarStatus::setLVStatus(uint8_t val1, uint8_t val3){
     //before uint8_t val2 as a m_lvVal
-    m_lvVolt = val1;
-    m_lvTemp = val3;
+    lv.setLvVolt(val1);
+    lv.setLvTemp(val3);
 }
 
 // Set HV temp,volt value
@@ -535,13 +530,13 @@ int CarStatus::hvTemp() const {
     return hv.getHvTemperature();
 }
 int CarStatus::lvTemp() const {
-    return m_lvTemp;
+    return lv.getLvTemp();
 }
 int CarStatus::hvVolt() const {
     return hv.getHvVoltage();
 }
 int CarStatus::lvVolt() const {
-    return m_lvVolt;
+    return lv.getLvVolt();
 }
 int CarStatus::getCtrlIsOn() {
     return this->control.getCtrlIsOn();

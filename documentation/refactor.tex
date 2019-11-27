@@ -312,4 +312,23 @@ private:
 \end{verbatim}
 Apart from getters and setters there were no changes.
 
+\subsection{Low Voltage}
+\begin{verbatim}
+int m_lvTemp;
+int m_lvVolt;
+\end{verbatim}
+These 2 has been moved into Lv Class:
+\begin{verbatim}
+public:
+    Lv();
+    void setLvTemp(int);
+    void setLvVolt(int);
+    int getLvTemp() const;
+    int getLvVolt() const;
+private:
+    int lvTemp;
+    int lvVolt;
+\end{verbatim}
+Apart from getters and setters there were no changes.
+
 \end{document}
