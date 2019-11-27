@@ -357,7 +357,7 @@ bool sender;
 int telemetryEnStatus;
 int popup;
 \end{verbatim}
-These 4 hasn't been changed however they have been moved into a new Class called Telemetry:
+These 4 haven't been changed however they have been moved into a new Class called Telemetry:
 \begin{verbatim}
 public:
     Telemetry();
@@ -376,5 +376,7 @@ private:
     int telemetryEnStatus;
     int popup;
 \end{verbatim}
+The major "change" is the way to return the telemetry array, to maintain a certain standard it has been decided to use the function called getTelemetry(int index) with index as the index to retrieve for the telemetry array.
+The others getter and setter are the usual ones.
 
 \end{document}
