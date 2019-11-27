@@ -40,7 +40,7 @@
 #define TC_3              931111
 #define TC_4              941111
 #define TC_5              951111
-#define TC_6              921111
+#define TC_6              911111
 
 class Buttons : public QObject
 {
@@ -63,7 +63,7 @@ class Buttons : public QObject
 
     public slots:
         void readGPIOState();
-        void changeEncoder(int gpio);
+        void changeEncoders(int gpio);
 
     signals:
         void btnClicked(int btnID);

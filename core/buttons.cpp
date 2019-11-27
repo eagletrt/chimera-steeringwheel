@@ -138,7 +138,7 @@ void Buttons::readGPIOState(){
                     }
                     if(tc != -1 && tc != oldTc){
                         tcChanged(tc);
-                        oldTC = tc;
+                        oldTc = tc;
                     }
                 }
 
@@ -160,62 +160,62 @@ void Buttons::emitBtnEvent(int btnId, int btnAction) {
     }
 }
 
-void Buttons::changeEncoder(int gpio){
+void Buttons::changeEncoders(int gpio){
     // Change Maps
     switch(gpio) {
       case PUMP_1:
-          this.pump = 1;
+          pump = 1;
       break;
       case PUMP_2:
-          this.pump = 2;
+          pump = 2;
       break;
       case PUMP_3:
-          this.pump = 3;
+          pump = 3;
       break;
       case PUMP_4:
-          this.pump = 4;
+          pump = 4;
       break;
       case PUMP_5:
-          this.pump = 5;
+          pump = 5;
       break;
       case PUMP_6:
-          this.pump = 6;
+          pump = 6;
       break;
       case MAP_1:
-          this.map = 1;
+          map = 1;
       break;
       case MAP_2:
-          this.map = 2;
+          map = 2;
       break;
       case MAP_3:
-          this.map = 3;
+          map = 3;
       break;
       case MAP_4:
-          this.map = 4;
+          map = 4;
       break;
       case MAP_5:
-          this.map = 5;
+          map = 5;
       break;
       case MAP_6:
-          this.map = 6;
+          map = 6;
       break;
       case TC_1:
-          this.tc = 1;
+          tc = 1;
       break;
       case TC_2:
-          this.tc = 2;
+          tc = 2;
       break;
       case TC_3:
-          this.tc = 3;
+          tc = 3;
       break;
       case TC_4:
-          this.tc = 4;
+          tc = 4;
       break;
       case TC_5:
-          this.tc = 5;
+          tc = 5;
       break;
       case TC_6:
-          this.tc = 6;
+          tc = 6;
       break;
     }
 }
