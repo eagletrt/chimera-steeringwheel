@@ -22,6 +22,7 @@
 #include "errors.h"
 #include "hv.h"
 #include "sensors.h"
+#include "telemetry.h"
 
 class CarStatus : public QObject
 {
@@ -229,10 +230,12 @@ class CarStatus : public QObject
         //QString firstTelemetry; Useless, who put these please delete them
         //QString secondTelemetry; Useless, who put these please delete them
 
-        int telemetry[12];
-        bool sender;
-        int telemetryEnStatus;
-        int popup;
+        Telemetry telemetry;
+        
+        //int telemetry[12]; moved into telemetry
+        //bool sender; moved into telemetry
+        //int telemetryEnStatus; moved into telemetry
+        //int popup; moved into telemetry
 
     signals:
         void tempChanged(int temperature);

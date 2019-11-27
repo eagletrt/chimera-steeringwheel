@@ -9,13 +9,6 @@ CarStatus::CarStatus() {
     m_lvTemp = 0; 
     //m_speed = 100; moved into race
     
-    for(int i = 0 ; i < 11; i++){
-        telemetry[i] = 2;
-    }
-    sender = false;
-    telemetryEnStatus = 0; //0 off, 1 is setting up, 2 setted
-    popup = 3; //Welcome
-    
     QTimer *graphicTimer = new QTimer(this);
     connect(graphicTimer, SIGNAL(timeout()), this, SLOT(processingTimeout()));
     graphicTimer->start(GRAPHICTIMER);
@@ -152,25 +145,25 @@ QString CarStatus::CANStatus() const {
 
 QString CarStatus::TelemetryStatus() const {
     qDebug() << "Asked Telemetry Status";
-    return QString::number(telemetry[0])+
-           QString::number(telemetry[1])+
-           QString::number(telemetry[2])+
-           QString::number(telemetry[3])+
-           QString::number(telemetry[4])+
-           QString::number(telemetry[5])+
-           QString::number(telemetry[6])+
-           QString::number(telemetry[7])+
-           QString::number(telemetry[8])+
-           QString::number(telemetry[9])+
-           QString::number(telemetry[10]);
+    return QString::number(telemetry.getTelemetry(0))+
+           QString::number(telemetry.getTelemetry(1))+
+           QString::number(telemetry.getTelemetry(2))+
+           QString::number(telemetry.getTelemetry(3))+
+           QString::number(telemetry.getTelemetry(4))+
+           QString::number(telemetry.getTelemetry(5))+
+           QString::number(telemetry.getTelemetry(6))+
+           QString::number(telemetry.getTelemetry(7))+
+           QString::number(telemetry.getTelemetry(8))+
+           QString::number(telemetry.getTelemetry(9))+
+           QString::number(telemetry.getTelemetry(10)]);
 }
 
 int CarStatus::TelemetryEnabledStatus() const {
-    return telemetryEnStatus;
+    return telemetry.getTelemetryStatus();
 }
 
 int CarStatus::SteeringWheelPopup() const {
-    return this->popup;
+    return telemetry.getPopupMessage();
 }
 
 QByteArray CarStatus::getTelemetryStatus() {
@@ -178,17 +171,17 @@ QByteArray CarStatus::getTelemetryStatus() {
     t.resize(8);
     qDebug() << TelemetryStatus();
     t[0] = 0xF;
-    t[1] = (telemetry[0] << 6) + 
-           (telemetry[1] << 4) +
-           (telemetry[2] << 2) +
-           (telemetry[3]);
-    t[2] = (telemetry[4] << 6) + 
-           (telemetry[5] << 4) +
-           (telemetry[6] << 2) +
-           (telemetry[7]);
-    t[3] = (telemetry[8] << 6) + 
-           (telemetry[9] << 4) +
-           (telemetry[10] << 2);
+    t[1] = (telemetry.getTelemetry(0) << 6) + 
+           (telemetry.getTelemetry(1) << 4) +
+           (telemetry.getTelemetry(2) << 2) +
+           (telemetry.getTelemetry(3));
+    t[2] = (telemetry.getTelemetry(4) << 6) + 
+           (telemetry.getTelemetry(5) << 4) +
+           (telemetry.getTelemetry(6) << 2) +
+           (telemetry.getTelemetry(7));
+    t[3] = (telemetry.getTelemetry(8) << 6) + 
+           (telemetry.getTelemetry(9) << 4) +
+           (telemetry.getTelemetry(10) << 2);
     return t;
 }
 
@@ -197,16 +190,16 @@ QByteArray CarStatus::getTelemetryEnabledStatus() {
     t.resize(8);
     qDebug() << "Asking telemetry to set up";
     t[0] = 0x1;
-    t[1] = telemetryEnStatus;
+    t[1] = telemetry.getTelemetryStatus();
     return t;
 }
 
 bool CarStatus::getSender() {
-    return sender;
+    return telemetry.getSender();
 }
 
 void CarStatus::setSender() {
-    sender == false ? sender = true : sender = false;
+    telemetry.setSender();
     qDebug() << "Invio:" << sender;
 }
 
@@ -330,30 +323,30 @@ void CarStatus::setTelemetryStatus(int bms_hv,
                                     int brake,
                                     int db,
                                     int mqtt) {
-    telemetry[0] = bms_hv;
-    telemetry[1] = bms_lv;
-    telemetry[2] = gps;
-    telemetry[3] = imu_gyro;
-    telemetry[4] = imu_axel;
-    telemetry[5] = front_wheel_encoder;
-    telemetry[6] = steering;
-    telemetry[7] = throttle;
-    telemetry[8] = brake;
-    telemetry[9] = db;
-    telemetry[10]= mqtt;
+    telemetry.setTelemetry(
+        bms_hv,
+        bms_lv,
+        gps,
+        imu_gyro,
+        imu_axel,
+        front_wheel_encoder,
+        steering,
+        throttle,
+        brake,
+        db,
+        mqtt
+    );
 
     emit TelemetryStatusChanged();
 }
 
 void CarStatus::setTelemetryEnabledStatus(int status){
-    telemetryEnStatus = status;
+    telemetry.setTelemetryStatus(status);
     emit TelemetryEnabledStatusChanged();
 }
 
 void CarStatus::setSteeringWheelPopup(int msg) { //Value to be showned
-
-    popup = msg;
-
+    telemetry.setPopupMessage(msg);
     emit SteeringWheelPopupChanged();
 }
 
@@ -497,7 +490,8 @@ int CarStatus::toggleCtrl() {
 bool CarStatus::setTelemetry(int index) {
     bool ret = false;
     if(index >= 0 && index < 11){
-        telemetry[index] = (telemetry[index] + 1) % 2;
+
+        telemetry.setTelemetryIndex(index);
         ret = true;
     }
     return ret;
