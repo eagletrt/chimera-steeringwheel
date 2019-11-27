@@ -27,6 +27,7 @@ HEADERS += header/buttons_x86.h \
            header/carstatus.h \
            header/manettini.h \
            header/race.h \
+           header/sensors.h \
            header/warning.h
 
 
@@ -42,6 +43,7 @@ SOURCES += core/main_x86.cpp \
            core/warning.cpp \
            core/manettini.cpp \
            core/errors.cpp \
-           core/hv.cpp
+           core/hv.cpp \
+           core/sensors.cpp
 
 RESOURCES += qml.qrc
