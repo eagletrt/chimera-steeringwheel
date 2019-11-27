@@ -47,7 +47,7 @@ SOURCES += core/main_x86.cpp \
            core/errors.cpp \
            core/sensors.cpp \
            core/hv.cpp \
-           core/telemetry.cpp
+           core/telemetry.cpp \
            core/lv.cpp
 
 RESOURCES += qml.qrc

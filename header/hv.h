@@ -6,8 +6,8 @@ class Hv
 {
 public:
     Hv();
-    void setHvTemperature(int, int);
-    void setHvVoltage(int, int , int);
+    void setHvTemp(int, int);
+    void setHvVolt(int, int , int);
     int getHvTemperature() const;
     int getHvVoltage() const;
 private:

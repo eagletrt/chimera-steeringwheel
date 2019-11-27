@@ -73,12 +73,12 @@ void CarStatus::setLVStatus(uint8_t val1, uint8_t val3){
 // Set HV temp,volt value
 void CarStatus::setHVStatus(uint8_t id, uint8_t val1, uint8_t val2, uint8_t val3, uint8_t val4, uint8_t val5, uint8_t val6, uint8_t val7){
     if(id == 0x01){
-        hv.setHvVoltage(val1, val2, val3);
+        hv.setHvVolt(val1, val2, val3);
         // i due byte dopo sono max e min
         emit hvVoltChanged();
     }
     if(id == 0x0A){
-        hv.setHvTemperature(val1, val2);
+        hv.setHvTemp(val1, val2);
         // i due byte dopo sono max e min
         emit hvTempChanged();
     }
@@ -150,7 +150,7 @@ QString CarStatus::TelemetryStatus() const {
            QString::number(telemetry.getTelemetry(7))+
            QString::number(telemetry.getTelemetry(8))+
            QString::number(telemetry.getTelemetry(9))+
-           QString::number(telemetry.getTelemetry(10)]);
+           QString::number(telemetry.getTelemetry(10));
 }
 
 int CarStatus::TelemetryEnabledStatus() const {
@@ -195,7 +195,7 @@ bool CarStatus::getSender() {
 
 void CarStatus::setSender() {
     telemetry.setSender();
-    qDebug() << "Invio:" << sender;
+    qDebug() << "Invio:" << telemetry.getSender();
 }
 
 // Return HV Status value

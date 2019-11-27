@@ -6,12 +6,8 @@ class Telemetry
 {
 public:
     Telemetry();
-    static int telemetry[11];
-    bool sender;
-    int telemetryEnStatus;
-    int popup;
-private:
-    void setTelemetry(int, int, int, int, int ,int ,int ,int ,int ,int ,int);
+    void setTelemetry(int, int, int, int, int, int, 
+                      int, int, int, int, int);
     void setSender();
     void setTelemetryStatus(int);
     void setPopupMessage(int);
@@ -20,6 +16,11 @@ private:
     bool getSender() const;
     int getTelemetryStatus() const;
     int getPopupMessage() const;
+private:
+    int telemetry[11];
+    bool sender;
+    int telemetryEnStatus;
+    int popup;
 };
 
 #endif // TELEMETRY_H

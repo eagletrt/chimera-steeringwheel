@@ -2,7 +2,7 @@
 
 Telemetry::Telemetry()
 {
-    for(int i = 0 ; i < 10; i++){
+    for(int i = 0 ; i < 11; i++){
         this->telemetry[i] = 2;
     }
     this->sender = false;
