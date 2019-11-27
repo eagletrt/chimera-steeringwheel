@@ -26,7 +26,8 @@ HEADERS += header/buttons.h \
            header/warning.h \
            header/manettini.h \
            header/errors.h \
-           header/sensors.h
+           header/sensors.h \
+           header/lv.h
 
 SOURCES += core/main.cpp \
            core/buttons.cpp \
@@ -39,7 +40,8 @@ SOURCES += core/main.cpp \
            core/warning.cpp \
            core/manettini.cpp \
            core/errors.cpp \
-           core/sensors.cpp
+           core/sensors.cpp \
+           core/lv.cpp
 
 RESOURCES += qml.qrc
 

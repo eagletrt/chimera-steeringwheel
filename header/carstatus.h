@@ -21,6 +21,7 @@
 #include "manettini.h"
 #include "errors.h"
 #include "sensors.h"
+#include "lv.h"
 
 class CarStatus : public QObject
 {
