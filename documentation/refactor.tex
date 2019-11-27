@@ -269,4 +269,47 @@ As can be seen, there also is a method named
 This has been implement in order to simplify the readability of
 \begin{verbatim}CarStatus::setErrStatus\end{verbatim}
 
+\subsection{Sensors}
+\begin{verbatim}
+int m_brakeVal;
+int m_throttleVal;
+int m_apps;
+int m_bse;
+int m_steer;
+int m_num_err_apps;
+int m_num_err_bse;
+int m_num_err_steer;
+\end{verbatim}
+These 8 variables has been moved into Sensors class:
+\begin{verbatim}
+public:
+    Sensors();
+    void setBrakeVal(int);
+    void setThrottleVal(int);
+    void setApps(int);
+    void setBse(int);
+    void setSteer(int);
+    void setNumErrApps(int);
+    void setNumErrBse(int);
+    void setNumErrSteer(int);
+    int getBrakeVal()const;
+    int getThrottleVal()const;
+    int getApps()const;
+    int getBse()const;
+    int getSteer()const;
+    int getNumErrApps()const;
+    int getNumErrBse()const;
+    int getNumErrSteer()const;
+private:
+    int brakeVal;
+    int throttleVal;
+    int apps;
+    int bse;
+    int steer;
+    int num_err_apps;
+    int num_err_bse;
+    int num_err_steer;
+\end{verbatim}
+Apart from getters and setters there were no changes.
+
 \end{document}

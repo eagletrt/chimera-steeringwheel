@@ -2,18 +2,11 @@
 
 CarStatus::CarStatus() {
 
-    m_apps = 0;
-    m_bse = 0;
-    m_steer = 50;
-
     m_hvTemp = 0;
     m_hvVolt = 0;
     m_lvVolt = 0; 
     m_lvTemp = 0; 
     //m_speed = 100; moved into race
-
-    m_brakeVal = 100;
-    m_throttleVal = 100;
     
     for(int i = 0 ; i < 11; i++){
         telemetry[i] = 2;
@@ -62,12 +55,12 @@ void CarStatus::setKm(int meter1, int meter2){
 
 // Set Brake value 
 void CarStatus::setBrake(int val){
-    m_brakeVal = ( (int) val );
+    sensors.setBrakeVal((int) val);
 }
 
 // Set Throttle value 
 void CarStatus::setThrottle(int val){    
-    m_throttleVal = ( (int) val);
+    sensors.setThrottleVal((int) val);
     int currPercMap = 0;    
     switch(getMap() + 1){
         case 1: currPercMap = -20; break;
@@ -246,26 +239,26 @@ int CarStatus::getBit(unsigned char seq, int index){
 
 QList<int> CarStatus::APPSStatus() const {
     QList<int> appsStatusArr;
-    appsStatusArr.append((int) m_apps);
+    appsStatusArr.append((int) sensors.getApps());
     for (int var = 0; var < 5; ++var) {
-       appsStatusArr.append(CarStatus::getBit(m_num_err_apps,var));
+       appsStatusArr.append(CarStatus::getBit(sensors.getNumErrApps(), var));
     }
     return appsStatusArr;
 }
 
 QList<int> CarStatus::BSEStatus() const {
     QList<int> bseStatusArr;
-    bseStatusArr.append((int) m_bse);
+    bseStatusArr.append((int) sensors.getBse());
     for (int var = 0; var < 4; ++var) {
-       bseStatusArr.append(CarStatus::getBit(m_num_err_bse,var));
+       bseStatusArr.append(CarStatus::getBit(sensors.getNumErrBse(), var));
     }
     return bseStatusArr;
 }
 
 QList<int> CarStatus::STEERStatus() const {
     QList<int> steerStatusArr;
-    steerStatusArr.append((int) m_steer);
-    steerStatusArr.append(CarStatus::getBit(m_num_err_steer,0));
+    steerStatusArr.append((int) sensors.getNumErrSteer());
+    steerStatusArr.append(CarStatus::getBit(sensors.getNumErrSteer(), 0));
     return steerStatusArr;
 }
 
@@ -275,15 +268,15 @@ QString CarStatus::CTRLEnabled() const {
 }
 
 void CarStatus::setSTEERStatus(int steer){
-    m_steer = steer;
+    sensors.setSteer(steer);
 
     emit STEERStatusChanged();
 }
 
 void CarStatus::setAPPSBSEStatus(int apps,
                                  int bse){
-    m_apps = apps;
-    m_bse = bse;
+    sensors.setApps(apps);
+    sensors.setBse(bse);
 
     emit APPSStatusChanged();
     emit BSEStatusChanged();
@@ -526,10 +519,10 @@ int CarStatus::velocity() const {
     return race.getVelocity();
 }
 int CarStatus::brakeVal() const {
-    return m_brakeVal;
+    return sensors.getBrakeVal();
 }
 int CarStatus::throttleVal() const {
-    return m_throttleVal;
+    return sensors.getThrottleVal();
 }
 int CarStatus::speed() const {
     return race.getSpeed();
