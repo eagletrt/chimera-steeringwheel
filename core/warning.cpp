@@ -28,12 +28,12 @@ void Warning::setCentral(int value){
     this->central = value;
 }
 
-void Warning::setPedals(int value){
-    this->pedals = value;
-}
-
 void Warning::setRear(int value){
     this->rear = value;
+}
+
+void Warning::setPedals(int value){
+    this->pedals = value;
 }
 
 void Warning::setLv(int value){
@@ -64,12 +64,12 @@ int Warning::getCentral() const{
     return this->central;
 }
 
-int Warning::getPedals() const{
-    return this->pedals;
-}
-
 int Warning::getRear() const{
     return this->rear;
+}
+
+int Warning::getPedals() const{
+    return this->pedals;
 }
 
 int Warning::getLv() const{

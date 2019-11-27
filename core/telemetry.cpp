@@ -10,17 +10,9 @@ Telemetry::Telemetry()
     this->popup = 3; //Welcome
 }
 
-void Telemetry::setTelemetry( int val1,
-                              int val2,
-                              int val3,
-                              int val4,
-                              int val5,
-                              int val6,
-                              int val7,
-                              int val8,
-                              int val9,
-                              int val10,
-                              int val11){
+void Telemetry::setTelemetry(int val1, int val2, int val3, int val4, 
+                            int val5, int val6, int val7, int val8,
+                            int val9, int val10, int val11){
     this->telemetry[0] = val1;
     this->telemetry[1] = val2;
     this->telemetry[2] = val3;
@@ -35,7 +27,7 @@ void Telemetry::setTelemetry( int val1,
 }
 
 void Telemetry::setSender(){
-    this->sender == false ? this->sender = true : this->sender = false;
+    sender = !sender;
 }
 
 void Telemetry::setTelemetryStatus(int val){

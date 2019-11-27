@@ -527,13 +527,13 @@ int CarStatus::invDxTemp() const {
     return inverters.getRightInverterTemperature();
 }
 int CarStatus::hvTemp() const {
-    return hv.getHvTemperature();
+    return hv.getHvTemp();
 }
 int CarStatus::lvTemp() const {
     return lv.getLvTemp();
 }
 int CarStatus::hvVolt() const {
-    return hv.getHvVoltage();
+    return hv.getHvVolt();
 }
 int CarStatus::lvVolt() const {
     return lv.getLvVolt();

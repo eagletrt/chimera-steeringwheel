@@ -38,7 +38,7 @@ int Sensors::getThrottleVal()const {
     return throttleVal;
 }
 int Sensors::getApps()const {
-    return  apps;
+    return apps;
 }
 int Sensors::getBse()const {
     return bse;
