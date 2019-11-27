@@ -19,6 +19,7 @@ CONFIG += qtquickcompiler
 HEADERS += header/buttons_x86.h \
            header/control.h \
            header/errors.h \
+           header/hv.h \
            header/inverters.h \
            header/keypresseventfilter.h \
            header/console.h \
@@ -44,6 +45,8 @@ SOURCES += core/main_x86.cpp \
            core/manettini.cpp \
            core/errors.cpp \
            core/sensors.cpp \
+           core/hv.cpp \
            core/lv.cpp
+
 
 RESOURCES += qml.qrc

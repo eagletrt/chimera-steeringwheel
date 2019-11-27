@@ -20,6 +20,7 @@
 #include "warning.h"
 #include "manettini.h"
 #include "errors.h"
+#include "hv.h"
 #include "sensors.h"
 #include "lv.h"
 
@@ -217,11 +218,15 @@ class CarStatus : public QObject
         Sensors sensors;
         
         // hv
-        int m_hvTemp;
-        int m_hvVolt;
+        //int m_hvTemp; moved into Hv
+        //int m_hvVolt; moved into Hv
+
+        Hv hv;
+
         // lv
-        int m_lvTemp;
-        int m_lvVolt;
+        //int m_lvTemp;
+        //int m_lvVolt;
+        Lv lv;
 
         //QString firstTelemetry; Useless, who put these please delete them
         //QString secondTelemetry; Useless, who put these please delete them

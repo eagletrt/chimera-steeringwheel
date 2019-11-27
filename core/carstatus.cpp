@@ -2,10 +2,6 @@
 
 CarStatus::CarStatus() {
 
-    m_hvTemp = 0;
-    m_hvVolt = 0;
-    m_lvVolt = 0; 
-    m_lvTemp = 0; 
     //m_speed = 100; moved into race
     
     for(int i = 0 ; i < 11; i++){
@@ -77,19 +73,19 @@ void CarStatus::setThrottle(int val){
 // Set LV temp,volt value
 void CarStatus::setLVStatus(uint8_t val1, uint8_t val3){
     //before uint8_t val2 as a m_lvVal
-    m_lvVolt = val1;
-    m_lvTemp = val3;
+    lv.setLvVolt(val1);
+    lv.setLvTemp(val3);
 }
 
 // Set HV temp,volt value
 void CarStatus::setHVStatus(uint8_t id, uint8_t val1, uint8_t val2, uint8_t val3, uint8_t val4, uint8_t val5, uint8_t val6, uint8_t val7){
     if(id == 0x01){
-        m_hvVolt = ((val1 << 16) + (val2 << 8) + val3 ) / 1000;
+        hv.setHvVoltage(val1, val2, val3);
         // i due byte dopo sono max e min
         emit hvVoltChanged();
     }
     if(id == 0x0A){
-        m_hvTemp = ((val1 << 8) + val2 ) / 10;
+        hv.setHvTemperature(val1, val2);
         // i due byte dopo sono max e min
         emit hvTempChanged();
     }
@@ -537,16 +533,16 @@ int CarStatus::invDxTemp() const {
     return inverters.getRightInverterTemperature();
 }
 int CarStatus::hvTemp() const {
-    return m_hvTemp;
+    return hv.getHvTemperature();
 }
 int CarStatus::lvTemp() const {
-    return m_lvTemp;
+    return lv.getLvTemp();
 }
 int CarStatus::hvVolt() const {
-    return m_hvVolt;
+    return hv.getHvVoltage();
 }
 int CarStatus::lvVolt() const {
-    return m_lvVolt;
+    return lv.getLvVolt();
 }
 int CarStatus::getCtrlIsOn() {
     return this->control.getCtrlIsOn();

@@ -1,18 +1,18 @@
 #include "../header/lv.h"
 
-LV::LV() {
+Lv::Lv() {
     this->lvTemp = 0;
     this->lvVolt = 0;
 }
-void LV::setLvTemp(int val) {
+void Lv::setLvTemp(int val) {
     lvTemp = val;
 }
-void LV::setLvVolt(int val) {
+void Lv::setLvVolt(int val) {
     lvVolt = val;
 }
-int LV::getLvTemp() const {
+int Lv::getLvTemp() const {
     return lvTemp;
 }
-int LV::getLvVolt() const {
+int Lv::getLvVolt() const {
     return lvVolt;
 }

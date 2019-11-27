@@ -2,10 +2,10 @@
 #define LV_H
 
 
-class LV
+class Lv
 {
 public:
-    LV();
+    Lv();
     void setLvTemp(int);
     void setLvVolt(int);
     int getLvTemp() const;
