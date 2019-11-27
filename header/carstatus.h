@@ -20,6 +20,7 @@
 #include "warning.h"
 #include "manettini.h"
 #include "errors.h"
+#include "hv.h"
 
 class CarStatus : public QObject
 {
@@ -215,8 +216,11 @@ class CarStatus : public QObject
 
         
         // hv
-        int m_hvTemp;
-        int m_hvVolt;
+        //int m_hvTemp; moved into Hv
+        //int m_hvVolt; moved into Hv
+
+        Hv hv;
+
         // lv
         int m_lvTemp;
         int m_lvVolt;
