@@ -1,3 +1,4 @@
 build/
 build-arm/
 *.pro.user
+*.pro.user.*
