@@ -89,7 +89,7 @@ class CarStatus : public QObject
         void setHVStatus(int invRight, int invLeft, int preCharge);
         void setCarStatus(int, int, int, int, int);
         void setCANStatus(int, int, int, int, int, int, int, int);
-        void setTelemetryStatus(int, int, int, int, int, int, int, int, int, int, int);
+        void setTelemetryStatus(int, int, int);
         void setTelemetryEnabledStatus(int);
         void setSteeringWheelPopup(int);
         void setERRStatus(int, int, int, int, int, int, int, int, int);
@@ -146,7 +146,6 @@ class CarStatus : public QObject
         void setLVStatus(uint8_t val1, uint8_t val3);
         
         QByteArray getTelemetryStatus();
-        bool setTelemetry(int index);
         void setSender();
         QByteArray getTelemetryEnabledStatus();
 
@@ -154,90 +153,17 @@ class CarStatus : public QObject
 
     private:
         static int getBit(unsigned char seq, int index);
-        //int m_invRight; moved into inverters
-        //int m_invLeft; moved into inverters
-        //int m_preCharge; moved into inverters
-        //int m_invSxTemp; moved into inverters
-        //int m_invDxTemp; moved into inverters
+        
         Inverters inverters;
-
         Control control;
-
-        // not used
-        //int m_stateofcharge;
-        //int m_temperature;
-
-        // Racing Page
-        //int m_speed; moved into race
-        //int m_velocity; moved into race
-        //int m_km; moved into race
-
         Race race;
-
-        // manettini
-        //int m_map;
-        //int m_tc;
-        //int m_pump;
         Manettini manettini;
-
-        // warnings
-        //int m_invr;  moved into warning
-        //int m_invl;  moved into warning
-        //int m_front; moved into warning
-        //int m_rear; moved into warning
-        //int m_lv; moved into warning
-        //int m_hv; moved into warning
-        //int m_central; moved into warning
-        //int m_pedals; moved into warning
-        //int m_warning; moved into warning
-
         Warning warning;
-
-        // errors
-        //int m_err_apps;
-        //int m_err_bse;
-        //int m_err_steer;
-        //int m_err_wheel_left;
-        //int m_err_wheel_right;
-        //int m_err_gps;
-        //int m_err_imu_front;
-        //int m_err_imu_central;
-        //int m_err_imu_rear;
-        //int m_error;
-
         Errors errors;
-        
-        // tab sensors
-        //int m_brakeVal;
-        //int m_throttleVal;
-        //int m_apps;
-        //int m_bse;
-        //int m_steer;
-        //int m_num_err_apps;
-        //int m_num_err_bse;
-        //int m_num_err_steer;
         Sensors sensors;
-        
-        // hv
-        //int m_hvTemp; moved into Hv
-        //int m_hvVolt; moved into Hv
-
         Hv hv;
-
-        // lv
-        //int m_lvTemp;
-        //int m_lvVolt;
         Lv lv;
-
-        //QString firstTelemetry; Useless, who put these please delete them
-        //QString secondTelemetry; Useless, who put these please delete them
-
         Telemetry telemetry;
-        
-        //int telemetry[12]; moved into telemetry
-        //bool sender; moved into telemetry
-        //int telemetryEnStatus; moved into telemetry
-        //int popup; moved into telemetry
 
     signals:
         void tempChanged(int temperature);

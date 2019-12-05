@@ -89,13 +89,11 @@ void Canbus::sendTelemetry(){
    }
 }
 
-void Canbus::asktelemetry(){
-   if(!carStatus->TelemetryEnabledStatus()){
-      QByteArray telemetry;
-      telemetry.resize(8);
-      telemetry = carStatus->getTelemetryEnabledStatus();
-      sendCanMessage(TELEMETRY, telemetry);
-   }
+void Canbus::asktelemetry(){ 
+   QByteArray telemetry;
+   telemetry.resize(8);
+   telemetry = carStatus->getTelemetryStatus();
+   sendCanMessage(TELEMETRY, telemetry);
 }
 
 // Send to ECU msg for pump state
@@ -668,23 +666,12 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
       break;
 
       case TELEMETRY:
-         if(msg.at(0) == 0x0F){
-            carStatus -> setTelemetryStatus(
-                           (msg.at(1) >> 7) & 1,
-                           (msg.at(1) >> 6) & 1,
-                           (msg.at(1) >> 5) & 1,
-                           (msg.at(1) >> 4) & 1,
-                           (msg.at(1) >> 3) & 1,
-                           (msg.at(1) >> 2) & 1,
-                           (msg.at(1) >> 1) & 1,
-                           (msg.at(1) >> 0) & 1,
-                           (msg.at(2) >> 7) & 1,
-                           (msg.at(2) >> 6) & 1,
-                           (msg.at(2) >> 5) & 1);
+         if(msg.at(0) == 0x00){
+            carStatus -> setTelemetryStatus(msg.at(1), msg.at(2), msg.at(3));
          }
          
          if(msg.at(0) == 0x01) {
-            carStatus -> setTelemetryEnabledStatus(msg.at(1));
+            //marker
          }
          
          if(msg.at(0) == 0x02) {

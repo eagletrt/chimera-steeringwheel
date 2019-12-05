@@ -140,17 +140,8 @@ QString CarStatus::CANStatus() const {
 
 QString CarStatus::TelemetryStatus() const {
     qDebug() << "Asked Telemetry Status";
-    return QString::number(telemetry.getTelemetry(0))+
-           QString::number(telemetry.getTelemetry(1))+
-           QString::number(telemetry.getTelemetry(2))+
-           QString::number(telemetry.getTelemetry(3))+
-           QString::number(telemetry.getTelemetry(4))+
-           QString::number(telemetry.getTelemetry(5))+
-           QString::number(telemetry.getTelemetry(6))+
-           QString::number(telemetry.getTelemetry(7))+
-           QString::number(telemetry.getTelemetry(8))+
-           QString::number(telemetry.getTelemetry(9))+
-           QString::number(telemetry.getTelemetry(10));
+    return QString::number(telemetry.getTest())+
+           QString::number(telemetry.getDriver());
 }
 
 int CarStatus::TelemetryEnabledStatus() const {
@@ -165,18 +156,10 @@ QByteArray CarStatus::getTelemetryStatus() {
     QByteArray t;
     t.resize(8);
     qDebug() << TelemetryStatus();
-    t[0] = 0xF;
-    t[1] = (telemetry.getTelemetry(0) << 6) + 
-           (telemetry.getTelemetry(1) << 4) +
-           (telemetry.getTelemetry(2) << 2) +
-           (telemetry.getTelemetry(3));
-    t[2] = (telemetry.getTelemetry(4) << 6) + 
-           (telemetry.getTelemetry(5) << 4) +
-           (telemetry.getTelemetry(6) << 2) +
-           (telemetry.getTelemetry(7));
-    t[3] = (telemetry.getTelemetry(8) << 6) + 
-           (telemetry.getTelemetry(9) << 4) +
-           (telemetry.getTelemetry(10) << 2);
+    t[0] = 0x0;
+    t[1] = telemetry.getTelemetryStatus();
+    t[2] = telemetry.getTest();
+    t[3] = telemetry.getDriver();
     return t;
 }
 
@@ -307,30 +290,10 @@ void CarStatus::setCANStatus(int invr,
 
     emit CANStatusChanged();
 }
-void CarStatus::setTelemetryStatus(int bms_hv,
-                                    int bms_lv,
-                                    int gps,
-                                    int imu_gyro,
-                                    int imu_axel,
-                                    int front_wheel_encoder,
-                                    int steering,
-                                    int throttle,
-                                    int brake,
-                                    int db,
-                                    int mqtt) {
-    telemetry.setTelemetry(
-        bms_hv,
-        bms_lv,
-        gps,
-        imu_gyro,
-        imu_axel,
-        front_wheel_encoder,
-        steering,
-        throttle,
-        brake,
-        db,
-        mqtt
-    );
+void CarStatus::setTelemetryStatus(int en, int test, int driver) {
+    telemetry.setTelemetryStatus(en);
+    telemetry.setTest(test);
+    telemetry.setDriver(driver);
 
     emit TelemetryStatusChanged();
 }
@@ -480,16 +443,6 @@ int CarStatus::toggleCtrl() {
         return control.getCtrlIsOn();
     }
     return -1;
-}
-
-bool CarStatus::setTelemetry(int index) {
-    bool ret = false;
-    if(index >= 0 && index < 11){
-
-        telemetry.setTelemetryIndex(index);
-        ret = true;
-    }
-    return ret;
 }
 
 /*

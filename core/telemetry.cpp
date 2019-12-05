@@ -2,28 +2,45 @@
 
 Telemetry::Telemetry()
 {
-    for(int i = 0 ; i < 11; i++){
-        this->telemetry[i] = 2;
+    for(int i = 0; i < NUM_TESTS; i++){
+        test[i] = 0;
+    }
+    for(int i = 0; i < NUM_DRIVERS; i++) {
+        driver[i] = 0;
     }
     this->sender = false;
     this->telemetryEnStatus = 0; //0 off, 1 is setting up, 2 setted
     this->popup = 3; //Welcome
 }
 
-void Telemetry::setTelemetry(int val1, int val2, int val3, int val4, 
-                            int val5, int val6, int val7, int val8,
-                            int val9, int val10, int val11){
-    this->telemetry[0] = val1;
-    this->telemetry[1] = val2;
-    this->telemetry[2] = val3;
-    this->telemetry[3] = val4;
-    this->telemetry[4] = val5;
-    this->telemetry[5] = val6;
-    this->telemetry[6] = val7;
-    this->telemetry[7] = val8;
-    this->telemetry[8] = val9;
-    this->telemetry[9] = val10;
-    this->telemetry[10] = val11;
+//param val identify the id of the test to be enabled
+void Telemetry::setTest(int val){
+    bool found = false;
+    int i = 0;
+    while (!found && i < NUM_TESTS){
+        if(test[i]) {
+            test[i] = false;
+            found = true;
+        }
+        i++;
+    }
+    
+    test[val] = true;
+}
+
+//param val identify the id of the driver to be enabled
+void Telemetry::setDriver(int val){
+    bool found = false;
+    int i = 0;
+    while (!found && i < NUM_DRIVERS){
+        if(driver[i]) {
+            driver[i] = false;
+            found = true;
+        }
+        i++;
+    }
+    
+    driver[val] = true;
 }
 
 void Telemetry::setSender(){
@@ -38,12 +55,41 @@ void Telemetry::setPopupMessage(int val){
     this->popup = val;
 }
 
-void Telemetry::setTelemetryIndex(int index){
-    this->telemetry[index] = (telemetry[index] + 1) % 2;
+//void Telemetry::setTelemetryIndex(int index){
+//    this->telemetry[index] = (telemetry[index] + 1) % 2;
+//}
+
+//return the id of the current test
+int Telemetry::getTest() const{
+    int pos = -1;
+    int i = 0;
+    bool found = false;
+
+    while(!found && i < NUM_TESTS) {
+        if(test[i]) {
+            pos = i;
+            found = true;
+        }
+        i++;
+    }
+
+    return pos;
 }
 
-int Telemetry::getTelemetry(int index) const{
-    return this->telemetry[index];
+int Telemetry::getDriver() const{
+    int pos = -1;
+    int i = 0;
+    bool found = false;
+
+    while(!found && i < NUM_DRIVERS) {
+        if(driver[i]) {
+            pos = i;
+            found = true;
+        }
+        i++;
+    }
+
+    return pos;
 }
 
 bool Telemetry::getSender() const{

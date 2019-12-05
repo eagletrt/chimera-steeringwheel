@@ -8,6 +8,8 @@ Rectangle{
 
    property var selectedSection: -1 //Current selected section
    property var selectedIndex: -1 //Current selected element into the current section
+   property var enabledTest: -1 //Identfy the current active Test
+   property var enabledDriver: -1 //Identify the currrent active Driver
    property var test: 0 //Identify the test section
    property var driver: 1 //Identify the driver section
    property var ntest: 5 //Number of cells into test section
@@ -29,6 +31,22 @@ Rectangle{
       ["D2", '2'],
       ["D3", '2'],
    ]
+
+   onTelemetrystatusChanged: {
+      var newTestStatus = testLeds;
+      var newDriverStatus = driverLeds;
+      for(var i = 0; i < ntest; i++) {
+         newTestStatus[i][1] = 0;
+         if(i == telemetrystatus[0]) newTestStatus[i][1] = 1;
+      }
+      for(var i = 0; i < ndriver; i++) {
+         newDriverStatus[i][1] = 0;
+         if(i == telemetrystatus[0]) newDriverStatus[i][1] = 1;
+      }
+
+      testLeds = newTestStatus;
+      driverLeds = newDriverStatus;
+   }
 
    function connect() {
        menu.btnClicked.connect(btnClickedHandler);
@@ -93,9 +111,9 @@ Rectangle{
             testRepeater.itemAt(index).state = 0;
          } else {
             if(testRepeater.itemAt(index).state == 0) {
+               if(enabledTest != -1)testRepeater.itemAt(enabledTest).state = 0;
                testRepeater.itemAt(index).state = 1;
-            } else {
-               testRepeater.itemAt(index).state = 0;
+               enabledTest = index;
             }
          }
       } else if(type == driver){
@@ -103,9 +121,9 @@ Rectangle{
             driverRepeater.itemAt(index).state = 0;
          } else {
             if(driverRepeater.itemAt(index).state == 0) {
+               if(enabledDriver != -1)driverRepeater.itemAt(enabledDriver).state = 0;
                driverRepeater.itemAt(index).state = 1;
-            } else {
-               driverRepeater.itemAt(index).state = 0;
+               enabledDriver = index;
             }
          }
       } else {
