@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.3
 
 Rectangle {
     id: root
-    color: "#000000"
+    color: "transparent"
 
     state: "2" //DEFAULT
 

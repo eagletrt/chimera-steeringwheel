@@ -89,5 +89,6 @@
         <file>qml/TabTelemetry.qml</file>
         <file>qml/TelemetryStatusLED.qml</file>
         <file>qml/TelemetryStatus.qml</file>
+        <file>qml/TabTelemetryOld.qml</file>
     </qresource>
 </RCC>

@@ -2,136 +2,244 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
 Rectangle{
-    id: root
-    anchors.fill: parent
-    color: "#000000"
+   id: root
+   anchors.fill: parent
+   color: "#000"
 
-    property var telemetrySelectedIndex: -1
-    property var btnClickable: false
-    property var telemetrystatus: CarStatus.TelemetryStatus
+   property var selectedSection: -1 //Current selected section
+   property var selectedIndex: -1 //Current selected element into the current section
+   property var test: 0 //Identify the test section
+   property var driver: 1 //Identify the driver section
+   property var ntest: 5 //Number of cells into test section
+   property var ndriver: 3 //Number of cells into driver section
+   property var btnClickable: false //Enable/Disable buttons
+   property var dClickable: true //Enable/Disable D button
+   property var telemetrystatus: CarStatus.TelemetryStatus
 
-    property var telemetryLeds: [ //0 OFFLINE, 1 ONLINE, 2 DEFAULT
-    ["HV"   , '2'],
-    ["LV"   , '2'],
-    ["GPS"  , '2'],
-    ["IMUGY", '2'],
-    ["IMUAX", '2'],
-    ["FRNTW", '2'],
-    ["STR"  , '2'],
-    ["THR"  , '2'],
-    ["BRK"  , '2'],
-    ["DB"   , '2'],
-    ["MQTT" , '2']
-    ] 
+   property var testLeds: [ //0 OFFLINE, 1 ONLINE, 2 DEFAULT
+      ["T1", '2'],
+      ["T2", '2'],
+      ["T3", '2'],
+      ["T4", '2'],
+      ["T5", '2'],
+   ]
 
-    onTelemetrystatusChanged: {
-      var newTelemetryStatus = telemetryLeds;
+   property var driverLeds: [ //0 OFFLINE, 1 ONLINE, 2 DEFAULT
+      ["D1", '2'],
+      ["D2", '2'],
+      ["D3", '2'],
+   ]
 
-      for(var i = 0; i < telemetrystatus.length; i++) {
-         newTelemetryStatus[i][1] = telemetrystatus[i]
+   function connect() {
+       menu.btnClicked.connect(btnClickedHandler);
+   }
+
+   function disconnect() {
+       menu.btnClicked.disconnect(btnClickedHandler);
+   }
+
+   function unSelectIndex(type) {
+      if(selectedIndex != -1) {
+         if(type == test) {
+            testRepeater.itemAt(selectedIndex).selected = 0;
+         } else {
+            driverRepeater.itemAt(selectedIndex).selected = 0;
+         }
+      }
+   }
+
+   function unSelectSection() {
+      if(selectedSection == 0) {
+         rectTest.selected = 0
+      } else {
+         rectDriver.selected = 0
+      }
+   }
+
+   function selectIndex(index, type) {
+      unSelectIndex(type);
+
+      if(type == test) {
+         if(index < 0) index = ntest - 1;
+         index = index % ntest;
+         testRepeater.itemAt(index).selected = 1;
+      }
+      else if(type == driver){
+         if(index < 0) index = ndriver - 1;
+         index = index % ndriver;
+         driverRepeater.itemAt(index).selected = 1;
+      } else {
+         console.log("Error, type inserted is wrong")
       }
 
-      telemetryLeds = newTelemetryStatus;
-    }
-    
-    function connect() {
-       menu.btnClicked.connect(btnClickedHandler);
-    }
+      selectedIndex = index;
+   }
 
-    function disconnect() {
-       menu.btnClicked.disconnect(btnClickedHandler);
-    }
+   function selectSection(index) {
+      unSelectSection();
 
-    function unSelectTelemetry() {
-        if (telemetrySelectedIndex != -1) {
-            telemetryRepeater.itemAt(telemetrySelectedIndex).selected = 0;
-        }
-    }
-
-    function selectTelemetry(index) {
-        unSelectTelemetry();
-
-        index = index % 11; //In order to change this, remember to change the
-                            //value in CarStatus::setTelemetry too
-
-        //console.log("-----> SELECT TELEMETRY INDEX" + index);
-
-        telemetryRepeater.itemAt(index).selected = 1;
-        telemetrySelectedIndex = index;
-    }
-
-    function setTelemetry(index) {
-      if(telemetryRepeater.itemAt(index).state == 2){
-         telemetryRepeater.itemAt(index).state = 0;
-      }else{
-         telemetryRepeater.itemAt(index).state == 0 ? telemetryRepeater.itemAt(index).state = 1 : telemetryRepeater.itemAt(index).state = 0;
-      }      
-      //console.log(telemetryRepeater.itemAt(index).state);
-    }
-
-    function btnClickedHandler(btnID) {
-        if (btnID == 0) {
-           if (tabView.stepIntoTab) {
-              mainwindow.canSwitchPage = true;
-              tabView.stepIntoTab = false;
-              unSelectTelemetry();
-           }
-        }
-
-        //Change status of the selected item
-        if (btnID == 1) {
-          if(tabView.stepIntoTab) {
-            //If status of the selected item changed then change qml interface too             
-            if(CarStatus.setTelemetry(telemetrySelectedIndex)){
-              setTelemetry(telemetrySelectedIndex);           
+      index = index % 2;
+      if(index == 0) {
+         rectTest.selected = 1;
+      } else {
+         rectDriver.selected = 1;
+      }
+      selectedSection = index;
+   }
+   
+   function setSelectedIndex(index, type) {
+      if(type == test) {
+         if(testRepeater.itemAt(index).state == 2) {
+            testRepeater.itemAt(index).state = 0;
+         } else {
+            if(testRepeater.itemAt(index).state == 0) {
+               testRepeater.itemAt(index).state = 1;
+            } else {
+               testRepeater.itemAt(index).state = 0;
             }
-          }            
-        }           
-        
-        if (btnID == 2) {
-           // Step into this tab and change the behaviour of btnID
-           if (!tabView.stepIntoTab) {
-              // Set the button clickable
-              btnClickable = true;
+         }
+      } else if(type == driver){
+         if(driverRepeater.itemAt(index).state == 2) {
+            driverRepeater.itemAt(index).state = 0;
+         } else {
+            if(driverRepeater.itemAt(index).state == 0) {
+               driverRepeater.itemAt(index).state = 1;
+            } else {
+               driverRepeater.itemAt(index).state = 0;
+            }
+         }
+      } else {
+         console.log("Error, type inserted is wrong")
+      }
+   }
 
-              // Select the first entry of the SensorsList
-              selectTelemetry(0);
-              // Prevent the button 0 to switch to Racing Page!
-              tabView.stepIntoTab = true;
-              mainwindow.canSwitchPage = false;
-           } else {
-              // Loop through sensors
-              selectTelemetry(telemetrySelectedIndex + 1);
-           }
-        }
+   //To do
+   function btnClickedHandler(btnID) {
+      if (btnID == 0) {
+         if (tabView.stepIntoTab) {
+            if (selectedIndex != -1) {
+               unSelectIndex(selectedSection)
+               dClickable = true;
+               selectedIndex = -1
+            } else {
+               mainwindow.canSwitchPage = true;
+               tabView.stepIntoTab = false;
+               unSelectSection();
+               selectedSection = -1
+            }
+         }
+      }
+      //Change status of the selected item
+      if (btnID == 1) {
+         if(tabView.stepIntoTab) {
+            
+            if(selectedSection != -1) {
+               if(selectedIndex != -1) {
+                  setSelectedIndex(selectedIndex, selectedSection)
+               } else {
+                  selectIndex(0, selectedSection)
+                  dClickable = false;
+               }
+            }
 
-        //Enable/Disable sendTelemetry
-        if (btnID == 3){
-           CAN.asktelemetry();           
-        }
+         }            
+      }           
+      
+      if (btnID == 2 && dClickable) {
+         // Step into this tab and change the behaviour of btnID
+         if (!tabView.stepIntoTab) {
+            // Set the button clickable
+            btnClickable = true;
+            // Select the first entry of the SensorsList
+            selectSection(0);
+            // Prevent the button 0 to switch to Racing Page!
+            tabView.stepIntoTab = true;
+            mainwindow.canSwitchPage = false;
+         } else {
+            // Loop through sensors
+            selectSection(selectedSection + 1);
+         }
+      }
+      //Enable/Disable sendTelemetry
+      if (btnID == 3){
+         CAN.asktelemetry();           
+      }
+
+      if (btnID == 4 && selectedIndex != -1) {
+         selectIndex(selectedIndex - 1, selectedSection);
+      }
+
+      if (btnID == 5 && selectedIndex != -1) {
+         selectIndex(selectedIndex + 1, selectedSection);
+      }
+
     }
 
-    Grid{
-        id: grid
-        columns: 4
-        rows: 3       
-        columnSpacing: 2
-        rowSpacing: 1
-        width: parent.width
-        height: parent.height - 5
-        anchors.top: parent.top
-        
-          Repeater{
-              id: telemetryRepeater
-              model: telemetryLeds
-              TelemetryStatusLED {
-                  text: modelData[0]
-                  state: modelData[1]
-                  selected: 0
-                  height: parent.height/3
-                  width: parent.width/4
-              }
-          }
-        
-    }
+   Rectangle {
+      id: rectTest
+      color: selected == 1 ? "#222222" : "transparent"
+      radius: selected == 1 ? "5" : "0"
+      width: parent.width
+      height: parent.height * 2 / 3 //2 rows out of three
+      anchors.top: parent.top
+      
+      property var selected: 0
+
+      Grid {
+         id: testgrid
+         columns: 3
+         rows: 2       
+         columnSpacing: 2
+         rowSpacing: 1
+         anchors.centerIn: parent
+         width: parent.width - 12
+         height: parent.height - 4
+
+         Repeater {
+            id: testRepeater
+            model: testLeds
+            TelemetryStatusLED {
+               text: modelData[0]
+               state: modelData[1]
+               selected: 0
+               height: parent.height/2
+               width: parent.width/3
+            }
+         }     
+      }
+   }
+
+   Rectangle {
+      id: rectDriver
+      color: selected == 1 ? "#222222" : "transparent"
+      radius: selected == 1 ? "5" : "0"
+      width: parent.width
+      height: parent.height / 3
+      anchors.top: rectTest.bottom
+
+      property var selected : 0
+
+      Grid {
+         id: driverGrid
+         columns: 3
+         rows: 1
+         columnSpacing: 2
+         rowSpacing: 1
+         anchors.centerIn: parent
+         width: parent.width - 12
+         height: parent.height - 2
+
+         Repeater {
+            id: driverRepeater
+            model: driverLeds
+            TelemetryStatusLED {
+               text: modelData[0]
+               state: modelData[1]
+               selected: 0
+               height: parent.height
+               width: parent.width / 3
+            }
+         }
+      }
+   }
 }
