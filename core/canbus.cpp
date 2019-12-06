@@ -671,7 +671,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
          }
          
          if(msg.at(0) == 0x01) {
-            //marker
+            carStatus->setTelemetryEnabledStatus(msg.at(1));
          }
          
          if(msg.at(0) == 0x02) {

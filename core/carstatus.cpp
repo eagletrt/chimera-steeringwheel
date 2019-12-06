@@ -291,7 +291,7 @@ void CarStatus::setCANStatus(int invr,
     emit CANStatusChanged();
 }
 void CarStatus::setTelemetryStatus(int en, int test, int driver) {
-    telemetry.setTelemetryStatus(en);
+    setTelemetryEnabledStatus(en);
     telemetry.setTest(test);
     telemetry.setDriver(driver);
 

@@ -16,6 +16,7 @@ Rectangle{
    property var ndriver: 3 //Number of cells into driver section
    property var btnClickable: false //Enable/Disable buttons
    property var dClickable: true //Enable/Disable D button
+   property var firstSend: true //Disable onTelemetrystatusChanged the first time
    property var telemetrystatus: CarStatus.TelemetryStatus
 
    property var testLeds: [ //0 OFFLINE, 1 ONLINE, 2 DEFAULT
@@ -33,19 +34,23 @@ Rectangle{
    ]
 
    onTelemetrystatusChanged: {
-      var newTestStatus = testLeds;
-      var newDriverStatus = driverLeds;
-      for(var i = 0; i < ntest; i++) {
-         newTestStatus[i][1] = 0;
-         if(i == telemetrystatus[0]) newTestStatus[i][1] = 1;
-      }
-      for(var i = 0; i < ndriver; i++) {
-         newDriverStatus[i][1] = 0;
-         if(i == telemetrystatus[0]) newDriverStatus[i][1] = 1;
-      }
+      if(firstSend) {
+         firstSend = false;
+      } else {
+         var newTestStatus = testLeds;
+         var newDriverStatus = driverLeds;
+         for(var i = 0; i < ntest; i++) {
+            newTestStatus[i][1] = 0;
+            if(i == telemetrystatus[0]) newTestStatus[i][1] = 1;
+         }
+         for(var i = 0; i < ndriver; i++) {
+            newDriverStatus[i][1] = 0;
+            if(i == telemetrystatus[1]) newDriverStatus[i][1] = 1;
+         }
 
-      testLeds = newTestStatus;
-      driverLeds = newDriverStatus;
+         testLeds = newTestStatus;
+         driverLeds = newDriverStatus;
+      }
    }
 
    function connect() {
