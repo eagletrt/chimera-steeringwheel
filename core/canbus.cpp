@@ -93,6 +93,11 @@ void Canbus::asktelemetry(){
    QByteArray telemetry;
    telemetry.resize(8);
    telemetry = carStatus->getTelemetryStatus();
+   if(carStatus->TelemetryEnabledStatus() != 2) {
+      carStatus->setTelemetryEnabledStatus(2);
+   } else {
+     telemetry = carStatus->abort();
+   }
    sendCanMessage(TELEMETRY, telemetry);
 }
 
@@ -671,7 +676,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
          }
          
          if(msg.at(0) == 0x01) {
-            carStatus->setTelemetryEnabledStatus(msg.at(1));
+            //Marker
          }
          
          if(msg.at(0) == 0x02) {

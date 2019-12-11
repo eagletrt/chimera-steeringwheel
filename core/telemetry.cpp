@@ -11,6 +11,7 @@ Telemetry::Telemetry()
     this->sender = false;
     this->telemetryEnStatus = 0; //0 off, 1 is setting up, 2 setted
     this->popup = 3; //Welcome
+    this->ask = false;
 }
 
 //param val identify the id of the test to be enabled
@@ -53,6 +54,10 @@ void Telemetry::setTelemetryStatus(int val){
 
 void Telemetry::setPopupMessage(int val){
     this->popup = val;
+}
+
+void Telemetry::setAsk(bool ask) {
+    this->ask = ask;
 }
 
 //void Telemetry::setTelemetryIndex(int index){
@@ -102,4 +107,8 @@ int Telemetry::getTelemetryStatus() const{
 
 int Telemetry::getPopupMessage() const{
     return this->popup;
+}
+
+bool Telemetry::getAsk(){
+    return !ask;
 }

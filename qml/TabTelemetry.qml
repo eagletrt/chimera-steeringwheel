@@ -8,8 +8,7 @@ Rectangle{
 
    property var selectedSection: -1 //Current selected section
    property var selectedIndex: -1 //Current selected element into the current section
-   property var enabledTest: -1 //Identfy the current active Test
-   property var enabledDriver: -1 //Identify the currrent active Driver
+   property var enabled: [-1, -1] //Identify the current Test and Driver
    property var test: 0 //Identify the test section
    property var driver: 1 //Identify the driver section
    property var ntest: 5 //Number of cells into test section
@@ -116,9 +115,9 @@ Rectangle{
             testRepeater.itemAt(index).state = 0;
          } else {
             if(testRepeater.itemAt(index).state == 0) {
-               if(enabledTest != -1)testRepeater.itemAt(enabledTest).state = 0;
+               if(enabled[test] != -1)testRepeater.itemAt(enabled[test]).state = 0;
                testRepeater.itemAt(index).state = 1;
-               enabledTest = index;
+               enabled[test] = index;
             }
          }
       } else if(type == driver){
@@ -126,9 +125,9 @@ Rectangle{
             driverRepeater.itemAt(index).state = 0;
          } else {
             if(driverRepeater.itemAt(index).state == 0) {
-               if(enabledDriver != -1)driverRepeater.itemAt(enabledDriver).state = 0;
+               if(enabled[driver] != -1)driverRepeater.itemAt(enabled[driver]).state = 0;
                driverRepeater.itemAt(index).state = 1;
-               enabledDriver = index;
+               enabled[driver] = index;
             }
          }
       } else {

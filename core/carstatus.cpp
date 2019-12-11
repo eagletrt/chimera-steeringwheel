@@ -157,7 +157,7 @@ QByteArray CarStatus::getTelemetryStatus() {
     t.resize(8);
     qDebug() << TelemetryStatus();
     t[0] = 0x0;
-    t[1] = telemetry.getTelemetryStatus();
+    t[1] = telemetry.getAsk();
     t[2] = telemetry.getTest();
     t[3] = telemetry.getDriver();
     return t;
@@ -291,9 +291,10 @@ void CarStatus::setCANStatus(int invr,
     emit CANStatusChanged();
 }
 void CarStatus::setTelemetryStatus(int en, int test, int driver) {
-    setTelemetryEnabledStatus(en);
+    telemetry.setAsk((bool)en);
     telemetry.setTest(test);
     telemetry.setDriver(driver);
+    setTelemetryEnabledStatus(en); //Change radio animation
 
     emit TelemetryStatusChanged();
 }
@@ -301,6 +302,17 @@ void CarStatus::setTelemetryStatus(int en, int test, int driver) {
 void CarStatus::setTelemetryEnabledStatus(int status){
     telemetry.setTelemetryStatus(status);
     emit TelemetryEnabledStatusChanged();
+}
+
+QByteArray CarStatus::abort() {
+    setTelemetryEnabledStatus(!telemetry.getAsk());
+    QByteArray t;
+    t.resize(8);
+    t[0] = 0x0;
+    t[1] = !telemetry.getAsk();
+    t[2] = telemetry.getTest();
+    t[3] = telemetry.getDriver();
+    return t;
 }
 
 void CarStatus::setSteeringWheelPopup(int msg) { //Value to be showned
