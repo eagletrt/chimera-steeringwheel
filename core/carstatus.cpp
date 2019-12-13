@@ -80,6 +80,7 @@ void CarStatus::setHVStatus(uint8_t id, uint8_t val1, uint8_t val2, uint8_t val3
     if(id == 0x0A){
         hv.setHvTemp(val1, val2);
         // i due byte dopo sono max e min
+        
         emit hvTempChanged();
     }
     if(id == 0x05){
@@ -98,6 +99,7 @@ void CarStatus::changeMap(int mapID) {
         manettini.incMap(MAP_NUMBER);
     }
 
+    setSteeringWheelPopup('B', '0', QString::number(manettini.getMap()));
     emit mapChanged();
 }
 
@@ -109,6 +111,8 @@ void CarStatus::changePump(int pumpID) {
     } else {
         manettini.incPump(PUMP_NUMBER);
     }
+
+    setSteeringWheelPopup('G', '0', QString::number(manettini.getPump()));
     //emit pumpChanged();
 }
 
@@ -121,6 +125,7 @@ void CarStatus::changeTc(int tcID) {
         manettini.incTc(TC_NUMBER);
     }
 
+    setSteeringWheelPopup('Y', '0', QString::number(manettini.getTc()));
     emit tcChanged();
 }
 
@@ -148,7 +153,7 @@ int CarStatus::TelemetryEnabledStatus() const {
     return telemetry.getTelemetryStatus();
 }
 
-int CarStatus::SteeringWheelPopup() const {
+QString CarStatus::SteeringWheelPopup() const {
     return telemetry.getPopupMessage();
 }
 
@@ -315,9 +320,13 @@ QByteArray CarStatus::abort() {
     return t;
 }
 
-void CarStatus::setSteeringWheelPopup(int msg) { //Value to be showned
-    telemetry.setPopupMessage(msg);
+void CarStatus::setSteeringWheelPopup(QChar priority, QChar color, QString msg) { //Value to be showned
+    telemetry.setPopupMessage(priority, color, msg);
     emit SteeringWheelPopupChanged();
+}
+
+void CarStatus::sendMarkerNotification() {
+    setSteeringWheelPopup('0', '0', "MARKER");
 }
 
 void CarStatus::stopMessage(int inverter){

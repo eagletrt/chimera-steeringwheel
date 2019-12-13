@@ -9,17 +9,19 @@ Rectangle {
   property var steeringWheelPopup: CarStatus.SteeringWheelPopup;
   property var animationDuration: 0;
   property var buttonsClick: true;
-  property var decoder: [
-    CarStatus.map, //0 - BLUE
-    CarStatus.pump, //1 - GREEN
-    CarStatus.tc, //2 - YELLOW
-    "WELCOME", //3
-    "MARKER", //4
-    "INV SX", //5
-    "INV DX", //6
-    "HV BATT TMP", //7
-    "LV BATT LOW" //8
-  ];
+  property var col;
+  property var priority;
+  //property var decoder: [
+  //  CarStatus.map, //0 - BLUE
+  //  CarStatus.pump, //1 - GREEN
+  //  CarStatus.tc, //2 - YELLOW
+  //  "WELCOME", //3
+  //  "MARKER", //4
+  //  "INV SX", //5
+  //  "INV DX", //6
+  //  "HV BATT TMP", //7
+  //  "LV BATT LOW" //8
+  //];
   signal btnPressed(int btnID)
   signal btnReleased(int btnID)
   signal btnClicked(int btnID)
@@ -59,32 +61,78 @@ Rectangle {
   }
 
   onSteeringWheelPopupChanged: {
-    popupText.text = decoder[steeringWheelPopup];
+    steeringWheelPopup.toUpperCase();
 
-    if(steeringWheelPopup >= 0 && steeringWheelPopup <= 2) {
-      
-      if(steeringWheelPopup == 0) popupText.color = "blue";
-      if(steeringWheelPopup == 1) popupText.color = "green";
-      if(steeringWheelPopup == 2) popupText.color = "yellow";
+    col = steeringWheelPopup[0];
+    priority = steeringWheelPopup[1];
 
-      animationDuration = 500
-      popup.visible = true;
-      popupStatic.start();
+    //Set up the color
+    if(col == 'B') {
+      popup.color = "blue";
+    } 
+    else if (col == 'G') {
+      popup.color = "green";
+    } 
+    else if (col == 'Y') {
+      popup.color = 'yellow';
+      popupText.color = "#000";
+    } 
+    else {
+      popup.color = '#000';
     }
 
-    else if(steeringWheelPopup == 3 || steeringWheelPopup == 4) {
+    //Set up the priority
+    if(priority == 0) {
+      animationDuration = 500
+      popup.visible = true;
+      tabView.visible = false;
+      buttonsClick = false;
+      popupStatic.start();
+    } 
+    else if(priority == 1) {
       popup.visible = true;
       tabView.visible = false;
       buttonsClick = false
       animationDuration = 2500
       popupStatic.start();
-    }
-
-    else {
+    } 
+    else if(priority == 2) {
       popup.visible = true;
       tabView.visible = false;
       buttonsClick = false;
+    } else {
+      console.log("Priority has to be a number in the range of [0, 2]")
     }
+
+    //Set up text
+    popupText.text = steeringWheelPopup.slice(2);
+
+    //popupText.text = decoder[steeringWheelPopup];
+//
+    //if(steeringWheelPopup >= 0 && steeringWheelPopup <= 2) {
+    //  
+    //  if(steeringWheelPopup == 0) popupText.color = "blue";
+    //  if(steeringWheelPopup == 1) popupText.color = "green";
+    //  if(steeringWheelPopup == 2) popupText.color = "yellow";
+//
+    //  animationDuration = 500
+    //  popup.visible = true;
+    //  popupStatic.start();
+    //}
+//
+    //else if(steeringWheelPopup == 3 || steeringWheelPopup == 4) {
+    //  popup.visible = true;
+    //  tabView.visible = false;
+    //  buttonsClick = false
+    //  animationDuration = 2500
+    //  popupStatic.start();
+    //}
+//
+    //else {
+    //  popup.visible = true;
+    //  tabView.visible = false;
+    //  buttonsClick = false;
+    //}
   }
 
   ParallelAnimation {

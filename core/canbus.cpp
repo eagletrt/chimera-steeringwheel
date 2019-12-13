@@ -73,6 +73,7 @@ void Canbus::sendMarker(){
    QByteArray marker;
    marker.resize(8);
 
+   carStatus->sendMarkerNotification();
    sendCanMessage(MARKER,marker);
 }
 

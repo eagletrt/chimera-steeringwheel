@@ -10,7 +10,7 @@ Telemetry::Telemetry()
     }
     this->sender = false;
     this->telemetryEnStatus = 0; //0 off, 1 is setting up, 2 setted
-    this->popup = 3; //Welcome
+    this->popup = "01Welcome";
     this->ask = false;
 }
 
@@ -52,8 +52,11 @@ void Telemetry::setTelemetryStatus(int val){
     this->telemetryEnStatus = val;
 }
 
-void Telemetry::setPopupMessage(int val){
-    this->popup = val;
+void Telemetry::setPopupMessage(QChar priority, QChar color, QString msg){
+    this->popup = "";
+    popup.insert(0, priority);
+    popup.insert(1, color);
+    popup.append(msg);
 }
 
 void Telemetry::setAsk(bool ask) {
@@ -105,7 +108,7 @@ int Telemetry::getTelemetryStatus() const{
     return this->telemetryEnStatus;
 }
 
-int Telemetry::getPopupMessage() const{
+QString Telemetry::getPopupMessage() const{
     return this->popup;
 }
 
