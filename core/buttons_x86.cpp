@@ -36,16 +36,12 @@ Buttons::Buttons(QGuiApplication *app)
 void Buttons::handleKeyboardPress(int btnID) {
     //Encoder or Buttons
     if (btnID < 10) {
-        qDebug() << "btn id" << btnID;
         emit btnClicked(btnID);
     } else if(btnID > 10 && btnID < 20){
-        emit tcChanged(btnID -10);
-        qDebug() << "TC Changed: " << btnID;    
+        emit tcChanged(btnID -10);   
     } else if(btnID > 20 && btnID < 30){
-        emit pumpChanged(btnID -20);
-        qDebug() << "Pump Changed: " << btnID; 
+        emit pumpChanged(btnID -20); 
     } else if (btnID > 30) {
         emit mapChanged(btnID - 30);
-        qDebug() << "Map Changed: " << btnID;
     }
 }

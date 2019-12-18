@@ -10,7 +10,7 @@ Canbus::Canbus(CarStatus* m_carStatus) {
 
    QString errorString;
    device = QCanBus::instance()->createDevice(
-      QStringLiteral("socketcan"), QStringLiteral("vcan0"), &errorString);
+      QStringLiteral("socketcan"), QStringLiteral("can0"), &errorString);
       if (!device)
          qDebug() << "NO CAN!";
       else
@@ -675,16 +675,12 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
       break;
 
       case TELEMETRY:
-         if(msg.at(0) == 101){
+         if(msg.at(0) == 0x65){
             carStatus -> setTelemetryStatus(msg.at(1), msg.at(2), msg.at(3));
+            qDebug() << " 0x65 ";
          }
-         
          if(msg.at(0) == 0x01) {
             //Marker
-         }
-         
-         if(msg.at(0) == 0x02) {
-            //carStatus -> setSteeringWheelPopup(msg.at(1)); ///setsetSteeringWheelPopup to be writed
          }
       break;
 

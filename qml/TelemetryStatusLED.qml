@@ -45,7 +45,7 @@ Rectangle {
             name: "0" //OFFLINE
             PropertyChanges {
                 target: led
-                color: "red"
+                color: "transparent"
             }
         },
         State {

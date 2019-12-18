@@ -185,17 +185,14 @@ void Buttons::readGPIOState(){
 
                 if (!switchIsWrong) {
                     if(map != -1 && map != oldMap){
-                        qDebug() << "->MAP VALUE: " << map <<" PIN: "<< pinEnabled[i];
                         mapChanged(map);
                         oldMap = map;
                     }
                     if(pump != -1 && pump != oldPump){
-                        qDebug() << "-->PUMP VALUE: " << pump <<" PIN: "<< pinEnabled[i];
                         pumpChanged(pump);
                         oldPump = pump;
                     }
                     if(tc != -1 && tc != oldTc){
-                        qDebug() << "--->TC VALUE: " << tc <<" PIN: " <<pinEnabled[i];
                         tcChanged(tc);
                         oldTc = tc;
                     }

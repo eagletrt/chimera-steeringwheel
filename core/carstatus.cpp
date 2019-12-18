@@ -51,7 +51,6 @@ void CarStatus::setBrake(int val){
 void CarStatus::setThrottle(int val){    
     sensors.setThrottleVal((int) val);
     int currPercMap = 0;    
-    qDebug() << getMap();
     switch(getMap() + 1){
         case 1: currPercMap = -20; break;
         case 2: currPercMap = 20; break;
@@ -297,6 +296,7 @@ void CarStatus::setCANStatus(int invr,
     emit CANStatusChanged();
 }
 void CarStatus::setTelemetryStatus(int en, int test, int driver) {
+    qDebug() << "en: " << en << "test: " << test << "driver: " << driver;
     telemetry.setAsk((bool)en);
     telemetry.setTest(test);
     telemetry.setDriver(driver);
