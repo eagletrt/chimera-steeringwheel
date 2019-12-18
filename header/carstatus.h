@@ -152,6 +152,8 @@ class CarStatus : public QObject
         QByteArray getTelemetryStatus();
         void setSender();
         QByteArray getTelemetryEnabledStatus();
+        void setDriver(int);
+        void setTest(int);
 
         void processingTimeout();
 

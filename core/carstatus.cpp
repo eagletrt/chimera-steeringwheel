@@ -321,6 +321,13 @@ QByteArray CarStatus::abort() {
     return t;
 }
 
+void CarStatus::setDriver(int val) {
+    telemetry.setDriver(val);
+}
+void CarStatus::setTest(int val) {
+    telemetry.setTest(val);
+} 
+
 void CarStatus::setSteeringWheelPopup(QChar priority, QChar color, QString msg) { //Value to be showned
     telemetry.setPopupMessage(priority, color, msg);
     emit SteeringWheelPopupChanged();

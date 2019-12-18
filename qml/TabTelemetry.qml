@@ -120,6 +120,7 @@ Rectangle{
                enabled[test] = index;
             }
          }
+         CarStatus.setTest(index);
       } else if(type == driver){
          if(driverRepeater.itemAt(index).state == 2) {
             driverRepeater.itemAt(index).state = 0;
@@ -130,6 +131,7 @@ Rectangle{
                enabled[driver] = index;
             }
          }
+         CarStatus.setDriver(index);
       } else {
          console.log("Error, type inserted is wrong")
       }
