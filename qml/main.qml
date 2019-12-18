@@ -64,7 +64,7 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         font.family: blackops.name;
-        font.pointSize: 13
+        font.pointSize: 30
         color: "lightgray"
      }
   }

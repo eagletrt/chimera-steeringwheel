@@ -50,16 +50,16 @@ bool KeyPressEventFilter::eventFilter(QObject *obj, QEvent *event) {
             btnID = 12;
             break;
         case (Qt::Key_3):
-            btnID = 13;
+            btnID = 23;
             break;
         case (Qt::Key_4):
-            btnID = 14;
+            btnID = 24;
             break;
         case (Qt::Key_5):
-            btnID = 15;
+            btnID = 35;
             break;
         case (Qt::Key_6):
-            btnID = 16;
+            btnID = 36;
             break;
         default:
             break;

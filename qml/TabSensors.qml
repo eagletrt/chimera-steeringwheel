@@ -230,7 +230,7 @@ Rectangle {
                verticalAlignment: Text.AlignVCenter
                horizontalAlignment: Text.AlignHCenter
                font.family: blackops.name;
-               font.pointSize: 7
+               font.pointSize: 21
             }
 
             Item {

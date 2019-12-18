@@ -24,9 +24,9 @@ Rectangle {
             width: parent.width
         }
 
-        Maps {
-            height: 20
-            width: 365
-        }
+        // Maps {
+        //     height: 20
+        //     width: 365
+        // }
     }
 }

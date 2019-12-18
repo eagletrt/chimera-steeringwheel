@@ -31,8 +31,8 @@ Rectangle {
       id: textVelocity
       text: velocity + " KW"
       font.family: blackops.name;
-      font.pointSize: 7
-      y: 135
+      font.pointSize: 15
+      y: 145
       x: 25
       width:200
       horizontalAlignment: Text.AlignHCenter;
@@ -43,8 +43,8 @@ Rectangle {
       id: textKm
       text: km + " m"
       font.family: blackops.name;
-      font.pointSize: 7
-      y: 135
+      font.pointSize: 15
+      y: 145
       x: 145
       width:200
       horizontalAlignment: Text.AlignHCenter;
@@ -55,8 +55,8 @@ Rectangle {
       id: textInvSxTemp
       text: invSxTemp / 10.0 + "°C"
       font.family: blackops.name;
-      font.pointSize: 7
-      y: 60
+      font.pointSize: 15
+      y: 80
       color: "lightgray"
    }
 
@@ -64,10 +64,10 @@ Rectangle {
       id: textInvDxTemp
       text: invDxTemp / 10 + "°C"
       horizontalAlignment: Text.AlignLeft;
-      font.pointSize: 7
+      font.pointSize: 15
       font.family: blackops.name;
-      x: 310
-      y: 60
+      x: 305
+      y: 80
       width: 70
       color: "lightgray"
    }
@@ -80,8 +80,8 @@ Rectangle {
       text: hvTemp/10 +  " °C"
 
       font.family: blackops.name;
-      font.pointSize: 7
-      y: 100
+      font.pointSize: 15
+      y: 120
       color: "lightgray"
    }
 
@@ -93,8 +93,8 @@ Rectangle {
       text: hvVolt/10 +  " V"
 
       font.family: blackops.name;
-      font.pointSize: 7
-      y: 120
+      font.pointSize: 15
+      y: 140
       color: "lightgray"
    }
 
@@ -106,10 +106,10 @@ Rectangle {
       text: lvTemp/5 + " °C"
 
       horizontalAlignment: Text.AlignLeft;
-      font.pointSize: 7
+      font.pointSize: 15
       font.family: blackops.name;
-      x: 310
-      y: 100
+      x: 305
+      y: 120
       width: 70
       color: "lightgray"
    }
@@ -121,10 +121,10 @@ Rectangle {
 
       text: lvVolt/10 + " V"
       horizontalAlignment: Text.AlignLeft;
-      font.pointSize: 7
+      font.pointSize: 15
       font.family: blackops.name;
-      x: 310
-      y: 120
+      x: 305
+      y: 140
       width: 70
       color: "lightgray"
    }
@@ -135,7 +135,7 @@ Rectangle {
 
       anchors.horizontalCenter: parent.horizontalCenter
       anchors.verticalCenter: parent.verticalCenter
-      anchors.verticalCenterOffset: -130
+      anchors.verticalCenterOffset: -140
       anchors.horizontalCenterOffset: -172
 
       onThrottleValChanged: function(){
@@ -155,21 +155,21 @@ Rectangle {
    Text {
       id: carSpeed
       text: speed
-      font.pointSize: 35
+      font.pointSize: 85
       font.family: blackops.name;
       anchors.horizontalCenter: parent.horizontalCenter
       anchors.verticalCenter: parent.verticalCenter
-      anchors.verticalCenterOffset: -15
+      anchors.verticalCenterOffset: -22
       color: "lightgray"
    }
 
    Text {
       text: "km/h"
       font.family: blackops.name;
-      font.pointSize: 5
+      font.pointSize: 12
       anchors.horizontalCenter: parent.horizontalCenter
       anchors.verticalCenter: parent.verticalCenter
-      anchors.verticalCenterOffset: 28
+      anchors.verticalCenterOffset: 18
       color: "lightgray"
    }
    Item{
@@ -178,7 +178,7 @@ Rectangle {
 
       anchors.horizontalCenter: parent.horizontalCenter
       anchors.verticalCenter: parent.verticalCenter
-      anchors.verticalCenterOffset: -119
+      anchors.verticalCenterOffset: -129
       anchors.horizontalCenterOffset: -207
 
       onBrakeValChanged: function(){

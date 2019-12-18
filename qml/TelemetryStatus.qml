@@ -33,7 +33,7 @@ Rectangle{
             text: root.text
             anchors.centerIn: parent
             font.family: blackops.name
-            font.pointSize: 4.5
+            font.pointSize: 13
             color: "#000000"
         }
     }

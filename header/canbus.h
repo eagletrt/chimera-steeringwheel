@@ -32,7 +32,7 @@
 #define ASK_SENSORS_VALUE_ID    0xED
 #define ASK_BATTERY_STATUS      0xEE
 #define CHANGE_EXEC_MODE_ID     0xEF
-#define MARKER                  0xAB
+#define MARKER                  100
 #define TELEMETRY               0xAB
 
 //NEW DEFINE FOR VARANO 2018

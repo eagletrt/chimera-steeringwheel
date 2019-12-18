@@ -117,10 +117,66 @@ void Buttons::readGPIOState(){
             int map = -1;
             int tc = -1;
 
-            changeEncoders(pinEnabled[i]);
+            // Change Maps
+            switch((pinEnabled[i])) {
+            case PUMP_1:
+                pump = 1;
+            break;
+            case PUMP_2:
+                pump = 2;
+            break;
+            case PUMP_3:
+                pump = 3;
+            break;
+            case PUMP_4:
+                pump = 4;
+            break;
+            case PUMP_5:
+                pump = 5;
+            break;
+            case PUMP_6:
+                pump = 6;
+            break;
+            case MAP_1:
+                map = 1;
+            break;
+            case MAP_2:
+                map = 2;
+            break;
+            case MAP_3:
+                map = 3;
+            break;
+            case MAP_4:
+                map = 4;
+            break;
+            case MAP_5:
+                map = 5;
+            break;
+            case MAP_6:
+                map = 6;
+            break;
+            case TC_1:
+                tc = 1;
+            break;
+            case TC_2:
+                tc = 2;
+            break;
+            case TC_3:
+                tc = 3;
+            break;
+            case TC_4:
+                tc = 4;
+            break;
+            case TC_5:
+                tc = 5;
+            break;
+            case TC_6:
+                tc = 6;
+            break;
+            }
 
             if ((map != -1 && map != oldMap) || (pump != -1 && pump != oldPump) || (tc != -1 && tc != oldTc)) {
-
+                
                 int timeElapsed = switchTimer.restart();
 
                 if (timeElapsed < 15) {
@@ -129,14 +185,17 @@ void Buttons::readGPIOState(){
 
                 if (!switchIsWrong) {
                     if(map != -1 && map != oldMap){
+                        qDebug() << "->MAP VALUE: " << map <<" PIN: "<< pinEnabled[i];
                         mapChanged(map);
                         oldMap = map;
                     }
                     if(pump != -1 && pump != oldPump){
+                        qDebug() << "-->PUMP VALUE: " << pump <<" PIN: "<< pinEnabled[i];
                         pumpChanged(pump);
                         oldPump = pump;
                     }
                     if(tc != -1 && tc != oldTc){
+                        qDebug() << "--->TC VALUE: " << tc <<" PIN: " <<pinEnabled[i];
                         tcChanged(tc);
                         oldTc = tc;
                     }
@@ -151,7 +210,6 @@ void Buttons::readGPIOState(){
 }
 
 void Buttons::emitBtnEvent(int btnId, int btnAction) {
-    // qDebug() << "Emitting " << btnAction << " on " << btnId;
     if (btnAction == BTN_PRESSED) {
         emit btnPressed(btnId);
     } else {
@@ -159,63 +217,4 @@ void Buttons::emitBtnEvent(int btnId, int btnAction) {
        emit btnClicked(btnId);
     }
 }
-
-void Buttons::changeEncoders(int gpio){
-    // Change Maps
-    switch(gpio) {
-      case PUMP_1:
-          pump = 1;
-      break;
-      case PUMP_2:
-          pump = 2;
-      break;
-      case PUMP_3:
-          pump = 3;
-      break;
-      case PUMP_4:
-          pump = 4;
-      break;
-      case PUMP_5:
-          pump = 5;
-      break;
-      case PUMP_6:
-          pump = 6;
-      break;
-      case MAP_1:
-          map = 1;
-      break;
-      case MAP_2:
-          map = 2;
-      break;
-      case MAP_3:
-          map = 3;
-      break;
-      case MAP_4:
-          map = 4;
-      break;
-      case MAP_5:
-          map = 5;
-      break;
-      case MAP_6:
-          map = 6;
-      break;
-      case TC_1:
-          tc = 1;
-      break;
-      case TC_2:
-          tc = 2;
-      break;
-      case TC_3:
-          tc = 3;
-      break;
-      case TC_4:
-          tc = 4;
-      break;
-      case TC_5:
-          tc = 5;
-      break;
-      case TC_6:
-          tc = 6;
-      break;
-    }
-}
+        

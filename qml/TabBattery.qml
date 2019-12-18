@@ -69,7 +69,7 @@ Rectangle {
                     Text {
                         text: "HV"
                         font.family: blackops.name;
-                        font.pointSize: 10
+                        font.pointSize: 30
                         anchors.centerIn: parent
                     }
                 }
@@ -82,7 +82,7 @@ Rectangle {
 
                     Text {
                         font.family: blackops.name;
-                        font.pointSize: 10
+                        font.pointSize: 30
                         text: "LV"
                         anchors.centerIn: parent
                     }
@@ -136,7 +136,7 @@ Rectangle {
                                         Text {
                                             anchors.centerIn: parent
                                             font.family: blackops.name;
-                                            font.pointSize: 6
+                                            font.pointSize: 18
                                             text: modelData[0] + ":" + modelData[1] + " " + modelData[2]
                                             color: "lightgray"
                                         }
@@ -176,7 +176,7 @@ Rectangle {
                                         Text {
                                             anchors.centerIn: parent
                                             font.family: blackops.name;
-                                            font.pointSize: 6
+                                            font.pointSize: 18
                                             text: modelData[0] + ":" + modelData[1] + " " + modelData[2]
                                             color: "lightgray"
                                         }

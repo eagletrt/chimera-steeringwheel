@@ -49,7 +49,7 @@ Rectangle {
         text: root.index //"P" + root.index
         anchors.centerIn: parent
         font.family: blackops.name;
-        font.pointSize: 6
+        font.pointSize: 18
         color: "lightgray"
     }
 }

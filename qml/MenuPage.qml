@@ -93,7 +93,7 @@ Rectangle {
       popup.visible = true;
       tabView.visible = false;
       buttonsClick = false
-      animationDuration = 2500
+      animationDuration = 1500
       popupStatic.start();
     } 
     else if(priority == 2) {
@@ -253,7 +253,7 @@ Rectangle {
         y: 0
         Text {
           id: text
-          font.pointSize: 5
+          font.pointSize: 15
           anchors.centerIn: parent
           text: styleData.title
           color: "black"
@@ -273,7 +273,7 @@ Rectangle {
       id: popupText
       anchors.centerIn: parent
       font.family: blackops.name
-      font.pointSize: 20
+      font.pointSize: 40
       color: "lightgrey"
     }
   }

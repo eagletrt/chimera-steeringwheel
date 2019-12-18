@@ -60,7 +60,7 @@ Rectangle {
                 anchors.centerIn: parent
                 font.family: blackops.name;
                 text: root.text
-                font.pixelSize: 10
+                font.pixelSize: 20
                 color: "lightgray"
             }
         }
@@ -120,7 +120,7 @@ Rectangle {
                 Text {
                     id: text
                     font.family: blackops.name;
-                    font.pixelSize: 7
+                    font.pixelSize: 20
                     anchors.centerIn: parent
                     text: "ASK"
                     color: "lightgrey"

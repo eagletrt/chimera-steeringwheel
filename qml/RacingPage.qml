@@ -76,7 +76,7 @@ Rectangle {
         }
 
         if (btnID == 3) {
-            CAN.PWMCheck();
+            // CAN.PWMCheck();
             CAN.sendMarker();
             /*
                emit della funziona che ti permette di cambiare

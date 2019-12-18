@@ -103,8 +103,9 @@ class CarStatus : public QObject
 
         int getCtrlIsEnabled();
         int getCtrlIsOn();
-        int getMap();
+        int getTc();
         int getPump();
+        int getMap();
 
         int carStatus();
         void setWarning(int on);

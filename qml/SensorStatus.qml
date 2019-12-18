@@ -28,7 +28,7 @@ Rectangle {
             Text {
                 text: root.text
                 font.family: blackops.name;
-                font.pointSize: 6
+                font.pointSize: 18
                 color: "lightgray"
                 anchors.centerIn: parent
             }

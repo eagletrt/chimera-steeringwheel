@@ -63,7 +63,7 @@ class Buttons : public QObject
 
     public slots:
         void readGPIOState();
-        void changeEncoders(int gpio);
+        // void changeEncoders(int gpio);
 
     signals:
         void btnClicked(int btnID);

@@ -51,6 +51,7 @@ void CarStatus::setBrake(int val){
 void CarStatus::setThrottle(int val){    
     sensors.setThrottleVal((int) val);
     int currPercMap = 0;    
+    qDebug() << getMap();
     switch(getMap() + 1){
         case 1: currPercMap = -20; break;
         case 2: currPercMap = 20; break;
@@ -161,7 +162,7 @@ QByteArray CarStatus::getTelemetryStatus() {
     QByteArray t;
     t.resize(8);
     qDebug() << TelemetryStatus();
-    t[0] = 0x0;
+    t[0] = 101;
     t[1] = telemetry.getAsk();
     t[2] = telemetry.getTest();
     t[3] = telemetry.getDriver();
@@ -397,13 +398,15 @@ int CarStatus::carStatus() {
     return control.getCarStatus();
 }
 
-int CarStatus::getPump() {
-    manettini.setPump(manettini.getPump() - 1);    
+int CarStatus::getTc() {
+    return manettini.getTc();
+}
+
+int CarStatus::getPump() {    
     return manettini.getPump();
 }
 
 int CarStatus::getMap() {
-    manettini.setMap(manettini.getMap() - 1);
     return manettini.getMap();
 }
 

@@ -8,6 +8,9 @@ Telemetry::Telemetry()
     for(int i = 0; i < NUM_DRIVERS; i++) {
         driver[i] = 0;
     }
+    test[0] = 1;
+    driver[0] = 1;
+
     this->sender = false;
     this->telemetryEnStatus = 0; //0 off, 1 is setting up, 2 setted
     this->popup = "01Welcome";

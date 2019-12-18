@@ -66,6 +66,9 @@ void Canbus::steerConnected() {
    QByteArray connected;
    connected.resize(8);
    connected[0] = 1;
+   connected[1] = carStatus->getTc();
+   connected[2] = carStatus->getPump();
+   connected[3] = carStatus->getMap();
    sendCanMessage(STEERING_WHEEL_ID,connected);
 }
 
@@ -99,15 +102,15 @@ void Canbus::asktelemetry(){
    } else {
      telemetry = carStatus->abort();
    }
-   sendCanMessage(TELEMETRY, telemetry);
+   sendCanMessage(STEERING_WHEEL_ID, telemetry);
 }
 
-// Send to ECU msg for pump state
+//BROKEN DIOPORCO
+// Send to ECU/Porchetto msg for pump state 
 void Canbus::sendEncState() {
    QByteArray state;
    state.resize(8);
    int pump = carStatus->getPump() + 1;
-
    switch(pump){
       case 1:
          state[0] = 0x02;
@@ -362,7 +365,7 @@ void Canbus::sendCanMessage(int id, QByteArray message) {
    QCanBusFrame frame;
    frame.setFrameId(id);
    frame.setPayload(message);
-   if(id == TELEMETRY) qDebug() << frame.toString();
+   if(message[0] == 101) qDebug() << frame.toString();
    device->writeFrame(frame);
 }
 
@@ -405,7 +408,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
          if (msg.at(0) == 0x02){
 
             carStatus->setBrake(msg.at(1));
-            qDebug() << "------>Brake received" << msg.at(1);
+            // qDebug() << "------>Brake received" << msg.at(1);
          
          }else if(msg.at(0) == 0x01){//0x01 probabilmente
             
@@ -672,7 +675,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
       break;
 
       case TELEMETRY:
-         if(msg.at(0) == 0x00){
+         if(msg.at(0) == 101){
             carStatus -> setTelemetryStatus(msg.at(1), msg.at(2), msg.at(3));
          }
          

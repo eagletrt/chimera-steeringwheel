@@ -8,28 +8,28 @@ Rectangle{
 
    property var selectedSection: -1 //Current selected section
    property var selectedIndex: -1 //Current selected element into the current section
-   property var enabled: [-1, -1] //Identify the current Test and Driver
+   property var enabled: [0, 0] //Identify the current Test and Driver
    property var test: 0 //Identify the test section
    property var driver: 1 //Identify the driver section
    property var ntest: 5 //Number of cells into test section
    property var ndriver: 3 //Number of cells into driver section
    property var btnClickable: false //Enable/Disable buttons
    property var dClickable: true //Enable/Disable D button
-   property var firstSend: true //Disable onTelemetrystatusChanged the first time
+   property var firstSend: false //Disable onTelemetrystatusChanged the first time
    property var telemetrystatus: CarStatus.TelemetryStatus
 
    property var testLeds: [ //0 OFFLINE, 1 ONLINE, 2 DEFAULT
-      ["T1", '2'],
-      ["T2", '2'],
-      ["T3", '2'],
-      ["T4", '2'],
-      ["T5", '2'],
+      ["T1", '1'],
+      ["T2", '0'],
+      ["T3", '0'],
+      ["T4", '0'],
+      ["T5", '0'],
    ]
 
    property var driverLeds: [ //0 OFFLINE, 1 ONLINE, 2 DEFAULT
-      ["D1", '2'],
-      ["D2", '2'],
-      ["D3", '2'],
+      ["D1", '1'],
+      ["D2", '0'],
+      ["D3", '0'],
    ]
 
    onTelemetrystatusChanged: {
@@ -177,6 +177,7 @@ Rectangle{
             // Prevent the button 0 to switch to Racing Page!
             tabView.stepIntoTab = true;
             mainwindow.canSwitchPage = false;
+            console.log("entered in tab")
          } else {
             // Loop through sensors
             selectSection(selectedSection + 1);
