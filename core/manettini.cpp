@@ -4,6 +4,7 @@ Manettini::Manettini() {
     this->map = 1;
     this->pump = 6;
     this->tc = 1;
+    this-> firstChange = true;
 }
 void Manettini::setMap(int val) {
     this->map = val;
@@ -14,6 +15,9 @@ void Manettini::setTc(int val) {
 void Manettini::setPump(int val) {
     this->pump = val;
 }
+void Manettini::setFirstChange() {
+    firstChange = false;
+}
 int Manettini::getMap() const {
     return this->map;
 }
@@ -22,6 +26,9 @@ int Manettini::getTc() const {
 }
 int Manettini::getPump() const {
     return this->pump;
+}
+bool Manettini::getFirstChange() const {
+    return firstChange;
 }
 void Manettini::incMap(const int MAP_NUMBER) {
     map = (map + 1) % MAP_NUMBER;

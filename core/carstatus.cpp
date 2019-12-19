@@ -99,7 +99,13 @@ void CarStatus::changeMap(int mapID) {
         manettini.incMap(MAP_NUMBER);
     }
 
-    setSteeringWheelPopup('0', 'B', "MAP\n " + QString::number(manettini.getMap()));
+    //This should avoid first map popup
+    if(!manettini.getFirstChange()) {
+        setSteeringWheelPopup('0', 'B', "MAP\n " + QString::number(manettini.getMap()));
+    } 
+    else { //If first change set manettini.firstChange = false -> next time will show the popup
+        manettini.setFirstChange();
+    }
     emit mapChanged();
 }
 

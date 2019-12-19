@@ -33,31 +33,27 @@ Rectangle{
    ]
 
    onTelemetrystatusChanged: {
-      //Avoid the first update, currently disabled
-      if(firstSend) {
-         firstSend = false;
-      } else {
-         
-         //Rebuild leds
-         var newTestStatus = testLeds;
-         var newDriverStatus = driverLeds;
-         for(var i = 0; i < ntest; i++) {
-            newTestStatus[i][1] = 0;
-            if(i == telemetrystatus[0]) newTestStatus[i][1] = 1;
-         }
-         for(var i = 0; i < ndriver; i++) {
-            newDriverStatus[i][1] = 0;
-            if(i == telemetrystatus[1]) newDriverStatus[i][1] = 1;
-         }
+      //Avoid the first update, currently disabled         
+      //Rebuild leds
+      var newTestStatus = testLeds;
+      var newDriverStatus = driverLeds;
 
-         //Update current enabled leds indicator
-         enabled[0] = telemetrystatus[0];
-         enabled[1] = telemetrystatus[1];
-
-         //Apply changes
-         testLeds = newTestStatus;
-         driverLeds = newDriverStatus;
+      for(var i = 0; i < ntest; i++) {
+         newTestStatus[i][1] = 0;
+         if(i == telemetrystatus[0]) newTestStatus[i][1] = '1';
       }
+
+      for(var i = 0; i < ndriver; i++) {
+         newDriverStatus[i][1] = 0;
+         if(i == telemetrystatus[1]) newDriverStatus[i][1] = '1';
+      }
+
+      //Update current enabled leds indicator
+      enabled[test] = telemetrystatus[0];
+      enabled[driver] = telemetrystatus[1];
+      //Apply changes
+      testLeds = newTestStatus;
+      driverLeds = newDriverStatus;
    }
 
    function connect() {
@@ -119,28 +115,18 @@ Rectangle{
    
    function setSelectedIndex(index, type) {
       if(type == test) {
-         if(testRepeater.itemAt(index).state == 2) {
-            testRepeater.itemAt(index).state = 0;
-         } else {
-            if(testRepeater.itemAt(index).state == 0) {
-               testRepeater.itemAt(enabled[test]).state = 0;
-               testRepeater.itemAt(index).state = 1;
-               enabled[test] = index;
-            }
-         }
+         testRepeater.itemAt(enabled[test]).state = 0;
+         testRepeater.itemAt(index).state = 1;
+         enabled[test] = index;
          CarStatus.setTest(index);
-      } else if(type == driver){
-         if(driverRepeater.itemAt(index).state == 2) {
-            driverRepeater.itemAt(index).state = 0;
-         } else {
-            if(driverRepeater.itemAt(index).state == 0) {
-               driverRepeater.itemAt(enabled[driver]).state = 0;
-               driverRepeater.itemAt(index).state = 1;
-               enabled[driver] = index;
-            }
-         }
+      } 
+      else if(type == driver){
+         driverRepeater.itemAt(enabled[driver]).state = 0;
+         driverRepeater.itemAt(index).state = 1;
+         enabled[driver] = index;
          CarStatus.setDriver(index);
-      } else {
+      } 
+      else {
          console.log("Error, type inserted is wrong")
       }
    }
@@ -174,7 +160,7 @@ Rectangle{
                }
             }
 
-         }            
+         }          
       }           
       
       if (btnID == 2 && dClickable) {

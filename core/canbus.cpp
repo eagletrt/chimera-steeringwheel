@@ -623,7 +623,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                                        0,
                                        0);
 
-               carStatus->setSteeringWheelPopup('1', 'G', "SET UP");
+               carStatus->setSteeringWheelPopup('1', 'Y', "SET UP");
                
          } else if(msg.at(0) == ECU_INV_LEFT_STOP){
             carStatus -> stopMessage(0);
