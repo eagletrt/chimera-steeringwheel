@@ -11,17 +11,7 @@ Rectangle {
   property var buttonsClick: true;
   property var col;
   property var priority;
-  //property var decoder: [
-  //  CarStatus.map, //0 - BLUE
-  //  CarStatus.pump, //1 - GREEN
-  //  CarStatus.tc, //2 - YELLOW
-  //  "WELCOME", //3
-  //  "MARKER", //4
-  //  "INV SX", //5
-  //  "INV DX", //6
-  //  "HV BATT TMP", //7
-  //  "LV BATT LOW" //8
-  //];
+
   signal btnPressed(int btnID)
   signal btnReleased(int btnID)
   signal btnClicked(int btnID)
@@ -63,8 +53,8 @@ Rectangle {
   onSteeringWheelPopupChanged: {
     steeringWheelPopup.toUpperCase();
 
-    col = steeringWheelPopup[0];
-    priority = steeringWheelPopup[1];
+    col = steeringWheelPopup[1];
+    priority = steeringWheelPopup[0];
 
     //Set up the color
     if(col == 'B') {

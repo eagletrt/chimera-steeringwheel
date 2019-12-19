@@ -45,14 +45,14 @@ Rectangle {
             name: "0" //UNSELECTED
             PropertyChanges {
                 target: led
-                color: "transparent"
+                border.color: "#000"
             }
         },
         State {
             name: "1" //SELECTED
             PropertyChanges {
                 target: led
-                color: "green"
+                border.color: "green"
             }
         }
     ]

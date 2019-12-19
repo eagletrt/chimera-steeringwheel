@@ -531,11 +531,13 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
          carStatus->setHVStatus(oldStatus.mid(0,1).toInt(), 1, oldStatus.mid(2,1).toInt());
          // qDebug() << "Ricevuto Stato INV LEFT" << oldStatus.mid(0,1).toInt();
          // qDebug() << oldStatus;
+         carStatus->setSteeringWheelPopup('1', '0', "L INV ON");
       } else if(msg.at(0) == ECU_INV_RIGHT){
          QString oldStatus = carStatus->HVStatus();
          carStatus->setHVStatus(oldStatus.mid(0,1).toInt(),oldStatus.mid(1,1).toInt(), 1);
          // qDebug() << "Ricevuto Stato INV RIGHT" << oldStatus.mid(1,1).toInt();
          // qDebug() << oldStatus;
+         carStatus->setSteeringWheelPopup('1', '0', "R INV ON");
       } else if(msg.at(0) == 0x03){
 
          //entro in start
@@ -591,7 +593,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                0,
                0);
 
-            carStatus->setSteeringWheelPopup('0', '1', "IDLE");
+            carStatus->setSteeringWheelPopup('1', '0', "IDLE");
 
          }
 
@@ -607,7 +609,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                                        0,
                                        0);
                
-               carStatus->setSteeringWheelPopup('G', '1', "GO");
+               carStatus->setSteeringWheelPopup('1', 'G', "GO");
             }
             else if(msg.at(0) == 0x06) // setup from run
             {
@@ -621,7 +623,7 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                                        0,
                                        0);
 
-               carStatus->setSteeringWheelPopup('Y', '1', "SET UP");
+               carStatus->setSteeringWheelPopup('1', 'G', "SET UP");
                
          } else if(msg.at(0) == ECU_INV_LEFT_STOP){
             carStatus -> stopMessage(0);

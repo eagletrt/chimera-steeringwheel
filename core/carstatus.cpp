@@ -99,7 +99,7 @@ void CarStatus::changeMap(int mapID) {
         manettini.incMap(MAP_NUMBER);
     }
 
-    setSteeringWheelPopup('B', '0', QString::number(manettini.getMap()));
+    setSteeringWheelPopup('0', 'B', "MAP\n " + QString::number(manettini.getMap()));
     emit mapChanged();
 }
 
@@ -112,7 +112,7 @@ void CarStatus::changePump(int pumpID) {
         manettini.incPump(PUMP_NUMBER);
     }
 
-    setSteeringWheelPopup('G', '0', QString::number(manettini.getPump()));
+    setSteeringWheelPopup('0', 'G', "PUMP\n " + QString::number(manettini.getPump()));
     //emit pumpChanged();
 }
 
@@ -125,7 +125,7 @@ void CarStatus::changeTc(int tcID) {
         manettini.incTc(TC_NUMBER);
     }
 
-    setSteeringWheelPopup('Y', '0', QString::number(manettini.getTc()));
+    setSteeringWheelPopup('0', 'Y', "TC\n " + QString::number(manettini.getTc()));
     emit tcChanged();
 }
 
