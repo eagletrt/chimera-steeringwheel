@@ -5,7 +5,7 @@ Rectangle {
     id: root
     color: "transparent"
 
-    state: "2" //DEFAULT
+    state: "0" //UNSELECTED
 
     FontLoader {id:blackops; source: "../lib/blops.ttf"}
 
@@ -42,25 +42,18 @@ Rectangle {
 
     states: [
         State {
-            name: "0" //OFFLINE
+            name: "0" //UNSELECTED
             PropertyChanges {
                 target: led
                 color: "transparent"
             }
         },
         State {
-            name: "1" //ONLINE
+            name: "1" //SELECTED
             PropertyChanges {
                 target: led
                 color: "green"
             }
-        },
-        State {
-            name: "2" //DEFAULT
-            PropertyChanges {
-                target: led;
-                color: "transparent";
-            }   
         }
     ]
 }

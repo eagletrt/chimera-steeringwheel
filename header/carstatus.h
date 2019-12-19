@@ -93,7 +93,6 @@ class CarStatus : public QObject
         void setTelemetryStatus(int, int, int);
         void setTelemetryEnabledStatus(int);
         QByteArray abort();
-        void sendMarkerNotification();
         void setSteeringWheelPopup(QChar, QChar, QString);
         void setERRStatus(int, int, int, int, int, int, int, int, int);
         void setAPPSBSEStatus(int, int);

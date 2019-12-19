@@ -333,10 +333,6 @@ void CarStatus::setSteeringWheelPopup(QChar priority, QChar color, QString msg) 
     emit SteeringWheelPopupChanged();
 }
 
-void CarStatus::sendMarkerNotification() {
-    setSteeringWheelPopup('0', '0', "MARKER");
-}
-
 void CarStatus::stopMessage(int inverter){
 
     if (inverter == 0){

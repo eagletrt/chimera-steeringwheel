@@ -10,7 +10,7 @@ Canbus::Canbus(CarStatus* m_carStatus) {
 
    QString errorString;
    device = QCanBus::instance()->createDevice(
-      QStringLiteral("socketcan"), QStringLiteral("can0"), &errorString);
+      QStringLiteral("socketcan"), QStringLiteral("vcan0"), &errorString);
       if (!device)
          qDebug() << "NO CAN!";
       else
@@ -76,7 +76,7 @@ void Canbus::sendMarker(){
    QByteArray marker;
    marker.resize(8);
 
-   carStatus->sendMarkerNotification();
+   carStatus->setSteeringWheelPopup('0', '0', "MARKER");
    sendCanMessage(MARKER,marker);
 }
 
@@ -245,6 +245,7 @@ void Canbus::askSetupOrIdle(int whatState) {
 
 
 void Canbus::toggleCar() {
+   QString popupMessage;
    ctrlIsOn = carStatus->getCtrlIsOn();
    goStatus = carStatus->carStatus();
    map = carStatus->getMap();
@@ -590,7 +591,9 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                0,
                0);
 
-            }
+            carStatus->setSteeringWheelPopup('0', '1', "IDLE");
+
+         }
 
             else if(msg.at(0) == 0x05) // go
             {
@@ -603,6 +606,8 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                                        driveModeEnabled,
                                        0,
                                        0);
+               
+               carStatus->setSteeringWheelPopup('G', '1', "GO");
             }
             else if(msg.at(0) == 0x06) // setup from run
             {
@@ -615,6 +620,9 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
                                        driveModeEnabled,
                                        0,
                                        0);
+
+               carStatus->setSteeringWheelPopup('Y', '1', "SET UP");
+               
          } else if(msg.at(0) == ECU_INV_LEFT_STOP){
             carStatus -> stopMessage(0);
          }else if(msg.at(0) == ECU_INV_RIGHT_STOP){

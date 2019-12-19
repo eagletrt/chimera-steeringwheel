@@ -33,9 +33,12 @@ Rectangle{
    ]
 
    onTelemetrystatusChanged: {
+      //Avoid the first update, currently disabled
       if(firstSend) {
          firstSend = false;
       } else {
+         
+         //Rebuild leds
          var newTestStatus = testLeds;
          var newDriverStatus = driverLeds;
          for(var i = 0; i < ntest; i++) {
@@ -47,6 +50,11 @@ Rectangle{
             if(i == telemetrystatus[1]) newDriverStatus[i][1] = 1;
          }
 
+         //Update current enabled leds indicator
+         enabled[0] = telemetrystatus[0];
+         enabled[1] = telemetrystatus[1];
+
+         //Apply changes
          testLeds = newTestStatus;
          driverLeds = newDriverStatus;
       }
@@ -115,7 +123,7 @@ Rectangle{
             testRepeater.itemAt(index).state = 0;
          } else {
             if(testRepeater.itemAt(index).state == 0) {
-               if(enabled[test] != -1)testRepeater.itemAt(enabled[test]).state = 0;
+               testRepeater.itemAt(enabled[test]).state = 0;
                testRepeater.itemAt(index).state = 1;
                enabled[test] = index;
             }
@@ -126,7 +134,7 @@ Rectangle{
             driverRepeater.itemAt(index).state = 0;
          } else {
             if(driverRepeater.itemAt(index).state == 0) {
-               if(enabled[driver] != -1)driverRepeater.itemAt(enabled[driver]).state = 0;
+               driverRepeater.itemAt(enabled[driver]).state = 0;
                driverRepeater.itemAt(index).state = 1;
                enabled[driver] = index;
             }
@@ -194,7 +202,7 @@ Rectangle{
          selectIndex(selectedIndex - 1, selectedSection);
       }
 
-      if (btnID == 5 && selectedIndex != -1) {
+      if ((btnID == 5 || btnID == 2) && selectedIndex != -1) {
          selectIndex(selectedIndex + 1, selectedSection);
       }
 
@@ -235,12 +243,20 @@ Rectangle{
    }
 
    Rectangle {
+      id: separator
+      color: "lightgrey"
+      width: rectTest.width
+      height: 1
+      anchors.top: rectTest.bottom
+   }
+
+   Rectangle {
       id: rectDriver
       color: selected == 1 ? "#222222" : "transparent"
       radius: selected == 1 ? "5" : "0"
       width: parent.width
-      height: parent.height / 3
-      anchors.top: rectTest.bottom
+      height: parent.height / 3 - 2
+      anchors.top: separator.bottom
 
       property var selected : 0
 
