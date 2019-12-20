@@ -19,11 +19,11 @@ Rectangle{
    property var telemetrystatus: CarStatus.TelemetryStatus
 
    property var testLeds: [ //0 OFFLINE, 1 ONLINE, 2 DEFAULT
-      ["T1", '1'],
-      ["T2", '0'],
-      ["T3", '0'],
-      ["T4", '0'],
-      ["T5", '0'],
+      ["Test1", '1'],
+      ["Test2", '0'],
+      ["Test3", '0'],
+      ["Test4", '0'],
+      ["Test5", '0'],
    ]
 
    property var driverLeds: [ //0 OFFLINE, 1 ONLINE, 2 DEFAULT

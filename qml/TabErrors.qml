@@ -3,8 +3,8 @@ import QtQuick.Layouts 1.3
 
 Rectangle {
     id: errors
-	   anchors.fill: parent
-	    color: "#000000"
+    anchors.fill: parent
+    color: "#000000"
 
     property var isStarted: false
     property var btnClickable: false

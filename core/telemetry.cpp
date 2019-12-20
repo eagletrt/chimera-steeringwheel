@@ -13,7 +13,7 @@ Telemetry::Telemetry()
 
     this->sender = false;
     this->telemetryEnStatus = 0; //0 off, 1 is setting up, 2 setted
-    this->popup = "10EAGLE TRT\n CHIMERA";
+    this->popup = "10steering \nwheel";
     this->ask = false;
 }
 

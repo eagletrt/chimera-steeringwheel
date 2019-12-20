@@ -34,21 +34,19 @@ Buttons::Buttons(QGuiApplication *app){
     pinMap = QVector<int>();
     pinState = QVector<int>();
     previusPinState = QVector<int>();
-    btnState = QVector<int>();
+    buttonState = QVector<States>();
 
-    btnAction = -1;
-    map = -1;
-    oldMap = -1;
-    pump = -1;
-    oldPump = -1;
-    tc = -1;
+    buttonAction = -1;
     oldTc = -1;
+    oldPump = -1;
+    oldMap = -1;
+    tc = -1;
+    pump = -1;
+    map = -1;
 
     switchTimer = QTime();
     switchTimer.start();
 
-    isBackFromMap6 = false;
-    isBackFromMap3 = false;
     switchIsWrong = false;
 
     pinEnabled = {2,3,4,5,7,21,23,25,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115};
@@ -59,7 +57,7 @@ Buttons::Buttons(QGuiApplication *app){
 
         pinState.append(1);
         previusPinState.append(1);
-        btnState.append(BTN_NORMAL);
+        buttonState.append(BUTTON_NORMAL);
     }
 
     // Setup signal/slot mechanism
@@ -70,111 +68,25 @@ Buttons::Buttons(QGuiApplication *app){
 }
 
 void Buttons::readGPIOState(){
-  // Controllo degli input di Raspberry
-
+  
     for (int i=0; i < pinEnabled.size(); i++) {
         pinState[i] = digitalRead(pinEnabled.at(i));
 
         if (pinState.at(i) != previusPinState.at(i)) {
-            btnAction = -1;
+
+            buttonAction = -1;
+            pump = -1;
+            map = -1;
+            tc = -1;
 
             // qDebug() << "####### PIN " << pinEnabled[i] << "is " << pinState[i] << " #######";
 
-            switch (btnState.at(i)) {
-                case BTN_NORMAL:
-                    btnState[i] = BTN_PRESSED;
-                    btnAction = BTN_PRESSED;
-                break;
-                case BTN_PRESSED:
-                    btnState[i] = BTN_NORMAL;
-                    btnAction = BTN_NORMAL;
-                break;
-            }
+            changeButtonState(i);
 
-            // Emit btn events
-            switch (pinEnabled[i]) {
-                case BTN_TOP_LEFT:
-                    emitBtnEvent(0, btnAction);
-                break;
-                case BTN_BOTTOM_LEFT:
-                    emitBtnEvent(1, btnAction);
-                break;
-                case BTN_BOTTOM_RIGHT:
-                    emitBtnEvent(2, btnAction);
-                break;
-                case BTN_TOP_RIGHT:
-                    emitBtnEvent(3, btnAction);
-                break;
-                case PADDLE_LEFT:
-                    emitBtnEvent(4, btnAction);
-                break;
-                case PADDLE_RIGHT:
-                    emitBtnEvent(5, btnAction);
-                break;
-            }
+            emitButton(pinEnabled[i]);
 
-            int pump = -1;
-            int map = -1;
-            int tc = -1;
-
-            // Change Maps
-            switch((pinEnabled[i])) {
-            case PUMP_1:
-                pump = 1;
-            break;
-            case PUMP_2:
-                pump = 2;
-            break;
-            case PUMP_3:
-                pump = 3;
-            break;
-            case PUMP_4:
-                pump = 4;
-            break;
-            case PUMP_5:
-                pump = 5;
-            break;
-            case PUMP_6:
-                pump = 6;
-            break;
-            case MAP_1:
-                map = 1;
-            break;
-            case MAP_2:
-                map = 2;
-            break;
-            case MAP_3:
-                map = 3;
-            break;
-            case MAP_4:
-                map = 4;
-            break;
-            case MAP_5:
-                map = 5;
-            break;
-            case MAP_6:
-                map = 6;
-            break;
-            case TC_1:
-                tc = 1;
-            break;
-            case TC_2:
-                tc = 2;
-            break;
-            case TC_3:
-                tc = 3;
-            break;
-            case TC_4:
-                tc = 4;
-            break;
-            case TC_5:
-                tc = 5;
-            break;
-            case TC_6:
-                tc = 6;
-            break;
-            }
-
+            changeManettino(pinEnabled[i]);
+            
             if ((map != -1 && map != oldMap) || (pump != -1 && pump != oldPump) || (tc != -1 && tc != oldTc)) {
                 
                 int timeElapsed = switchTimer.restart();
@@ -205,13 +117,111 @@ void Buttons::readGPIOState(){
       previusPinState[i] = pinState.at(i);
     }
 }
-
-void Buttons::emitBtnEvent(int btnId, int btnAction) {
-    if (btnAction == BTN_PRESSED) {
-        emit btnPressed(btnId);
-    } else {
-       emit btnReleased(btnId);
-       emit btnClicked(btnId);
+    
+void Buttons::changeManettino(int gpio){
+    // Change TC, Pump, Maps
+    switch(gpio) {
+        case PUMP_1:
+            this->pump = 1;
+        break;
+        case PUMP_2:
+            this->pump = 2;
+        break;
+        case PUMP_3:
+            this->pump = 3;
+        break;
+        case PUMP_4:
+            this->pump = 4;
+        break;
+        case PUMP_5:
+            this->pump = 5;
+        break;
+        case PUMP_6:
+            this->pump = 6;
+        break;
+        case MAP_1:
+            this->map = 1;
+        break;
+        case MAP_2:
+            this->map = 2;
+        break;
+        case MAP_3:
+            this->map = 3;
+        break;
+        case MAP_4:
+            this->map = 4;
+        break;
+        case MAP_5:
+            this->map = 5;
+        break;
+        case MAP_6:
+            this->map = 6;
+        break;
+        case TC_OFF:
+            this->tc = 0;
+        break;
+        case TC_1:
+            this->tc = 1;
+        break;
+        case TC_2:
+            this->tc = 2;
+        break;
+        case TC_3:
+            this->tc = 3;
+        break;
+        case TC_4:
+            this->tc = 4;
+        break;
+        case TC_AUTO:
+            this->tc = 4;
+        break;
     }
 }
-        
+
+void Buttons::changeButtonState(int index){
+    // Set Button State
+    switch (buttonState.at(index)) {
+        case BUTTON_NORMAL:
+            this->buttonState[index] = BUTTON_PRESSED;
+            this->buttonAction = BUTTON_PRESSED;
+        break;
+        case BUTTON_PRESSED:
+            this->buttonState[index] = BUTTON_NORMAL;
+            this->buttonAction = BUTTON_NORMAL;
+        break;
+    }
+}
+
+void Buttons::emitButton(int gpio){
+    // Emit btn 
+    switch (gpio) {
+        case BUTTON_TOP_LEFT:
+            emitButtonEvent(0, this->buttonAction);
+        break;
+        case BUTTON_BOTTOM_LEFT:
+            emitButtonEvent(1, this->buttonAction);
+        break;
+        case BUTTON_BOTTOM_RIGHT:
+            emitButtonEvent(2, this->buttonAction);
+        break;
+        case BUTTON_TOP_RIGHT:
+            emitButtonEvent(3, this->buttonAction);
+        break;
+        case PADDLE_LEFT:
+            emitButtonEvent(4, this->buttonAction);
+        break;
+        case PADDLE_RIGHT:
+            emitButtonEvent(5, this->buttonAction);
+        break;
+    }
+}
+
+void Buttons::emitButtonEvent(int buttonId, int buttonAction) {
+    // Emit btn events
+    if (buttonAction == BUTTON_PRESSED) {
+        emit btnPressed(buttonId);
+    } else {
+       emit btnReleased(buttonId);
+       emit btnClicked(buttonId);
+    }
+}
