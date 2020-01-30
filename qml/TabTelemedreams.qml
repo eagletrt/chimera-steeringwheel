@@ -214,7 +214,7 @@ Rectangle{
             style: TabViewStyle {
                 frameOverlap: 0
                 tab: Rectangle {
-                    color: black
+                    color: "black"
                     // color: styleData.selected ? "lightgrey" :"black"
                     implicitWidth: tabDriver.width/ntest
                     height: 0
@@ -296,7 +296,7 @@ Rectangle{
             style: TabViewStyle {
                 frameOverlap: 0
                 tab: Rectangle {
-                    color: black
+                    color: "black"
                     // color: styleData.selected ? "lightgrey" :"black"
                     implicitWidth: tabDriver.width/ndriver
                     height: 0
