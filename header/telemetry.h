@@ -2,7 +2,7 @@
 #define TELEMETRY_H
 
 #define NUM_TESTS 5
-#define NUM_DRIVERS 3
+#define NUM_DRIVERS 5
 
 #include<QDebug>
 

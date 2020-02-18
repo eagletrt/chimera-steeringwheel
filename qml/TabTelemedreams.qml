@@ -14,7 +14,6 @@ Rectangle{
     property var stepIntoTabDriver: false
     property var selectedIndexTest: -1
     property var selectedIndexDriver: -1 
-    property var enabled: [0, 0]
     property var test: 0 
     property var driver: 1     
     property var ntest: 5 //Number of cells into test section
@@ -40,9 +39,6 @@ Rectangle{
     onTelemetrystatusChanged: {
         tabTest.currentIndex = telemetrystatus[0];
         tabDriver.currentIndex = telemetrystatus[1];
-
-        enabled[0] = telemetrystatus[0];
-        enabled[1] = telemetrystatus[1];
     }
 
     function connect() {
@@ -93,7 +89,9 @@ Rectangle{
                     tabTest.currentIndex = (ntest-1);
                 } else {
                     tabTest.currentIndex--;
-                } 
+                }
+
+                CarStatus.setTest(tabTest.currentIndex) 
             }
             if(tabSelected == 1){
                 console.log("tabDriver index: " + tabDriver.currentIndex)
@@ -102,7 +100,9 @@ Rectangle{
                     tabDriver.currentIndex = (ndriver-1);
                 } else {
                     tabDriver.currentIndex--;
-                } 
+                }
+
+                CarStatus.setDriver(tabDriver.currentIndex)
             }
         }
         if (btnID == 5 && tabView.stepIntoTab) {
@@ -114,15 +114,15 @@ Rectangle{
                 } else {
                     tabTest.currentIndex++;
                 }
+
+                CarStatus.setTest(tabTest.currentIndex) 
             }
             if(tabSelected == 1){
                 console.log("tabDriver index: " + tabDriver.currentIndex)
                 mainwindow.canSwitchPage = false;
-                if (tabDriver.currentIndex == (ndriver-1)) {
-                    tabDriver.currentIndex = 0;
-                } else {
-                tabDriver.currentIndex++;
-                } 
+                tabDriver.currentIndex = (tabDriver.currentIndex + 1) % ndriver
+
+                CarStatus.setDriver(tabDriver.currentIndex) 
             }
         }
     }
