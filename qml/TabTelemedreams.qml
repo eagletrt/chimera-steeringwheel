@@ -21,36 +21,28 @@ Rectangle{
     property var ndriver: 5 //Number of cells into driver section
     property var telemetrystatus: CarStatus.TelemetryStatus
 
-   property var tests: [ 
-      ["acceleration", '1'],
-      ["skippad", '0'],
-      ["endurance", '0'],
-      ["brake", '0'],
-      ["test", '0'],
-   ]
+    property var tests: [ 
+       ["acceleration", '1'],
+       ["skippad", '0'],
+       ["endurance", '0'],
+       ["brake", '0'],
+       ["test", '0'],
+    ]
 
-   property var drivers: [
-      ["pilotapazzo", '1'],
-      ["iron512", '0'],
-      ["pippogas", '0'],
-      ["nicolareds", '0'],
-      ["mirco", '0'],
-   ]
+    property var drivers: [
+       ["pilotapazzo", '1'],
+       ["iron512", '0'],
+       ["pippogas", '0'],
+       ["nicolareds", '0'],
+       ["mirco", '0'],
+    ]
 
     onTelemetrystatusChanged: {
-        var newTestStatus = tests;
-        var newDriverStatus = drivers;
+        tabTest.currentIndex = telemetrystatus[0];
+        tabDriver.currentIndex = telemetrystatus[1];
 
-        for(var i = 0; i < ntest; i++) {
-            newTestStatus[i][1] = 0;
-            if(i == telemetrystatus[0]) newTestStatus[i][1] = '1';
-        }
-        //Update current enabled leds indicator
-        enabled[test] = telemetrystatus[0];
-        enabled[driver] = telemetrystatus[1];
-        //Apply changes
-        tests = newTestStatus;
-        drivers = newDriverStatus;
+        enabled[0] = telemetrystatus[0];
+        enabled[1] = telemetrystatus[1];
     }
 
     function connect() {

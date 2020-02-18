@@ -302,7 +302,7 @@ void CarStatus::setCANStatus(int invr,
     emit CANStatusChanged();
 }
 void CarStatus::setTelemetryStatus(int en, int test, int driver) {
-    qDebug() << "en: " << en << "test: " << test << "driver: " << driver;
+    qDebug() << "setTelemetryStatus";
     telemetry.setAsk((bool)en);
     telemetry.setTest(test);
     telemetry.setDriver(driver);
