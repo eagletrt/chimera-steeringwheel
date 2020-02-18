@@ -82,7 +82,8 @@ Rectangle{
             }
         }
         if (btnID == 3) {
-            console.log("send to telemtry")
+            console.log("send to telemtry");
+            CAN.asktelemetry();
         }
         if (btnID == 4  && tabView.stepIntoTab) {
             if(tabSelected == 0){
@@ -100,7 +101,7 @@ Rectangle{
                 if (tabDriver.currentIndex == 0) {
                     tabDriver.currentIndex = (ndriver-1);
                 } else {
-                tabDriver.currentIndex--;
+                    tabDriver.currentIndex--;
                 } 
             }
         }
