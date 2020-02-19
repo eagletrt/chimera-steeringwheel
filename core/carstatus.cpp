@@ -155,6 +155,19 @@ QString CarStatus::TelemetryStatus() const {
            QString::number(telemetry.getDriver());
 }
 
+QString CarStatus::nTests() {
+    int arr[2];
+    telemetry.getNUM(arr);
+    return QString::number(arr[0]);
+    qDebug()<<"Asked test";
+}
+
+QString CarStatus::nDrivers() {
+    int arr[2];
+    telemetry.getNUM(arr);
+    return QString::number(arr[1]);
+}
+
 int CarStatus::TelemetryEnabledStatus() const {
     return telemetry.getTelemetryStatus();
 }

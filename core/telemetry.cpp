@@ -118,3 +118,10 @@ QString Telemetry::getPopupMessage() const{
 bool Telemetry::getAsk(){
     return !ask;
 }
+
+void Telemetry::getNUM(int* arr) {
+    
+    arr[0] = NUM_TESTS;
+    arr[1] = NUM_DRIVERS;
+    
+}

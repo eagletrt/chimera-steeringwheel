@@ -24,6 +24,7 @@ public:
     int getTelemetryStatus() const;
     QString getPopupMessage() const;
     bool getSender() const;
+    void getNUM(int*);
 private:
     bool test[NUM_TESTS];
     bool driver[NUM_DRIVERS];

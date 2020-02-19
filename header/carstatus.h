@@ -32,6 +32,8 @@ class CarStatus : public QObject
 
     Q_PROPERTY(QString CANStatus READ CANStatus NOTIFY CANStatusChanged)
     Q_PROPERTY(QString TelemetryStatus READ TelemetryStatus NOTIFY TelemetryStatusChanged)
+    Q_PROPERTY(QString nTests READ nTests NOTIFY nTestsChanged)
+    Q_PROPERTY(QString nDrivers READ nDrivers NOTIFY nDriversChanged)
     Q_PROPERTY(int TelemetryEnabledStatus READ TelemetryEnabledStatus NOTIFY TelemetryEnabledStatusChanged)
     Q_PROPERTY(QString SteeringWheelPopup READ SteeringWheelPopup NOTIFY SteeringWheelPopupChanged)
     Q_PROPERTY(QString HVStatus READ HVStatus NOTIFY HVStatusChanged)
@@ -73,6 +75,8 @@ class CarStatus : public QObject
 
         QString CANStatus() const;
         QString TelemetryStatus() const;
+        QString nTests();
+        QString nDrivers();
         int TelemetryEnabledStatus() const;
         QString SteeringWheelPopup() const;
         QString HVStatus() const;
@@ -183,6 +187,8 @@ class CarStatus : public QObject
         void HVStatusChanged();
         void CANStatusChanged();
         void TelemetryStatusChanged();
+        void nTestsChanged();
+        void nDriversChanged();
         void TelemetryEnabledStatusChanged();
         void SteeringWheelPopupChanged();
         void ERRStatusChanged();

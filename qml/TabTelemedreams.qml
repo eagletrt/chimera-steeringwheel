@@ -15,9 +15,13 @@ Rectangle{
     property var selectedIndexTest: -1
     property var selectedIndexDriver: -1 
     property var test: 0 
-    property var driver: 1     
-    property var ntest: 5 //Number of cells into test section
-    property var ndriver: 5 //Number of cells into driver section
+    property var driver: 1
+    //ATTENTION: In order to add or remove tests or drivers
+    //remember to change the appropriate constant value in telemetry.h
+    //because nTests and nDrivers, to maintain consistency in data,
+    //acheive their value from there
+    property var ntest: CarStatus.nTests //Number of cells into test section
+    property var ndriver: CarStatus.nDrivers //Number of cells into driver section
     property var telemetrystatus: CarStatus.TelemetryStatus
 
     property var tests: [ 
