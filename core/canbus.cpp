@@ -90,12 +90,15 @@ void Canbus::sendTelemetry(){
 }
 
 void Canbus::asktelemetry(){
-   if(!carStatus->TelemetryEnabledStatus()){
-      QByteArray telemetry;
-      telemetry.resize(8);
-      telemetry = carStatus->getTelemetryEnabledStatus();
-      sendCanMessage(TELEMETRY, telemetry);
+   QByteArray telemetry;
+   telemetry.resize(8);
+   telemetry = carStatus->getTelemetryStatus();
+   if(carStatus->TelemetryEnabledStatus() != 2) {
+      carStatus->setTelemetryEnabledStatus(2);
+   } else {
+     telemetry = carStatus->abort();
    }
+   sendCanMessage(STEERING_WHEEL_ID, telemetry);
 }
 
 // Send to ECU msg for pump state
@@ -358,7 +361,7 @@ void Canbus::sendCanMessage(int id, QByteArray message) {
    QCanBusFrame frame;
    frame.setFrameId(id);
    frame.setPayload(message);
-   if(id == TELEMETRY) qDebug() << frame.toString();
+   //qDebug() << frame.toString();
    device->writeFrame(frame);
 }
 
@@ -668,27 +671,13 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
       break;
 
       case TELEMETRY:
-         if(msg.at(0) == 0x0F){
-            carStatus -> setTelemetryStatus(
-                           (msg.at(1) >> 7) & 1,
-                           (msg.at(1) >> 6) & 1,
-                           (msg.at(1) >> 5) & 1,
-                           (msg.at(1) >> 4) & 1,
-                           (msg.at(1) >> 3) & 1,
-                           (msg.at(1) >> 2) & 1,
-                           (msg.at(1) >> 1) & 1,
-                           (msg.at(1) >> 0) & 1,
-                           (msg.at(2) >> 7) & 1,
-                           (msg.at(2) >> 6) & 1,
-                           (msg.at(2) >> 5) & 1);
+         if(msg.at(0) == 0x65){
+            carStatus -> setTelemetryStatus(msg.at(1), msg.at(2), msg.at(3));
+            qDebug() << " 0x65 ";
          }
          
          if(msg.at(0) == 0x01) {
-            carStatus -> setTelemetryEnabledStatus(msg.at(1));
-         }
-         
-         if(msg.at(0) == 0x02) {
-            //carStatus -> setSteeringWheelPopup(msg.at(1)); ///setsetSteeringWheelPopup to be writed
+            //Marker
          }
       break;
 

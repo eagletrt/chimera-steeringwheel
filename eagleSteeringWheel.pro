@@ -12,7 +12,7 @@ TARGET = EagleSteeringWheel
 INCLUDEPATH += . \
                lib/
 
-QT += core gui qml quick serialbus
+QT += core gui qml quick serialbus widgets
 CONFIG += qtquickcompiler
 
 # Input

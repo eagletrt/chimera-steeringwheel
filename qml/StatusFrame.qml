@@ -47,13 +47,13 @@ Item{
             radio_na.opacity = 1;
             break;
          case 1:
-            radio_na.opacity = 0; //for avoiding a bug passing from 1 to 2
-            radioAnimation.start();         
-            break;
-         case 2:
             radioAnimation.stop();
             radio.opacity = 1;
             radio_na.opacity = 0;
+            break;
+         case 2:
+            radio_na.opacity = 0; //for avoiding a bug passing from 1 to 2
+            radioAnimation.start();
             break;         
       }
    }
@@ -90,7 +90,7 @@ Item{
       id: radio
       objectName: "radio"
       source: "../img/radio.png"
-      opacity: 0
+      opacity: 1
    } 
 
    Image {
@@ -110,7 +110,7 @@ Item{
             properties: "opacity"; 
             from: 0;
             to: 1; 
-            duration: 1000
+            duration: 700
          }
          PropertyAnimation {
             id: radioDisabled; 
@@ -118,7 +118,7 @@ Item{
             properties: "opacity"; 
             from: 1;
             to: 0; 
-            duration: 1000
+            duration: 500
          }
     }
 

@@ -10,6 +10,9 @@
 #define PUMP_NUMBER        6
 #define TC_NUMBER          6
 
+#define NUM_TESTS          5
+#define NUM_DRIVERS        5
+
 #include <QDebug>
 
 class CarStatus : public QObject
@@ -18,6 +21,8 @@ class CarStatus : public QObject
 
     Q_PROPERTY(QString CANStatus READ CANStatus NOTIFY CANStatusChanged)
     Q_PROPERTY(QString TelemetryStatus READ TelemetryStatus NOTIFY TelemetryStatusChanged)
+    Q_PROPERTY(QString nTests READ nTests NOTIFY nTestsChanged)
+    Q_PROPERTY(QString nDrivers READ nDrivers NOTIFY nDriversChanged)
     Q_PROPERTY(int TelemetryEnabledStatus READ TelemetryEnabledStatus NOTIFY TelemetryEnabledStatusChanged)
     Q_PROPERTY(int SteeringWheelPopup READ SteeringWheelPopup NOTIFY SteeringWheelPopupChanged)
     Q_PROPERTY(QString HVStatus READ HVStatus NOTIFY HVStatusChanged)
@@ -67,6 +72,8 @@ class CarStatus : public QObject
         QList<int> BSEStatus() const;
         QList<int> STEERStatus() const;
         QString CTRLEnabled() const;
+        QString nTests();
+        QString nDrivers();
 
         int map() const;
         int pump() const;
@@ -76,8 +83,9 @@ class CarStatus : public QObject
         void setHVStatus(int invRight, int invLeft, int preCharge);
         void setCarStatus(int, int, int, int, int);
         void setCANStatus(int, int, int, int, int, int, int, int);
-        void setTelemetryStatus(int, int, int, int, int, int, int, int, int, int, int);
+        void setTelemetryStatus(int, int, int);
         void setTelemetryEnabledStatus(int);
+        QByteArray abort();
         void setSteeringWheelPopup(int);
         void setERRStatus(int, int, int, int, int, int, int, int, int);
         void setAPPSBSEStatus(int, int);
@@ -135,9 +143,10 @@ class CarStatus : public QObject
         void setLVStatus(uint8_t val1, uint8_t val3);
         
         QByteArray getTelemetryStatus();
-        bool setTelemetry(int index);
         void setSender();
         QByteArray getTelemetryEnabledStatus();
+        void setTest(int);
+        void setDriver(int);
 
     private:
         static int getBit(unsigned char seq, int index);
@@ -214,7 +223,9 @@ class CarStatus : public QObject
         int invLeftPrescaler;
         int counterInvLeft;
 
-        int telemetry[12];
+        int test;
+        int driver;
+        bool ask;
         bool sender;
         int telemetryEnStatus;
         int popup;
@@ -232,6 +243,8 @@ class CarStatus : public QObject
         void HVStatusChanged();
         void CANStatusChanged();
         void TelemetryStatusChanged();
+        void nTestsChanged();
+        void nDriversChanged();
         void TelemetryEnabledStatusChanged();
         void SteeringWheelPopupChanged();
         void ERRStatusChanged();

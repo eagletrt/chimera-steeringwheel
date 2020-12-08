@@ -190,7 +190,7 @@ Rectangle {
       }
     }
     Tab{
-      TabTelemetry{
+      TabTelemedreams {
       }
     }
     
