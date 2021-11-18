@@ -1,5 +1,2 @@
-SimulatoreSensori/build/
-Volante/build/
-Volante/build-arm/
-
-Muretto/TelemetryUI/build/
+build/
+build-arm/
