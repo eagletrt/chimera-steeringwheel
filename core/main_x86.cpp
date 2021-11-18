@@ -32,6 +32,11 @@ int main(int argc, char *argv[]) {
   view->rootContext()->setContextProperty("CAN", &canInterface);
   view->rootContext()->setContextProperty("CarStatus", &carStatus);
 
+  // QObject::connect(&carStatus, &CarStatus::showPopup, &carStatus,
+  //                  [](const QString &message) {
+  //                    qDebug() << message;
+  //                  });
+
   view->setSource(QUrl("qrc:///qml/main.qml"));
   view->show();
 

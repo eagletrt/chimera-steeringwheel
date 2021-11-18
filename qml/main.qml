@@ -69,6 +69,13 @@ Rectangle {
      }
   }
 
+    Connections {
+        target: CarStatus
+        onShowPopup: {
+            popper.show(message, duration, bgColor, textColor)
+        }
+    }
+
   Rectangle {
       width: 370
       height: 220
@@ -145,5 +152,12 @@ Rectangle {
 
   LVFrame{
 
+  }
+    
+  Popper {
+    id: popper
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
   }
 }

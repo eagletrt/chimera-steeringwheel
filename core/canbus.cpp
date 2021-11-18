@@ -12,10 +12,9 @@ Canbus::Canbus(CarStatus *m_carStatus) {
   device = QCanBus::instance()->createDevice(
       QStringLiteral("socketcan"), QStringLiteral("can0"), &errorString);
   if (!device) {
-
     qDebug() << "NO CAN!";
-  }
-  else {
+  } else {
+    qDebug() << "CAN connected!";
     device->connectDevice();
     
     // QCanBusDevice::Filter filter;
@@ -614,11 +613,20 @@ void Canbus::parseCANMessage(int mid, QByteArray msg) {
   }
 
   case BMS_ID:
-
-    carStatus->setHVStatus((uint8_t)msg.at(0), (uint8_t)msg.at(1),
-                           (uint8_t)msg.at(2), (uint8_t)msg.at(3),
-                           (uint8_t)msg.at(4), (uint8_t)msg.at(5),
-                           (uint8_t)msg.at(6), (uint8_t)msg.at(7));
+    if (msg.at(0) == 0x09) {
+      switch (msg.at(1)) {
+      case 0:
+        emit carStatus->showPopup("CELL UNDERVOLTAGE", 1000, "red");
+        break;
+      default:
+        break;
+      }
+    } else {
+      carStatus->setHVStatus((uint8_t)msg.at(0), (uint8_t)msg.at(1),
+                            (uint8_t)msg.at(2), (uint8_t)msg.at(3),
+                            (uint8_t)msg.at(4), (uint8_t)msg.at(5),
+                            (uint8_t)msg.at(6), (uint8_t)msg.at(7));
+    }
     break;
 
   case LV_ID:

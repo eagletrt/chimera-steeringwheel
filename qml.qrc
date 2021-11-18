@@ -8,6 +8,7 @@
         <file>qml/Pedali.qml</file>
         <file>qml/SpeedGauge.qml</file>
         <file>qml/Status.qml</file>
+        <file>qml/Popper.qml</file>
         <file>qml/Preset.qml</file>
         <file>qml/Presets.qml</file>
         <file>qml/StatusLED.qml</file>

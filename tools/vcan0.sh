@@ -1,5 +1,5 @@
 #!/bin/bash
 
 sudo modprobe vcan
-sudo ip link add dev vcan0 type vcan
-sudo ifconfig vcan0 up
+sudo ip link add dev can0 type vcan
+sudo ifconfig can0 up

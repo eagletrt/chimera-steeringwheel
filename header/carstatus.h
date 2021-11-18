@@ -204,6 +204,7 @@ private:
   int counterInvLeft;
 
 signals:
+  void showPopup(const QString &message, int duration = 1000, const QString &bgColor = "white", const QString &textColor = "block");
   void tempChanged(int temperature);
   void socChanged(int soc);
   void execModeChanged(int ctrlIsEnabled, int ctrlIsOn, int warning, int error);

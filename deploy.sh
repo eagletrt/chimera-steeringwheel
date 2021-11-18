@@ -16,7 +16,7 @@ cd $BUILD_DIR
 
 #socat -d -d pty,raw,nonblock,echo=0,link=ttyV0 pty,raw,nonblock,echo=0,link=ttyV1 &
 
-$QMAKE $QT_PROJECT -o Makefile ../$QT_PROJECT
+$QMAKE -o Makefile ../$QT_PROJECT
 make || exit 1
 
 ./EagleSteeringWheel
